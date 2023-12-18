@@ -21,7 +21,5 @@ jobs:
         
         with:
           args: >
-            -Dsonar.organization=futurely-sonar-analysis
-            -Dsonar.projectKey=psingh12345
             -Dsonar.python.coverage.reportPaths=coverage.xml4
             -Dsonar.exclusions=**/templates/**,**/static/**,**/media/**,**/assets/**
