@@ -22,4 +22,4 @@ jobs:
         with:
           args: >
             -Dsonar.python.coverage.reportPaths=coverage.xml4
-            -Dsonar.exclusions=**/static/**,**/media/**,**/assets/**
+            -Dsonar.exclusions=**/templates/**,**/static/**,**/media/**,**/assets/**
