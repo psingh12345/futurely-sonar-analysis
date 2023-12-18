@@ -1,0 +1,1331 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses" %}</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/course-avail.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course-avail.css' %}">
+<style>
+    tables-details-usere button {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    }
+
+    .tables-details-usere h2 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-deatils-in-tables {
+        text-align: right;
+    }
+    .tables-details-usere table tbody {
+        display: block;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar {
+        width: 8px;
+        background-color: #363739;
+    }
+    .tables-details-usere table tbody:-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #363739;
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #26272b;
+    }
+    .tables-details-usere table tbody tr, .tables-details-usere table thead {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .progress-bar-block .user {
+        display: flex;
+        align-items: center;
+    }
+    
+    .bottom-popup-details-user-content h3 {
+        color: #fff;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-style: italic;
+        margin: 0;
+        padding: 20px 0 0;
+    }
+    .user-right-box-details h3 {
+        font-size: 15px;
+        color: #fff;
+        margin: 0;
+    }
+    .user-right-box-details h1 {
+        font-size: 26px;
+        color: #fff;
+        font-weight: 900;
+        margin: 0;
+    }
+    .user-right-box-details {
+    float: right;
+    position: relative;
+    /* top: -55px; */
+    /* right: -12px; */
+    /* border: 1px solid #545454; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    /* background: #26272b9c; */
+    margin-left: auto;
+    }
+
+    .user-right-box-details:hover {
+        border-color: #622BFF;
+    }
+    .user-right-box-details .succsess-color {
+        background: linear-gradient(45deg,#4bd39699,#4bd396);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100px;
+        height: 63px;
+    }
+    .user-right-box-details .warning-color {
+        background: linear-gradient(to right, #9d853f , #ffc107) !important;
+        /* background: transparent; */
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100px;
+        height: 63px;
+    }
+    .user-right-box-details .danger-color {
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100px;
+        height: 63px;
+    }
+    .progress-bar-block .user img {
+        width: 34px;
+        height: 34px;
+        object-fit: scale-down;
+    }
+
+    .progress-bars.border-none {
+        border: none;
+    }
+    .progress-bars .progress-perent.Bittersweet.seprate-colorr .progress-bar {
+        background: linear-gradient( 116.59deg , #6C2DB1 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4) !important;
+      }
+    .tables-details-usere table thead {
+        background: #737373;
+    }
+    .succsess-table-results {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+    }
+    .warning-table-results {
+        padding: 10px;
+        background: linear-gradient(to right, #9d853f , #ffc107);
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+    }
+    .danger-table-results {
+        padding: 10px;
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+    }
+    .user-card-info-block {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+      }
+      .user-card-info-block .detail-popup-cus {
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .user-card-info-block .detail-popup-cus:hover {
+        color: #2c6cfb;
+     }
+    .card-details-new-ir {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+      }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -80px;
+        z-index: 11;
+    }
+    .hover-popup-inn::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-bottom: solid 15px #26272b;
+        border-left: solid 15px transparent;
+        border-right: solid 15px transparent;
+        position: absolute;
+        top: -15px;
+        right: 40px;
+        transform: rotate( 0deg );
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        z-index: 1111;
+    }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -70px;
+        z-index: 11;
+        display: none;
+    }
+    .courses-block .hover-popup-inn h4 {
+        margin: 0;
+    }
+    .card-details-new:hover .hover-popup-inn {
+        display: flex;
+    }
+    .card-details-new {
+        border-bottom: 1px solid #6f6767;
+        position: relative;
+    }
+    .card-details-inner h3 {
+        color: #fff;
+        font-size: 16px;
+        margin: 0;
+    }
+    .courses-block .card .card-details-inner h4 {
+        margin: 10px 0 0;
+      }
+      .card-details-new-ir .progress-bars {
+        margin: 12px 0;
+    }
+    .card-details-new-ir .progress-bars .progress-perent {
+        margin: 12px 0;
+      }
+      .tables-details-usere button {
+        float: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        outline: none !important;
+        box-shadow: none !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-size: 24px;
+    }
+    .card-details-inner .link-popup-btnn {
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        margin: -4px 0 0 8px;
+    }
+    .tables-details-usere {
+        background: #23293C;
+        padding: 20px 15px;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        pointer-events: auto;
+        position: relative;
+      }
+      .tables-details-usere table {
+        margin: 0;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+      .tables-details-usere table tbody, .tables-details-usere table td, .tables-details-usere table tfoot, .tables-details-usere table th, .tables-details-usere table thead, .tables-details-usere table tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0;
+    }
+    
+      .tables-details-usere table thead tr th {
+        padding: 15px 8px;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+    }
+    .tables-details-usere table td {
+        padding: 15px 8px;
+        vertical-align: middle;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .tables-details-usere .arrow-card-backk.btn-close {
+        float: right;
+        margin: 0 0 12px;
+      }
+      #detail-popup-user.modal.fade.show {
+        display: flex !important;
+        align-content: center;
+      }
+      .overlay-upgrade-block {
+    top: auto;
+    bottom: 22px;
+    transform: translatex(-50%);
+    left: 50%;
+}
+.new-courses-box-footer a.btn {
+    padding: 8px 10px;
+    line-height: 1.5;
+}
+.rating-data-title .btn.buy-now-trial {
+    max-width: 70% !important;
+}
+.spl-trial-main-block .rating-data-title .btn.buy-now.spl-btn-trial {
+    max-width: 70%;
+}
+.new-courses-box-footer {
+    padding: 0;
+    width: unset;
+    margin: auto;
+}
+.rating-lock {
+    z-index: -1;
+}
+      @media (max-width:767px) {
+        .overlay-upgrade-block {
+    bottom: 50px !important;
+}
+            .new-courses-box-footer {
+    width: unset;
+    padding: 0;
+}
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+          .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+      }
+      @media (min-width:768px) {
+        #detail-popup-user .modal-dialog {
+            max-width: 800px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%)translatey(-50%);
+            top: 50%;
+        }
+    }
+    .buy-now-trial {
+        border: none;
+    }  
+    .width80{
+        width:80% !important;
+    }
+    .start-loading {
+  background-color: #04AA6D; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px /* Set a font size */
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row courses-block">
+            <div class="col-lg-8 col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="notification-bars text-center">
+                        <span class="notify_text">
+                            {{message}}</span><button class="close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% if current_plan_type == "Premium" %}
+                {% for course_a in avail_courses %}
+                    {% if forloop.counter == 1 %}
+                        {% if mycourses %}
+                        {% else %}
+                        <div class="notification-bars text-center">
+                            <span class="notify_text">{% trans "You must have to select date for course 1 before to start"%}</span>
+                        </div>
+                        <script>
+                            $(document).ready(function()
+                            {
+                                $(function(){
+                                    $('#autopopup')[0].click();
+                                });
+                                
+                            });
+                        </script>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% elif current_plan_type == "Elite" %}
+                {% for course_a in avail_courses %}
+                    {% if forloop.counter == 1 %}
+                        {% if mycourses %}
+                        {% else %}
+                        <div class="notification-bars text-center">
+                            <span class="notify_text">{% trans "You must have to select date for course 1 before to start"%}</span>
+                        </div>
+                        <script>
+                            $(document).ready(function()
+                            {
+                                $(function(){
+                                    $('#autopopup')[0].click();
+                                });
+                                
+                            });
+                        </script>
+                        {% endif %}
+                    
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% comment %} {% if is_trial_active %}
+                <div class="notification-bars text-center" >
+                    <span class="notify_text">
+                    {% if request.LANGUAGE_CODE == "it" %}
+                        Rimangono {{plan_days_left}} giorni di prova gratuita. 
+                        Assicurati di 
+                        {% if request.session.is_from_ios_app %}
+                        <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">aggiornare il tuo piano</a>
+                        {% else %}
+                        <a href = "{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">aggiornare il tuo piano</a> 
+                        {% endif %}
+                        entro il {{trial_end_date | date:'M d, Y'}} per continuare il corso "{{avail_courses.0.title}}" e usufruire di altri vantaggi del piano {{trial_plan_name}}
+                    {% else %}
+                        {{plan_days_left}} days left in your free trial. 
+                        Make sure to 
+                        {% if request.session.is_from_ios_app %}
+                        <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">Request access</a>
+                        {% else %}
+                        <a href = "{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">upgrade your plan</a> 
+                        {% endif %}
+                        by {{trial_end_date | date:'M d, Y'}} to continue the "{{avail_courses.0.title}}" course, and enjoy the other {{trial_plan_name}} benefits
+                    {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% if current_plan_type == "Community" or current_plan_type == "Trial2022" %}
+                {% if is_trial_expired %}
+                <div class="notification-bars text-center" >
+                    <span class="notify_text">
+                        {% if request.LANGUAGE_CODE == "it" %}
+                            Il periodo di prova gratuita del piano {{trial_expired_plan_name}} è terminato.
+
+                            {% if request.session.is_from_ios_app %}
+                            <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">Fai l'upgrade del tuo piano</a>
+                            {% else %}
+                            <a href ="{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">
+                                Fai l'upgrade del tuo piano</a> 
+                            {% endif %}
+
+                             
+                            per continuare il corso "{{avail_courses.0.title}}" e usufruire di altri vantaggi {{trial_expired_plan_name}}
+                        {% else %}
+                            Your free trial period for the {{trial_expired_plan_name}} plan ended. 
+                            {% if request.session.is_from_ios_app %}
+                            <a href ="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">
+                                Request access</a> 
+                            {% else %}
+                                <a href ="{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">
+                                Upgrade your plan</a> 
+                            {% endif %}
+                            to continue the "{{avail_courses.0.title}}" course and to enjoy other {{trial_expired_plan_name}} benefits
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% endif %} {% endcomment %}
+                <div class="col-lg-12 col-md-12 page-route-margin">
+                    <span class="pages-route-pre">
+                        <a href="{% url 'home' %}">{% trans "Home" %} ></a>
+                        <a>{% trans "Courses" %} </a>
+                    </span>
+                </div>
+                <div class="card">
+                    <div class="row justify-content-between">
+                        <div class="col-md-9">
+                            <div class="left-content-block">
+                                <h2 class="title mb-3">{% trans "Courses" %}</h2>
+                                <!-- <p>{% trans "We are so thrilled you're here and cannot wait to get to know you over these next eight weeks. I look forward to connecting with each of you!" %}
+                                </p> -->
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row justify-content-between courses-availble">
+                        {% if current_plan_type == "Community"  %}
+                        {% for course_a in avail_courses %}
+                        
+                        {% if active_courses <= 2 %}
+                            <div class="col-xl-6 col-lg-6 mt-3">
+                            {% else %}
+                            <div class="col-xl-4 col-lg-4 mt-3">
+                            {% endif %}
+                            {% if forloop.counter is 1 %}
+                            <div class="overlay-upgrade-block">
+                                <div class="row">
+                                <h2>
+                                    {% trans "Upgrade to premium plan" %}
+                                </h2>
+                                </div>
+                                {% for plan in all_plans %}
+                                        
+                                        {% if plan.plan_name == "Premium" %}
+                                        <div class="new-courses-box-footer row justify-content-between width80">
+                                            {% if active_courses <= 2 %}
+                                                <div class="col-lg-6 col-sm-6">
+                                            {% else %}
+                                                <div class="col-lg-12 col-sm-6">
+                                            {% endif %}
+                                                {% if request.session.is_from_ios_app %}
+                                                <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                                {% else %}
+                                                <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade now"%}</a>
+                                                {% endif %}
+                                            </div>
+                                            {% if active_courses <= 2 %}
+                                                <div class="col-lg-6 col-sm-6">
+                                            {% else %}
+                                                <div class="col-lg-12 col-sm-6 mxlt-3">
+                                            {% endif %}
+                                                <a class="btn learn-now" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp">{% trans "Learn more"%}</a>
+                                            </div>
+                                            {% if is_trial_expired is False %}
+                                            {% if trial_cohorts_info.0 %}
+                                            <div class="col-lg-12 col-sm-6">
+                                                <a class="btn upgrade-now mt-3" href="{% url 'trail-plan-activate' plan_type='Community_to_Premium' %}" >{% trans "Free Trial" %}</a>
+                                            </div>
+                                            {% endif %}
+                                            {% else %}
+                                            <div class="col-lg-12 col-sm-6">
+                                                <div class="message-box-oper" >{% trans "Your free trial period ended" %}</div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                {% endif %}
+                                {% endfor %}
+                                <!-- <a class="btn upgrade-btn-cource" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#upgrade-cources-popupp">{% trans "Upgrade now" %}</a> -->
+                            </div>
+                            <div class="courses-box left upgrade-cource-buy" id="courses-box-f">
+                                <img class="overlay" src="{% static 'images/pexels-jay-yoo.png'%}" />
+                            {% else %}
+                            <div class="overlay-upgrade-block">
+                                <div class="row">
+                                    <!-- <h2>
+                                        {% trans "Upgrade to elite plan" %}
+                                    </h2> -->
+                                </div>
+                               
+                                {% for plan in all_plans %}
+                                        {% if plan.plan_name == "Elite" %}
+                                        <div class="new-courses-box-footer row justify-content-between width80">
+                                            {% if active_courses <= 2 %}
+                                            <div class="col-lg-6 col-sm-6">
+                                            {% else %}
+                                                <div class="col-lg-12 col-sm-6">
+                                            {% endif %}
+                                            {% if request.session.is_from_ios_app %}
+                                                <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                                {% else %}
+                                                <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade to elite plan" %}</a>
+                                                {% endif %}
+                                            </div>
+                                            {% if active_courses <= 2 %}
+                                                <div class="col-lg-6 col-sm-6">
+                                            {% else %}
+                                                <div class="col-lg-12 col-sm-6 mxlt-3">
+                                            {% endif %}
+                                                <a class="btn learn-now" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp-second">{% trans "Learn more"%}</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                <!-- <a class="btn upgrade-btn-cource" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#upgrade-cources-popupp-second">{% trans "Upgrade now"%}</a> -->
+                            </div>
+                            <div class="courses-box left upgrade-cource-buy right" id="courses-box-f">
+                                <img class="overlay" src="{% static 'images/image-beautiful-woman.png'%}" />
+                            {% endif %}
+                            
+                                
+                                <div class="rating-data row justify-content-between">
+                                    <div class="col-md-7">
+                                        <div class="rating-data-title">
+                                            <h3>{{course_a.title}}</h3>
+                                            <p>{{course_a.tot_steps}} {% trans "steps" %}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="courses-rating">
+                                            <span>{% trans "Course rating" %}</span>
+                                            <div class="star-rating">
+                                                <div class="star-rating star-font-size">
+                                                    <i class="fa fa-star star-color"></i>
+                                                    <i class="fa fa-star star-color"></i>
+                                                    <i class="fa fa-star star-color"></i>
+                                                    <i class="fa fa-star star-color"></i>
+                                                    <i class="fa fa-star star-color"></i>
+                                                </div>
+                                            </div>
+                                            <div class="rating-lock">
+                                                <img src="{% static 'images/lock-icon.png'%}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                        {% elif current_plan_type == "Premium" or current_plan_type == "Trial2022" %}
+                        {% for course_a in avail_courses %}
+                        {% if course_a.is_active %}    
+                            {% if active_courses <= 2 %}
+                            <div class="spl-trial-main-block col-xl-6 col-lg-6 mt-3">
+                            {% else %}
+                            <div class="spl-trial-main-block col-xl-4 col-lg-4 mt-3">
+                            {% endif %}
+                            {% if forloop.counter is 1 %}
+                                <div class="courses-box left" id="courses-box-f">
+                                    <img class="overlay" src="{% static 'images/pexels-jay-yoo.png'%}" />
+                            {% else %}
+                                <div class="overlay-upgrade-block">
+                                    <div class="row">
+                                        <!-- <h2>
+                                            {% trans "Upgrade to elite plan" %}
+                                        </h2> -->
+                                    </div>
+                                   
+                                    {% for plan in all_plans %}
+                                        
+                                        {% if plan.plan_name == "Elite" %}
+                                        <div class="new-courses-box-footer row justify-content-between width80">
+                                            {% if active_courses <= 2 %}
+                                                <div class="col-lg-12">
+                                            {% else %}
+                                                <div class="col-lg-12">
+                                            {% endif %}
+                                                {% if request.session.is_from_ios_app %}
+                                                <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+
+                                                {% else %}
+                                                <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade now"%}</a>
+                                                {% endif %}
+                                            </div>
+                                            {% if active_courses <= 2 %}
+                                                <div class="col-lg-12">
+                                            {% else %}
+                                                <div class="col-lg-12">
+                                            {% endif %}
+                                                <a class="btn learn-now mt-4" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp-second">{% trans "Learn more"%}</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                    
+                                </div>
+                                <div class="courses-box left upgrade-cource-buy right" id="courses-box-f">
+                                    <img class="overlay" src="{% static 'images/image-beautiful-woman.png'%}" />
+                            {% endif %}
+                                    
+                                    <div class="rating-data row justify-content-between">
+                                        <div class="col-md-7">
+                                            <div class="rating-data-title">
+                                                <h3>{{course_a.title}}</h3>
+                                                <p>{{course_a.tot_steps}} {% trans "steps" %}</p>
+                                                {% if forloop.counter is 1 %}
+                                                            {% if is_trial_active %}
+                                                                <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade to premium plan"%}</a>
+                                                                {% if mycourses %}
+                                                                    <a class="btn buy-now spl-btn-trial" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Free Trial" %}<span>({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                                {% endif %}
+                                                                <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                            {% else %}
+                                                            {% if request.user.student.is_course1_locked %}
+                                                            <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                            {% else %}
+                                                                {% if mycourses %}
+                                                                    {% define_found request "False" as mod_found%}
+                                                                    {% for my_c in mycourses %}
+                                                                        {% if my_c.cohort.module.module_id == course_a.module_id and request.session.count_my_c_found == "False"%}
+                                                                            {% define_found request "True" as mod_found%}
+                                                                            {% if my_c.stu_cohort_map.all.count > 0 %}
+                                                                            <a class="btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                                onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Open" %} </a>
+                                                                            {% else %}
+                                                                            <a class="btn buy-now  start-loading bg-color-dark-blue" type="button"
+                                                                            onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Start" %} </a>
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                    {% if request.session.count_my_c_found == "False" %}
+                                                                    <a class="btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                    {% endif %}
+                                                                    {% remove_found request as mod_found%}
+                                                                {% else %}
+                                                                    <a class="btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="courses-rating">
+                                                <span>{% trans "Course rating" %}</span>
+                                                <div class="star-rating">
+                                                    <div class="star-rating star-font-size">
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="rating-user">
+                                                    <a>
+                                                        <img class="img-profile rounded-circle"
+                                                            src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a>
+                                                        <img class="img-profile rounded-circle"
+                                                            src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                    </a>
+                                                </div> -->
+                                                {% if forloop.counter is 1 %}
+                                                    {% if is_trial_active %}
+                                                    {% else %}
+                                                        {% if request.user.student.is_course1_locked %}
+                                                        {% else %}
+                                                            {% if mycourses %}
+                                                                {% for my_c in mycourses %}
+                                                                    {% if my_c.cohort.module.module_id == course_a.module_id %}
+                                                                        {% if my_c.cohort.is_active == "Yes" %}
+                                                                        <div class="rating-lock-start-courses">
+                                                                            <p class="courses-month">
+                                                                                {{my_c.cohort.starting_date | date:'M'}}</p>
+                                                                            <p class="courses-day">
+                                                                                {{my_c.cohort.starting_date | date:'d'}}</p>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% else %}
+                                                <div class="rating-lock">
+                                                    <img src="{% static 'images/lock-icon.png'%}">
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {%endfor%}
+                            {% elif current_plan_type == "Elite"%}
+                            {% for course_a in avail_courses %}
+                            {% if course_a.is_active %}
+                                {% if active_courses <= 2 %}
+                                <div class="spl-trial-main-block col-xl-6 col-lg-6 mt-3">
+                                {% else %}
+                                <div class="col-xl-4 col-lg-4 mt-3">
+                                {% endif %}
+
+                                {% if forloop.counter is 1 %}
+                                <div class="courses-box left" id="courses-box-f">
+                                    <img class="overlay" src="{% static 'images/pexels-jay-yoo.png'%}" />
+                                {% else %}
+                                <div class="courses-box left right" id="courses-box-f">
+                                    <img class="overlay" src="{% static 'images/image-beautiful-woman.png'%}" />
+                                {% endif %}
+                                    
+                                    <div class="rating-data row justify-content-between">
+                                        <div class="col-md-7">
+                                            <div class="rating-data-title">
+                                                <h3>{{course_a.title}}</h3>
+                                                <p>{{course_a.tot_steps}} {% trans "steps" %}</p>
+                                                {% if forloop.counter is 1 %}
+                                                    {% if is_trial_active %}
+                                                        {% if mycourses %}
+                                                            <a class="btn buy-now spl-btn-trial" type="button"
+                                                                    href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Free Trial" %}<span>({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                        {% endif %}
+                                                        <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                    {% else %}
+                                                    {% if request.user.student.is_course1_locked %}
+                                                    <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                    {% else %}
+                                                        {% if mycourses %}
+                                                            {% define_found request "False" as mod_found%}
+                                                            {% for my_c in mycourses %}
+                                                                {% if my_c.cohort.module.module_id == course_a.module_id and request.session.count_my_c_found == "False"%}
+                                                                    {% if request.user.student.skip_course_dependency %}
+                                                                    {% else %}   
+                                                                    {% define_course_dependency request my_c.is_completed as mod_dependency%}
+                                                                    {% endif %}    
+                                                                    {% define_found request "True" as mod_found%}
+                                                                    {% if my_c.stu_cohort_map.all.count > 0 %}
+                                                                        <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                        onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Open" %} </a>
+                                                                    {% else %}
+                                                                    <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                    onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Start" %} </a>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if request.session.count_my_c_found == "False" %}
+                                                                <a class="elitile-btn-third btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                            {% endif %}
+                                                            {% remove_found request as mod_found%}
+                                                        {% else %}
+                                                            <a class="elitile-btn-third btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                        {% endif %}
+                                                        
+                                                    {% endif %}
+                                                    {% endif %}
+                                                {% elif forloop.counter == 2 %}
+                                                    {% if is_trial_active %}
+                                                        {% if mycourses.count >= 2 %}
+                                                            <a class="btn buy-now spl-btn-trial" type="button"
+                                                                href="{% url 'module-steps' cohort_id=mycourses.1.cohort.cohort_id %}">{% trans "Free Trial" %}<span>({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                        {% endif %}
+                                                        <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                    {% else %}
+                                                    {% if request.session.course_dependency %}
+                                                        {% if mycourses %}
+                                                            {% define_found request "False" as mod_found%}
+                                                            {% for my_c in mycourses %}
+                                                                {% if my_c.cohort.module.module_id == course_a.module_id and request.session.count_my_c_found == "False"%}
+                                                                    {% define_found request "True" as mod_found%}
+                                                                    {% if my_c.stu_cohort_map.all.count > 0 %}
+                                                                        <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                        onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Open" %} </a>
+                                                                    {% else %}
+                                                                        <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                        onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Start" %} </a>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if request.session.count_my_c_found == "False" %}
+                                                                {% if module_cohorts_info.1 %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% else %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                                    <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            {% remove_found request as mod_found%}
+                                                        {% else %}
+                                                            {% if module_cohorts_info.1 %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                            {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                                <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% else %}
+                                                    <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    
+                                                {% else %}
+                                                    {% if is_trial_active %}
+                                                        {% if mycourses.count >= 3 %}
+                                                            <a class="btn buy-now spl-btn-trial" type="button"
+                                                                href="{% url 'module-steps' cohort_id=mycourses.2.cohort.cohort_id %}">{% trans "Free Trial" %}<span>({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                        {% endif %}
+                                                    <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                    {% else %}
+                                                    {% if request.session.course_dependency %}
+                                                        {% if mycourses %}
+                                                            {% define_found request "False" as mod_found%}
+                                                            {% for my_c in mycourses %}
+                                                                {% if my_c.cohort.module.module_id == course_a.module_id and request.session.count_my_c_found == "False"%}
+                                                                    {% define_found request "True" as mod_found%}
+                                                                    {% if my_c.stu_cohort_map.all.count > 0 %}
+                                                                        <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                        onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Open" %} </a>
+                                                                    {% else %}
+                                                                    <a class="elitile-btn-third btn buy-now start-loading bg-color-dark-blue" type="button"
+                                                                    onclick="loaderonclick('{{my_c.cohort.cohort_id}}',this)">{% trans "Start" %} </a>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% if request.session.count_my_c_found == "False"%}
+                                                                {% if module_cohorts_info.2 %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                                    <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                                {% endif %} 
+                                                            {% endif %}
+                                                            {% remove_found request as mod_found%}
+                                                        {% else %}
+                                                            {% if module_cohorts_info.2 %}
+                                                            <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                            {% else %}
+                                                            <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                                <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="fa fa-lock"></i>{% trans "Locked"%}</a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="courses-rating">
+                                                <span>{% trans "Course rating" %}</span>
+                                                <div class="star-rating">
+                                                    <div class="star-rating star-font-size">
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="rating-user">
+                                                    <a>
+                                                        <img class="img-profile rounded-circle"
+                                                            src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a>
+                                                        <img class="img-profile rounded-circle"
+                                                            src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                    </a>
+                                                </div> -->
+                                                {% if is_trial_active %}
+                                                    {% else %}
+                                                        {% if forloop.counter is 1 %}
+                                                        {% if request.user.student.is_course1_locked %}
+                                                        {% else %}
+                                                            {% if mycourses %}
+                                                                {% for my_c in mycourses %}
+                                                                    {% if my_c.cohort.module.module_id == course_a.module_id%}
+                                                                        {% if my_c.cohort.is_active == "Yes" %}
+                                                                            <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                                <p class="courses-month">
+                                                                                    {{my_c.cohort.starting_date | date:'M'}}</p>
+                                                                                <p class="courses-day">
+                                                                                    {{my_c.cohort.starting_date | date:'d'}}</p>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% elif forloop.counter == 2 %}
+                                                        {% if request.session.course_dependency %}
+                                                            {% if mycourses %}
+                                                                {% for my_c in mycourses %}
+                                                                    {% if my_c.cohort.module.module_id == course_a.module_id%}
+                                                                        {% if my_c.cohort.is_active == "Yes" %}
+                                                                            <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                                <p class="courses-month">
+                                                                                    {{my_c.cohort.starting_date | date:'M'}}</p>
+                                                                                <p class="courses-day">
+                                                                                    {{my_c.cohort.starting_date | date:'d'}}</p>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% else %}
+                                                        {% if request.session.course_dependency %}
+                                                            {% if mycourses %}
+                                                                {% for my_c in mycourses %}
+                                                                    {% if my_c.cohort.module.module_id == course_a.module_id%}
+                                                                        {% if my_c.cohort.is_active == "Yes" %}
+                                                                            <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                                <p class="courses-month">
+                                                                                    {{my_c.cohort.starting_date | date:'M'}}</p>
+                                                                                <p class="courses-day">
+                                                                                    {{my_c.cohort.starting_date | date:'d'}}</p>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% endif %}
+                                                        {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- Modal -->
+    {% for plan in all_plans %}
+    {% if plan.plan_name == "Elite" %}
+    {% if current_plan_type == "Community" or current_plan_type == "Premium" or current_plan_type == "Trial2022" %}
+    <div class="modal fade" id="upgrade-cources-popupp-second" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="new-courses-box popup modal-content">
+                <div class="card-pricing text-center card-radius2">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card-pricing-header text-center">
+                                <h1 class=" h1-text-size">{{plan.title}}</h1>
+                                {% if request.LANGUAGE_CODE == "it" %}
+                                <p>Premium + Percorso<br>"{{plan.sub_title}}"</p>
+                                {% else %}
+                                <p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+                                {% endif %}
+                                {% if current_plan_type == "Community" or current_plan_type == "Trial2022" %}
+                                <h3>{% trans '$'%}{{plan.cost}}</h3>
+                                {% else %}
+                                <h3>{% trans '$'%}{{plan.upgrade_cost}}</h3>
+                                {% endif %}
+                                <div class="btn-btm-pricing">
+                                    {% if request.session.is_from_ios_app %}
+                                    {% comment %} <a href="#" class="btn btn-buy-btn" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access" %}</a> {% endcomment %}
+                                    {% else %}
+                                    <a href="{% url 'upgrade-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Upgrade now" %}</a>
+                                    {% endif %}
+                                </div>
+                                <img class="card-img-pricee" src="{% static 'images/dashboard-p2.png'%}" />
+                                <!-- <img class="img-card-top" src="{% static '/website/images/pricing-3-img.png' %}"> -->
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-pricing-body">
+                                <img class="arrow-card-backk btn-close" type="button" data-bs-dismiss="modal"
+                                    aria-label="Close" src="{% static 'images/close.png'%}">
+                                {% if request.LANGUAGE_CODE == "it" %}
+                                <h3>Premium + Percorso</h3>
+                                <h3>"{{plan.sub_title}}"</h3>
+                                <h4>Video, esercizi interattivi, quiz e testimonianze (20settimane, 1h/settimana) con:
+                                </h4>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">20 settimane (1 step a settimana)</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">20 ore PCTO</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Test sulla personalità e analisi</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Chiamate con mentors della nostra community</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Video tutorials</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Webinar con professionisti o studenti universitari</p>
+                                {% comment %} <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Auto-valutazione delle competenze e analisi gap</p> {% endcomment %}
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Guida alla creazione del CV</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Approfondimento sulle scelte di carriera</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">1:1 con professionisti della nostra rete</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Strumenti di preselezione per le Università/Its</p>
+                                <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Sezione: ‘Studiare all’estero’</p>
+
+                                {% else %}
+                                <h3>Premium Plan</h3>
+                                <h3>+</h3>
+                                <h3>"{{plan.sub_title}}" Online class</h3>
+                                <h4>Videos, interactive exercises, quizzes and interviews with professionals (20 weeks, 1h/week) with:</h4>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">20 Weeks (Fast-track available)</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">20 PCTO Hours</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Personality Test & Analysis</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Group Call with Peers & Mentor</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Informative Short Videos</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">x - Informative Webinars</p>
+                                {% comment %} <p><img src="{% static '/website/images/orientamiwhit.png' %}">Self Assessment & Gap Analysis</p> {% endcomment %}
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">CV Building Guide</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Career Experience Talk</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">1:1 Connect with Professionals</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Shortlisting Tool for Universities/ITS</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Plan for Study in Abroad</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% elif plan.plan_name == "Premium" %}
+    {% if current_plan_type == "Community" %}
+    <div class="modal fade " id="upgrade-cources-popupp" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="new-courses-box popup modal-content">
+                <div class="card-pricing text-center card-radius2">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card-pricing-header text-center">
+                                <h1 class=" h1-text-size">{{plan.title}}</h1>
+                                {% if request.LANGUAGE_CODE == "it" %}
+                                <p>Community + Percorso <br>"{{plan.sub_title}}"
+                                </p>
+                                {% else %}
+                                <p>Community plan + <br>"{{plan.sub_title}}"<br> Online class
+                                </p>
+                                {% endif %}
+
+                                <h3>{% trans '$'%}{{plan.cost}}</h3>
+                                <div class="btn-btm-pricing">
+                                    {% if request.session.is_from_ios_app %}
+                                    {% comment %} <a href="#" class="btn btn-buy-btn" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access" %}</a> {% endcomment %}
+                                    {% else %}
+                                    <a href="{% url 'upgrade-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Upgrade now" %}</a>
+                                    {% endif %}
+                                </div>
+                                <img class="card-img-pricee" src="{% static 'images/dashboard-p1.png'%}" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-pricing-body">
+                                <img class="arrow-card-backk btn-close" type="button" data-bs-dismiss="modal"
+                                    aria-label="Close" src="{% static 'images/close.png'%}">
+                                {% if request.LANGUAGE_CODE == "it" %}
+                                <h3>Community + Percorso</h3>
+                                <h3> "{{plan.sub_title}}"</h3>
+                                <h4>Video, esercizi interattivi, quiz e testimonianze (10 settimane, 1h/settimana) con:</h4>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Test della personalità e testimonianze a partire dai risultati</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Competenze richieste nel mondo del lavoro e consigli su come svilupparle</p>
+                                {% comment %} <p><img src="{% static '/website/images/orientamiwhit.png' %}">Auto-valutazione delle competenze e analisi gap</p> {% endcomment %}
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Esperienze di carriera condivise da giovani lavoratori</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guida per la costruzione del CV</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Elenco dei criteri per la scelta universitaria/ITS e metodo per prioritizzarli</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Metodo per la valutazione di diverse facoltà e i passi da fare</p>
+                                <p>+</p>
+                                <h3>Contenuti Extra</h3>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">1 Webinar / mese</p>
+                                {% else %}
+                                <h3>Community Plan</h3>
+                                <h3>+</h3>
+                                <h3>"{{plan.sub_title}}" Online class</h3>
+                                <h4>Videos, interactive exercises, quizzes and interviews with professionals (7 weeks,
+                                    1h/week) with:</h4>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Personality traits
+                                    discovery</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">List of suitable careers
+                                </p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Developing the right skills for the right job</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Skills self-assessment and areas for growth</p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Shared career experiences
+                                </p>
+                                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Resume builder</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% if current_plan_type == "Premium" %}
+    {% for module_cohorts in module_cohorts_info %}
+        {% if forloop.counter == 1 %}
+        {% with forloop.counter as outer_counter %}
+        <form method="POST" action="">
+        {% csrf_token %}
+        <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content calender-box-popup">
+                    <div class="calender-card-body">
+                        <h2>{% trans "Select the date you’d like to begin"%}</h2>
+                        <div class="row">
+                            <input id="selected_cohort{{forloop.counter}}" type="hidden" name="cohort_id" value="">
+                            {% for cohort_info in module_cohorts %}
+                                <div class="col-md-4">
+                                    <div cohort_atr="{{cohort_info.cohort_id}}" class="calfstid{{outer_counter}} calender-box-dates {% if forloop.counter == 1 %} active {% endif %}" onclick="select_cohort_fun('{{cohort_info.cohort_id}}','{{outer_counter}}')">
+                                        <span>{{cohort_info.starting_date | date:'M'}}</span>
+                                        <h2> {{cohort_info.starting_date | date:'d'}}</h2>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-12 mt-4">
+                                <button class="btn upgrade-btn-cource" type="submit"> {% trans "Choose Date"%}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        {% endwith %}
+        {% endif %}
+    {% endfor %}
+    {% elif current_plan_type == "Elite" %}
+    {% for module_cohorts in module_cohorts_info %}
+        {% with forloop.counter as outer_counter %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% if forloop.counter == 1 %}
+            <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+            {% else %}
+            <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" role="dialog">
+            {% endif %}
+            <div class="modal-dialog">
+                <div class="modal-content calender-box-popup">
+                    <div class="calender-card-body">
+                        <h2>{% trans "Select the date you’d like to begin"%}</h2>
+                        <div class="row justify-content-center">
+                            <input id="selected_cohort{{forloop.counter}}" type="hidden" name="cohort_id" value="">
+                            {% for cohort_info in module_cohorts %}
+                                <div class="col-md-4">
+                                    <div cohort_atr="{{cohort_info.cohort_id}}" class="calfstid{{outer_counter}} calender-box-dates {% if forloop.counter == 1 %} active {% endif %}" onclick="select_cohort_fun('{{cohort_info.cohort_id}}','{{outer_counter}}')">
+                                        <span>{{cohort_info.starting_date | date:'M'}}</span>
+                                        <h2> {{cohort_info.starting_date | date:'d'}}</h2>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-12 mt-4">
+                                <button class="btn upgrade-btn-cource" type="submit"> {% trans "Choose Date"%}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        {% endwith %}
+    {% endfor %}
+    {% endif %}
+    {% endblock %}
+    {% block script %}
+    <script>
+        jQuery(document).ready(function () {
+            {% if current_plan_type == "Premium" %}
+                $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+            {% elif current_plan_type == "Elite" %}
+            $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+            $("#selected_cohort2").val($('.calfstid2').first().attr('cohort_atr'));
+            $("#selected_cohort3").val($('.calfstid3').first().attr('cohort_atr'));
+            {% endif %}
+            jQuery(".calender-box-dates").click(function () {
+                jQuery(".calender-box-dates").removeClass("active");
+                $(this).addClass('active');
+            });
+        });
+        function select_cohort_fun(cohort_id,outer_counter)
+        {
+            $("#selected_cohort"+outer_counter).val(cohort_id);
+        };
+        function loaderonclick(cohort_id,currenttab){
+    
+    $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+    $(currenttab).css("cursor", "default");
+    window.location='/module-steps/'+cohort_id+'/';
+    $(currenttab).removeAttr('onclick');
+    
+}
+    </script>
+
+    {% endblock %}

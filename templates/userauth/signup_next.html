@@ -1,0 +1,787 @@
+{% extends 'base_auth2.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Signup</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  .error-color {
+    color: red !important;
+    font-weight: 500 !important;
+  }
+
+  .margin-none {
+    margin: 0 !important;
+  }
+  html, body {
+    overflow-x: hidden;
+}
+@media (max-width:767px) {
+  .banner-futurelab {
+    padding: 0 30px;
+}
+.banner-futurelab2 {
+    padding: 0 30px !important;
+}
+.form-check label {
+    font-size: 11px !important;
+}
+}
+.start-loading {
+  background-color: #04AA6D; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px /* Set a font size */
+}
+.notification-bars{
+  margin-right: 3px !important ;
+
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-7">
+    <div class="form-intro row">
+      {% if request.session.ctype == 'future_lab' %}
+      <!-- <div class="col-sm-12 banner-futurelab2">
+        <div class="banner-top-sign-new notification-bars text-center">
+          <span class="notify_text">{% trans 'Continue the registration process via future labs' %}</span>
+        </div>
+      </div> -->
+      <div class="banner-futurelab new">
+				<div class="notification-bars text-center">
+					<span class="notify_text">{% trans 'Welcome to FutureLab' %}</span>
+				</div>
+			</div>
+      {% endif %}
+      {% if request.session.ctype == 'company' %}
+      <!-- <div class="col-sm-12 banner-futurelab2">
+        <div class="banner-top-sign-new notification-bars text-center">
+          <span class="notify_text">{% trans 'Continue the registration process via Company Welfare' %}</span>
+        </div>
+      </div> -->
+      <div class="banner-futurelab new">
+				<div class="notification-bars text-center">
+					<span class="notify_text">{% trans 'Welcome to FutureLab' %}</span>
+				</div>
+			</div>
+        {% endif %}
+      <div class="col-sm-12 p-t-20 divBtnBack">
+        <a href="{% url 'register' %}{% if request.session.ctype != 'general' %}?ctype={{request.session.ctype}} {% endif %}"
+          class="btnBack">
+          <i class="bi bi-arrow-left"></i>{% trans "Go back" %}</a>
+      </div>
+
+      <div class="col-sm-12 p-t-20">
+        <div class="float-start">
+          <img src="{% static 'images/signin_icon.png' %}" alt="">
+        </div>
+        <span class="login-title-prop login-title-padding">{% trans "Sign up for Futurely" %}</span>
+      </div>
+      <div class="col-sm-12 p-t-20">
+        <p>{% trans "Create an account to get started" %}</p>
+      </div>
+      <form method="post" enctype="multipart/form-data" id='signup2_form' class="row form-setup">
+        {% csrf_token %}
+        {% if message %}
+        <div class="incorect">
+          {% for msg in message %}
+          <p style="color: red;">{{msg}}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row">
+          {% if request.session.ctype == 'future_lab' %}
+          {% comment %} <div class="col-md-12">
+            <label>{% trans 'You are enrolling from a futurelab session. Please enter discount code (if any)'%}</label>
+          </div> {% endcomment %}
+          {% if request.LANGUAGE_CODE == "it" %}
+          <div class="col-md-12 mt-3">
+            <div class="border-grad margin-bottom-none">
+              {% if request.LANGUAGE_CODE == "it" %}
+              {% trans 'FutureLab code' as plcholder %}
+              {% else %}
+              {% trans 'Discount code' as plcholder %}
+              {% endif %}
+              <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="">
+              {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder required=true %}
+            </div>
+
+          </div>
+          <!-- <div class="col-md-3 mt-3">
+                    <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-apply-code' data-bs-toggle="modal" >
+                      <span>  {% trans "Apply" %}</span>
+                    </a>
+                    <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-remove-code' data-bs-toggle="modal" >
+                      <span>  {% trans "Remove" %}</span>
+                    </a>
+                </div> -->
+                
+                  <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label>
+          
+                  {% else %}
+                  <div class="col-md-12 mt-3">
+                    <div class="border-grad margin-bottom-none">
+                      {% trans 'Discount code' as plcholder %}
+                      <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="">
+                      {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder required=true %}
+                    </div>
+    
+                  </div>
+                  <!-- <div class="col-md-3 mt-3">
+                          <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-apply-code' data-bs-toggle="modal" >
+                            <span>  {% trans "Apply" %}</span>
+                          </a>
+                          <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-remove-code' data-bs-toggle="modal" >
+                            <span>  {% trans "Remove" %}</span>
+                          </a>
+                      </div> -->
+                  <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label>
+    
+                {% endif %}
+
+
+
+
+
+
+
+          {% elif request.session.ctype == 'company' %}
+            {% comment %} <div class="col-md-12">
+              <label>{% trans 'You are enrolling from a company welfare program. Please enter discount code (if any)'%}</label>
+            </div> {% endcomment %}
+            {% if request.LANGUAGE_CODE == "it" %}
+                  <div class="col-md-12 mt-3">
+                    <div class="border-grad">
+                      <!-- {% trans 'Discount code' as plcholder %} -->
+                      <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="{{request.session.coupon_code}}">
+                      <!-- {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder required=true %} -->
+                      <input type="text" class="field-input text-box form-control" placeholder=" " required="required" disabled="true" value="{{request.session.coupon_code}}">
+                    </div>
+                    <b><label class="form-label-text" style="color:green;">{% trans "Coupon Applied Successfully" %}</label></b>
+                  </div>
+                <!-- <div class="col-md-3 mt-3">
+                        <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-apply-code' data-bs-toggle="modal" >
+                          <span>  {% trans "Apply" %}</span>
+                        </a>
+                        <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-remove-code' data-bs-toggle="modal" >
+                          <span>  {% trans "Remove" %}</span>
+                        </a>
+                    </div> -->
+                <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label>
+            {% else %}
+              <div class="col-md-12 mt-3">
+                <div class="border-grad margin-bottom-none">
+                  {% trans 'Discount code' as plcholder %}
+                  <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="">
+                  {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder required=true %}
+                </div>
+
+              </div>
+              <!-- <div class="col-md-3 mt-3">
+                      <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-apply-code' data-bs-toggle="modal" >
+                        <span>  {% trans "Apply" %}</span>
+                      </a>
+                      <a  class="btn btn-create float-sm-end float-sm-end discount-icon btn-apply btn-dis-border" id='btn-remove-code' data-bs-toggle="modal" >
+                        <span>  {% trans "Remove" %}</span>
+                      </a>
+                  </div> -->
+              <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label>
+
+            {% endif %}
+          <div class="col-md-12">
+            <div class="border-grad">
+              <select class="select-box form-select" id="id_company_name" name="company-name">
+                <option value="" disabled selected>{% trans "Company name" %}</option>
+                {% for company in companies %}
+                <option value="{{company.pk}}">{{company.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        {% else %}
+          {% if request.LANGUAGE_CODE == "it" %}
+              <!-- <div class="col-md-12">
+                <label>{% trans 'You are enrolling from a futurelab session. Please enter discount code (if any)'%}</label>
+              </div> -->
+              <div class="col-md-12 mt-3">
+                <div class="margin-bottom-none">
+                  {% trans 'Discount code' as plcholder %}
+                  <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="{{request.session.coupon_code}}">
+                  <!-- {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder%} -->
+                  <input type="text" class="field-input text-box form-control" placeholder=" " required="required" disabled="true" value="{{request.session.coupon_code}}">
+                </div>
+                <b><label class="form-label-text" style="color:green;">Codice sconto applicato</label></b>
+              </div>
+           {% else %}
+           <div class="col-md-12 mt-3">
+            <div class="border-grad margin-bottom-none">
+              {% trans 'Discount code (optional)' as plcholder %}
+              <input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="">
+              {% render_field student_completion_form.discount_coupon_code class="text-box form-control" placeholder=plcholder%}
+            </div>
+          </div>
+          <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label>
+          {% endif %}
+      
+          <!-- <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{discount_code_none}}</label> -->
+          {% endif %}
+        {{student_completion_form.are_you_a_student}}
+          
+        </div>
+        <div class="row" id="divi2" >
+          {% if request.session.ctype != 'future_lab' %}
+            <div class="col-md-6">
+              <div class="border-grad">
+                <select class="select-box form-select select2" id="id-school-region" name="school-region" required>
+                  {% if request.LANGUAGE_CODE == "it" %}
+                  <option value="" disabled selected>{% trans "School region" %}</option>
+                  {% else %}
+                  <option value="" disabled selected>School state</option>
+                  {% endif %}
+                  {% for school in school_regions %}
+                  <option value="{{school.region}}">{{school.region}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% if school_region_message %}
+              <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_region_message}}</label>
+              {% endif %}
+            </div>
+            
+            <div class="col-md-6">
+              <div class="border-grad">
+                <select class="select-box form-select select2" id="id-school-city" name="school-city" required >
+                  <option value="" disabled selected>{% trans "School city" %}</option>
+                  {% for school in school_cities %}
+                  <option value="{{school.city}}">{{school.city}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% if school_city_message %}
+              <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_city_message}}</label>
+              {% endif %}
+            </div>
+            
+            <div class="col-md-12">
+              <div class="border-grad">
+                <select class="select-box form-select select2" id="id-school-name" name="school-name" required >
+                  <option value="" disabled selected>{% trans "School name" %}</option>
+                  {% for school in school_names %}
+                  <option value="{{school.name}}">{{school.name}}</option>
+                  {% endfor %}
+                  
+                </select>
+              </div>
+              {% if school_name_message %}
+              <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_name_message}}</label>
+              {% endif %}
+            </div>
+            <div class="col-md-12 " id="div_School_name_other" style="display: none;">
+              <div class="border-grad">
+                <input type="text" class="text-box form-control" id="id_school_name_other" name="school_name_other" value="" placeholder="{% trans 'Enter school name' %}">
+              </div>
+            </div>
+          {% endif %}
+          <!-- <div class="col-md-12">
+            <div class="border-grad">
+              <select class="select-box form-select select2" id="id-school-type" name="school-type">
+                <option value="" disabled selected>{% trans "School type" %}</option>
+                {% if request.LANGUAGE_CODE == "it" %}
+                {% for school in school_types %}
+                <option value="{{school.type}}">{{school.type}}</option>
+                {% endfor %}
+                {% else %}
+                <option value="Public">Public</option>
+                <option value="Private">Private</option>
+                <option value="Charter">Charter</option>
+                {% endif %}
+              </select>
+            </div>
+          </div> -->
+          {% if request.LANGUAGE_CODE == "it" %}
+          <div class="col-md-6">
+            <div class="border-grad">
+              <select class="select-box form-select" id="id-class-year" name="class-year" required>
+                <option value="" disabled selected>{% trans "Class year" %}</option>
+                {% for class_year in class_years %}
+                <option value="{{class_year.pk}}">{{class_year.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="border-grad">
+              <select class="select-box form-select select2" id="id-class-name" name="class-name" required>
+                <option value="" disabled selected>{% trans "Class name" %}</option>
+                {% for class_name in class_names %}
+                <option value="{{class_name.pk}}">{{class_name.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="border-grad">
+              <select class="select-box form-select select2" id="id-class-specialization" name="class-specialization" required>
+                <option value="" disabled selected>{% trans "Class specialization" %}</option>
+                {% for specilization in specilizations %}
+                <option value="{{specilization.pk}}">{{specilization.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          {% else %}
+          <div class="col-md-12">
+            <div class="border-grad">
+              <select class="select-box form-select" id="id-class-year" name="class-year" required>
+                <option value="" disabled selected>Your grade</option>
+                {% for class_year in class_years %}
+                <option value="{{class_year.pk}}">{{class_year.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          {% endif %}
+          <!-- <div class="col-md-5">
+                <div class="border-grad">
+                    <select class ="select-box form-select" id="" name="year">
+                        <option value="" disabled selected>{% trans "Graduation year" %}</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                    </select>
+                </div>
+              </div> -->
+            <div class="col-md-12" style="margin-bottom: 10px;">
+              <div class="margin-bottom-none">
+              {% trans "Parent's email" as placeholder %} 
+              <input type="email" class="text-box form-control" placeholder="{{placeholder}}" name="parent_email">
+                {% comment %} {% render_field MiddleSchoolParentsDetailForm.parent_email type='email' class='text-box form-control' name="parent_email" placeholder=placeholder %} {% endcomment %}
+              </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="form-check margin-none">
+              <input class="form-check-input" type="checkbox" value="Checked" id="id_check_tos" name="check_tos">
+              <label class="form-check-label" for="id_check_tos">
+                {% trans "I agree " %} <a type="button" data-bs-toggle="modal"
+                  data-bs-target="#privcy-policy-modal">{% trans "to Futurely’s terms of service and privacy policy" %}</a>
+              </label><br>
+              <label id="error-tos" class="form-label error-color">{{tos_message}}</label>
+            </div>
+
+          </div>
+          <!-- <div class="col-md-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="Checked" id="id_check_sp_data" name="check_sp_data">
+              <label class="form-check-label" for="id_check_sp_data">
+               {% trans "I agree for Futurely to store and process my data" %}  
+              </label><br>
+              <label id="error-sp-data" class="form-label error-color">{{sp_data_message}}</label>
+            </div>
+            
+        </div> -->
+
+          <div class="col-md-12">
+            <div class="border-grad">
+              <button class=" form-control sign-btn start-loading sign-btn-next" id='btn-submit'
+                type="submit">{% trans "Create Account" %}</button>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <div class="border-grad">
+              <a href="{% url 'login' %}" class="extraHref">
+                <button class="form-control text-box"
+                  type="button">{% trans "Already have an account? Login" %}</button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <input type="text" class="hidden" name="hdn_first_name" value="{{first_name}}">
+        <input type="text" class="hidden" name="hdn_last_name" value="{{last_name}}">
+        <input type="text" class="hidden" name="hdn_gender" value="{{gender}}">
+        <input type="text" class="hidden" name="hdn_gender_other" value="{{gender_other}}">
+        <input type="text" class="hidden" name="hdn_email" value="{{email}}">
+        <input type="text" class="hidden" name="hdn_password" value="{{password}}">
+        <input type="text" class="hidden" name="hdn_contact_number" value="{{contact_number}}">
+        <input type="text" class="hidden" name="hdn_how_know_us" value="{{how_know_us}}">
+        <input type="text" class="hidden" name="hdn_how_know_us_other" value="{{how_know_us_other}}">
+
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-2">
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+  $(document).ready(function () {
+    var coupon_code = $('#id_discount_coupon_code').val();
+    var first_request = "{{first_request}}";
+    /*
+    if (coupon_code){
+      $('#btn-apply-code').hide();
+      $('#btn-remove-code').show();
+      $("#lbl-message").html("{% trans 'Discount code applied successfully' %}")
+      $("#lbl-message").css('color','#55ea55');
+      $("#id_discount_coupon_code").attr('readonly','readonly');
+    }
+    else{
+      $('#btn-apply-code').show();
+      $('#btn-remove-code').hide();
+      $("#id_discount_coupon_code").removeAttr('readonly');
+    }*/
+
+    $('#id-school-region').select2();
+    $('#id-school-region').val(null).trigger("change");
+    $('#id-school-city').select2();
+    $('#id-school-name').select2();
+    /*
+    if (first_request == 'Yes') 
+    {
+      $("#id_are_you_a_student option[value='']").remove();
+      $("#id_are_you_a_student").prepend(`<option value="" selected>{% trans 'Are you a student?' %}</option>`);
+
+    } 
+    else 
+    {
+      if ($("#id_are_you_a_student").val() == 'Yes' || $("#id_are_you_a_student").val() == 'No') 
+      {
+        var selected_text = $("#id_are_you_a_student").find("option:selected").text();
+        var selected_value = $("#id_are_you_a_student").find("option:selected").val();
+        $("#id_are_you_a_student").empty();
+        $("#id_are_you_a_student").append(
+          `<option value="${selected_value}" selected>{% trans 'Are you a student?' %} - ${selected_text}</option>`
+          );
+        $("#id_are_you_a_student").append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+        $("#id_are_you_a_student").append(`<option value="No">{% trans 'No' %}</option>`);
+      } 
+      else 
+      {
+        var selected_text = $("#id_are_you_a_student").find("option:selected").text();
+        if (!selected_text.toLowerCase().includes('student')) {
+          selected_text = "{% trans 'Are you a student?' %}"
+        }
+        $("#id_are_you_a_student").empty();
+        $("#id_are_you_a_student").append(`<option value="" selected>${selected_text}</option>`);
+        $("#id_are_you_a_student").append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+        $("#id_are_you_a_student").append(`<option value="No">{% trans 'No' %}</option>`);
+      }
+
+    }*/
+
+  });
+
+/*
+  $("#id_are_you_a_student").change(function () {
+    if ($(this).val() == 'Yes') {
+      $('#divi2').css('display', 'inherit');
+    } else {
+      $('#divi2').css('display', 'none');
+    }
+
+    if ($(this).val() == 'Yes' || $(this).val() == 'No') {
+      var selected_text = $(this).find("option:selected").text();
+      var selected_value = $(this).find("option:selected").val();
+      $(this).empty();
+      $(this).append(
+        `<option value="${selected_value}" selected>{% trans 'Are you a student?' %} - ${selected_text}</option>`);
+      $(this).append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+      $(this).append(`<option value="No">{% trans 'No' %}</option>`);
+    }
+  });
+*/
+  function apply_discount_code(is_from_onblur) {
+    var coupon_code = $('#id_discount_coupon_code').val();
+    if (coupon_code) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'coupon-code-exists' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'coupon_code': coupon_code,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+              $('#id-school-region').select2();
+              $('#id-school-region').val(null).trigger("change");
+              $('#id-school-city').select2();
+              $('#id-school-name').select2();
+              // $("#id-school-region").append('<option value="'+data["data"]["state"]+'" selected>'+data["data"]["state"]+'</option>');
+              // $("#id-school-city").append('<option value="'+data["data"]["city"]+'" selected>'+data["data"]["city"]+'</option>');
+              // $("#id-school-name").append('<option value="'+data["data"]["name"]+'" selected>'+data["data"]["name"]+'</option>');
+            //$('#btn-apply-code').hide();
+            //$('#btn-remove-code').show();
+            $('#id_future_lab_code').val(coupon_code);
+
+            //$("#id_discount_coupon_code").attr('readonly','readonly');
+            $("#lbl-message").css('color', '#55ea55');
+            $("#lbl-message").html("{% trans 'Discount code applied successfully' %}");
+
+
+          } else {
+            //$('#btn-apply-code').show();
+            //$('#btn-remove-code').hide();
+            //$('#id_discount_coupon_code').val('');
+            $('#id_future_lab_code').val('');
+            $("#lbl-message").css('color', 'red');
+            $("#lbl-message").html("{% trans 'Invalid discount code' %}");
+            //$("#id_discount_coupon_code").removeAttr('readonly');
+          }
+
+        },
+        error: function (response) {
+          //$('#btn-apply-code').show();
+          //$('#btn-remove-code').hide();
+          //$('#id_discount_coupon_code').val('');
+          $('#id_future_lab_code').val('');
+          $("#lbl-message").html("{% trans 'Something went wrong' %}");
+          //$("#id_discount_coupon_code").removeAttr('readonly');
+        },
+        async: is_from_onblur
+      })
+    }
+  }
+  $('#id_discount_coupon_code').on('blur', function (e) {
+    //alert("Out Blur");
+    apply_discount_code(true);
+  });
+
+  /*$('#btn-remove-code').on('click', function (e) {
+    var coupon_code = $('#id_discount_coupon_code').val();
+    if (coupon_code){
+      $('#id_discount_coupon_code').val('');
+      $('#id_future_lab_code').val('');
+      $("#lbl-message").html('')
+      $('#btn-apply-code').show();
+      $('#btn-remove-code').hide();
+      $("#id_discount_coupon_code").removeAttr('readonly');
+    }
+  }); */
+  
+  $('#id-school-region').on('change', function (e) {
+    var school_region = $(this).val();
+    $("#id-school-city").empty();
+    $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+    $("#id-school-name").empty();
+    $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    $('#div_School_name_other').hide();
+    $('#id_school_name_other').removeAttr("required");
+
+    if (school_region) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'get-school-cities-name' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'school_region': school_region,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+            
+            var school_city = data['all_cities'];
+           
+            for(var i = 0; i<school_city.length; i++)
+            {
+            $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+            }
+          } 
+        },
+        error: function (response) {
+        }
+      })
+    }
+  });
+
+  $('#id-school-city').on('change', function (e) {
+    var school_region = $("#id-school-region").val();
+    var school_city = $(this).val();
+    $("#id-school-name").empty();
+    $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    $('#div_School_name_other').hide();
+    $('#id_school_name_other').removeAttr("required");
+    if (school_region && school_city) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'get-school-name-by-city' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'school_region': school_region,
+          'school_city':school_city,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+            
+          var school_names = data['all_schools'];
+           
+          $("#id-school-name").append(`<option value="Other">{% trans "Other"%}</option>`);
+           
+           for(var i = 0; i<school_names.length; i++)
+           {
+           $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+           }
+          }
+          else{
+          
+          }
+        },
+        error: function (response) {
+
+        }
+      })
+    }
+  });
+  $('#id-school-name').on('change', function (e) {
+    var school_name = $(this).val();
+    if(school_name == "Other")
+    {
+      $('#div_School_name_other').show();
+      $('#id_school_name_other').attr("required","True");
+    }
+    else{
+      $('#div_School_name_other').hide();
+      $('#id_school_name_other').removeAttr("required");
+    }
+  });
+ /*
+  $('#id-school-name').on('change', function (e) {
+    var school_name = $(this).val();
+    if (school_name) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'get-school-by-name' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'school_name': school_name,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+            var school_type = data['school_type'];
+            var school_region = data['school_region'];
+            var school_city = data['school_city'];
+            if (school_type) {
+              $("#id-school-type").val(school_type).change();
+            }
+            if (school_region) {
+              $("#id-school-region").val(school_region).change();
+            }
+            if (school_city) {
+              $("#id-school-city").val(school_city).change();
+            }
+
+          } else {
+            $("#id-school-type").val(null).change();
+            $("#id-school-region").val(null).change();
+            $("#id-school-city").val(null).change();
+          }
+
+        },
+        error: function (response) {
+
+        }
+      })
+    }
+  });
+  */
+  $("#signup2_form").submit(function () {
+    var tos_is_checked = $("#id_check_tos").is(":checked");
+    if (!tos_is_checked) {
+      $('#error-tos').html("{% trans 'You must accept before proceeding' %}");
+      return false;
+    }
+
+    if ($('#id_future_lab_code').val() == '') {
+      apply_discount_code(false);
+      
+    }
+    if ($('#id_future_lab_code').val() == '') {
+      "{% if request.session.ctype != 'general' %}"
+      $("#lbl-message").css('color', 'red');
+      $("#lbl-message").html("{% trans 'Invalid discount code' %}");
+      return false;
+      "{% endif %}"
+    }
+    loaderonclick('.start-loading')
+
+    /* var sp_data_is_checked = $("#id_check_sp_data").is(":checked");
+    if (!sp_data_is_checked) {
+      $('#error-sp-data').html('{% trans "You must accept before proceeding" %}');
+      return false;
+    } */
+  });
+
+  $("#id_check_tos").click(function () {
+    if ($(this).is(":checked")) {
+      $('#error-tos').html("");
+    }
+  });
+  /*
+    $("#id_check_sp_data").click(function(){
+      if($(this).is(":checked"))
+      {
+        $('#error-sp-data').html("");
+      }
+  });*/
+  function loaderonclick(currenttab){
+    
+    $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+    $(currenttab).css("cursor", "default");
+    $(currenttab).removeAttr('onclick');
+    $(currenttab).prop('disabled', true);
+    return true;
+    
+}
+$(document).ready(function() {
+  $('#id-class-year').select2();
+  {% if request.LANGUAGE_CODE == "it" %}
+  $('#id-class-specialization').select2();
+  $('#id-class-name').select2();
+  {% endif %}
+});
+</script>
+
+{% endblock %}

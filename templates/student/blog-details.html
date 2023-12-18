@@ -1,0 +1,25 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Blogs" %}</title>
+{% endblock %}
+
+{% block style %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="color-white">
+    <h1>{{ blog.title }}</h1>
+    <p class="date">
+        {% trans "Published" %} {{ blog.publish_date }} by {{ blog.author }}
+    </p>
+    {{ blog.body|linebreaks }}
+</div>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

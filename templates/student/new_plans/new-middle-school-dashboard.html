@@ -1,0 +1,1594 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% load tz %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/index.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/index.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+{% endblock%}
+{% block content %}
+<style>
+    p.card-content-text {
+    visibility: hidden;
+   }
+
+
+    .parent-div {
+        padding: 32px 24px 16px 24px;
+    }
+    .btn-step-continue {
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%) !important;
+        box-shadow: 0px 4px 12px rgb(0 0 0 / 25%) !important;
+        border: none !important;
+        font-family: Rubik;
+        font-size: 16px !important;
+        font-weight: 400;
+        line-height: 24px; 
+        padding: 6px 11.69px 6px 12px !important;
+        align-items: flex-start;
+        border-radius: 4px;
+        
+    }
+
+    #detail-popup-user.modal.fade.show .modal-dialog {
+    position: absolute;
+    }
+    tables-details-usere button {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    }
+    .tables-details-usere h2 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-deatils-in-tables {
+        text-align: right;
+    }
+    .tables-details-usere table tbody {
+        display: block;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar {
+        width: 8px;
+        background-color: #363739;
+    }
+    .tables-details-usere table tbody:-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #363739;
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #26272b;
+    }
+    .tables-details-usere table tbody tr, .tables-details-usere table thead {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .progress-bar-block .user {
+        display: flex;
+        align-items: center;
+    }
+    .bottom-popup-details-user-content h3 {
+        color: #fff;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-style: italic;
+        margin: 0;
+        padding: 20px 0 0;
+    }
+    .progress-bar-block .user button {
+    border: none !important;
+    }
+    .user-right-box-details h3 {
+        font-size: 14px;
+        color: #fff;
+        margin: 0;
+    }
+    .user-right-box-details h1 {
+        font-size: 16px;
+        color: #fff;
+        font-weight: 900;
+    }
+    .user-right-box-details {
+    float: right;
+    position: relative;
+    /* top: -55px; */
+    /* right: -12px; */
+    /* border: 1px solid #545454; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    /* background: #26272b9c; */
+    margin-left: auto;
+    }
+    .user-right-box-details:hover {
+        border-color: #622BFF;
+    }
+    .user-right-box-details .succsess-color {
+        background: linear-gradient(45deg,#4bd39699,#4bd396);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .user-right-box-details .warning-color {
+        background: linear-gradient(to right, #9d853f , #ffc107) !important;
+        /* background: transparent; */
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .user-right-box-details .danger-color {
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .progress-bar-block .user img {
+        width: 34px;
+        height: 34px;
+        object-fit: scale-down;
+    }
+
+    .progress-bars.border-none {
+        border: none;
+    }
+    .progress-bars .progress-perent.Bittersweet.seprate-colorr .progress-bar {
+        background: linear-gradient( 116.59deg , #6C2DB1 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4) !important;
+      }
+    .tables-details-usere table thead {
+        background: #737373;
+    }
+    .succsess-table-results {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+    }
+    .warning-table-results {
+        padding: 10px;
+        background: linear-gradient(to right, #9d853f , #ffc107);
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+    }
+    .danger-table-results {
+        padding: 10px;
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+    }
+    .user-card-info-block {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+      }
+      .user-card-info-block .detail-popup-cus {
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .user-card-info-block .detail-popup-cus:hover {
+        color: #2c6cfb;
+     }
+    .card-details-new-ir {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+      }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -80px;
+        z-index: 11;
+    }
+    .hover-popup-inn::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-bottom: solid 15px #26272b;
+        border-left: solid 15px transparent;
+        border-right: solid 15px transparent;
+        position: absolute;
+        top: -15px;
+        right: 40px;
+        transform: rotate( 0deg );
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        z-index: 1111;
+    }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -70px;
+        z-index: 11;
+        display: none;
+    }
+    .courses-block .hover-popup-inn h4 {
+        margin: 0;
+    }
+    .card-details-new:hover .hover-popup-inn {
+        display: flex;
+    }
+    .card-details-new {
+        border-bottom: 1px solid #6f6767;
+        position: relative;
+    }
+    .card-details-inner h3 {
+        color: #fff;
+        font-size: 16px;
+        margin: 0;
+    }
+    .courses-block .card .card-details-inner h4 {
+        margin: 10px 0 0;
+      }
+      .card-details-new-ir .progress-bars {
+        margin: 12px 0;
+    }
+    .card-details-new-ir .progress-bars .progress-perent {
+        margin: 12px 0;
+      }
+      .tables-details-usere button {
+        float: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        outline: none !important;
+        box-shadow: none !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-size: 24px;
+    }
+    .card-details-inner .link-popup-btnn {
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        margin: -4px 0 0 8px;
+    }
+    .tables-details-usere {
+        background: #23293C;
+        padding: 20px 15px;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        pointer-events: auto;
+        position: relative;
+      }
+      .tables-details-usere table {
+        margin: 0;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+      .tables-details-usere table tbody, .tables-details-usere table td, .tables-details-usere table tfoot, .tables-details-usere table th, .tables-details-usere table thead, .tables-details-usere table tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0;
+    }
+    
+      .tables-details-usere table thead tr th {
+        padding: 15px 8px;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+    }
+    .tables-details-usere table td {
+        padding: 15px 8px;
+        vertical-align: middle;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .tables-details-usere .arrow-card-backk.btn-close {
+        float: right;
+        margin: 0 0 12px;
+      }
+      #detail-popup-user.modal.fade.show {
+        display: flex !important;
+        align-content: center;
+      }
+      @media (max-width:767px) {
+        .calender-box-popup {
+                min-width: 100%;
+            }
+            {% if is_trial_active %}
+            
+            #wrapper #content-wrapper #content .main-content {
+                padding-top: 120px !important;
+            }
+            {% endif %}
+           
+.user-leftt-box-details a {
+    display: flex;
+}
+        .overlay-upgrade-block {
+    bottom: 50px !important;
+}
+            .new-courses-box-footer {
+    width: unset;
+    padding: 0;
+}
+        .modal-header-new-table {
+         height: auto;
+     }
+    .modal-header-new p {
+        font-size: 13px;
+    }
+    .modal-header-new h2 {
+    font-size: 20px;
+    }
+    .modal-body-new h2 {
+    font-size: 16px;
+
+}
+#detail-popup-user-new .modal-body-new .table th, #detail-popup-user-new .modal-body-new .table td {
+    font-size: 12px;
+}
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+          .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+      }
+      @media (min-width:768px) {
+        #detail-popup-user .modal-dialog {
+            max-width: 800px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%)translatey(-50%);
+            top: 50%;
+        }
+    }
+.inner-card {
+    background: rgba(54, 55, 57, 0.85);
+}
+.no-seat-reserve-button {
+    background: #26272A;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    transition: all .5s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+.no-seat-reserve-button.webinar-field .tooltip-pop:hover:after {
+
+    width: 150px;
+
+}
+.no-seat-reserve-button.webinar-field .tooltip-pop:hover:after {
+    top: -110px;
+    width: 140px;
+    left: 30%;
+    transform: translateX(-65%);
+    text-align: center;
+}
+.no-seat-reserve-button:hover {
+    color: #ddd;
+}
+.no-seat-reserve-button.webinar-field .tooltip-pop.in-filed {
+    top: 10px;
+}
+.inner-card-new span.webinar-left-screens {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.webinar-field-group-hour-message h4 {
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 17px;
+    letter-spacing: -0.03em;
+    text-align: center;
+}
+.inner-card-new h2 {
+    margin-top: 8px;
+}
+.user-right-box-details {
+    width: 50%;
+}
+.user-right-box-details .danger-color {
+    width: 100%;
+}
+.user-right-box-details .danger-color {
+    width: 100%;
+    height: auto;
+    padding: 10px 12px;
+}
+.detail-popup-user-new-cs.new-cong-popup {
+    display: flex;
+}
+.cogratulatio-nmessage {
+    background: #26272b;
+    border-radius: 18px;
+    padding: 30px;
+    width: 100%;
+    display: block;
+	text-align: center;
+    box-shadow: 0px 5px 40px #000000;
+    position: relative;
+}
+.cogratulatio-message-heading {
+    color: #fff;
+    font-size: 18px;
+    margin: 0 0 12px;
+}
+.cogratulatio-message-heading {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+.cogratulatio-message-text {
+    color: #fff;
+    font-size: 18px;
+    margin: 0 0 12px;
+}
+.cogratulatio-message-text a {
+    color: #66e8e9;
+    text-decoration: none;
+}
+.Cogratulation-table-popup table {
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+.Cogratulation-table-popup table th, .Cogratulation-table-popup table td {
+    color: #fff;
+    padding: 15px;
+    border: 1px solid #ffffff61;
+}
+.button-cogratulatio {
+    background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block;
+    margin: 14px 0 0;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 270px;
+}
+.button-cogratulatio:hover {
+    color: #fff;
+}
+.new-cong-popup .modal-dialog {
+    top: auto !important;
+    transform: inherit !important;
+    max-width: 500px;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    padding: 0px;
+}
+.Cogratulation-table-popup h4 {
+    color: #fff;
+    font-size: 14px;
+    margin: 22px 0 12px;
+}
+.new-cong-popup .btn-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    outline: none;
+}
+.overlay-upgrade-block {
+    top: auto;
+    bottom: 22px;
+    transform: translatex(-50%);
+}
+.new-courses-box-footer a.btn {
+    padding: 8px 10px;
+    line-height: 1.5;
+}
+.rating-data-title .btn.buy-now-trial {
+    max-width: 70%;
+}
+.spl-trial-main-block .rating-data-title .btn.buy-now.spl-btn-trial {
+    max-width: 70%;
+}
+.new-courses-box-footer {
+    padding: 0;
+    width: unset;
+    margin: auto;
+}
+.rating-lock {
+    z-index: -1;
+}
+.right-card-wraper{
+    margin-top: 48px;
+}
+@media (min-width: 1600px) {
+   
+    .update-cource-card {
+    padding: 80px 60px;
+}
+.new-profile-update-card-info {
+    padding: 60px 34px 53px !important;
+}
+.middle-update-new {
+    /* padding: 38px 24px !important; */
+    padding: 0px 24px 16px 24px !important;
+}
+.progress-top-update-bar {
+    padding: 36px 23px 28px !important;
+}
+.update-cource-card-content {
+ padding: 42px 26px 30px !important;
+}
+    .user-right-box-details h1 {
+    font-size: 20px;
+}
+.user-right-box-details h3 {
+    font-size: 18px;
+}
+}
+.detail-popup-user-new-cs.new-cong-popup-dnone {
+    display: none !important;
+}
+.start-loading {
+  background-color: #04AA6D; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px /* Set a font size */
+}
+.bg-color-dark-blue {
+    background: rgba(6, 21, 71, 0.9) !important;
+}
+
+body #wrapper #content-wrapper #content .main-content.notifi {
+            padding-top: 100px !important;
+        }
+.buy-now-trial {
+    border: none;
+}   
+.width80{
+    width:80% !important;
+}
+
+.middle-school-score-button {
+    width: 100%;
+    background: linear-gradient(116.59deg, #ED8147 80.44%, #F6C05B 100.73%) !important;
+    border-radius: 8px !important;
+    margin-top: 10px;
+    border: 0px;
+}
+.middle-school-score-button.succsess-color  {
+    background: linear-gradient(45deg,#4bd39699,#4bd396) !important;
+}
+.middle-school-score-button.warning-color  {
+    background: linear-gradient(to right, #9d853f , #ffc107) !important;
+}
+.middle-school-score-button.danger-color  {
+    background: linear-gradient(45deg,#ff2247,#ff869a) !important;
+}
+.user-header-block button {
+    padding: 15px;
+}
+    .update-cource-card {
+        background: #26272B;
+        border-radius: 24px;
+        padding: 24px;
+        display: block;
+        width: 100%;
+    }
+    .update-cource-card .title-course-new {
+        font-weight: 500;
+        font-size: 32px;
+        letter-spacing: -0.96px;
+        color: #FFFFFF;
+        line-height: 38.4px;
+
+    }
+    .update-cource-card-content {
+        background-size: cover;
+        padding: 32px 22px 22px;
+        width: 100%;
+        border-radius: 18px 0 0 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        z-index:1;
+    }
+    .update-cource-card-content h4 {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        color: #FFFFFF;
+        line-height: 28.8px;
+    }
+    .update-cource-card-content p {
+        font-weight: 600;
+        font-size: 18px;
+        color: #FFFFFF;
+        margin: 0;
+    }
+    .update-cource-card-right {
+        background: linear-gradient(111.66deg, rgba(57, 58, 57, 0.4345) 0%, rgba(57, 58, 58, 0.55) 100%);
+        box-shadow: 0px 4px 16px 16px rgba(0, 0, 0, 0.2);
+       /* backdrop-filter: blur(12.5px);*/
+        -webkit-backdrop-filter: blur(12.5px);
+        border-radius: 8px;
+        display: block;
+        width: 100%;
+    }
+    .progress-top-update-bar {
+        background: linear-gradient(116.59deg, #0068FF 10.15%, #5B71F7 41.29%, #7B74F5 63.93%, #B179F0 100.73%);
+        opacity: 0.9;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.09);
+        border-radius: 8px;
+        padding: 16px 23px 25px;
+        width: 100%;
+        display: block;
+    }
+    .progress-top-update-bar h5 {
+        font-weight: 700;
+        font-size: 16px;
+        color: #FFFFFF;
+    }
+    .progress-new {
+        position: relative;
+        z-index: 5;
+        display: inline-block;
+        width: 100%;
+        background: #D0D0D0;
+        border-radius: 46px;
+        height: 14px;
+    }
+    .progress-bar-new {
+        background: linear-gradient(90deg, #70F099 0%, #6FEEA6 28.42%, #6DEBBB 54.28%, #68E5EA 82.2%, #67E3F6 100%);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+        border-radius: 1e+09px;
+        width: 14px;
+        height: 14px;
+        display: block;
+    }
+    .progress-text-new {
+        font-weight: 400;
+        font-size: 12px;
+        color: #FFFFFF;
+        margin: 4px 0 0;
+    }
+    .middle-update-new {
+        padding: 0px 24px 16px 24px;
+        display: block;
+    }
+    .middle-update-new h4 {
+        font-weight: 400;
+        font-size: 16px;
+        color: #FFFFFF;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 0.68px 0.09px 0px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        font-family: 'Inter';
+        line-height: 24px;
+    }
+    .btn-new-start-card {
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+        box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+        border-radius: 8px;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: center;
+        letter-spacing: 0.015em;
+        color: #FFFFFF;
+        width: 100%;
+        display: flex;
+        padding: 10px;
+        transition: all .5s;
+        margin-top: 50px;
+        justify-content: center;
+        align-items: flex-start;
+        align-self: stretch;
+        font-family:rubik;
+        line-height: 24px; /* 150% */
+    }
+    .btn-new-start-card:hover {
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #d24ccd 112.25%);
+        color: #fff;
+    }
+    .new-profile-update-card-info {
+        background: linear-gradient(111.66deg, rgba(57, 58, 57, 0.2805) 0%, rgba(57, 58, 58, 0.55) 100%);
+        box-shadow: 0px 4px 29px 16px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(2px);
+        border-radius: 25px;
+        padding: 24px 24px 18px;
+        display: block;
+        width: 100%;
+        height: 87%;
+    }
+    .new-profile-card-row h5 {
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+    }
+    .new-profile-card-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .new-profile-card-progress {
+        margin: 35px -24px 0;
+        border-top: 1px solid #50525985;
+        padding: 24px 24px 0;
+    }
+    .profile-progress-text-new {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        color: #FFFFFF;
+        margin-bottom: 6px;
+    }
+    .profile-progress-new {
+        background: #6A6A6A;
+        border-radius: 10px;
+        height: 6px;
+        width: 100%;
+    }
+        .profile-progress-bar-new {
+            background: linear-gradient(90deg, #70F099 0%, #6FEEA6 28.42%, #6DEBBB 54.28%, #68E5EA 82.2%, #67E3F6 100%);
+            box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+            border-radius: 1e9px;
+            height: 6px;
+            display: block;
+        }
+        .new-profile-item-progress {
+        margin-bottom: 18px;
+    }
+    .middle-update-new h4 span {
+        font-weight: 400;
+        font-size: 14px;
+        text-align: right;
+        color: #FFFFFF;
+    }
+    .new-profile-card-row img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+    }
+    @media (min-width: 992px) {
+    .update-cource-card-right {
+        margin-left: -16px;
+    }
+    .update-cource-card {
+    padding: 60px;
+}
+.middle-update-new h4 {
+    /* margin: 45px 0; */
+}
+    }
+    @media (max-width: 991px) {
+    .new-profile-update-card-info {
+        margin-bottom: 32px;
+    }
+    .update-cource-card-right {
+        margin-bottom: -16px;
+    }
+    
+    }
+    @media (max-width: 767px) {
+        .mb-flex-lg-row-reverse {
+    flex-direction: column-reverse;
+}
+.update-cource-card .col-lg-4 .title-course-new.mb-3 {
+    margin-top: 40px;
+}
+    .update-cource-card .title-course-new {
+    font-size: 24px;
+    }
+    .update-cource-card {
+        padding: 24px 15px;
+    }
+    .new-profile-card-progress {
+        padding: 24px 16px 0;
+    }
+    .middle-update-new {
+        padding: 24px 16px;
+    }
+    .update-cource-card-content h4 {
+        font-size: 18px;
+    }
+    .update-cource-card-content p {
+        font-size: 14px;
+    }
+    .new-profile-card-row img {
+        width: 48px;
+        height: 48px;
+    }
+    .middle-update-new h4 {
+    
+    flex-direction: unset;
+    
+    }
+    .middle-update-new h4 span {
+    width: 90px;
+    }
+    .parent-div {
+    padding: 0px;
+    }
+
+    }
+    
+    </style>
+
+
+<!-- Begin Page Content -->
+<div class="modal fade detail-popup-user-new-cs" id="detail-popup-user-new" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-header-new">
+        <!--button type="button" class="btn-close color-white cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button-->
+        <h2>Istruzioni</h2>
+        <p>Se sei interessato a vedere riconosciute le tue ore PCTO ma la tua scuola non conosce Futurely, saremo felici di aiutarti. Scrivici una mail con i contatti della tua scuola a tutor@myfuturely.com</p>
+        <p>
+        Informa il tuo referente PCTO, lo contatteremo a tuo nome per poter avere un colloquio e presentarci.</p>
+        <p>
+        <p>Ancora nessuna scuola ha rifiutato a nessun ragazzo il riconoscimento di queste ore!</p>
+    </div>
+        <div class="modal-body-new">
+            <h2>Le tue ore PCTO accumulate: {{request.user.student.total_pcto_hours}}</h2>
+        <div class="modal-header-new-table">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">SNO</th>
+                <th scope="col">Fonte</th>
+                <th scope="col">Ore PCTO</th>
+                <th scope="col">Data</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+                {% for pcto_record in request.user.student.student_pcto_record.all %}
+                    <tr class="">
+                        <td>{{forloop.counter}}</td>
+                        {% if pcto_record.pcto_hour_source == "Webinar" %}
+                            <td>{{pcto_record.webinar.webinar.title}}</th>
+                        {% else %}
+                            <td>{{pcto_record.pcto_hour_source}}</th>
+                        {% endif %}
+                        <td>{{pcto_record.pcto_hours}} Hour</td>
+                        <td>{{pcto_record.created_at}}</th>
+                        
+                    </tr>
+                {% empty %}
+                    <tr class="">
+                        <td>-</th>
+                        <td>-</td>
+                        <td>-</th>
+                        <td>-</td>
+                    </tr>
+                {% endfor %}
+            
+            </tbody>
+          </table>
+          </div>
+          
+    </div>
+    </div>
+</div>
+<div class="modal fade" id="detail-popup-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="tables-details-usere">
+        <button type="button" class="btn-close color-white cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></button>
+        <h2>{% trans "Endurance Score"%} <span>{{kpis.endurance_score}}%</span></h2>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{% trans "Step No"%}</th>
+                <th scope="col">{% trans "Title"%}</th>
+                <!--th scope="col">{% trans "Unlock Date"%}</th>
+                <th scope="col">{% trans "Completed Date"%}</th>-->
+                <th class="score-deatils-in-tables" scope="col">{% trans "Score"%}</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for step_detail in kpis.endurance_list %}
+            {% if step_detail.score <= 30 %}
+            <tr class="">
+                <td>{{step_detail.step_sno}}</th>
+                <td>{{step_detail.step_title}}</td>
+                <!--<td>{{step_detail.step_unloack_date}}</td>
+                <td>{{step_detail.step_completed_date}}</td>-->
+                <td class="score-deatils-in-tables"><span class="danger-table-results">{{step_detail.score}}</span></td>
+              </tr>
+            {% elif step_detail.score > 30 and step_detail.score < 75 %}
+            <tr class="">
+                <td>{{step_detail.step_sno}}</th>
+                <td>{{step_detail.step_title}}</td>
+                <!--<td>{{step_detail.step_unloack_date}}</td>
+                <td>{{step_detail.step_completed_date}}</td>-->
+                <td class="score-deatils-in-tables"><span class="warning-table-results">{{step_detail.score}}</span></td>
+              </tr>
+            {% else %}
+            <tr class="">
+                <td>{{step_detail.step_sno}}</th>
+                <td>{{step_detail.step_title}}</td>
+                <!--<td>{{step_detail.step_unloack_date}}</td>
+                <td>{{step_detail.step_completed_date}}</td>-->
+                <td class="score-deatils-in-tables"><span class="succsess-table-results">{{step_detail.score}}</span></td>
+              </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+          </table>
+          <div class="bottom-popup-details-user-content">
+            <h3>
+                {% trans "This score is calculated based on the time to complete each unlocked step. Therefore, you can improve your score by completing each step within 7 days when it gets unlocked."%}</h3>
+          </div>
+    </div>
+    </div>
+</div>
+<div class="main-content py-4 px-md-3 pt-0" id="courses-box-f">
+     
+    <div class="container-fluid">
+        <div class="update-cource-card mb-4">
+			<div class="row flex-lg-row-reverse mb-flex-lg-row-reverse">
+			<div class="col-lg-4 col-md-12">
+				{% comment %} <h2 class="title-course-new mb-3">{% trans "Title" %}</h2> {% endcomment %}
+				<div class="new-profile-update-card-info right-card-wraper">
+					{% comment %} <div class="new-profile-card-row">
+						<img src="{% static 'images/boy.png' %}">
+						<h5>{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+					</div> {% endcomment %}
+                    <div class="new-profile-card-row" style="cursor: default;">
+                        <div class="user-header-block" style="width: 100%;">
+                            <button class="danger-color middle-school-score-button" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user">
+                                <h3>La tua costanza: {{kpis.endurance_score}}%</h3>
+                            </button>
+                            <button class="d-none warning-color middle-school-score-button" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user">
+                                <h3>La tua costanza: {{kpis.endurance_score}}%</h3>
+                            </button>
+                            <button class="d-none succsess-color middle-school-score-button" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user">
+                                <h3>La tua costanza: {{kpis.endurance_score}}%</h3>
+                            </button>
+                        </div>
+                    </div>
+					<div class="new-profile-card-progress">
+						<div class="new-profile-item-progress">
+							<div class="profile-progress-text-new">{% trans "Confidence" %} {{kpis.confidence}}%</div>
+							<div class="profile-progress-new" data-width="0%">
+							<div class="profile-progress-bar-new" style="width:{{kpis.confidence}}%;">
+							</div>
+							</div>
+						</div>
+						<div class="new-profile-item-progress">
+							<div class="profile-progress-text-new">{% trans "Awareness" %} {{kpis.awareness}}%</div>
+							<div class="profile-progress-new" data-width="0%">
+							<div class="profile-progress-bar-new" style="width:{{kpis.awareness}}%;">
+							</div>
+							</div>
+						</div>
+						<div class="new-profile-item-progress">
+							<div class="profile-progress-text-new">{% trans "Curiosity" %} {{kpis.curiosity}}%</div>
+							<div class="profile-progress-new" data-width="0%">
+							<div class="profile-progress-bar-new" style="width:{{kpis.curiosity}}%;">
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				</div>
+				<div class="col-lg-8 col-md-12">
+				<h2 class="title-course-new mb-3">Ciao, {{ request.user.first_name }} {{ request.user.last_name }}!</h2>
+
+                <div class="mt-2 mb-4">
+                        {% if action_item != None and step_track_id != 0 %}
+                        <a class="d-inline-block"
+                            href="{% url 'action-items' step_track_id=step_track_id  sno=action_item %}?st={{stu_step_sno}}&ai={{action_item}}">
+                            {% if mycourse.is_cohort_started %}
+                            <button id="continue-cta-on-dashboard"
+                                class="btn btn-create btn-step-continue continue-active-button"
+                                style="color:white;display:flex;">{% trans "Continue your journey" %}</button> </a>
+                            {% else %}
+                            <button id="continue-cta-on-dashboard"
+                                class="btn btn-create btn-step-continue continue-active-button"
+                                style="color:white;display:flex;">Inizia il tuo percorso</button> </a>
+                            {% endif %}
+
+                        {% elif action_item == None and next_date != None %}
+                        <a class="no-seat-reserve-button webinar-field continue-CTA"
+                            style="width:222px; text-align: right;" data-container="body">
+                            <svg width="13" height="17" viewBox="0 0 13 17" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.49984 0.583313C4.31721 0.583313 2.5415 2.35902 2.5415 4.54165V6.91665H1.74984C0.876629 6.91665 0.166504 7.62677 0.166504 8.49998L0.166504 14.8333C0.166504 15.7065 0.876629 16.4166 1.74984 16.4166H11.2498C12.123 16.4166 12.8332 15.7065 12.8332 14.8333V8.49998C12.8332 7.62677 12.123 6.91665 11.2498 6.91665H10.4582V4.54165C10.4582 2.35902 8.68246 0.583313 6.49984 0.583313ZM11.2498 8.49998L11.2514 14.8333H1.74984L1.74984 8.49998H11.2498ZM4.12484 6.91665V4.54165C4.12484 3.23223 5.19042 2.16665 6.49984 2.16665C7.80925 2.16665 8.87484 3.23223 8.87484 4.54165V6.91665H4.12484Z"
+                                    fill="#D9D9D9" />
+                            </svg>
+                            {% trans "Continue your journey" %}
+                            <span title="{{msg_continue_cta}} {{ next_date | date:'d-M-Y'}}"
+                                class="tooltip-pop in-filed" style="widht:100px;">
+                                <svg class="icon-tooltip-pop" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" data-container="body"
+                                    style="position:absolute;left:20px;width:20px;">
+                                    <path
+                                        d="M10 0C4.48889 0 0 4.48889 0 10C0 15.5111 4.48889 20 10 20C15.5111 20 20 15.5111 20 10C20 4.48889 15.5111 0 10 0ZM10 18.2222C5.46667 18.2222 1.77778 14.5333 1.77778 10C1.77778 5.46671 5.46671 1.77778 10 1.77778C14.5333 1.77778 18.2222 5.46671 18.2222 10C18.2222 14.5333 14.5333 18.2222 10 18.2222Z"
+                                        fill="white"></path>
+                                    <path
+                                        d="M11.1109 4.61892C11.1109 5.23261 10.6135 5.73003 9.99978 5.73003C9.38609 5.73003 8.88867 5.23261 8.88867 4.61892C8.88867 4.00523 9.38609 3.50781 9.99978 3.50781C10.6135 3.50781 11.1109 4.00523 11.1109 4.61892Z"
+                                        fill="white"></path>
+                                    <path
+                                        d="M10.0001 7.39844C9.51125 7.39844 9.11133 7.79836 9.11133 8.28725V15.6206C9.11133 16.1095 9.51125 16.5094 10.0001 16.5094C10.489 16.5094 10.8889 16.1095 10.8889 15.6206V8.28725C10.8889 7.77618 10.489 7.39844 10.0001 7.39844Z"
+                                        fill="white"></path>
+                                </svg>
+                            </span>
+                        </a>
+                        {% endif %}
+                    </div>
+
+
+
+					<div class="d-flex flex-wrap flex-lg-row-reverse">
+                    
+					<div class="col-lg-6 col-12">
+							<div class="update-cource-card-right">
+							<div class="progress-top-update-bar">
+                                {% if mycourse.stu_cohort_map.all.count > 0 %}
+                                {% if mycourse.cohort_completion_percentage == 100 %}
+                                    <h5>{% trans "Completed" %}</h5>
+                                {% else %}
+                                    <h5>{% trans "In Progress" %}</h5>
+                                {% endif %}
+                            {% else %}
+							<h5>{% trans "Not started" %}</h5>
+                            {% endif %}
+							<div class="progress-new-main">
+							<div class="progress-new" data-width="0%">
+								<div class="progress-bar-new" style="width:{{mycourse.cohort_completion_percentage}}%;">
+								</div>
+							</div>
+							<div class="progress-text-new">{% trans "Your progress" %}: {{mycourse.cohort_completion_percentage}}%</div>
+							</div>
+							</div>
+                            <div class="parent-div">
+                            <div class="middle-update-new">
+                                <h4>{{mycourse.cohort.module.course.title}}<br>
+                                    <span>{{mycourse.cohort.module.tot_steps}} {% trans "steps" %}</span> </h4>
+                                {% if mycourse.stu_cohort_map.all.count > 0 %}
+                                <a class="btn-new-start-card start-loading" type="button" onclick="loaderonclick('{{mycourse.cohort.cohort_id}}',this)">Vai agli step</a>
+                                {% else %}
+                                <a class="btn-new-start-card start-loading" type="button" onclick="loaderonclick('{{mycourse.cohort.cohort_id}}',this)">{% trans "Start" %}</a>
+                                {% endif %}
+                            </div>
+                             </div>          
+							</div>
+						</div>
+						<div class="col-lg-6 col-12 d-flex mobile-hide" style="background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);border-radius: 18px 0 0 18px;";>
+							<div class="update-cource-card-content" style="background-image: url('{% static 'images/update-card-bg-new.png' %}')">
+							
+                                <h4>{% trans "I think it's possible for ordinary people to choose to be extraordinary." %}</h4>
+							 <p class="card-content-text">Sei più avanti rispetto all'86% degli studenti!</p>
+                            
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- End of Main Content -->
+{% endblock %}
+{% block contact_tutor %}
+<div class="modal fade learn-popup" id="id-contact-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content contact-pop-back">
+            <div class="modal-header">
+                <button type="button" id="btn-close-tutor" class="btn-close color-white cross-btn-cls"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 class="color-white">{% trans "Submit Query to your tutor" %}</h2>
+                <hr class="color-white">
+                <div class="modal-body info_form">
+                    <form id="post-contact-tutor" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+                                        https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                    <input name="cc-num" class="hidden" required=""
+                                        value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                    <input id="email" class="form-control text-white" type="text"
+                                        placeholder="your-email@futurely.com" value="{{user.email}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <input id="subject" class="form-control" type="text"
+                                        placeholder="{% trans 'Subject of discussion' %}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <textarea id="questions" class="form-control" type="text"
+                                        placeholder="{% trans 'Enter your queries for the tutor' %}"
+                                        required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary con-tutor tutor-submit">{% trans "Submit" %}</button>
+                                <button type="submit"  style="display: none" class="btn btn-primary con-tutor start-loading contact_tutor_loader"><i class="fa fa-spinner fa-spin"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block learn_more %}
+
+<style>
+   .congratulazioni-modal-popup .modal-dialog {
+    background: #343437;
+    box-shadow: 0px -9px 27px 11px rgba(109, 109, 109, 0.12);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 653px;
+    pointer-events: auto;
+    transform: translateY(0%) !important;
+    top: auto !important;
+}
+.congratulazioni-division img {
+    max-width: 100%;
+}
+.congratulazioni-division h2 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+}
+.congratulazioni-division p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+}
+.congratulazioni-division-inner {
+    width: 100%;
+    max-width: 285px;
+    margin: 28px auto;
+    text-align: center;
+    display: table;
+}
+.congratulazioni-button {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 15px;
+    display: block;
+    margin: 22px 0;
+    border: none;
+}
+.congratulazioni-modal-popup .btn-close {
+    background-image: none !important;
+    opacity: 1;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    box-shadow: none !important;
+}
+.benvenuto-modal-popup .modal-dialog {
+    background: #343437;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 692px;
+    margin: auto;
+    pointer-events: auto;
+    padding: 16px 24px;
+    overflow: auto;
+    top: auto !important;
+    transform: translateY(0) !important;
+}
+.benvenuto-division-inner h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 16px;
+}
+.benvenuto-division-inner p, .benvenuto-division-inner li {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+.benvenuto-division-inner h4 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+.benvenuto-button:hover {
+    color: #fff;
+}
+.benvenuto-button {
+    border-radius: 10px;
+    padding: 15px;
+    display: block;
+    margin: 22px auto;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    text-align: center;
+    border: none;
+    transition: all .5s;
+    width: 100%;
+    max-width: 100%;
+}
+.benvenuto-division-inner iframe {
+    margin: auto;
+    display: table;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+.benvenuto-modal-popup .btn-close {
+    background-image: none !important;
+    opacity: 1;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    box-shadow: none;
+}
+.grazie-modal-popup .modal-dialog {
+    top: auto !important;
+    transform: translateY(0) !important;
+    background: #343437;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    pointer-events: auto;
+    width: 100%;
+    max-width: 960px;
+    margin: auto;
+    display: table;
+    padding: 24px;
+}
+.referente-form h3 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.referente-form {
+    width: 100%;
+    max-width: 441px;
+    margin: auto;
+    display: table;
+}
+
+.referente-field {
+    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.25));
+    background: #2E2F32;
+    border-radius: 10px;
+    border: none;
+    padding: 16px;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: -0.03em;
+    color: #9B9FA6;
+    width: 100%;
+    margin-bottom: 12px;
+    outline: none;
+}
+.form-group-items {
+    margin-bottom: 22px;
+}
+.grazie-button {
+    background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    text-align: center;
+    box-shadow: none;
+}
+.grazie-division-inner h4, .grazie-division-inner p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.grazie-modal-popup .btn-close {
+    background-image: none !important;
+    opacity: 1;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+.congratulazioni-modal-popup.show, .benvenuto-modal-popup.show, .grazie-modal-popup.show    {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+.btn-update-popups {
+    color: #fff;
+    background: #313133;
+    padding: 12px 30px !important;
+    border-radius: 12px;
+    background-image: linear-gradient(96.52deg, #00E6F9 7.68%, #0068FF 38.83%, #FE45C2 101.43%);
+    padding: 0.6rem 1rem;
+    box-shadow: 0 0 6px 0 rgb(157 96 212 / 50%);
+    border: solid 1px transparent;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient( 101deg , #78e4ff, #ff48fa);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 2px 1000px 1px;
+    margin-left: 120px;
+}
+@media (max-width:767px) {
+    .benvenuto-division-inner iframe {
+        width:100% !important;
+    }
+    .benvenuto-division-inner h2 { 
+        font-size: 22px;
+    }
+        
+    .benvenuto-division-inner h4, .benvenuto-division-inner p, .benvenuto-division-inner li {
+    font-size: 15px;
+}
+.benvenuto-button {
+    font-size: 15px;
+}
+.btn-new-start-card{
+    font-size:14px !important;
+}
+
+}
+</style>
+
+{% comment %} We need to change the text accoding to middle school {% endcomment %}
+<div class="modal fade congratulazioni-modal-popup" id="congratulazioni-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"> <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.32843 8.00005L14.8281 1.06699C15.057 0.822898 15.057 0.427148 14.8281 0.183085C14.5993 -0.0609769 14.2283 -0.0610082 13.9995 0.183085L7.49974 7.11614L1.00004 0.183085C0.771206 -0.0610082 0.400192 -0.0610082 0.171384 0.183085C-0.0574242 0.427179 -0.0574534 0.822929 0.171384 1.06699L6.67108 8.00002L0.171384 14.9331C-0.0574534 15.1772 -0.0574534 15.5729 0.171384 15.817C0.285788 15.939 0.435758 16 0.585728 16C0.735698 16 0.88564 15.939 1.00007 15.817L7.49974 8.88396L13.9994 15.817C14.1138 15.939 14.2638 16 14.4138 16C14.5638 16 14.7137 15.939 14.8281 15.817C15.057 15.5729 15.057 15.1771 14.8281 14.9331L8.32843 8.00005Z" fill="white"/>
+        </svg>  </button>
+                 
+		<div class="congratulazioni-division">
+		<img src="{% static 'images/thanku-popup-imgg.png'%}"/>
+        <div class="congratulazioni-division-inner">
+		<h2>Congratulazioni!</h2>
+		<p>Hai completato lo step 1! Clicca qui sotto e scarica il primo premio: l’e-book “Post-diploma: 7 passi per fare la scelta giusta”.</p> 
+		<p>Mantieni alto il punteggio di costanza per ricevere altri fantastici premi!</p>
+		<a class="congratulazioni-button" href="">Riscatta il premio</a>
+        </div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade benvenuto-modal-popup"  id="benvenuto-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.32843 8.00005L14.8281 1.06699C15.057 0.822898 15.057 0.427148 14.8281 0.183085C14.5993 -0.0609769 14.2283 -0.0610082 13.9995 0.183085L7.49974 7.11614L1.00004 0.183085C0.771206 -0.0610082 0.400192 -0.0610082 0.171384 0.183085C-0.0574242 0.427179 -0.0574534 0.822929 0.171384 1.06699L6.67108 8.00002L0.171384 14.9331C-0.0574534 15.1772 -0.0574534 15.5729 0.171384 15.817C0.285788 15.939 0.435758 16 0.585728 16C0.735698 16 0.88564 15.939 1.00007 15.817L7.49974 8.88396L13.9994 15.817C14.1138 15.939 14.2638 16 14.4138 16C14.5638 16 14.7137 15.939 14.8281 15.817C15.057 15.5729 15.057 15.1771 14.8281 14.9331L8.32843 8.00005Z" fill="white"/>
+        </svg>
+		</button>
+                 
+		<div class="benvenuto-division">
+        <div class="benvenuto-division-inner">
+		<h2>Benvenuto in Futurely!</h2>
+		<h4>Iniziamo?</h4>
+		<p>Su questa piattaforma potrai affrontare un percorso di orientamento che ti aiuterà nella scelta della scuola superiore. 
+            Futurely non si limita a farti conoscere i diversi percorsi di studio presenti sul territorio, ma punta a farti prendere maggiore consapevolezza delle tue passioni e attitudini.
+        </p>
+		<h4>Cose da tenere a mente:</h4>
+		<ul>
+            <li>Tutte le settimane si sbloccheranno due step della durata di massimo 1 ora ciascuno</li>
+            <li>Avrai l’intera settimana per completarli, fino a domenica sera</li>
+            <li>Finisci gli step in tempo! Ciò ti permetterà di mantenere alto il tuo punteggio di costanza. Se il punteggio sarà alto, riceverai numerosi premi durante il percorso</li>
+		</ul> 
+    </div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+{% block script %}
+<script>
+    jQuery(document).ready(function () {
+        {% if request.LANGUAGE_CODE == "it" %}
+        
+        {% if request.session.display_welcome_video is 1 %}          
+            $("#benvenuto-popup").modal('show');
+            {% update_display_welcome_video request as update_display_welcome_video %} 
+        {% endif %}
+        {% endif %}
+    });
+    focus();
+    const listener = window.addEventListener('blur', () => {
+    if (document.activeElement === document.getElementById('id_welcome_video_iframe')) {
+        $.ajax({
+            url: "{% url 'play_welcome_video' %}",
+            type: 'POST',
+            headers: {
+                "X-CSRFTOKEN": "{{ csrf_token }}"
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: {},
+            success: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    }
+    window.removeEventListener('blur', listener);
+    });
+    $('#id_btn_banvenuto').on("click", function (e) {
+        $.ajax({
+            url: "{% url 'play_welcome_video' %}",
+            type: 'POST',
+            headers: {
+                "X-CSRFTOKEN": "{{ csrf_token }}"
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: {},
+            success: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    });
+
+        
+        $(function() {
+            width = $( window ).width();
+            if ($(window).width()<767) {
+	//BEGIN
+	$(".courses-block .accordion-coursest").on("click", function(e) {
+        $(".accodion-contentt").toggleClass();
+		e.preventDefault();
+		var $this = $(this);
+
+		if (!$this.hasClass("accordion-active")) {
+			$(".accodion-contentt").slideUp(400);
+			
+		}
+
+		$this.toggleClass("accordion-active");
+		$this.next().slideToggle();
+		$('.accordion__arrow',this).toggleClass('accordion__rotate');
+	});
+	//END	
+};
+});
+function closePop(){
+    $('.new-cong-popup').addClass('new-cong-popup-dnone');
+    $('.new-cong-popup').removeClass('new-cong-popup');
+}
+function loaderonclick(cohort_id){
+    
+    $('.start-loading').html('<i class="fa fa-spinner fa-spin"></i>');
+    $(".start-loading").css("cursor", "default");
+    window.location='/module-steps/'+cohort_id+'/';
+    $('.start-loading').removeAttr('onclick');
+    
+}
+</script>
+{% endblock %}

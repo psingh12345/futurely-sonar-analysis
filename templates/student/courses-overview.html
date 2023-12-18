@@ -1,0 +1,151 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses Overview" %}</title>
+{% endblock %}
+
+{% block style %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- {% if message %}
+            <div class="col-lg-2 col-md-12"></div>
+            <div class="col-lg-8 col-md-12">
+                <div class="notification-bars text-center">
+                    <span class="notify_text">
+                        {{message}}
+                    </span>
+                    <button class="close"></button>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12"></div>
+            {% endif%} -->
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre">
+                    <a href="{% url 'home' %}">Home ></a> 
+                    <a href="{% url 'courses-available' %}">{% trans "Courses" %} > </a>
+                    Course Overview </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <div class="co-course-des-maindiv">
+                    <p class="co-title-left ">
+                        {% trans "Course Description" %}
+                    </p>
+                    <p class="co-des-left">{{courses_view.description}}</p>
+                </div>
+            </div>
+            <div class="col-md-8 mt-2">
+                <div class="co-video-row">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <p class="co-title-left ">{% trans "Introduction video" %}</p>
+
+
+                            <iframe class="co-iframe-prop" src="{{courses_view.introduction_video}}"></iframe>
+                        </div>
+                        <div class="col-md-6 color-white left-title-padding">
+                            <div class="ms-2">
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <p class="co-title-left ">{{courses_view.title}}</p>
+                                    <p class="co-des-right">{{courses_view.description | truncatechars:100}}</p>
+                                    <p class="co-des-right color-white">{% trans "Choose start date" %}</p>
+                                    {% for cohort_det in detail_from_cohort %}
+                                    {% if cohort_det.is_available_to_purchase  %}
+                                    {% if cohort_det.module.module_priority is 1 %}
+                                    {% if forloop.counter is 1 %}
+                                    <button
+                                        onclick="fun_dates('{{cohort_det.cohort_id}}','cdate{{cohort_det.cohort_id}}','{{cohort_det.price}}')"
+                                        class="mr-2 cdate cdate{{cohort_det.cohort_id}} cdateselected co-date-box"
+                                        type="button">{{cohort_det.starting_date | date:'M'}}<br>{{cohort_det.starting_date | date:'d'}}</button>
+                                    {% else %}
+                                    <button
+                                        onclick="fun_dates('{{cohort_det.cohort_id}}','cdate{{cohort_det.cohort_id}}','{{cohort_det.price}}')"
+                                        class="mr-2 cdate cdate{{cohort_det.cohort_id}} co-date-box"
+                                        type="button">{{cohort_det.starting_date | date:'M'}}<br>{{cohort_det.starting_date | date:'d'}}</button>
+                                    {% endif %}
+                                    {% else %}
+                                    <p class="co-des-right color-white">{% trans "Coming soon" %}....</p>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+
+                                    <div class="mt-3">
+                                        <label class="co-right-price-title">💳 {% trans "Price" %}</label>
+                                        <label class="co-price-prop" id="id_cost"
+                                            value="${{detail_from_cohort.0.price}}">{% trans '$' %}{{detail_from_cohort.0.price}}</label>
+                                    </div>
+                                    {% if message %}
+                                    <div class="mt-3">
+                                        <label style="color: red;">{{message}} </label>
+                                    </div>
+                                    {% endif %}
+                                    {% if buy_message %}
+                                    <div class="mt-3">
+                                        <label style="color: red;">{{buy_message}} <a style="color: white;;"
+                                                href="{% url 'courses-overview' module=previous_mdls%}">Click to
+                                                purchase module 1 </a></label>
+
+                                    </div>
+                                    {% endif %}
+                                    <div class="co-btn-padding-top">
+                                        <input type="hidden" name="cohort_id" id="cohort_id"
+                                            value="{{detail_from_cohort.0.cohort_id}}">
+                                        <input type="submit" class="form-control co-submit-btn"
+                                            value="{% trans 'Buy' %}">
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function fun_dates(val1, Courseclass, cost) {
+        $(".cdate").removeClass("cdateselected");
+        $('.' + Courseclass).addClass("cdateselected");
+        $('#cohort_id').val(val1);
+        $('#id_cost').val(cost);
+        $('#id_cost').text("{% trans '$' %}" + cost);
+    }
+</script>
+{% endblock %}
+
+<!--
+    <h3>Courses Overview</h3>
+<hr>
+<h3>{{courses_view.title}}</h3>
+<h4>{{courses_view.description}}</h4>
+{% for cohort_det in detail_from_cohort %}
+{% if cohort_det.is_available_to_purchase  %}
+<h5>Price: {{cohort_det.price}}</h5>
+<h5>Starting Date : {{cohort_det.starting_date}}</h5>
+<a href="{% url 'buy-course' cohort_id=cohort_det.cohort_id%}"><input type="button" value="Buy Course"></a>
+{% endif %}
+<hr>
+{% endfor %}
+<h3>Steps Information</h3>
+{% for step in courses_view_steps %}
+<h5>{{step.title}}</h5>
+{%endfor%}
+<hr>
+-->

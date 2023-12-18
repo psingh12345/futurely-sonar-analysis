@@ -1,0 +1,373 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Privacy Policy" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .main-content-inner {
+        background-position: bottom;
+    }
+    .white_color {
+        color: white;
+    }
+    .title-block p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 25px;
+        color: #FFFFFF;
+        text-align: justify;
+    }
+
+    .terms {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+<div class="main-content">
+    {% comment %} 
+    <section class="inner-banner-section" style="background-image:url({% static '/website/images/about-banner.png' %})">
+        <div class="banner-item">
+            <div class="container">
+                <div class="row banner-text align-items-center" data-scrollax-parent="true">
+                    <div class="col-lg-12">
+                        <div class="banner-content text-center">
+                            <h1 class="mb-3">{% trans 'Privacy policy' %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+    {% if request.LANGUAGE_CODE == "it" %}
+    <div class="bg-img-sec">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        <section class="terms">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="title-block text-center">
+                            <h1>{% trans 'PRIVACY POLICY' %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p>
+                                La presente informativa è resa ai sensi degli artt. 13 e 14 del Regolamento UE 2016/ 679 (di seguito, Reg. Ue.) a coloro che accedono al sito e forniscono dati personali mediante la compilazione del form di registrazione.
+                            </p>
+                            <p>
+                                La presente informativa è valida solo per questo sito web e non ha valore per altri siti web eventualmente consultati dall'utente a partire da links presenti sul nostro sito o su altri siti internet.
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>1. TITOLARE DEL TRATTAMENTO </b></p>
+                            <p>Ai sensi degli artt. 4 e 24 del Reg. UE, il Titolare del trattamento è:</p>
+                            <p><b>FUTURELY SRL SB</b></p>
+                            <p><b>Piazzale Maciachini, 11 20159</b></p>
+                            <p><b>Milano MI, Italy.</b></p>
+                            <p>L’elenco dei possibili Responsabili del trattamento è richiedibile presso il Titolare. 
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>2. DATI RACCOLTI</b></p>
+                            <p>Tra i Dati personali raccolti da questo sito, in modo autonomo o tramite terze parti, ci sono, a titolo esemplificativo: cookie, dati di utilizzo, e-mail, nome e cognome.
+                                I Dati personali possono essere inseriti volontariamente dall’utente oppure raccolti in modo automatico attraverso l’uso di questo Sito.
+                                Il mancato conferimento da parte dell’Utente di alcuni Dati personali potrebbe impedire a questo Sito di erogare i propri servizi. 
+                                L’Utente si assume la responsabilità dei Dati Personali di terzi pubblicati o condivisi mediante questo Sito e garantisce di avere il diritto di comunicarli o diffonderli, liberando il Titolare da qualsiasi responsabilità verso terzi. 
+                                Futurely e terze parti utilizzano cookie tecnici e cookie di profilazione come meglio descritti infra. 
+                                L’utilizzo di cookie – o di altri strumenti di tracciamento – da parte di questo Sito o dei titolari dei servizi terzi utilizzati da questo Sito ove non diversamente precisato, ha la finalità di identificare l’Utente e registrare le relative preferenze per finalità strettamente legate all’erogazione del servizio richiesto dall’Utente. </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>3. MODALITÀ, FINALITÀ E BASE GIURIDICA DEL TRATTAMENTO</b></p>
+                            <p>I dati personali forniti verranno trattati adottando le opportune misure di sicurezza volte ad impedire l’accesso, la divulgazione, la modifica o la distruzione non autorizzati dei Dati personali. <br>
+                                Il trattamento viene effettuato mediante strumenti informatici e/o telematici, con modalità organizzative e con logiche strettamente correlate alle finalità indicate. <br>
+                                I Dati saranno trattati sulla base degli artt. 6 e 9 Reg. UE – base giuridica del trattamento -, in particolare al ricorrere di almeno una delle seguenti condizioni:</p>
+                                <ul style="color:white;">
+                                    <li>
+                                        Consenso dell’interessato,
+                                    </li>
+                                    <li>
+                                        Esecuzione di un contratto o di misure precontrattuali adottate su richiesta dell’interessato,
+                                    </li>
+                                    <li>
+                                        Conformità con un obbligo legale,
+                                    </li>
+                                    <li>
+                                        Salvaguardia di interessi legittimi. 
+                                    </li>
+                                </ul>
+                            <p>
+                                I Dati personali sono raccolti e trattati per consentire al Titolare di fornire i propri servizi, così come per le seguenti finalità: statistiche di navigazione, contatto con l’utente. <br>
+                                I Dati sono trattati esclusivamente per fini istituzionali dello scrivente, ovvero dipendenti da obblighi di legge, ivi compresa l’adozione di misure di sicurezza. <br>
+                                I Dati potranno altresì essere trattati per finalità di marketing e di pubblicità.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>4. DESTINATARI O CATEGORIE DI DESTINATARI DEI DATI</b></p>
+                            <p>I dati personali da Voi forniti potranno essere comunicati a destinatari ovvero a categorie di destinatari al fine di soddisfare le finalità di cui al precedente punto 4. Tali destinatari ovvero tali categorie di destinatari tratteranno i dati in qualità di Responsabili del trattamento ovvero di Titolari del trattamento.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>5. TRASFERIMENTO DATI VERSO UN PAESE TERZO E/O UN’ORGANIZZAZIONE INTERNAZIONALE</b></p>
+                            <p>I dati personali da Voi forniti e oggetto di trattamento ovvero destinati a essere oggetto di trattamento dopo il trasferimento, potranno essere trasferiti nel pieno rispetto da parte del Titolare del trattamento ovvero del Responsabile del trattamento delle condizioni previste dal Capo V del Reg. UE.
+                                Ciascun interessato potrà ottenere una copia di tali condizioni scrivendo una mail al seguente indirizzo: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>6. PERIODO DI CONSERVAZIONE E CRITERI DI CONSERVAZIONE</b></p>
+                            <p>In ossequio a quanto previsto dall’art. 13 comma 2 lett. a) del Regolamento UE 2016/679, i dati personali da Voi forniti verranno conservati in una forma che consenta l’identificazione degli interessati per un arco di tempo non superiore al conseguimento delle finalità per le quali i dati personali sono stati ottenuti e trattati e alla fine verranno distrutti.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>7. DIRITTI DELL’INTERESSATO</b></p>
+                            <p>L’Interessato potrà in qualsiasi momento esercitare i diritti a Lui riservati, sanciti dagli artt. 15 e seguenti del Reg. UE 2016/679. In particolare, l’interessato ha diritto di chiedere al titolare del trattamento l’accesso ai dati personali e la rettifica o la cancellazione degli stessi o la limitazione del trattamento dei dati personali che lo riguardano o di opporsi al loro trattamento, oltre al diritto alla portabilità dei dati, ad ottenere la conferma dell’esistenza o meno di dati personali che lo riguardano, anche se non ancora registrati e la loro comunicazione in forma intelligibile. Qualora il trattamento sia basato sull’articolo 6, paragrafo 1, lettera a), oppure sull’articolo 9, paragrafo 2, lettera a), l’Interessato ha il diritto di revocare il consenso in qualsiasi momento senza pregiudicare la liceità del trattamento basata sul consenso prestato prima della revoca. L’Interessato ha diritto di ottenere: l’aggiornamento, la rettificazione, ovvero, quando vi è interesse, l’integrazione dei dati; la cancellazione, la trasformazione in forma anonima o il blocco dei dati trattati in violazione di legge, compresi quelli di cui non è necessaria la conservazione in relazione agli scopi per i quali i dati sono stati raccolti o successivamente trattati.
+                            </p>
+                            <p>
+                            L’Interessato ha inoltre diritto di opporsi in tutto o in parte: per motivi legittimi al trattamento dei dati personali che lo riguardano, ancorché pertinenti allo scopo della raccolta; al trattamento dei dati personali che lo riguardano a fini di invio di materiale pubblicitario o di vendita diretta o per il compimento di ricerche di mercato o di comunicazione commerciale.
+                            </p>
+                            <p>
+                            L’esercizio di tali diritti può essere esercitato scrivendo una mail al seguente indirizzo:
+                            </p>
+                            <p>
+                            <b>FUTURELY SRL SB</b>
+                            <p>
+                                <b>Piazzale Maciachini, 11 20159</b>
+                            </p>
+                            <p>
+                                <b>Milan MI, Italy.</b>
+                            </p>
+                            <p><b>E-mail: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></b></p>
+
+                            <p>In osservanza a quanto previsto dall’art. 15 lettera f) del citato Regolamento UE, l’Interessato ha il diritto di proporre reclamo al Garante per la protezione dei dati personali.</p>
+
+                            <p>In base a quanto previsto dall’art. 20 del medesimo Regolamento UE, nel caso di richiesta di portabilità dei dati, il Titolare del trattamento Vi fornirà i dati richiesti in un formato strutturato, di uso comune e leggibile da dispositivo automatico.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>8. RIFERIMENTI NORMATIVI</b></p>
+                            <p>Il testo completo del Reg. UE e l’ulteriore normativa nazionale rilevante in ambito protezione dei dati possono essere consultati sul sito web del Garante accessibile al seguente link www.garanteprivacy.it</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>9. MODIFICHE ALLE PRESENTI INFORMAZIONI SULLA PROTEZIONE DEI DATI</b></p>
+                            <p>Se vi dovessero essere modifiche sostanziali con riferimento al modo in cui i Dati sono trattati, La informeremo tempestivamente di tali modifiche.</p>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    {% else %}
+    <div class="bg-img-sec">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        <section class="terms">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="title-block text-center">
+                            <h1>{% trans 'PRIVACY POLICY' %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p>
+                                This information is provided pursuant to art. 13 and 14 of EU Regulation 2016/679 (hereinafter, EU Reg.) To those who access the site and provide personal data by completing the registration form.
+                            </p>
+                            <p>
+                                This information is valid only for this website and has no value for other websites that may be consulted by the user from links on our website or on other websites.
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>1. HOLDER OF THE TREATMENT </b></p>
+                            <p>Pursuant to art. 4 and 24 of the EU Reg., The Data Controller is:</p>
+                            <p><b>FUTURELY INC, </b></p>
+                            <p><b>405 Howard Street,</b></p>
+                            <p><b>San Francisco,</b></p>
+                            <p><b>California, 94105 United States.</b></p>
+                            <p>The list of possible data processors can be requested from the Data Controller. 
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>2. DATA COLLECTED</b></p>
+                            <p>
+                                Among the Personal Data collected by this site, either independently or through
+                                third parties, there are, by way of example: cookies, usage data, e-mail, name
+                                and surname.
+                                Personal data can be entered voluntarily by the user or collected automatically
+                                through the use of this site.
+                                Failure by the User to provide certain Personal Data may prevent this Site from
+                                providing its services.
+                                The User assumes responsibility for the Personal Data of third parties
+                                published or shared through this Site and guarantees to have the right to
+                                communicate or disseminate them, freeing the Owner from any liability to third
+                                parties.
+                                Futurely and third parties use technical cookies and profiling cookies as better
+                                described below.
+                                The use of cookies - or other tracking tools - by this Site or by the owners of
+                                third party services used by this Site, unless otherwise specified, has the
+                                purpose of identifying the User and recording their preferences for strictly
+                                related purposes. the provision of the service requested by the User.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>3. METHOD, PURPOSE AND LEGAL BASIS OF THE PROCESSING</b></p>
+                            <p>The personal data provided will be processed by adopting appropriate security
+                                measures to prevent unauthorized access, disclosure, modification or
+                                destruction of personal data. </p>
+                                <p>
+                                The processing is carried out using IT and / or telematic tools, with organizational methods and with logic strictly related to the purposes indicated. </p>
+                                <p>
+                                The Data will be processed on the basis of the articles. 6 and 9 EU Reg. - legal basis of the processing -, in particular when at least one of the following conditions is met:</p>
+                                <ul style="color:white;">
+                                    <li>
+                                        Consent of the interested party,
+                                    </li>
+                                    <li>
+                                        Execution of a contract or pre-contractual measures adopted at the request of the interested party,
+                                    </li>
+                                    <li>
+                                        Compliance with a legal obligation,
+                                    </li>
+                                    <li>
+                                        Safeguarding of legitimate interests. 
+                                    </li>
+                                </ul>
+                            <p>
+                                Personal data is collected and processed to allow the owner to provide its services, as well as for the following purposes: navigation statistics, contact with the user.</p>
+                                <p>
+                                The Data is processed exclusively for the writer's institutional purposes, or dependent on legal obligations, including the adoption of security measures. </p>
+                                <p>
+                                The Data may also be processed for marketing and advertising purposes.
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>4. RECIPIENTS OR CATEGORIES OF RECIPIENTS OF THE DATA</b></p>
+                            <p>The personal data you provide may be disclosed to recipients or to categories of recipients in order to meet the purposes referred to in point 4. These recipients or these categories of recipients will process the data as Data Processors or Data Controllers .</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>5. TRANSFER OF DATA TO A THIRD COUNTRY AND / OR AN INTERNATIONAL ORGANIZATION</b></p>
+                            <p>The personal data you provide and subject to processing or intended to be
+                                processed after the transfer, may be transferred in full compliance by the Data
+                                Controller or the Data Processor of the conditions set out in Chapter V of the
+                                EU Reg.</p>
+                                <p>
+                                Each interested party can obtain a copy of these conditions by writing an email
+                                to the following address: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>6. STORAGE PERIOD AND STORAGE CRITERIA</b></p>
+                            <p>In compliance with the provisions of art. 13 paragraph 2 lett. a) of EU
+                                Regulation 2016/679, the personal data you provide will be stored in a form that
+                                allows the identification of the data subjects for a period of time not exceeding
+                                the achievement of the purposes for which the personal data were obtained
+                                and processed and eventually they will be destroyed.</p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>7. RIGHTS OF THE INTERESTED PARTY</b></p>
+                            <p>The interested party may at any time exercise the rights reserved to him,
+                                enshrined in Articles 15 and following of the EU Reg. 2016/679. In particular, the
+                                interested party has the right to ask the data controller for access to personal
+                                data and the correction or cancellation of the same or the limitation of the
+                                processing of personal data concerning him or to oppose their treatment, in
+                                addition to the right to portability of data, to obtain confirmation of the
+                                existence or not of personal data concerning him, even if not yet registered and
+                                their communication in an intelligible form. If the processing is based on article
+                                6, paragraph 1, letter a), or on article 9, paragraph 2, letter a), the interested
+                                party has the right to withdraw consent at any time without prejudice to the
+                                lawfulness of the processing based on on the consent given before the
+                                revocation. The interested party has the right to obtain: updating, rectification,
+                                or, when there is interest, integration of data; the cancellation, transformation
+                                into anonymous form or blocking of data processed in violation of the law,
+                                including those that do not need to be kept for the purposes for which the data
+                                were collected or subsequently processed.
+                            </p>
+                            <p>
+                                The interested party also has the right to object in whole or in part: for
+                                legitimate reasons, to the processing of personal data concerning him, even if
+                                pertinent to the purpose of the collection; to the processing of personal data
+                                concerning him for the purpose of sending advertising or direct sales material
+                                or for carrying out market research or commercial communication.
+                            </p>
+                            <p>
+                                The exercise of these rights can be exercised by writing an email to the
+                                following address:
+                            </p>
+                            <p><b>FUTURELY INC, </b></p>
+                            <p><b>405 Howard Street,</b></p>
+                            <p><b>San Francisco,</b></p>
+                            <p><b>California, 94105 United States.</b></p>
+                            <p><b>E-mail: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></b></p>
+
+                            <p>In compliance with the provisions of art. 15 letter f) of the aforementioned EU
+                                Regulation, the interested party has the right to lodge a complaint with the
+                                Guarantor for the protection of personal data.</p>
+
+                            <p>Based on the provisions of art. 20 of the same EU Regulation, in the event of a
+                                request for data portability, the Data Controller will provide you with the
+                                requested data in a structured format, commonly used and readable by an
+                                automatic device.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>8. REGULATORY REFERENCES</b></p>
+                            <p>The full text of the EU Reg. And other relevant national legislation in the field of
+                                data protection can be consulted on the website of the Guarantor accessible at
+                                the following link www.garanteprivacy.it</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>9. CHANGES TO THIS DATA PROTECTION INFORMATION</b></p>
+                            <p>Should there be any substantial changes with respect to the way the Data is
+                                processed, we will promptly notify you of such changes.</p>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    {% endif %}
+</div>
+</div>
+</div>
+
+
+
+{% block script %}
+{% endblock%}
+{% endblock%}

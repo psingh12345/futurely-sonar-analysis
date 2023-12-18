@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="en">
+
+<head>
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+    <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <link href="{% static 'css/new-custom-css/custom.css'%}" rel="stylesheet">
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/template-css/base-payment.css' %}">
+    {% block title %}
+    {% endblock %}
+
+    {% block style_sheet %}
+    {% endblock %}
+    <style>
+        .hidden{
+            display: none !important;
+        }
+        .cookie-disclaimer {
+            background: #04060f;
+            color: #FFF;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            position: fixed;
+            opacity: 0.9;
+        }
+        .cookie-disclaimer .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+          }
+          
+          .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+          }
+        
+          .cookie-button {
+            color: #fff !important;
+            border-radius: 10px;
+            position: relative;
+            /* padding: 14px 40px; */
+            box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+            transition: 0.5s;
+            background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+            /* font-weight: 600; */
+            cursor: pointer;
+            }
+        
+            .cookies-setting:hover {
+                border: 0px solid white !important;
+            }
+            @media (min-width: 768px) {
+        .cookie-discription span {
+    display: none;
+}
+}
+ @media (max-width: 768px) {
+.btn.cookies-setting {
+    font-size: 12px;
+    text-decoration-line: underline;
+}
+.cookie-button {
+    font-weight: 700;
+    font-size: 12px;
+}
+#hubspot-messages-iframe-container {
+    z-index: 111 !important;
+	max-width: 81% !important;
+        max-height: 67% !important;
+}
+            .cookie-discription.sho {
+    display: block;
+}
+.cookie-discription.show span {
+    display: none;
+}
+
+.cookie-discription.show p {
+    white-space: normal;
+}
+.cookie-disclaimer {
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1 !important;
+}
+            .cookie-discription p {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.cookie-discription span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration-line: underline;
+    color: #FFFFFF;
+    white-space: nowrap;
+    padding: 0 15px;
+}
+.cookie-discription {
+    display: flex;
+    align-items: baseline;
+}
+}
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body id="page-top">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="star-field">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <script>(function (v, i, s, a, t) { v[t] = v[t] || function () { (v[t].v = v[t].v || []).push(arguments) }; if (!v._visaSettings) { v._visaSettings = {} } v._visaSettings[a] = { v: '1.0', s: a, a: '1', t: t }; var b = i.getElementsByTagName('body')[0]; var p = i.createElement('script'); p.defer = 1; p.async = 1; p.src = s + '?s=' + a; b.appendChild(p) })(window, document, '//app-worker.visitor-analytics.io/main.js', '7388998c-4d85-11ec-b589-901b0edac50a', 'va')</script>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+
+    <div id="contentt">
+        <div class="welcome-top-bar">
+            <div class="container-fluid">
+                <div class="logo me-auto">
+                    <a class="logo-block" href="{% url 'home' %}"><img
+                            src="{% static 'images/logo-dashboard.png'%}"></a>
+                </div>
+            </div>
+        </div>
+        {% block content %}
+        
+        {% endblock%}
+        {% block learn_more %}
+        {% endblock %}
+    </div>
+    <!-- Start Cookies popup-->
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+	{% else %}
+	{% if request.session.to_display_first_time_cookie_banner == "True" %}
+	<div class="cookie-disclaimer">
+		<div class="container">
+			{% if request.LANGUAGE_CODE == "it" %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">Facendo clic su "Accetta tutti i cookie", l'utente accetta la memorizzazione dei cookie sul proprio dispositivo per migliorare le prestazioni del sito web, migliorare la propria esperienza e analizzare l'utilizzo del sito.</p>
+                    <span>sapere di più</span>
+                </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accetta tutti i cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Impostazioni dei cookie</a>
+				</div>
+			</div>
+			{% else %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">By clicking “Accept All Cookies”, you agree to the storing of cookies on your device to enhance website performance, improve your experience, and analyze site usage.</p>
+                    <span>See more</span>
+                </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accept all cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Customize cookies</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+    {% endif %}
+	<!--End Cookies popup-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    <script>
+        jQuery('#detail-popup-user').click(function() {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'send_email' %}",
+            data: {"email": "{{ request.user.email }}"},
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            success: function(response){
+              console.log(response);
+            },
+            error: function(error_msg){
+              console.log(error_msg)
+            }
+          });
+        });
+      </script>
+    <script>
+        $(document).ready(function(){
+            $(".accept-cookie").click(function(){
+                $.ajax({
+                    url: "{% url 'cookie_accept' %}",
+                    type: "POST",
+                    headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                    success: function(response){
+                        if(response.cookies_accepted == true){
+                            $(".cookie-disclaimer").hide();
+                        }else{
+                            $(".cookie-disclaimer").show();
+                        }
+                    },
+                    error: function(error){
+                        alert("Something went wrong!!")
+                    },
+                });
+            });
+        });
+        
+        $('.cookie-discription span').click(function() {
+        $('.cookie-discription').toggleClass('show');
+        });
+    </script>
+    {% block script %}
+
+    {% endblock %}
+  
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses" %}</title>
+{% endblock %}
+
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/course.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row courses-block">
+            <div class="col-lg-8 col-md-12">
+                <div class="card">
+                    <div class="row justify-content-between">
+                        <div class="col-md-9">
+                            <div class="left-content-block">
+                                <h2 class="title mb-3">{% trans "Courses" %}</h2>
+                                <p>{% trans "We are so thrilled you're here and cannot wait to get to know you over these next eight weeks. I look forward to connecting with each of you!" %}
+                                </p>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row justify-content-between courses-availble">
+                        {% if avail_courses.count < 2 %}
+                        {% for course_a in avail_courses %}
+                            <div class="col-md-6 mt-3">
+                                <div class="courses-box left" id="courses-box-f">
+                                    <img class="overlay"src="{% static 'images/pexels-jay-yoo.png'%}"/>
+                                    <div class="rating-data row justify-content-between">
+                                        <div class="col-md-7">
+                                            <div class="rating-data-title">
+                                                <h3>{{course_a.title}}</h3>
+                                                <p>{{course_a.tot_steps}} {% trans "steps" %}</p> <p>{{course_a.tot_action_items}} {% trans "action items" %}</p>
+                                                <a class="btn buy-now" href="{% url 'courses-overview' module=course_a.module_id%}">{% trans "Buy now" %}</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="courses-rating">
+                                                <span>{% trans "Course rating" %}</span>
+                                                <div class="star-rating" >
+                                                    <div class="star-rating star-font-size" >
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                        <i class="fa fa-star star-color"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="rating-user">
+                                                    <a>
+                                                    <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a >
+                                                    <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                    </a>
+                                                    <a>
+                                                    <span class="img-profile rounded-circle">+5</span>
+                                                    </a>
+                                                </div>
+                                                <div class="rating-lock">
+                                                    <img src="{% static 'images/lock-icon.png'%}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {%endfor%}
+                            {% for course in mycourses %}
+                                <div class="col-md-6 mt-3">
+                                    <div class="courses-box right">
+                                        <img class="overlay"src="{% static 'images/pexels-jay-yoo.png'%}"/>
+                                        <div class="rating-data row justify-content-between">
+                                            <div class="col-md-7">
+                                                <div class="rating-data-title">
+                                                    <h3>{{course.cohort.module.title}}</h3>
+                                                    <p>{{course.cohort.tot_steps}} {% trans "steps" %}</p> <p>{{course.cohort.tot_action_items}} {% trans "action items" %}</p>
+                                                    {% if is_course_started %}
+                                                    <a class="btn buy-now" href="{% url 'module-steps' cohort_id=course.cohort.cohort_id %}">Resume</a>
+                                                    {% else %}
+                                                    <a class="btn buy-now" href="{% url 'module-steps' cohort_id=course.cohort.cohort_id %}">Start</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="courses-rating">
+                                                    <span>{% trans "Course rating" %}</span>
+                                                    <div class="star-rating">
+                                                        <div class="star-rating star-font-size" >
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-user">
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                        </a>
+                                                    </div>
+                                                    {% if course.cohort.is_active == "Yes" %}
+                                                    <div class="rating-lock-start-courses">
+                                                        <p class="courses-month">{{course.cohort.starting_date | date:'F'}}</p>
+                                                        <p class="courses-day">{{course.cohort.starting_date | date:'d'}}</p>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor%}
+                        {% elif avail_courses.count >= 2 %}
+                            {% for course_a in avail_courses %}
+                                {% if forloop.counter is 1 %}
+                                <div class="col-md-6 mt-3">
+                                    <div class="courses-box left" id="courses-box-f">
+                                        <img class="overlay"src="{% static 'images/pexels-jay-yoo.png'%}"/>
+                                        <div class="rating-data row justify-content-between">
+                                            <div class="col-md-7">
+                                                <div class="rating-data-title">
+                                                    <h3>Core Program</h3>
+                                                    <p>{{course_a.tot_steps}} steps</p> <p>{{course_a.tot_action_items}} action items</p>
+                                                    <a class="btn buy-now" href="{% url 'courses-overview' module=course_a.module_id%}">{% trans "Buy now" %}</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="courses-rating">
+                                                    <span>{% trans "Course rating" %}</span>
+                                                    <div class="star-rating" >
+                                                        <div class="star-rating star-font-size" >
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-user">
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a >
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="rating-lock">
+                                                    <img src="{% static 'images/lock-icon.png'%}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="col-md-6 mt-3">
+                                    <div class="courses-box left" id="courses-box-f">
+                                        <img class="overlay"src="{% static 'images/pexels-jay-yoo.png'%}"/>
+                                        <div class="rating-data row justify-content-between">
+                                            <div class="col-md-7">
+                                                <div class="rating-data-title">
+                                                    <h3>Extensive Program</h3>
+                                                    {% add_two_number avail_courses.0.tot_steps course_a.tot_steps as tot_steps %}
+                                                    {% add_two_number avail_courses.0.tot_action_items course_a.tot_action_items as tot_action_items %}
+                                                    <p>{{tot_steps}} steps</p> <p>{{tot_action_items}} action items</p>
+                                                    <a class="btn buy-now" href="{% url 'courses-multiple' %}">{% trans "Buy now" %}</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="courses-rating">
+                                                    <span>{% trans "Course rating" %}</span>
+                                                    <div class="star-rating" >
+                                                        <div class="star-rating star-font-size" >
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-user">
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a >
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="rating-lock">
+                                                    <img src="{% static 'images/lock-icon.png'%}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                        {% for course in mycourses %}
+                                <div class="col-md-6 mt-3">
+                                    <div class="courses-box right">
+                                        <img class="overlay"src="{% static 'images/pexels-jay-yoo.png'%}"/>
+                                        <div class="rating-data row justify-content-between">
+                                            <div class="col-md-7">
+                                                <div class="rating-data-title">
+                                                    <h3>{{course.cohort.module.title}}</h3>
+                                                    <p>{{course.cohort.tot_steps}} steps</p> <p>{{course.cohort.tot_action_items}} action items</p>
+                                                    {% if is_course_started %}
+                                                    <a class="btn buy-now" href="{% url 'module-steps' cohort_id=course.cohort.cohort_id %}">Resume</a>
+                                                    {% else %}
+                                                    <a class="btn buy-now" href="{% url 'module-steps' cohort_id=course.cohort.cohort_id %}">Start</a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="courses-rating">
+                                                    <span>{% trans "Course rating" %}</span>
+                                                    <div class="star-rating">
+                                                        <div class="star-rating star-font-size" >
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="rating-user">
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <img class="img-profile rounded-circle" src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                        <span class="img-profile rounded-circle">+5</span>
+                                                        </a>
+                                                    </div>
+                                                    {% if course.cohort.is_active == "Yes" %}
+                                                    <div class="rating-lock-start-courses">
+                                                        <p class="courses-month">{{course.cohort.starting_date | date:'F'}}</p>
+                                                        <p class="courses-day">{{course.cohort.starting_date | date:'d'}}</p>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor%}
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- <div class="blog-section no-scroll mt-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <h2>{% trans "Available courses" %}</h2>
+                                <div class="inner-card">
+                                    <div class="row courses-availble">
+                                        <div class="col-md-6">
+                                        </div>
+                                        <div class="col-md-6">
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div> -->
+            </div>
+            {% for course_a in avail_courses %}
+            {% if forloop.counter is 1 %}
+            <div class="col-lg-4 col-sm-12">
+                <div class="card mb-4">
+                    <div class="personal-recomendation">
+                        <h2>{% trans "Personal recommendations" %}</h2>
+                        <div class="personal-recomendation-img">
+                            <!--<span class="price">$99</span>-->
+                            <img src="{% static 'images/personal.png'%}">
+                        </div>
+                        <div class="personal-recomendation-content text-white">
+                            <h3>{{course_a.title}}</h3>
+                            <p class="font-c-des">{{course_a.description | truncatechars:70}}</p>
+                            <ul>
+                                <li>{% trans "Watch the attached video tutorials" %}</li>
+                                <li>{% trans "Complete the quiz" %}</li>
+                            </ul>
+                        </div>
+                        <div class="my-groups-users d-flex m-t2 mb-3">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 ps-1 pe-1">
+                                <div class="inner-card hre">
+                                    <span>{{course_a.tot_steps}}</span>
+                                    <p>lessons</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 ps-1 pe-1">
+                                <div class="inner-card hre">
+                                    <span>{{course_a.tot_action_items}}</span>
+                                    <p>{% trans "tasks" %}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 buy-course">
+                                <a class="btn"
+                                    href="{% url 'courses-overview' module=course_a.module_id%}">{% trans "Buy now" %}</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% empty %}
+            <div class="col-lg-4 col-sm-12"></div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

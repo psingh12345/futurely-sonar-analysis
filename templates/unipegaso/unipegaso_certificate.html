@@ -1,0 +1,37 @@
+{% extends 'base_unipegaso.html' %}
+{% load static %}
+{% block title%}
+{% load unipegaso_tags %}
+{% load i18n %}
+{% load phrase_i18n %}
+<title>Certifica UniPegaso</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="{% static 'unipegaso/css/certificate.css' %}" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="new-personality-design-main-bg" style="background-image: url('https://futurely-beta-static-files.s3.eu-south-1.amazonaws.com/unipegaso/images/Pegaso-certificato_back.jpg')">
+            <div class="new-personality-design-main-bg-inner">
+             <img class="logo-hero-custom logo-resize" src="{% static 'unipegaso/images/logo_certificate_unipegaso.png' %}" />
+             {% include 'unipegaso/certificate_content.html' %}
+        </div>  
+        </div>  
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

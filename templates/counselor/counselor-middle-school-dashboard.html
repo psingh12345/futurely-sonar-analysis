@@ -1,0 +1,667 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Middle School Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+        background-color: #26272ba6 !important;
+    }
+
+    .searchbox-table {
+        width: 181px !important;
+    }
+
+    table.dataTable td.sorting_1,
+    table.dataTable td.sorting_2,
+    table.dataTable td.sorting_3,
+    table.dataTable th.sorting_1,
+    table.dataTable th.sorting_2,
+    table.dataTable th.sorting_3 {
+        background: none !important;
+    }
+
+    .border-grad .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .border-grad .select2-container .select2-selection--single {
+        height: 45px;
+        border-radius: 10px !important;
+        padding: 10px;
+        border: 1px solid #2E2F32 !important;
+        color: #fff !important;
+        background-color: #333333 !important;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        width: 100%;
+        background-image: url({% static 'images/dropdown.svg' %}) !important;
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    .border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+        display: none;
+    }
+
+    .select2-dropdown {
+        background-color: #333333;
+        padding: 10px;
+        color: #fff !important;
+    }
+
+    .select2-results__options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    {% comment %} .dataTables_filter {
+        display: none;
+    } {% endcomment %}
+    {% comment %} .dataTables_length {
+        display: none;
+    }
+    .dt-buttons {
+        display: none;
+    }
+    .dataTables_info{
+        display: none;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    } {% endcomment %}
+    .pagination {
+        margin: 2px 0;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+    .pagination span:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+    .pagination span {
+        color: #fff;
+        background-color: #303030;
+        border-color: #303030;
+        border: 1px solid #303030;
+       
+        position: relative;
+    }
+    .pagination a {
+        padding: 0.375rem 0.75rem;
+        display: inline-block;
+    }
+    .pagination span:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+    .pagination span.current {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        padding: 0.375rem 0.75rem;
+    }
+    .nav-custom-pills li:hover a {
+        color: #fff;
+    }
+    li.course-pill.active,  .nav-custom-pills li:hover {
+        background: #272036 !important;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #ffffff63;
+        border-bottom: none;
+    }
+    .nav-custom-pills li:hover {
+        background: #666 !important;
+        border-color: #666 !important;
+    } 
+    .nav-custom-pills {
+    width: 100%;
+    border-bottom: 1px solid #ffffff36;
+}
+.nav-custom-pills li {
+    border-radius: 10px 10px 0px 0px !important;
+}
+.card-cus-table-boxx .table-scrollable {
+    border: none;
+}
+.nav-custom-pills li a {
+    padding: 12px 15px;
+    line-height: 1.6;
+}
+
+    #ID_Comment.show {
+        display: flex !important;
+        align-items: center;
+    }
+    .card-box {
+        background-color: #26272ba6 !important;
+    }
+    .searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
+        right: 1em;
+        content: "" !important;
+    }
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+    right: 0.5em;
+    content: "" !important;
+    }
+    .dataTables_info{
+        display: none !important;
+    }
+    .id_modal_form input {
+        background-color: #1e1d1d !important;
+        border: 1px solid #1121f1 !important;
+
+    }
+    .form-modal .form-control::placeholder {
+    color: #fff;
+}
+
+.form-modal .form-control {
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 100%;
+    resize: none;
+    outline: none;
+    background: #46474b;
+    border-color: #47484E;
+    font-size: 14px;
+}
+
+.form-modal .btn.btn-primary {
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+}
+
+.step-plus-icon{
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 22px;
+}
+
+.step-sub-title {
+    color: white;
+    margin-top: 15px;
+    margin-left: 35px;
+}
+
+.quiz_right_block label {
+    color: #fff;
+    font-size: 14px;
+    margin: 12px 0 12px;
+}
+
+.question-answer {
+    margin-bottom: 15px;
+}
+.answer-quiz-card {
+    background-color: #505050;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    font-weight: 400;
+    color: #fff;
+    margin: 0px 0px 13px 0px !important;
+}
+
+.popup-close-btn{
+    border-radius: 8px;
+    background: #B179F0 ! important;
+    border: none ! important;
+}
+.dt-buttons {
+    display: none !important;
+}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+        <div class="notification-bars text-center">
+            <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under
+                verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                    {% if request.user.is_linked_to_counselor_special_dashboard %}
+                    {% else %}
+                        {% if request.user.counselor.company != None %}
+                        <li class="nav-item"><a href="{% url 'counselor-dashboard' %}" id="stuperformance"
+                            class="nav-link"><b>{% trans "Students Information" %}</b></a></li>
+                        {% endif %}
+                    {% endif %}
+                        <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link"
+                            id="studentreport"><b>{% trans "Student Progress Report" %}</b></a></li>
+
+                        <li class="nav-item"><a href="{% url 'middle_school_dashboard' %}" class="nav-link active"
+                            id="studentreport"><b>Diario di bordo</b></a></li>
+                        {% if request.session.is_company %}
+                        <li class="nav-item"><a href="{% url 'student_course_report' %}" class="nav-link" 
+                            id="studentcoursereport"><b>{% trans "Progress Report" %}</b></a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                {% if request.user.person_role == "Counselor" %}
+                                <div class="col-md-12">
+                                    <div class="card card-box card-cus-table-boxx">
+                                        <div class="card-head">
+                                            <header>{% trans "Student Records" %}</header>
+                                            <div class="col-lg-12 counselor-card-select">
+                                                <div class="row">
+                                                </div>
+                                                {% if display_class_year_name == "Yes" %}
+                                                    <div class="col-md-12">
+                                                        <h5 class="color-white">{% trans 'Class' %}: {{student_obj.student.student.student_school_detail.class_year }}  {{ student_obj.student.student.student_school_detail.class_name }} ({{student_obj.student.student.student_school_detail.specialization.name}})</h5>
+                                                    </div>
+                                                {% endif %}
+                                                <div class="col-md-12">
+                                                    <h5 class="color-white">{% trans 'Total number of Students' %}: {{ students_count }}</h5>
+                                                </div>
+                                                
+                                                {% if request.user.counselor.company != None %}
+                                                <div class="col-md-12">
+                                                    {% if request.session.is_from_high_school %}
+                                                        <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'High School Program' %}</h5>
+                                                    {% elif request.session.is_from_fast_track %}
+                                                        <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'Fast Track Path' %}</h5>
+                                                    {% else %}
+                                                        <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'Middle School Path' %}</h5>
+                                                    {% endif %}
+                                                </div>
+                                                {% if request.user.counselor.is_trial_account %}
+                                                {% else %}
+                                                <div class="col-md-12">
+                                                    {% if request.session.is_all_student %}
+                                                    {% else %}
+                                                        <h5 class="color-white">{% trans 'Course Start Date' %} : {{ request.session.cohort_start_date_obj }}</h5>
+                                                    {% endif %}
+                                                </div>
+                                                {% endif %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="card-body mb-5">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-8 col-8">
+                                                    {% if request.user.counselor.company != None %}
+                                                    {% if request.user.is_linked_to_counselor_special_dashboard %}
+                                                    {% else %}
+                                                        
+                                                        <h5 class="color-white">{% trans "Company Name" %}: 
+                                                            {% if request.user.counselor.is_trial_account %}
+                                                            Trial Account
+                                                            {% else %}
+                                                            {{ request.user.counselor.company }}
+                                                            {% endif %}
+                                                        </h5>
+                                                    {% endif %}
+                                                    {% else %}
+                                                    
+                                                    <h5 class="color-white">{% trans "School Name" %}:
+                                                        {% if request.user.counselor.is_trial_account %}
+                                                        Trial School
+                                                        {% else %}
+                                                        {{request.user.counselor.school_name}}
+                                                        {% endif %}
+                                                    </h5>
+                                                    <h5 class="color-white">{% trans "City" %}: 
+                                                        {% if request.user.counselor.is_trial_account %}
+                                                        Trial City
+                                                        {% else %}
+                                                        {{request.user.counselor.school_city}}
+                                                        {% endif %}
+                                                    </h5>
+                                                    <h5 class="color-white">{% trans "Region" %}:
+                                                        {% if request.user.counselor.is_trial_account %}
+                                                        Trial State
+                                                        {% else %}
+                                                        {{request.user.counselor.school_region}}
+                                                        {% endif %}
+                                                    </h5>
+                                                    {% endif %}
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                            <div class="row mt-4">
+                                                <div class="col-md-12">
+                                                    <ul class="nav-custom-pills nav nav-pills nav-justified">
+                                                        {% for course in courses %}
+                                                            <li class="course-pill {% if module_id == course.module_id %}active{% endif %}"><a href="{% url 'students_kpis' %}?module_id={{course.module_id}}">{{ course.title }}</a></li>
+                                                        {% endfor %}
+                                                      </ul>
+                                                </div>
+                                            </div>
+                                            
+                                            {% for course_stu in all_courses_students %}
+                                            
+                                            <div class="table-scrollable mb-5" >
+                                                <div style="margin-left:20px; margin-top:30px;">
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12 col-12 color-white">
+                                                            <p>{% trans "Course Name" %}: {{course_stu.2.title}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+                                                id="exportTable{{forloop.counter}}">
+                                                    <thead>
+                                                        <tr>
+                                                            {% if request.user.counselor.is_for_fast_track_program_only %}
+                                                            <th></th>
+                                                            {% endif %}
+                                                            <th>SNO</th> 
+                                                            {% if request.user.is_linked_to_counselor_special_dashboard %}
+                                                                {% for step in course_stu.1 %}
+                                                                    <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <th>{% trans "First Name" %} </th>
+                                                                <th>{% trans "Last Name" %} </th>
+                                                                <th>{% trans "Class" %} </th>
+                                                                {% for step in course_stu.1 %}
+                                                                <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                                {% endfor %}
+                                                                {% comment %} {% if course_stu.1.count == cohort_unlocked_setps %}
+                                                                <th>Percorso completato</th>
+                                                                {% endif %} {% endcomment %}
+                                                            {% endif %}
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            {% if request.user.counselor.is_for_fast_track_program_only %}
+                                                            <th></th>
+                                                            {% endif %}
+                                                            <th>SNO</th>
+                                                            {% if request.user.is_linked_to_counselor_special_dashboard %}
+                                                                {% for step in course_stu.1 %}
+                                                                     <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                <th>{% trans "First Name" %} </th>
+                                                                <th>{% trans "Last Name" %} </th>
+                                                                <th>{% trans "Class" %} </th>
+                                                                {% for step in course_stu.1 %}
+                                                                <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                                {% endfor %}
+                                                                {% comment %} {% if course_stu.1.count == cohort_unlocked_setps %}
+                                                                <th>Percorso completato</th>
+                                                                {% endif %} {% endcomment %}
+                                                            {% endif %}
+                                                        </tr>
+                                                    </tfoot>
+                                                    
+                                                    <tbody>
+                                                        {% for stu in course_stu.0 %}
+                                                            <tr class="odd gradeX">
+                                                                {% if request.user.counselor.is_for_fast_track_program_only %}
+                                                                <td><a href="{% url 'student_details' %}?student_id={{ stu.student.id }}">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                                                                        <path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z" fill="white"/>
+                                                                      </svg>
+                                                                      
+                                                                </a>
+                                                                </td>
+                                                                {% endif %}
+                                                                <td>{{ forloop.counter }}</td>
+                                                                {% if request.user.is_linked_to_counselor_special_dashboard %}
+                                                                    {% if stu.stu_cohort_map.count > 0 and stu.stu_cohort_map.count == course_stu.1.count %}
+                                                                        {% for cohort_step_trac in stu.stu_cohort_map.all %}
+                                                                            {% if cohort_step_trac.cohort_step_tracker_details.step_completion %}
+                                                                                <td>{{ cohort_step_trac.cohort_step_tracker_details.step_completion }}%</td>
+                                                                            {% else %}
+                                                                                <td>0%</td>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    {% else %}
+                                                                        {% for step in course_stu.1 %}
+                                                                            <td>-</td>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                <td>
+                                                                    {% if request.user.counselor.is_trial_account %}
+                                                                    ---
+                                                                    {% else %}
+                                                                    {{ stu.student.first_name }}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>
+                                                                    {% if request.user.counselor.is_trial_account %}
+                                                                    ---
+                                                                    {% else %}
+                                                                    {{ stu.student.last_name }}
+                                                                    {% endif %}
+                                                                </td>
+                                                                {% if stu.student.student.student_school_detail.class_name and stu.student.student.student_school_detail.class_year %}
+                                                                    <td class="left">{{stu.student.student.student_school_detail.class_year }} - {{ stu.student.student.student_school_detail.class_name }}</td>
+                                                                {% elif stu.student.student.student_school_detail.class_year %}
+                                                                        <td class="left">{{stu.student.student.student_school_detail.class_year }}</td>
+                                                                {% elif stu.student.student.student_school_detail.class_name %}
+                                                                    <td class="left">{{ stu.student.student.student_school_detail.class_name }}</td>
+                                                                {% else %}
+                                                                    <td class="left">None</td>
+                                                                {% endif %}
+                                                                    {% if stu.stu_cohort_map.count > 0 and stu.stu_cohort_map.count == course_stu.1.count %}
+                                                                        {% for cohort_step_trac in stu.stu_cohort_map.all %}
+                                                                            {% if cohort_step_trac.cohort_step_tracker_details.step_completion %}
+                                                                                {% if cohort_step_trac.cohort_step_tracker_details.step_completion == 100 %}
+
+                                                                                    <td>
+                                                                                        <button class="step-plus-icon" type="button" onclick="openmodal('{{cohort_step_trac.step_track_id}}', '{{ cohort_step_trac.step_status_id.step.step_sno }}', '{{ cohort_step_trac.step_status_id.step.title }}')">
+                                                                                            <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                                                                        </button>
+                                                                                        {% comment %} {% for actionItems in cohort_step_trac.stu_action_items.all %} 
+                                                                                            {% for question in actionItems.action_item_diary_track.all %}
+                                                                                                <input type= "hidden" id= "hdnques{{ cohort_step_trac.step_status_id.step.step_sno }}" value = "{{question.action_item_diary.question}}">
+                                                                                                <input type= "hidden" id= "hdnans{{ cohort_step_trac.step_status_id.step.step_sno }}" value = "{{question.answer}}"> 
+                                                                                            {% endfor %}
+                                                                                        {% endfor %} {% endcomment %}
+                                                                                       
+                                                                                    </td>
+                                                                                {% else %}
+                                                                                    <td><button class="step-plus-icon" type="button" onclick="openmodal('{{cohort_step_trac.step_track_id}}', '{{ cohort_step_trac.step_status_id.step.step_sno }}', '{{ cohort_step_trac.step_status_id.step.title }}')"><i class="fa fa-plus-square" aria-hidden="true"></i></button></td>
+                                                                                {% endif %}
+                                                                            {% else %}
+                                                                                {% if cohort_step_trac.step_status_id.is_active %}
+                                                                                    <td><button class="step-plus-icon" type="button" onclick="openmodal('{{cohort_step_trac.step_track_id}}', '{{ cohort_step_trac.step_status_id.step.step_sno }}', '{{ cohort_step_trac.step_status_id.step.title }}')"><i class="fa fa-plus-square" aria-hidden="true"></i></button></td>
+                                                                                {% else %}
+                                                                                    <td>-</td>
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    {% else %}
+                                                                        {% for step in course_stu.1 %}
+                                                                            <td>-</td>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                    {% comment %} {% if course_stu.1.count == cohort_unlocked_setps %}
+                                                                        {% if stu.is_cohort_completed %}
+                                                                            <td>{% trans "Yes" %}</td>
+                                                                        {% else %}
+                                                                            <td>{% trans "No" %}</td>
+                                                                        {% endif %}
+                                                                    {% endif %} {% endcomment %}
+                                                            {% endif %}
+                                                            </tr>
+                                                        {% empty %}
+
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            {% for step in course_stu.1 %}
+                                                                <td></td>
+                                                            {% endfor %}
+
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="modal fade learn-popup" id="ID_Comment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 50%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title step_title" style="color: #fff" id="step_title_id">Step 1  </h5><p class="step-sub-title" id="step_sub_title_id">Step title</p>
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                        aria-label="Close" onclick="close_btn()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 question-answer">
+                        <div class="quiz_right_block" id="id_ques_ans">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary popup-close-btn" onclick="close_btn()">Chiudi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $(document).ready(function () {
+        $('td').removeClass('sorting_1');
+    });
+    function openmodal(cohort_step_trac_id, step_sno, step_title){
+        if(cohort_step_trac_id){
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'get_diary_ques_answer' %}",
+                headers: {'X-CSRFToken': "{{ csrf_token }}"},
+                data: {"cohort_step_trac_id": cohort_step_trac_id},
+                success: function(response){
+                    $("#step_title_id").text('Step '+ step_sno);
+                    $("#step_sub_title_id").text(step_title);
+                    if(response['status'] == true){
+                        for(var i=0; i<response['diary_ques_answer_list'].length; i++){
+                            var html_data = `
+                                        <div class="answer-quiz-card">
+                                        <label class=""><p style="font-weight: bold;"><b>{% trans 'Question' %} ${i+1}</b></p><br> ${response['diary_ques_answer_list'][i]['question']}</label>
+                                        <p style="font-weight: bold;"><b>{% trans 'Answer' %}</b></p> <br> ${response['diary_ques_answer_list'][i]['answer']}
+                                        </div>`;
+                            $("#id_ques_ans").append(html_data);
+                        };
+                        $('#ID_Comment').modal('toggle');
+                    }else{
+                        alert("{% trans 'Something went wrong!' %}");
+                    }
+                }, error: function(error){
+                    alert("{% trans 'Something went wrong!' %}");
+                }
+            });
+        }else{
+            alert("{% trans 'Something went wrong!' %}");
+        }
+    };
+    function close_btn(){
+        $("#id_ques_ans").html("");
+        $('#ID_Comment').modal('hide');
+        $('#id_modal_form').trigger("reset");
+        $("#id_student_admin").html("");
+    };
+</script>
+{% endblock %}

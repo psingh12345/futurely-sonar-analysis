@@ -1,0 +1,23 @@
+{% load unipegaso_tags %}
+<div class="title-top-hero-new">
+    {% comment %} <h3>Certifica che</h3>{% endcomment %}
+    <h2>{{ student_name }}</h2> 
+    <p class="fontsize14" style="text-align: left; margin-top: 25px;">Ciao,</p>
+    <p class="fontsize14" style="text-align: left;">Grazie per aver completato la prima parte del  percorso di orientamento!</p>
+    <p class="fontsize14" style="text-align: left;">Hai approfondito le tue inclinazioni ed è emerso che il tuo tratto dominante è {{ mapper_obj.test_result|upper }}.</p>
+    <p class="fontsize14" style="text-align: left;">Di seguito trovi alcuni consigli utili di aree professionali che potrebbero fare al caso tuo sulla base di ciò che è emerso dal tuo percorso:</p>
+</div>
+
+<div class="personality-quiz-text fontsize14" style="color: #333; text-align: left;">
+    <ul>
+    {% for ans, link in answers_list %}
+        <li>{{ans|title}}</li>
+    {% endfor %}
+    </ul>
+
+</div>
+<div class="text-center">
+    <p class="fontsize14" style="text-align: left; color: #333; font-size: 16px;margin-top: 14px;">Sarai contattato nei prossimi giorni da un professionista IFOA: il confronto con l’esperto è fondamentale per assicurarti la scelta migliore per il tuo futuro!</p> 
+    <p class="fontsize14" style="text-align: left; color: #333; font-size: 16px;margin-top: 14px;">Per ulteriori informazioni contattaci al seguente indirizzo e-mail orientamentonline@ifoa.it.<br>
+    Visita il sito IFOA e scopri i corsi più adatti a te: https://www.ifoa.it/servizi/corsi-di-formazione/corsi-post-diploma.</p>
+</div> 

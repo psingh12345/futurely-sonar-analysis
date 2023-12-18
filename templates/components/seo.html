@@ -1,0 +1,17 @@
+<link rel="canonical" href="{{ request.URL_FOR_IT }}" />
+<!-- <link rel="canonical" href="{{ request.URL_FOR_EN }}" /> -->
+<link rel="canonical" href="{{ request.URL_FOR_DEFAULT }}" />
+
+<link rel="alternate" href="{{ request.URL_FOR_IT }}" hreflang="en-it" />
+<link rel="alternate" href="{{ request.URL_FOR_IT }}" hreflang="es-it" />
+<link rel="alternate" href="{{ request.URL_FOR_IT }}" hreflang="fr-it" />
+<link rel="alternate" href="{{ request.URL_FOR_IT }}" hreflang="it-it" />
+<link rel="alternate" href="{{ request.URL_FOR_IT }}" hreflang="it" />
+<link rel="alternate" href="{{ request.URL_FOR_DEFAULT }}" hreflang="en-us" />
+<link rel="alternate" href="{{ request.URL_FOR_DEFAULT }}" hreflang="x-default" />
+{% if request.LANGUAGE_CODE == 'it' %}
+    <meta http-equiv="content-language" content="it, it-it, en-it, es-it, fr-it" />
+{% else %}
+    <meta http-equiv="content-language" content="en-us" />
+{% endif %}
+

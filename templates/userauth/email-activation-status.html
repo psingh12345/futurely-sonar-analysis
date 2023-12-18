@@ -1,0 +1,54 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% block title%}
+{% load i18n %}
+{% load phrase_i18n %}
+<title>{% trans "Futurely: Email" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row main-container">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-7">
+        <div class="form-intro row">
+            {% if message %}
+            <div class="col-sm-12 p-t-20 ">
+                <p class="form-head-text"> 🌟 {% trans "Invalid link" %}</p>
+            </div>
+            <div class="col-sm-12 p-t-20 error-msg">
+                <p>{{message}}</p>
+            </div>
+            {% else %}
+            <div class="col-sm-12 p-t-20 ">
+                <p class="form-head-text"> 🎉 {% trans "Email activated" %}</p>
+            </div>
+            <div class="col-sm-12 p-t-20">
+                <p>{% trans "Congratulations, your email has been activated" %}</p>
+            </div>
+            {% endif %}
+
+            <form class="row form-setup" method="post" action=""></form>
+            <div class="col-md-12">
+                <div class="border-grad">
+                    <a class="extraHref" href="{% url 'login' %}">
+                        <button class=" form-control sign-btn sign-btn-next" type="button">{% trans "Click here to login" %}</button>
+                    </a>
+                </div>
+            </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+{% endblock %}

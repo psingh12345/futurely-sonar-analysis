@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="en">
+<head>
+  {% phrase_javascript %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Futurely-Student's dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <!--google font link which is not as mention in figma-->
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <!--external style link-->
+    <link rel="stylesheet" href="{%static 'css/style_dash.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Bootstrap 5 cdn-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="row rec-main">
+      <div class="col-xs-3 col-sm-2 col-md-3 col-lg-2 excer-left">
+        <div class="test-menu-list" id="testing">
+          <div class="close-sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          </div>
+          <div class="excer-logo">
+              <img src="{% static 'images/logo1.svg'%}" alt="" style="width: 38px;height: 40px;">
+              <img src="{% static 'images/logo2.svg' %}" class="excer-logo-2" alt="" style="width: 105px;height: 40px;">
+          </div>
+          <div class="excer-menu">
+              <ul class="excer-menu-list">
+                  <li class="excer-menu-list">
+                      <div class="excer-menu-logo  cour-left-b b-r-10" style="background-color: #70f199;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                              <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                        </svg>
+                      </div>
+                      <div class="cour-left-b">
+                          <a href="#" class="excer-menu-item agree">Home</a>
+                      </div>
+                  </li>
+                  <li class="excer-menu-list">
+                      <div class="excer-menu-logo  cour-left-b b-r-10" style="background-color: #68E2F7;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stickies" viewBox="0 0 16 16">
+                              <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z"/>
+                              <path d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z"/>
+                          </svg>
+                      </div>
+                      <div class="cour-left-b">
+                          <a href="#" class="excer-menu-item agree">Course</a>
+                      </div>
+                  </li>
+                  <li class="excer-menu-list">
+                      <div class="excer-menu-logo  cour-left-b b-r-10" style="background-color: #F6C25B;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                          </svg>
+                      </div>
+                      <div class="cour-left-b">
+                          <a href="#" class="excer-menu-item agree">Cohort</a>
+                      </div>
+                  </li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-9 col-sm-10 col-md-9 col-lg-10 rec-sub">
+          <div class="cour-header row">
+            <div class="open-sidebar col-1">
+              <span onclick="openNav()">&#9776; </span>
+            </div>
+              <div class="cour-heade col-2">
+                  <p class="rec-sub-cou">Courses - {{cohort.cohort_name}}</p>
+              </div>
+                  <div class="cour-heade right col-3">
+                    &emsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                      </svg>
+                      &emsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                      &emsp;
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                    </svg> &emsp;
+                    <img class="user-icon" src="{% static 'images/user-icon.png' %}" alt="user">
+                    &emsp;
+                    <p class="user-name cour-heade"> {{user}}</p>
+              </div>
+          </div>
+          <div class="cour-ov-top b-r-10">
+            <div class="cour-ov-top-bg b-r-10">
+            <p>Start dates</p>
+            <div class="cour-date center b-r-10" style="background: #fff; color: #000;">
+              <p style="font-size: 12px; font-weight: 500;">{{cohort.starting_date|date:"M"}}</p>
+              <p class="agree2" style="margin-top: -15px; font-weight: 600;">{{cohort.starting_date|date:"d"}}</p>
+          </div>
+          
+          
+          <p style="font-size: 24px; margin-top: 36px; font-weight: bold;">{{module_detail.title}}</p>
+          <p class="agree">{{module_detail.description|truncatechars:150}}</p>
+          <a href="#" style="text-decoration: none !important;">
+            <div class="b-r-10 text-center">
+          <div class="b-r-10 agree2 cour-watch-btn">
+          <p>▶️ Watch course introduction</p>
+          </div>
+          </div>
+        </a>
+          <div class="cour-heart b-r-10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+              <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+            </svg>
+          </div>
+          <div class="cou-ov-t-r right">
+          <div class="excer-du b-r-10">
+            <p>Duration - 1 month</p>
+          </div>
+          <p class="excer-para">Course rating</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+          </svg>
+          <p style="font-size: 14px; margin-top: 10px;">4.0/5.0</p>
+        </div>
+        </div>
+          </div>
+          <div class="cour-ov-left">
+            <p class="agree"><span class="agree2">Course overview</span> <br><br>
+            {{module_detail.description}}
+            </p>
+            <p class="agree2">Steps <span class="right" style="font-size: 14px;">6 steps, 1 video, 7 exercises</span></p>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-7">
+              {% for step in steps_det %}
+              <div class="cour-step b-r-10">
+                <svg class="cou-arrow cou-ovr-li cou-ar-vt" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+                <svg class="cou-arrow cou-ovr-li cou-ar-vd" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                </svg>
+                <p class="cou-ovr-li">&emsp; {{step.title}}</p>
+                <img src="images/Memoji1.png" alt="" class="memoji memoji-s cou-ovr-li text-center right" style="background: #FCE681;">
+                <img src="images/Memoji2.png" alt="" class="memoji memoji-s cou-ovr-li text-center right" style="background: #FED9BB;">
+                <p class="agree cour-step-p" style="visibility: hidden;">
+                  {{step.description}}</p>
+              </div>
+              <!--
+              <div class="cour-type-video b-r-10">
+                  <svg class="cou-arrow cou-ovr-li cou-ar-vt" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                  </svg>
+                  <svg class="cou-arrow cou-ovr-li cou-ar-vd" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                  <p class="cou-ovr-li">&emsp; {{step.title}}</p>
+                  <img src="{% static 'images/Memoji1.png'%}" alt="" class="memoji memoji-s cou-ovr-li text-center right" style="background: #FCE681;">
+                  <img src="{% static 'images/Memoji2.png'%}" alt="" class="memoji memoji-s cou-ovr-li text-center right" style="background: #FED9BB;">
+                  <p class="agree cour-type-video-p" style="margin-left: 27px; width: 437px; visibility: hidden;">
+                    {{step.description}}</p>
+              </div>-->
+              {% endfor %}
+            </div>
+            <div class="col-md-12 col-lg-5">
+              <div class="cour-ov-pay b-r-10 right">
+                <p class="agree">💳  Buy course(s)</p>
+                <p class="right" style="font-size: 24px; margin-top: -40px;">${{cohort.price}}</p>
+                <input type="button" class="color-btn b-r-10 buy-btn-cou agree2" value="Buy course">
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  <script> 
+    $(document).ready(function(){
+      $(".open-sidebar").click(function(){
+        var div = $(".test-menu-list");
+        div.animate({opacity: '0.4'}, "slow");
+        div.animate({opacity: '0.5'}, "slow");
+        div.animate({opacity: '0.9'}, "slow");
+        div.animate({opacity: '0.95'}, "slow");
+      });
+    });
+    </script> 
+    <script>
+    function openNav() {
+      document.getElementById("testing").style.width = "100%";
+    }
+
+    function closeNav() {
+      document.getElementById("testing").style.width = "0";
+    }
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+<script>
+  $(document).ready(function(){
+    $(".cou-ar-vd").click(function(){
+      $(this).parent().css("height", "auto");
+      $(".cour-ov-pay");
+      $(this).css("display", "none");
+      $(this).parent().find('.cou-ar-vt').css("display", "unset");
+      $(this).parent().find('.cour-step-p').css("visibility", "visible");
+    });
+    $(".cou-ar-vt").click(function(){
+      $(this).parent().css("height", "74px");
+      $(".cour-ov-pay");
+      $(this).parent().find('.cou-ar-vd').css("display", "unset");
+      $(this).css("display", "none");
+      $(this).parent().find('.cour-step-p').css("visibility", "hidden");
+    });
+    });
+</script>
+</html>

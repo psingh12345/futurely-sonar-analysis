@@ -1,0 +1,51 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "Before running tests"
+      - yum install -y gcc-c++
+      - yum install -y mysql-devel
+      - pip install -r requirements.txt
+      # - yum install epel-release
+      # - wget https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_24.0.2-1~centos~7_amd64.rpm
+      # - yum -y install esl-erlang*.rpm
+      # - echo "RabbitMQ installing"
+      # - wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-3.8.19-1.el7.noarch.rpm
+      # - yum -y install rabbitmq-server*.rpm
+      # - echo "RabbitMQ installed"
+      # - echo "Chrome driver Download......"
+      # - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+      # - yum -y localinstall google-chrome-stable_current_x86_64.rpm
+      # - yum -y install redhat-lsb libXScrnSaver
+      # - wget https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip
+      # - unzip chromedriver_linux64.zip
+      # - yum -y install chromedriver
+      # - sudo mv -f chromedriver /usr/bin/chromedriver
+      # - sudo chmod 0755 /usr/bin/chromedriver
+      # - google-chrome --version
+      # - echo "Chromedriver installed success"
+      
+  build:
+    commands:
+      # - echo "Create json File for Testing"
+      # - python manage.py dumpdata courses.courses courses.modules --indent 4 > course.json
+      # - python manage.py dumpdata courses.ourplans --indent 4 > ourplan.json
+      # - echo "Collecting Staticfiles"
+      # - python manage.py collectstatic --noinput
+      - echo "Starting Migrations"
+      - python manage.py migrate
+      - echo "Starting Server"
+      - python manage.py runserver > /dev/null 2>&1 &
+      # - echo "Start the Rabbit MQ"
+      # - rabbitmq-server > /dev/null 2>&1 &
+      # - echo "Start the celery"
+      # - celery -A thefuturely worker -l info  > /dev/null 2>&1 &
+      # - echo "Starting test case"
+      # - python manage.py test userauth
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'

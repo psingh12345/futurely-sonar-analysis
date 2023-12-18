@@ -1,0 +1,50 @@
+{% extends 'base_landing_website.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% block title %}
+<title>Newsletter Privacy Policy</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+    .btn-outline-cookies {
+        border: 1px solid #000000;
+        background: transparent;
+        border-radius: 8px;
+        padding: 12px 16px !important;
+        color: #000000;
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        letter-spacing: 0 !important;
+        transition: all .5s;
+        max-width: 186px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="main-content-block">
+    <section class="faq-section">
+        <div class="container">
+            <div class="row align-items-center">
+                {% for news_letter in news_letter_policy %}
+                <div class="col-md-12">
+                    <div class="acc innder-content-safe">
+                        <div class="d-flex mb-3 mb-lg-4 align-items-center justify-content-between">
+                        <h2 class="h2 mb-0 section-title">Newsletter Privacy Policy</h2>
+                        <a class="outline-button-link d-block" href="{% url 'download_pdf_cookies' %}?filename=news_letter_policy">Scarica il documento</a>
+                        </div> 
+                        <div class="acc__card">
+                            <p>{{news_letter.content | safe}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

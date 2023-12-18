@@ -1,0 +1,469 @@
+{% extends 'base_auth2.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Signup</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> 
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row main-container">
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-7">
+    <div class="form-intro row">
+      
+      {% comment %} {% if request.session.ctype == 'company' %}
+      <div class="banner-futurelab">
+        <div class="notification-bars text-center">
+          <span class="notify_text">{% trans 'Welcome to Company Welfare onboarding!' %}</span>
+        </div>
+      </div>
+      {% endif %} {% endcomment %}
+      <div class="col-sm-12 p-t-20">
+        <div class="float-start">
+          <img src="{% static 'images/signin_icon.png' %}" alt="">
+        </div>
+        <span class="login-title-prop login-title-padding">Counselor {% trans "Sign up for Futurely" %}</span>
+      </div>
+      <div class="col-sm-12 p-t-20">
+        <p>{% trans "Create an account to get started" %}</p>
+      </div>
+      <form class="row form-setup" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
+        {% if message %}
+        <div class="incorect">
+          {% for msg in message %}
+          <p style="color: red;">{{msg}}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="col-md-6 ">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+              {% render_field person_register_form.first_name class="text-box form-control" placeholder=placeholder_first_name %}
+              <!-- <input type="text" class="text-box form-control"  placeholder="First Name">-->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+              {% render_field person_register_form.last_name class="text-box form-control" placeholder=placeholder_last_name %}
+              <!-- <input type="text" class="text-box form-control"  placeholder="Last Name"> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+              {% render_field person_register_form.email class="text-box form-control" placeholder=placeholder_email %}
+              <!-- <input type="text" class="text-box form-control"  placeholder="Email">-->
+            </div>
+          </div>
+        </div>
+        {% if email_error %}
+        <div class="error-msg">
+          <p>{{email_error}}</p>
+        </div>
+        {% endif %}
+
+        <div id="id_div_gender" class="col-md-12">
+          <div class="border-grad-inner">
+          <div class="border-grad">
+            
+            <input type="hidden" id="hdn_gender" name="hdn_gender" value="Other">
+            <select name="gender" class="select-box form-select" id="id_gender" required>
+              {% for x, y in person_register_form.fields.gender.choices %}
+                  {% if forloop.counter == 1 %}
+                      <option value="" selected >{% trans "Gender"%}</option>
+                  {% else %}
+                      <option value="{{ x }}">{{ y }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select>
+          </div>
+        </div>
+        </div>
+        <div id="id_div_other_gender" class="col-md-6" >
+          <div class="border-grad-inner">
+            <div class="border-grad">
+            {% render_field person_register_form.gender_other class="text-box form-control" placeholder=placeholder_gender_other %}
+          </div>
+          </div>
+        </div>
+        {% if person_gender_error %}
+        <div class="error-msg">
+            <p>{{person_gender_error}}</p>
+        </div>
+        {% endif %}
+        <div class="col-md-12">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+              {% render_field person_register_form.password class="text-box form-control" type="password" placeholder=placeholder_password value="" %}
+              <!-- <input type="password" class="text-box form-control" id="forgotPassInput" placeholder="Password">-->
+              <p id="pass_show_id" class="pass-show" onclick="passview()">
+                <i class="bi bi-eye-slash"></i>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {% if password_validation_errors %}
+        <div class="error-msg">
+          <p>{{password_validation_errors}}</p>
+        </div>
+        {% endif %}
+        <div class="col-md-12">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+
+              {% render_field person_register_form.contact_number class="text-box form-control" placeholder=placeholder_contact_number %}
+            </div>
+          </div>
+        </div>
+        <div id="id_div_how_know_us" class="col-md-12">
+          <div class="border-grad">
+            {% if how_know_us_other_error %}
+            <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="Other">
+            <select id="id_how_know_us" class="select-box form-select" required>
+              {% for x, y in person_register_form.fields.how_know_us.choices %}
+              {% if forloop.counter == 1 %}
+              <option value="Other" selected>{% trans "How did you get to know us?"%} - {% trans 'Other' %}</option>
+              {% else %}
+              <option value="{{ x }}">{{ y }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+            {% else %}
+            <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="">
+            <select id="id_how_know_us" class="select-box form-select" required>
+              {% for x, y in person_register_form.fields.how_know_us.choices %}
+              {% if forloop.counter == 1 %}
+              <option value="" selected>{% trans "How did you get to know us?"%}</option>
+              {% else %}
+              <option value="{{ x }}">{{ y }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+            {% endif %}
+          </div>
+        </div>
+        <div id="id_div_other" class="col-md-6">
+          <div class="border-grad-inner">
+            <div class="border-grad">
+              {% render_field person_register_form.how_know_us_other class="text-box form-control" placeholder=placeholder_how_know_other%}
+            </div>
+          </div>
+        </div>
+        {% if how_know_us_error %}
+        <div class="error-msg">
+          <p>{{how_know_us_error}}</p>
+        </div>
+        {% endif %}
+        {% if how_know_us_other_error %}
+        <div class="error-msg">
+          <p>{{how_know_us_other_error}}</p>
+        </div>
+        {% endif %}
+        
+        {% if request.session.ctype == 'company' %}
+        <div class="col-md-12">
+          <div class="border-grad">
+            <select class="select-box form-select select2" id="id_company_name" name="company-name">
+              <option value="" disabled selected>{% trans "Company name" %}</option>
+              {% for company in companies %}
+              <option value="{{company.pk}}">{{company.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% else %}
+        <div class="col-md-6">
+          <div class="border-grad">
+            <select class="select-box form-select select2" id="id-school-region" name="school-region" required>
+              {% if request.LANGUAGE_CODE == "it" %}
+              <option value="" disabled selected>{% trans "School region" %}</option>
+              {% else %}
+              <option value="" disabled selected>School state</option>
+              {% endif %}
+              {% for school in school_regions %}
+              <option value="{{school.region}}">{{school.region}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% if school_region_message %}
+            <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_region_message}}</label>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <div class="border-grad">
+            <select class="select-box form-select select2" id="id-school-city" name="school-city" required>
+              <option value="" disabled selected>{% trans "School city" %}</option>
+              {% for school in school_cities %}
+              <option value="{{school.city}}">{{school.city}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% if school_city_message %}
+            <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_city_message}}</label>
+            {% endif %}
+        </div>
+        <div class="col-md-12">
+          <div class="border-grad">
+            <select class="select-box form-select select2" id="id-school-name" name="school-name" required>
+              <option value="" disabled selected>{% trans "School name" %}</option>
+              {% for school in school_names %}
+              <option value="{{school.name}}">{{school.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% if school_name_message %}
+            <label class="register-fill-form mb-3" style="color: red;" id="lbl-message">{{school_name_message}}</label>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div class="col-md-12">
+          <div class="border-grad-inner">
+            <div class="border-grad" id="id_div_btn_next">
+              <button class=" form-control sign-btn sign-btn-next" id='btn_next'
+                type="submit">{% trans "Submit" %}</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="border-grad">
+            <a href="{% url 'counselor_login' %}" class="extraHref">
+              <button class="form-control text-box" type="button">{% trans "Already have an account? Login" %}</button>
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-sm-2">
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function () {
+
+    $("#id_are_you_fourteen_plus").change();
+    
+    "{% if gender_other_error %}"
+        $("#id_div_other_gender").show();
+        $('#id_div_gender').removeClass('col-md-12');
+        $('#id_div_gender').addClass('col-md-6');
+        
+    "{% else %}"
+        $("#id_div_other_gender").hide();
+    "{% endif %}"
+    "{% if how_know_us_other_error %}"
+    $("#id_div_other").show();
+    $('#id_div_how_know_us').removeClass('col-md-12');
+    $('#id_div_how_know_us').addClass('col-md-6');
+    $('#id_how_know_us_other').attr('required','true');
+    "{% else %}"
+    $("#id_div_other").hide();
+    "{% endif %}"
+    $("#id_gender").change(function() {
+      var selected_text = $(this).find("option:selected").text();
+      var selected_val = $(this).find("option:selected").val()
+      $("#hdn_gender").val(selected_val);
+
+      $("#id_gender option:first").text("{% trans 'Gender'%} - "+selected_text);
+      $("#id_gender option:first").val(selected_val);
+      $("#id_gender")[0].selectedIndex = 0;
+      if(selected_val == "Other")
+      {
+        $("#id_div_other_gender").show();
+        $('#id_div_gender').removeClass('col-md-12');
+        $('#id_div_gender').addClass('col-md-6');
+        
+      }
+      else{
+        $("#id_gender_other").val('');
+        $("#id_div_other_gender").hide();
+        $('#id_div_gender').removeClass('col-md-6');
+        $('#id_div_gender').addClass('col-md-12');
+        
+        
+      }
+
+    });
+    $.validator.addMethod("valueEquals", function (value, element, arg) {
+      return value == 'Yes';
+    }, "Our program is intended only for high school students who are 14 and above.");
+
+    $("form").validate({
+      rules: {
+        are_you_fourteen_plus: {
+          valueEquals: "Yes"
+        }
+      },
+      // messages: {
+      //   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+      // }  
+    });
+
+  });
+
+  $("#id_how_know_us").change(function () {
+    var selected_text = $(this).find("option:selected").text();
+    var selected_val = $(this).find("option:selected").val()
+    $("#hdn_how_know_us").val(selected_val);
+
+    $("#id_how_know_us option:first").text("{% trans 'How did you get to know us?'%} - " + selected_text);
+    $("#id_how_know_us option:first").val(selected_text);
+    $("#id_how_know_us")[0].selectedIndex = 0;
+    if (selected_val == "Other") {
+      $("#id_div_other").show();
+      $('#id_div_how_know_us').removeClass('col-md-12');
+      $('#id_div_how_know_us').addClass('col-md-6');
+      $('#id_how_know_us_other').attr('required', 'true');
+    } else {
+      $("#id_how_know_us_other").val('');
+      $("#id_div_other").hide();
+      $('#id_div_how_know_us').removeClass('col-md-6');
+      $('#id_div_how_know_us').addClass('col-md-12');
+      $('#id_how_know_us_other').removeAttr('required');
+
+    }
+
+  });
+
+  $("#id_are_you_fourteen_plus").change(function () {
+    if ($(this).val() == 'No') {
+      $('#fourteenPlusModal').modal('show');
+      $('#btn_next').attr('disabled', true);
+      $('#id_div_btn_next').attr('style', 'background: none !important');
+      $('#btn_next').attr('style', 'border: none !important');
+      $('#btn_next').attr('title', `{% trans "Select correct option for 'Are you 14+?'" %}`);
+    } else if ($(this).val() == 'Yes') {
+      $('#btn_next').removeAttr('disabled');
+      $('#id_div_btn_next').removeAttr('style');
+      $('#btn_next').removeAttr('style');
+    }
+
+    if ($(this).val() == 'Yes' || $(this).val() == 'No') {
+      var selected_text = $(this).find("option:selected").text();
+      var selected_value = $(this).find("option:selected").val();
+      $(this).empty();
+      $(this).append(
+        `<option value="${selected_value}" selected>{% trans 'Are you 14+?' %} - ${selected_text}</option>`);
+      $(this).append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+      $(this).append(`<option value="No">{% trans 'No' %}</option>`);
+    }
+  });
+
+
+
+  function passview() {
+    var x = document.getElementById("id_password");
+    if (x.type === "password") {
+      x.type = "text";
+      $("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+    } else {
+      x.type = "password";
+      $("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+    }
+  }
+  $(document).ready(function () {
+    $('#id-school-region').select2();
+    $('#id-school-region').val(null).trigger("change");
+    $('#id-school-city').select2();
+    $('#id-school-name').select2();
+  });
+  $('#id-school-region').on('change', function (e) {
+    var school_region = $(this).val();
+    $("#id-school-city").empty();
+    $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+    $("#id-school-name").empty();
+    $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+
+    if (school_region) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'get-school-cities-name' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'school_region': school_region,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+            
+            var school_city = data['all_cities'];
+           
+            for(var i = 0; i<school_city.length; i++)
+            {
+            $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+            }
+          } 
+        },
+        error: function (response) {
+        }
+      })
+    }
+  });
+
+  $('#id-school-city').on('change', function (e) {
+    var school_region = $("#id-school-region").val();
+    var school_city = $(this).val();
+    $("#id-school-name").empty();
+    $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+
+    if (school_region && school_city) {
+      $.ajax({
+        type: 'POST',
+        url: "{% url 'get-school-name-by-city' %}",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        dataType: 'json',
+        data: {
+          'school_region': school_region,
+          'school_city':school_city,
+        },
+        success: function (response) {
+          var data = JSON.parse(JSON.stringify(response));
+          if (data['message'] == 'success') {
+            
+          var school_names = data['all_schools'];
+           
+           for(var i = 0; i<school_names.length; i++)
+           {
+           $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+           }
+          }
+          else{
+          
+          }
+        },
+        error: function (response) {
+
+        }
+      })
+    }
+  });
+</script>
+{% endblock %}

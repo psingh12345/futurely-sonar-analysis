@@ -1,0 +1,83 @@
+
+{% extends 'base_landing_website_registration.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title></title>
+{% endblock %}
+{% block content %}
+	<div class="register-top-bar">
+		<div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-between">
+				<a href="{% url 'index' %}"><img class="arrow-back-icon"
+						src="{% static 'landing_website/images/back-arrow-icon.png' %}"></a>
+				<a href="{% url 'login' %}" class="btn-outline">Accedi</a>
+			</div>
+		</div>
+	</div>
+	<div class="main-content-block">
+		<div class="login-block-main white-bg pt-0">
+			<div class="container">
+				<div class="d-flex justify-content-center flex-wrap">
+					<div class="col-lg-7">
+						<form class="register-form" method="post">
+							{% csrf_token %}
+							<input type="hidden" name="first_stage" value="Yes">
+							<h4 class="form-title">Registrati come studente</h4>
+							<p class="form-discription">Inserisci il codice sconto ricevuto dalla tua scuola oppure da
+								un'azienda.</p>
+							<div class="row align-items-end">
+								<div class="col-md-8">
+									<div class="wrap-input100">
+										<label class="form-label">Codice sconto </label>
+										<input class="input100 field-input" type="text" name="discount_code"
+											placeholder="Inserisci il codice sconto..." id='discount_value_id' value="{{coupon_code}}" required>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="wrap-input100">
+										<div class="login-form-btn-block codice-sconto">
+											{% comment %} <a href="javascript:void(0)"
+												class="btn-filed login-form-btn mt-0" id="coupon_code_id">Inizia</a> {% endcomment %}
+											<button class=" btn-outer-wraper btn-filed login-form-btn mt-0" type="submit">Inizia</button>
+										</div>
+									</div>
+								</div>
+								{% if error_message %}
+									<div class="col-md-8">
+										<span class="discount-code-message-tags mb-3 d-block" id="discount-code-message" style="font-size: 12px; color: red;">{{ error_message }}</span>
+									</div>
+								{% endif %}
+								<div class="col-md-12">
+									<div class="card-login-block">
+										<div class="card-login-items">
+											<h3 class="card-title-main">Non hai un codice sconto? <br>Scopri come
+												ottenere Futurely gratuitamente</h3>
+											<p><b>Diventa Ambassador!</b> Presentaci una scuola o un’azienda e affronta
+												gratuitamente i nostri percorsi.</p>
+											<a href="https://info.myfuturely.com/futurely-ambassador" target="_blank" class="btn-outline">Come funziona?</a>
+										</div>
+										<div class="card-login-items">
+											<h3 class="card-title-main">Sei un’azienda, una scuola o un’università?
+											</h3>
+											<p>Compila il form con tutti i tuoi dati e ti risponderemo entro 24 ore!</p>
+											<a href="{% url 'index' %}?contact-us=True" class="btn-outline">Richiedi una demo</a>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+<script>
+
+</script>
+{% endblock %}

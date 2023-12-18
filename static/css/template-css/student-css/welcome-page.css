@@ -1,0 +1,38 @@
+ @media (min-width: 991px) {
+   div.large {
+       flex: 0 0 auto;
+       width: 50%;
+   }
+   div#third-price.popup-showw-third {
+       left: auto;
+       transform: translateX(0%);
+       right: 16.7%;
+   }
+   
+   
+   div#second-price.popup-showw-second {
+       left: 45.7%;
+       transform: translateX(-58%);
+   }
+   div.small .card-pricing-header h1 {
+       min-height: 80px;
+   }
+   
+   }
+   .card-pricing-header p {
+       font-size: 15px;
+   }
+   .logout-btnn.ml-auto {
+       position: absolute;
+       right: 20px;
+       top: 45px;
+   }
+   @media (max-width:767px) {
+     .logout-btnn .btn-login {
+       padding: 10px 16px;
+       font-size: 12px;
+   }
+   .logout-btnn.ml-auto {
+       top: 38px;
+   }
+   }

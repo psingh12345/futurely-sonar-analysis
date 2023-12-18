@@ -1,0 +1,407 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Search Page For Counselor</title>
+{% endblock %}
+
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+    background-color: #26272ba6 !important;
+    }
+	.searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.sorting_3, table.dataTable th.sorting_1, table.dataTable th.sorting_2, table.dataTable th.sorting_3 {
+    background: none !important;
+    }
+
+    .border-grad .select2-container {
+    width: 100% !important;
+}
+.select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+}
+.border-grad .select2-container .select2-selection--single {
+    height: 45px;
+    border-radius: 10px
+ !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.svg' %}) !important;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+.border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+    display: none;
+}
+.select2-dropdown {
+    background-color: #333333;
+    padding: 10px;
+    color: #fff !important;
+}
+.select2-results__options {
+	max-height: 200px;
+	overflow-y: auto;
+}
+.form-choose-neww .select-box {
+    background-color: #2e2f32 !important;
+    font-size: 16px;
+}
+.form-choose-neww .btn-group .btn {
+    margin-right: 0;
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    border-radius: 10px;
+    border: none !important;
+}
+.form-choose-neww .btn-group {
+    width: 100%;
+}
+.form-choose-neww {
+    width: 100%;
+    max-width: 504px;
+    display: block;
+    margin-top: -18px;
+}
+.card-head header {
+    line-height: 1.4;
+}
+.form-choose-neww .border-grad {
+    margin-bottom: 12px;
+}
+.card-body.card-body-newy {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+            <div class="notification-bars text-center">
+                <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tabbable-line">
+                        {% comment %} <ul class="nav customtab nav-tabs" role="tablist">
+                            <li class="nav-item"><a href="{% url 'counselor-dashboard' %}" id="stuperformance" class="nav-link active"><b>Students Information</b></a></li>
+                            <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link" id="studentreport"><b>Student Progress Report</b></a></li>
+                        </ul> {% endcomment %}
+                        <div class="tab-content">
+                            <div class="tab-pane active fontawesome-demo" id="tab1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card card-box">
+                                            <div class="card-head">
+                                                <header>{% trans "Choose your program type and start date" %}</header>
+                                            </div>
+                                            <div class="card-body card-body-newy">
+                                                <div class="form-choose-neww">
+                                                    {% comment %} <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-12">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_program" name="program_type" required>
+                                                                        <option value="" disabled selected>{% trans "Select Program Type" %}</option>
+                                                                        {% for program in program_list %}
+                                                                            {% if program == "high_school" %}
+                                                                                {% if request.session.is_from_high_school %}
+                                                                                    <option value="high_school" name="program" selected>{% trans 'High School Program' %}</option>
+                                                                                {% else %}
+                                                                                    <option value="high_school" name="program">{% trans 'High School Program' %}</option>
+                                                                                {% endif %}
+                                                                            {% elif program == "middle_school" %}
+                                                                                {% if request.session.is_from_middle_school %}
+                                                                                    <option value="middle_school" name="program" selected>{% trans 'Middle School Path' %}</option>
+                                                                                {% else %}
+                                                                                    <option value="middle_school" name="program">{% trans 'Middle School Path' %}</option>
+                                                                                {% endif %}
+                                                                            {% elif program == "fast_track" %}
+                                                                                {% if request.session.is_from_fast_track %}
+                                                                                    <option value="fast_track" name="program" selected>{% trans 'Fast Track Path' %}</option>
+                                                                                {% else %}
+                                                                                    <option value="fast_track" name="program">{% trans 'Fast Track Path' %}</option>
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form> {% endcomment %}
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <!-- <input type="hidden" name="discount_code" value=""> -->
+                                                        <div class="col-md-12">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_cohort" name="cohort_start_date" required>
+                                                                        <option value="" disabled selected>{% trans "Start Date" %}</option>
+                                                                        {% for coupon_details in cohort_startdates %}
+                                                                            <option value="{{forloop.counter}}" name="cohortidselect">{{coupon_details| date:'d-M-Y'}}</option>
+                                                                        {% endfor %}
+                                                                        {% if cohort_startdates %}
+                                                                        <option value="All" name="cohortidselect">{% trans "All" %}</option>
+                                                                        {% endif %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="{% trans 'Search'%}">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+
+    $("#id_program").on("change", function(){
+        debugger
+        var program_val = $(this).val();
+        if(program_val){
+            $.ajax({
+                type: "POST",
+                url: "{% url 'select_program' %}",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                dataType: "json",
+                data: {"programname": program_val},
+                success: function(response){
+                    location.reload();
+                    {% comment %} window.location.href = "{% url 'counselor_search' %}"; {% endcomment %}
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            })
+        } else {
+            console.log("Something went wrong!!");
+        }
+    });
+
+    {% comment %} $('#id_cohort11').on('change', function (e) {
+        var school_region = $(this).val();
+         $.ajax({
+            type: 'GET',
+            url: "{% url 'cohortfilter' %}",
+            dataType: 'json',
+            data: {
+              'cohortlist': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if(data.cohortStep.length==0){
+                alert("No Step For this")
+                return;
+              }
+              console.log(data.cohortStep)
+              console.log(data.cohortStep[0].starting_date)
+              if(data.cohortStep.length==0){
+                alert("No Starting Time")
+              }
+              var select = document.getElementById('id_cohort_dates')
+              for(var i =0; i < data.cohortStep.length ; i++){
+                var option = document.createElement("option");
+                option.value = data.cohortStep[i].starting_date;
+                option.innerHTML = data.cohortStep[i].starting_date;
+                select.appendChild(option)
+              }
+            },
+            error: function (response) {
+            }
+          })
+    });
+    $(document).ready(function() {
+        $('td').removeClass('sorting_1');
+    });
+    $(document).ready(function () {
+        $('#id-school-region').select2();
+        $('#id-school-region').val(null).trigger("change");
+        $('#id-school-city').select2();
+        $('#id-school-name').select2();
+        $('#id_cohort').select2();
+        $('#id_cohort_dates').select2();
+      });
+      $('#id-school-region').on('change', function (e) {
+        var school_region = $(this).val();
+        $("#id-school-city").empty();
+        $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+        if (school_region) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-cities-name' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                var school_city = data['all_cities'];
+                for(var i = 0; i<school_city.length; i++)
+                {
+                $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+                }
+              } 
+            },
+            error: function (response) {
+            }
+          })
+        }
+      });
+    
+      $('#id-school-city').on('change', function (e) {
+        var school_region = $("#id-school-region").val();
+        var school_city = $(this).val();
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+        if (school_region && school_city) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-name-by-city' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+              'school_city':school_city,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+              var school_names = data['all_schools'];
+               for(var i = 0; i<school_names.length; i++)
+               {
+               $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+               }
+              }
+              else{
+              }
+            },
+            error: function (response) {
+            }
+          })
+        }
+      }); {% endcomment %}
+    //   $('#id_cohort').on('change', function (e) {
+    //     var selected_cohort = $(this).val();
+    //     $("#id_cohort_dates").empty();
+    //     $("#id_cohort_dates").append(`<option value="" disabled selected>Cohort Date</option>`);
+    //     if (selected_cohort) {
+    //       $.ajax({
+    //         type: 'POST',
+    //         url: "/counselor/cohort-filter/",
+    //         headers: {
+    //           'X-CSRFToken': '{{ csrf_token }}'
+    //         },
+    //         dataType: 'json',
+    //         data: {
+    //             'cohortname': selected_cohort,
+    //           },
+    //         success: function (response) {
+    //             var data = JSON.parse(JSON.stringify(response));
+    //             if (data['message'] == 'success') {
+    //               var cohort_dates = data['cohort_dates'];
+    //               for(var i = 0; i<cohort_dates.length; i++)
+    //               {
+    //               $("#id_cohort_dates").append('<option value="'+cohort_dates[i][0]+'">'+cohort_dates[i][1]+'</option>');
+    //               }
+    //             } 
+    //         },
+    //         error: function (response) {
+    //         }
+    //       });
+    //     }
+    //   });
+</script>
+<script>
+    $("#studentreport").click(function() {
+        $("#stuperformance").removeClass('active');
+        $("#studentreport").addClass('active');
+    });
+    $("#stuperformance").click(function() {
+        $("#stuperformance").addClass('active');
+        $("#studentreport").removeClass('active');
+    });
+</script>
+{% endblock %}

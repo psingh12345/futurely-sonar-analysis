@@ -1,0 +1,43 @@
+{% load stu_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student my diary</title>
+</head>
+<body>
+  {% with loopV=0 %}
+  {% for all_steps in all_courses %}
+  {% for step in all_steps %}
+  {% count_steps loopV as loopV %}
+    {% if step.step_status_id.is_active %}
+      {% for all_diaries in step.get_diary %}
+        <label for="exampleInputEmail1"><b>Step {{loopV}}:</b></label><br>
+        {% for diary in all_diaries %}
+        <div class="form-group" style="padding-top: 5px;">
+            <label for="exampleInputEmail1"><b>Domanda: {{diary.action_item_diary.sno}}</b></label><br>
+            <label for="exampleInputEmail1">{{diary.action_item_diary.question}}</label>
+            <br>
+
+            <label for="exampleInputEmail1"><b>Risposta:</b></label><br>
+            <label for="exampleInputEmail1">{{diary.answer}}</label>
+            <br>
+          {% if diary.comments_student_actions_item_diary.all %}
+              {% for comment in diary.comments_student_actions_item_diary.all %}
+
+              <label for="exampleInputEmail1" ><b>Commento:</b></label><br>
+              <label for="exampleInputEmail1">{{ comment.comment }}</label><br>
+            {% endfor %}
+            {% endif  %}
+      </div>
+      {% endfor %}
+      <hr>
+      {% endfor %} 
+    {% endif %} 
+  {% endfor %}
+  {% endfor %}
+  {% endwith %}
+  
+</body>
+</html>

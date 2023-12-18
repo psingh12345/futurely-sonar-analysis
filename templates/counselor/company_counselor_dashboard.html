@@ -1,0 +1,342 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+    background-color: #26272ba6 !important;
+    }
+	.searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.sorting_3, table.dataTable th.sorting_1, table.dataTable th.sorting_2, table.dataTable th.sorting_3 {
+    background: none !important;
+    }
+
+    .border-grad .select2-container {
+    width: 100% !important;
+}
+.select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+}
+.border-grad .select2-container .select2-selection--single {
+    height: 45px;
+    border-radius: 10px
+ !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.svg' %}) !important;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+.border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+    display: none;
+}
+.select2-dropdown {
+    background-color: #333333;
+    padding: 10px;
+    color: #fff !important;
+}
+.select2-results__options {
+	max-height: 200px;
+	overflow-y: auto;
+}
+{% comment %} .dataTables_filter {
+    display: none;
+}
+.dataTables_length {
+    display: none;
+}
+.dt-buttons {
+    display: none;
+}
+.dataTables_info{
+    display: none;
+} {% endcomment %}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+        <div class="notification-bars text-center">
+            <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                            <li class="nav-item"><a href="{% url 'counselor-dashboard' %}" id="stuperformance" class="nav-link active"><b>
+                                {% trans "Students Information" %}</b></a></li>
+                            <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link" id="studentreport"><b>
+                                    {% trans "Student Progress Report" %}</b></a></li>
+                            <li class="nav-item"><a href="{% url 'student_course_report' %}" class="nav-link" id="studentcoursereport"><b>{% trans "Progress Report" %}</b></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-box">
+                                        <div class="card-head">
+                                            <header>{% trans 'Students Information' %}</header>
+                                            <div class="col-lg-12 counselor-card-select">
+                                            <div class="row">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h5 class="color-white">{% trans 'Total number of Students' %}: {{ all_students.count }}</h5>
+                                            </div>
+                                            <div class="col-md-12">
+                                                {% if request.session.is_from_high_school %}
+                                                    <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'High School Program' %}</h5>
+                                                {% elif request.session.is_from_fast_track %}
+                                                    <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'Fast Track Path' %}</h5>
+                                                {% else %}
+                                                    <h5 class="color-white">{% trans 'Program Type' %} : {% trans 'Middle School Path' %}</h5>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-12">
+                                                {% if request.session.is_all_student %}
+                                                {% else %}
+                                                    <h5 class="color-white">{% trans 'Course Start Date' %} : {{ request.session.cohort_start_date_obj }}</h5>
+                                                {% endif %}
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <h5 class="color-white">{% trans 'Company Name' %}: {{ request.user.counselor.company }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="table-scrollable">
+                                                <table
+                                                    class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+                                                    id="exportTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th> {% trans "Email" %} </th>
+                                                            <th>{% trans "First Name" %}</th>
+                                                            <th>{% trans "Last Name" %}</th>
+                                                            <th>{% trans "Parent's Name" %}</th>
+                                                            <th>{% trans "Parent's Email" %}</th>
+                                                            {% comment %} <th>{% trans "Class Year" %}</th> {% endcomment %}
+                                                            <th>{% trans "School Name" %} </th>
+                                                            <th>Città della Scuola </th>
+                                                            {% comment %} <th>{% trans "Plan Type" %}</th> {% endcomment %}
+                                                            {% if request.user.person_role == "Futurely_admin" %}
+                                                            <th>{% trans "Cohort" %}</th>
+                                                            {% endif %}
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th> {% trans "Email" %} </th>
+                                                            <th>{% trans "First Name" %}</th>
+                                                            <th>{% trans "Last Name" %}</th>
+                                                            <th>{% trans "Parent's Name" %}</th>
+                                                            <th>{% trans "Parent's Email" %}</th>
+                                                            {% comment %} <th>{% trans "Class Year" %}</th> {% endcomment %}
+                                                            <th>{% trans "School Name" %} </th>
+                                                            <th>Città della Scuola </th>
+                                                            {% comment %} <th>{% trans "Plan Type" %}</th> {% endcomment %}
+                                                            {% if request.user.person_role == "Futurely_admin" %}
+                                                            <th>{% trans "Cohort" %}</th>
+                                                            {% endif%}
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for stu in all_students %}                                                        
+                                                        {% if request.user.person_role == "Counselor" %}
+                                                            
+                                                                <tr class="odd gradeX">
+                                                                    <td> {{forloop.counter}}</td>
+                                                                    <td>{{stu.person.username}}</td>
+                                                                    <td class="left">{{ stu.person.first_name}}</td>
+                                                                    <td class="left">{{stu.person.last_name}}</td>
+                                                                    <td>{{ stu.student_parent_detail.parent_name }}</td>
+                                                                    <td>{{ stu.student_parent_detail.parent_email }}</td>
+                                                                    {% comment %} <td class="left">{{ stu.student_school_detail.class_year }}</td> {% endcomment %}
+                                                                    <td class="left">{{ stu.student_school_detail.school_name }}</td>
+                                                                    <td class="left">{{ stu.student_school_detail.school_city }}</td>
+                                                                    {% comment %} <td>{% current_plan request stu.person %}</td> {% endcomment %}
+                                                                </tr>
+                                                            
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $(document).ready(function() {
+        $('td').removeClass('sorting_1');
+    });
+    $(document).ready(function () {
+        $('#id-school-region').select2();
+        $('#id-school-region').val(null).trigger("change");
+        $('#id-school-city').select2();
+        $('#id-school-name').select2();
+      });
+      $('#id-school-region').on('change', function (e) {
+        var school_region = $(this).val();
+        $("#id-school-city").empty();
+        $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-cities-name' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+                var school_city = data['all_cities'];
+               
+                for(var i = 0; i<school_city.length; i++)
+                {
+                $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+                }
+              } 
+            },
+            error: function (response) {
+            }
+          })
+        }
+      });
+    
+      $('#id-school-city').on('change', function (e) {
+        var school_region = $("#id-school-region").val();
+        var school_city = $(this).val();
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region && school_city) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-name-by-city' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+              'school_city':school_city,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+              var school_names = data['all_schools'];
+               
+               for(var i = 0; i<school_names.length; i++)
+               {
+               $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+               }
+              }
+              else{
+              
+              }
+            },
+            error: function (response) {
+    
+            }
+          })
+        }
+      });
+</script>
+<script>
+    $("#studentreport").click(function() {
+        $("#stuperformance").removeClass('active');
+        $("#studentreport").addClass('active');
+    });
+    $("#stuperformance").click(function() {
+        $("#stuperformance").addClass('active');
+        $("#studentreport").removeClass('active');
+    });
+</script>
+{% endblock %}

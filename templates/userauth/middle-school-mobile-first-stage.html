@@ -1,0 +1,940 @@
+{% extends 'base_mobile_inner_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Signup</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<style>
+	.main {
+		padding: 0;
+	}
+	.recaptcha{
+		display: flex;
+    	justify-content: center;
+	}
+
+	.phone_header {
+		margin-left: auto !important;
+    	margin-right: auto !important;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+	<div class="col-sm-3">
+	</div>
+	<div class="col-sm-12">
+		<div class="form-intro row">
+			<div class="mobile-login-header">
+				<a href="javascript:void(0)"
+					class="btnBack d-none" id="id_resend_otp">
+					<svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10.2401 0.641831L10.24 0.641876L1.51602 9.1892L1.51599 9.18918L1.51425 9.19097C1.11842 9.59865 0.9 10.1401 0.9 10.7155C0.9 11.2911 1.11884 11.8329 1.53184 12.2571L1.53182 12.2572L1.53352 12.2588L10.2405 20.7886C10.2405 20.7886 10.2405 20.7887 10.2405 20.7887C10.4532 20.9972 10.7265 21.1011 11 21.1011C11.2911 21.1011 11.582 20.983 11.7979 20.7497C12.2156 20.2986 12.1987 19.5863 11.76 19.1564L11.7598 19.1563L4.2647 11.8441L24 11.8441C24.6099 11.8441 25.1 11.3358 25.1 10.7155C25.1 10.0952 24.6099 9.58697 24 9.58697L4.29547 9.58697L11.7595 2.27461C12.1982 1.84477 12.2151 1.13191 11.7974 0.680846C11.3787 0.228727 10.6809 0.210473 10.2401 0.641831Z"
+							fill="white" stroke="white" stroke-width="0.2" />
+					</svg>
+				</a>
+				<h1 class="phone_header">{% trans "Sign Up" %}</h1>
+				<img src="{% static '/website/new/images/icon-mobile-auth.png' %}" />
+
+			</div>
+
+
+			<form class="row form-setup" enctype="multipart/form-data" method="post" id="id_first_form_submit">
+			<div id="signup-first-step" class="mobile-form-login-up row">
+				<div class="banner-futurelab new">
+					<div class="notification-bars text-center mx-0">
+						<span class="notify_text">{% trans 'Welcome to Middle School' %}</span>
+					</div>
+				</div>
+				{% if otp_error_msg %}
+				<div class="incorect">
+					<p style="color: red;"> {{ otp_error_msg }} </p>
+				</div>
+				{% endif %}
+
+				<div class="col-md-12">
+					{% csrf_token %}
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Student's First Name" %}</label>
+							<div class="border-grad">
+									{% render_field first_stage_form.first_name class="mobile-text-input text-box form-control" placeholder=placeholder_of_first_name %}
+							</div>
+						</div>
+						{% if first_stage_form.first_name.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ first_stage_form.first_name.errors }}</p>
+							</div>
+						{% endif %}
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Student's Last Name" %}</label>
+							<div class="border-grad">
+									{% render_field first_stage_form.last_name class="mobile-text-input text-box form-control" placeholder=placeholder_of_last_name %}
+	
+							</div>
+						</div>
+						{% if first_stage_form.last_name.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ first_stage_form.last_name.errors }}</p>
+							</div>
+						{% endif %}
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Mobile Number" %}</label>
+							<div class="border-grad">
+								<div class="contry-code-input">
+									<div class="contry-code-lists">
+										
+									<select class="select-box form-select select2" name="countryCode" id="id_country_code">
+										{% if request.LANGUAGE_CODE == "it" %}
+										<option data-countryCode="IT" value="+39" selected>+39</option>
+										{% if countryCode != None %}
+											<option data-countryCode="IT" value="{{ countryCode }}" selected>{{ countryCode }}</option>
+										{% endif %}
+										<option data-countryCode="GB" value="+44">+44</option>
+										<option data-countryCode="US" value="+1">+1</option>
+										<option data-countryCode="IN" value="+91">+91</option>
+										{% else %}
+										<option data-countryCode="US" value="+1" selected>+1</option>
+										{% if countryCode != None %}
+											<option data-countryCode="IT" value="{{ countryCode }}" selected>{{ countryCode }}</option>
+										{% endif %}
+										<option data-countryCode="GB" value="+44">+44</option>
+										<option data-countryCode="IT" value="+39">+39</option>
+										<option data-countryCode="IN" value="+91">+91</option>
+										{% endif %}
+									</select>
+									</div>
+								{% render_field first_stage_form.contact_number placeholder=placeholder_of_phone_number class="mobile-text-input text-box form-control" %}
+								<span class="d-none error-message invaild" id="id_number_invalid">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "invaild number" %}
+								</span>
+								<span class="d-none error-message success" id="id_number_valid">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+								</div>
+							</div>
+						</div>
+						{% if first_stage_form.contact_number.errors %}
+							<div class="error-msg">
+								<p>{{ first_stage_form.contact_number.errors }}</p>
+							</div>
+						{% endif %}
+							<div class="error-msg d-none" id="id_phone_number_error">
+								<p style="color: red;"></p>
+							</div>
+						{% if number_error_msg %}
+							<div class="error-msg">
+								<p style="color: red;">{{ number_error_msg }}</p>
+							</div>
+						{% endif %}
+					</div>
+					
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Parent’s E-mail ID" %}</label>
+							<div class="border-grad">
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter your e-mail id"> {% endcomment %}
+									{% render_field first_stage_form.email class="mobile-text-input text-box form-control" type="email" placeholder=placeholder_of_email value="" %}
+								<span class="d-none error-message invaild" id="id_email_exist">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg>
+								</span>
+
+								<span class="d-none error-message invaild" id="id_invlid_email">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg>
+								</span>
+								
+								<span class="d-none error-message success" id="id_email_valid">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> 
+								</span>
+							</div>
+						</div>
+						{% if email_error_msg %}
+						<div class="error-msg">
+							<p style="color: red;">{{ email_error_msg }}</p>
+						</div>
+						{% endif %}
+						{% if first_stage_form.email.errors %}
+						<div class="error-msg">
+							{{ first_stage_form.email.errors }}
+						</div>
+						{% endif %}
+						{% if email_error %}
+						<div class="error-msg">
+							<p style="color: red;">{{ email_error }}</p>
+						</div>
+						{% endif %}
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Set your password" %}</label>
+							<div class="border-grad">
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter new password"> {% endcomment %}
+								{% render_field first_stage_form.password class="mobile-text-input text-box form-control" type="password" placeholder=placeholder_of_password value="" %}
+								
+							</div>
+						</div>
+						{% if first_stage_form.password.errors %}
+						<div class="error-msg">
+							<p>{{ first_stage_form.password.errors }}</p>
+						</div>
+						{% endif %}
+						<div class="error-msg" id="id_password_error">
+							<p></p>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">Conferma Password</label>
+							<div class="border-grad">
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter new password"> {% endcomment %}
+								{% render_field first_stage_form.confirm_password class="mobile-text-input text-box form-control" type="password" placeholder=placeholder_of_password value="" %}
+							</div>
+							<div class="error-msg-confirm" id="id_confirm_password_error" style="color:red;">
+								<p></p>
+							</div>
+						</div>
+
+						
+					</div>
+					<script>
+						$("#id_confirm_password").keyup(function(){
+							check_password();
+						});
+
+						function check_password(){
+						var password = document.getElementById("id_password").value;
+						var confirm_password = document.getElementById("id_confirm_password").value;
+						if(password != confirm_password) {
+							$('#id_confirm_password_error').removeClass();
+							$('#id_confirm_password_error').addClass('error-msg-confirm');
+							$("#id_confirm_password_error p").text("La password non corrisponde");
+							return "La password non corrisponde"
+						}
+						else{
+							$('#id_confirm_password_error').removeClass('error-msg-confirm');
+							$('#id_confirm_password_error').addClass('strong-msg');
+							$("#id_confirm_password_error p").text("");
+							return "";
+						}
+						}
+					</script>
+					<div class="col-md-12 mb-4">
+						<input type="hidden" id="hdn_gender" name="hdn_gender" value="{{ gender }}">
+						<label class="mobile-label-text">{% trans "Gender" %}</label>
+						<div class="row sign-up-row">
+							{% for x, y in first_stage_form.fields.gender.choices %}
+							{% if forloop.counter == 1 %}
+							{% elif y == gender %}
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test{{ forloop.counter}}" name="gender" value="{{x}}" checked>
+									<label for="test{{forloop.counter}}">{{ y }}</label>
+								</div>
+							</div>
+							{% else %}
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test{{ forloop.counter}}" name="gender" value="{{x}}">
+									<label for="test{{forloop.counter}}">{{ y }}</label>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}
+							{% comment %} <div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test1" name="gender" value="Female">
+									<label for="test1">{% trans "Female" %}</label>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test2" name="gender" value="Male">
+									<label for="test2">{% trans "Male" %}</label>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test3" name="gender" value="other">
+									<label for="test3">{% trans "Other" %}</label>
+								</div>
+							</div> {% endcomment %}
+						</div>
+					</div>
+					<div id="recaptcha-container" class="recaptcha"></div>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad mt-3"  id="id_div_btn_next">
+								{% comment %} <button class="mobile-sign-button form-control sign-btn sign-btn-next" type="submit">
+									{% trans "Send OTP to mobile!" %}</button> {% endcomment %}
+								<button class="mobile-sign-button form-control sign-btn sign-btn-next" type="submit">
+										{% trans "Next" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad none-bg-mb">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong>{% trans "Privacy Policy" %}</strong></span>
+							<span class="mt-2 mobile-btn-agree already-login-bt">{% trans "Already have an account" %}? <a
+									href="{% url 'login' %}">{% trans "Login" %}</a></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- ============================================================================ -->
+			<!-- ============================================================================ -->
+			<div id="signup-second-step" class="mobile-form-login-up row" style="display:none;">
+				<div class="col-md-12">
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Name" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control" placeholder="" id="id_username" value="">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Mobile Number" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control" placeholder="" id="id_edit_phone" value="">
+								{% comment %} <span class="edit-mobile-nm">{% trans "Edit" %}</span> {% endcomment %}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "One Time Password" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control"
+									placeholder="{% trans 'Please Enter the OTP Recieved' %}" id="otp_verification" 
+									name="otp" onkeyup="otp_verify(this.value);">
+								<span class="d-none error-message invaild" id="id_otp_invalid">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Wrong OTP" %}
+								</span>
+								<span class="d-none error-message success" id="id_otp_verified">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+							<div class="bottom-mobile-sub-text">
+								<span>{% trans "Didn’t recieved the code yet" %}?</span>
+								<span class="resent-otp-nm" style="cursor: pointer;" id="id_resend_otp" disabled><u>{% trans "Resend OTP" %}</u></span>
+								<span class="" id="id_otp_valid_time"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad" id="id_div_btn_next">
+								<button id="signup-second-btn" type="submit"
+									class="mobile-sign-button form-control sign-btn sign-btn-next">
+									{% trans "Confirm OTP" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong>{% trans "Privacy Policy" %}</strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+// $(document).ready(function () {
+    var coupon_code = $('#id_discount_coupon_code').val();
+    var first_request = "{{first_request}}"
+	check_email_validation();
+
+    $('#id_country_code').select2();
+    $('#id-class-name').select2();
+    $('#id-class-specialization').select2();
+	$('#id-class-year').select2();
+    
+	window.onload = function () {
+		render();
+	};
+	function render() {
+		// var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+			'recaptcha-container',{
+				size: "invisible"
+			});
+		//recaptchaVerifier.render();
+	}
+	var form_validated = false;
+	var is_first_name = false;
+	var is_last_name = false;
+	var form_status = false;
+	var is_gender = false;
+	var is_contact_number = false;
+	var is_email = false;
+	var is_otp_verification = false;
+	var is_otp_verified = false;
+	var first_name = $("#id_first_name").val();
+	var last_name = $("#id_last_name").val();
+	var gender = $('input[name="gender"]:checked');
+	var contact_number = $("#id_contact_number").val();
+	var otp_verification = $("#otp_verification").val();
+	var future_lab_code = $("#future_lab_code").val();
+	var id_class_year = $("#id-class-year").val();
+	var is_password = false;
+	var email = document.getElementById("id_email").value;
+	var password = document.getElementById("id_password").value;
+
+	function checkStrength(password) {  
+        var strength = 0
+        if (password.length < 6) {  
+			is_password_valid = false;
+            $('#id_password_error').removeClass();
+            $('#id_password_error').addClass('error-msg');
+			$("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+            return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"
+        }  
+        if (password.length > 5) strength += 1  
+        // If password contains both lower and uppercase characters, increase strength value.  
+        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1  
+        // If it has numbers and characters, increase strength value.  
+        if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1  
+        // If it has one special character, increase strength value.  
+        // If value is less than 2  
+        if (strength < 3) {
+			is_password_valid = false;
+            $('#id_password_error').removeClass();
+            $('#id_password_error').addClass('error-msg');
+			$("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+            return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"  
+        } else {  
+            $('#id_password_error').removeClass();  
+            $('#id_password_error').addClass('strong-msg');
+			$("#id_password_error p").text("");  
+			$("#id_password").attr("style", "border:#2E2F32!important");
+			is_password_valid = true;
+            return ''  
+        }  
+    }
+
+	$('#id_password').keyup(function() {
+		$("#id_password_error p").text(checkStrength($('#id_password').val()));
+			check_password();
+		
+	});
+
+
+    var is_form_valid = false;
+	$("#id_first_form_submit").submit(function(e) {
+		contact_number = $('#id_contact_number').val();
+		password = $('#id_password').val();
+		confirm_password = $('#id_confirm_password').val();
+		if(password != confirm_password){
+			return false;
+		}
+		if(is_email_valid == true && is_password_valid == true){
+			return true;
+		}
+		//else if(is_email_valid == true && is_password_valid == true){
+		//	phoneAuth();
+		//	return false;
+		//}
+		else if(is_email_valid == false){
+			$(".email_validation_error").removeClass("d-none");
+			setTimeout(function() {
+				$(".email_validation_error").addClass("d-none");
+			}, 5000);
+			return false;
+		}
+		else{
+			return false;
+		}
+	});
+
+	$("#id_email").blur(function () {
+		check_email_validation();
+	});
+
+	function check_email_validation(){
+		var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		var email_id = $("#id_email").val();
+		if (email_id.length > 0) {
+			if (!regex.test(email_id)) {
+				$("#id_invlid_email").removeClass('d-none');
+				$("#id_email_exist").addClass('d-none');
+			} else {
+				$.ajax({
+					type: 'POST',
+					url: "{% url 'check_email' %}",
+					headers: {
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					dataType: 'json',
+					data: {
+						'email': email_id,
+					},
+					success: function (response) {
+						if (response['message'] == "success" && response['is_exists'] == true) {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_exist").removeClass('d-none');
+							$("#id_email_valid").addClass("d-none");
+							is_email = false;
+						}
+						else if (response['message'] == "success" && response['is_exists'] == false) {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_exist").addClass('d-none');
+							$("#id_email_valid").removeClass("d-none");
+							is_email = true;
+						}
+						else {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_valid").addClass("d-none");
+							$("#id_email_exist").removeClass('d-none');
+							is_email = false;
+						}
+					},
+					error: function (response) {
+						$("#id_invlid_email").addClass('d-none');
+						$("#id_email_valid").addClass("d-none");
+						$("#id_email_exist").removeClass('d-none');
+						is_email = false;
+					}
+				});
+			}
+		} else {
+			$("#id_invlid_email").addClass('d-none');
+			$("#id_email_exist").addClass('d-none');
+		}
+	}
+
+	function otp_verify(otp_num){
+		if (otp_num.length === 6) {
+			check_otp(otp_num)
+		}
+	}
+
+	function check_otp(code){
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'check_master_code' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			dataType: 'json',
+			data: {
+				"otp": code,
+			},
+			success: function (response){
+				if(response['msg'] == "success" && response["is_exists"] == "Yes" ){
+					// alert("Successfully registered with master OTP!!");
+					$("#id_otp_invalid").addClass('d-none');
+					$("#id_otp_verified").removeClass('d-none');
+					$("#id_otp_valid_time").addClass("d-none");
+					//$("#id_resend_otp").addClass("d-none");
+					$("#otp_verification").attr("style", "border:#2E2F32!important");
+					// $("#recaptcha-container").attr("style", "display:none");
+					is_otp_verified = true;
+					//$("#recaptcha-container").addClass("d-none");
+				}else if(response['msg'] == "success" && response["is_exists"] == "No" ){
+					verification_with_otp(code);
+				}else{
+					verification_with_otp(code);
+				}
+			}
+		});
+	}
+
+	function verification_with_otp(code){
+		coderesult.confirm(code).then(function (result) {
+			// alert("Successfully registered");
+			var user=result.user;
+			$("#id_otp_invalid").addClass('d-none');
+			$("#id_otp_verified").removeClass('d-none');
+			$("#otp_verification").attr("style", "border:#2E2F32!important");
+			// $("#recaptcha-container").attr("style", "display:none");
+			$("#id_otp_valid_time").addClass("d-none");
+			//$("#id_resend_otp").addClass("d-none");
+			is_otp_verified = true;
+			//$("#recaptcha-container").addClass("d-none");
+			otp_verification_with_backend("Yes")
+		}).catch(function (error) {
+			$("#otp_verification").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_otp_verified = false;
+			$("#id_otp_invalid").removeClass("d-none");
+			$("#id_otp_verified").addClass('d-none');
+			var resend_btn = document.getElementById("send_otp_button");
+			resend_btn.innerHTML = "Resend";
+			//$("#recaptcha-container").removeClass("d-none");
+			$("#send_otp_button").removeClass("d-none");
+			// alert(error.message);
+		});
+	};
+
+	function otp_verification_with_backend(otp_status){
+		var email = document.getElementById("id_email").value;
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'otp_verification' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			dataType: 'json',
+			data: {
+				'stu_email': email,
+				'otp_status': otp_status,
+			},
+			success: function (response) {
+				console.log(response);
+			},
+			error: function(err){
+				console.log(err);
+			}
+		})
+	};
+
+	var timerId;
+
+	function go_back(){
+		clearTimeout(timerId);
+		$('#id_resend_otp').removeAttr('onclick');
+		$(".resent-otp-nm#id_resend_otp").removeAttr('onclick')
+		$("#signup-first-step").show();
+		$('#signup-second-step').hide();
+		$("input#otp_verification").prop('required',false);
+		$("input#otp_verification").val('');
+		//$("#id_resend_otp").addClass("d-none");
+		$("#id_otp_valid_time").addClass("d-none");
+		$("#id_otp_valid_time").html("");
+		$("#id_resend_otp").addClass("d-none");
+		$("#id_otp_invalid").addClass("d-none");
+		$("#id_otp_verified").addClass('d-none');
+	}
+
+	function phoneAuth(){
+		var country_code = $("#id_country_code").find(":selected").val();
+		var number = document.getElementById('id_contact_number').value;
+		var first_name = document.getElementById('id_first_name').value;
+		var last_name = document.getElementById('id_last_name').value;
+		var phone_number = country_code+number
+		if (!phone_number.length == 0 && !country_code.length == 0) {
+			firebase.auth().signInWithPhoneNumber(phone_number, window.recaptchaVerifier).then(function (confirmationResult) {
+				window.confirmationResult = confirmationResult;
+				coderesult = confirmationResult;
+				// alert("OTP sent on your phone.");
+				$("#id_resend_otp").removeClass("d-none");
+				$('#signup-first-step').hide();
+				//$("#signup-second-step").show();
+				$("#signup-second-step").css('display','flex');
+                $("input#otp_verification").prop('required',true);
+				//$("#recaptcha-container").addClass("d-none");
+				$("#id_username").val(first_name + " " + last_name);
+				$("#id_edit_phone").val(phone_number);
+				$("#id_username").prop('disabled', true);
+				$("#id_edit_phone").prop('disabled', true);
+				var timeLeft = 60;
+				var elem = document.getElementById('id_otp_valid_time');
+				timerId = setInterval(countdown, 1000);
+				function countdown() {
+					if (timeLeft == -1) {
+						clearTimeout(timerId);
+						$("#id_otp_valid_time").addClass("d-none");
+						//$("#id_resend_otp").removeClass("d-none");
+						$('#id_resend_otp').attr('onClick', 'go_back();');
+						$('.resent-otp-nm#id_resend_otp').attr('onClick', 'go_back();')
+						$("#id_otp_valid_time").html("");
+					} else {
+						elem.innerHTML = timeLeft + ' sec';
+						timeLeft--;
+					}
+				}
+			}).catch(function (error) {
+				// alert(error.message);
+				$("#id_phone_number_error").text(error.message);
+				$("#id_phone_number_error").removeClass("d-none");
+				//$("#recaptcha-container").removeClass("d-none");
+				$("#id_input_otp").addClass("d-none");
+				var elem = document.getElementById('send_otp_button')
+				elem.innerHTML = "Resend";
+			});
+		}
+		else {
+			$("#id_first_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_first_name = false;
+			$("#id_contact_number").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_contact_number = false;
+		};
+	};
+
+	setTimeout(function() {
+		$('.id_phone_number_error').fadeOut();
+		$('.id_phone_number_error').val('')
+	}, 1000);
+
+	function apply_discount_code(is_from_onblur) {
+		var coupon_code = $('#future_lab_code').val();
+		if (coupon_code) {
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'coupon-code-exists' %}",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				dataType: 'json',
+				data: {
+					'coupon_code': coupon_code,
+				},
+				success: function (response) {
+					var data = JSON.parse(JSON.stringify(response));
+					if (data['message'] == 'success') {
+						//$('#btn-apply-code').hide();
+						//$('#btn-remove-code').show();
+						$('#id_future_lab_code').val(coupon_code);
+						$("#id_applied_code").removeClass("d-none");
+						$("#id_invalid_code").addClass("d-none");
+						//$("#id_discount_coupon_code").attr('readonly','readonly');
+						$("#idForm").append(`
+					<input type="hidden" id="id-school-region" name="school-region" value="${data["data"]["state"]}">
+					<input type="hidden" id="id-school-city" name="school-city" value="${data["data"]["city"]}">
+					<input type="hidden" id="id-school-name" name="school-name" value="${data["data"]["name"]}">
+					`);
+
+					} else {
+						//$('#btn-apply-code').show();
+						//$('#btn-remove-code').hide();
+						//$('#id_discount_coupon_code').val('');
+						$('#id_future_lab_code').val('');
+						$("#id_invalid_code").removeClass("d-none");
+						$("#id_applied_code").addClass("d-none");
+						//$("#id_discount_coupon_code").removeAttr('readonly');
+					}
+				},
+				error: function (response) {
+					//$('#btn-apply-code').show();
+					//$('#btn-remove-code').hide();
+					//$('#id_discount_coupon_code').val('');
+					$('#id_future_lab_code').val('');
+					$("#id_invalid_code").removeClass("d-none");
+					$("#id_applied_code").addClass("d-none");
+					//$("#id_discount_coupon_code").removeAttr('readonly');
+				},
+				async: is_from_onblur
+			});
+		};
+	};
+	$('#future_lab_code').on('blur', function (e) {
+		// alert("Out Blur");
+		apply_discount_code(true);
+	});
+
+</script>
+<script>
+	$(document).ready(function () {
+
+		$("#id_are_you_fourteen_plus").change();
+		"{% if gender_other_error %}"
+		$("#id_div_other_gender").show();
+		$('#id_div_gender').removeClass('col-md-12');
+		$('#id_div_gender').addClass('col-md-6');
+		$('#id_gender_other').attr('required', 'true');
+		"{% else %}"
+		$("#id_div_other_gender").hide();
+		"{% endif %}"
+
+		$.validator.addMethod("valueEquals", function (value, element, arg) {
+			return value == 'Yes';
+		}, "Our program is intended only for high school students who are 14 and above.");
+
+		$("form").validate({
+			rules: {
+				are_you_fourteen_plus: { valueEquals: "Yes" }
+			},
+			// messages: {
+			//   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+			// }  
+		});
+
+	});
+
+	$("#id_gender").change(function () {
+		var selected_text = $(this).find("option:selected").text();
+		var selected_val = $(this).find("option:selected").val()
+		$("#hdn_gender").val(selected_val);
+
+		$("#id_gender option:first").text("{% trans 'Gender'%} - " + selected_text);
+		$("#id_gender option:first").val(selected_val);
+		$("#id_gender")[0].selectedIndex = 0;
+		if (selected_val == "Other") {
+			$("#id_div_other_gender").show();
+			$('#id_div_gender').removeClass('col-md-12');
+			$('#id_div_gender').addClass('col-md-6');
+			$('#id_gender_other').attr('required', 'true');
+		}
+		else {
+			$("#id_gender_other").val('');
+			$("#id_div_other_gender").hide();
+			$('#id_div_gender').removeClass('col-md-6');
+			$('#id_div_gender').addClass('col-md-12');
+			$('#id_gender_other').removeAttr('required');
+
+		}
+
+	});
+	$(document).ready(function () {
+
+		$("#id_are_you_fourteen_plus").change();
+		"{% if how_know_us_other_error %}"
+		$("#id_div_other").show();
+		$('#id_div_how_know_us').removeClass('col-md-12');
+		$('#id_div_how_know_us').addClass('col-md-6');
+		$('#id_how_know_us_other').attr('required', 'true');
+		"{% else %}"
+		$("#id_div_other").hide();
+		"{% endif %}"
+
+		$.validator.addMethod("valueEquals", function (value, element, arg) {
+			return value == 'Yes';
+		}, "Our program is intended only for high school students who are 14 and above.");
+
+		$("form").validate({
+			rules: {
+				are_you_fourteen_plus: { valueEquals: "Yes" }
+			},
+			// messages: {
+			//   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+			// }  
+		});
+
+	});
+
+	$("#id_how_know_us").change(function () {
+		var selected_text = $(this).find("option:selected").text();
+		var selected_val = $(this).find("option:selected").val()
+		$("#hdn_how_know_us").val(selected_val);
+
+		$("#id_how_know_us option:first").text("{% trans 'How did you get to know us?'%} - " + selected_text);
+		$("#id_how_know_us option:first").val(selected_text);
+		$("#id_how_know_us")[0].selectedIndex = 0;
+		if (selected_val == "Other") {
+			$("#id_div_other").show();
+			$('#id_div_how_know_us').removeClass('col-md-12');
+			$('#id_div_how_know_us').addClass('col-md-6');
+			$('#id_how_know_us_other').attr('required', 'true');
+		}
+		else {
+			$("#id_how_know_us_other").val('');
+			$("#id_div_other").hide();
+			$('#id_div_how_know_us').removeClass('col-md-6');
+			$('#id_div_how_know_us').addClass('col-md-12');
+			$('#id_how_know_us_other').removeAttr('required');
+
+		}
+
+	});
+
+	$("#id_are_you_fourteen_plus").change(function () {
+		if ($(this).val() == 'No') {
+			$('#fourteenPlusModal').modal('show');
+			$('#btn_next').attr('disabled', true);
+			$('#id_div_btn_next').attr('style', 'background: none !important');
+			$('#btn_next').attr('style', 'border: none !important');
+			$('#btn_next').attr('title', `{% trans "Select correct option for 'Are you 14+?'" %}`);
+		}
+
+		else if ($(this).val() == 'Yes') {
+			$('#btn_next').removeAttr('disabled');
+			$('#id_div_btn_next').removeAttr('style');
+			$('#btn_next').removeAttr('style');
+		}
+
+		if ($(this).val() == 'Yes' || $(this).val() == 'No') {
+			var selected_text = $(this).find("option:selected").text();
+			var selected_value = $(this).find("option:selected").val();
+			$(this).empty();
+			$(this).append(`<option value="${selected_value}" selected>{% trans 'Are you 14+?' %} - ${selected_text}</option>`);
+			$(this).append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+			$(this).append(`<option value="No">{% trans 'No' %}</option>`);
+		}
+	});
+
+
+
+	function passview() {
+		var x = document.getElementById("id_password");
+		if (x.type === "password") {
+			x.type = "text";
+			$("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+		}
+		else {
+			x.type = "password";
+			$("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+		}
+	}
+</script>
+{% endblock %}

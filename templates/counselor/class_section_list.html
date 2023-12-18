@@ -1,0 +1,82 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Class section list</title>
+{% endblock %}
+
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<style>
+
+</style>
+
+<div class="main-content py-4">
+    <div class="container-fluid">
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+            <div class="notification-bars text-center">
+                <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="state-overview">
+                        <div class="row">
+                            {% for class_detail in class_section_data %}
+                            <div class="col-xl-3 col-md-6 col-12 d-flex">
+                                <div class="d-flex col-12">
+                                    <div class="info-box">
+                                        <span class="info-box-text" style="white-space: normal;">{{ class_detail.class_year__name }} {{ class_detail.class_name__name }}<br>{% if is_from_middle_school %}{% else %}{{ class_detail.specialization__name }}{% endif %}</span>
+                                        {% comment %} <span class="info-box-text" style="white-space: normal;">{{ class_detail.specialization__name }}</span> {% endcomment %}
+                                        <div class="info-box-in">
+                                        {% comment %} <span class="info-box-icon push-bottom"><i class="fas fa-users"></i></span> {% endcomment %}
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">{{ class_detail.total }} - studenti</span>
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-info" href="{% url 'counselor-dashboard' %}?class_name={{ class_detail.class_name__name }}&class_year={{ class_detail.class_year__name }}&ifflow=True&specialization={{ class_detail.specialization__name }}">Clicca qui</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="col-xl-3 col-md-6 col-12 d-flex">
+                                <div class="d-flex col-12" >
+                                    <div class="info-box">
+                                        <span class="info-box-text" style="white-space: normal;">Totale Studenti </span>
+                                        <div class="info-box-in">
+                                        {% comment %} <span class="info-box-icon push-bottom"><i class="fas fa-users"></i></span> {% endcomment %}
+                                        <div class="info-box-content">
+                                            {% comment %} <span class="info-box-number">Total Students</span>{% endcomment %}
+                                            <span class="info-box-number">{{ all_students.count }} - studenti</span> 
+                                        </div>
+                                    </div>
+                                    <a class="btn btn-info" href="{% url 'counselor-dashboard' %}?ifflow=True&total_students={{all_students.count}}">Clicca qui</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,542 @@
+{% extends 'base_admin.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Search Page For Admin</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+        background-color: #26272ba6 !important;
+    }
+	.searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.sorting_3, table.dataTable th.sorting_1, table.dataTable th.sorting_2, table.dataTable th.sorting_3 {
+    background: none !important;
+    }
+
+    .border-grad .select2-container {
+        width: 100% !important;
+    }
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+    .border-grad .select2-container .select2-selection--single {
+        height: 45px;
+        border-radius: 10px !important;
+        padding: 10px;
+        border: 1px solid #2E2F32!important;
+        color: #fff !important;
+        background-color: #333333 !important;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        width: 100%;
+        background-image: url({% static 'images/dropdown.svg' %}) !important;
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+    .border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+        display: none;
+    }
+    .select2-dropdown {
+        background-color: #333333;
+        padding: 10px;
+        color: #fff !important;
+    }
+    .select2-results__options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    {% comment %} <ul class="nav customtab nav-tabs" role="tablist">
+                        <li class="nav-item"><a href="{% url 'counselor-dashboard' %}" id="stuperformance" class="nav-link active"><b>Students Information</b></a></li>
+                        <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link" id="studentreport"><b>Student Progress Report</b></a></li>
+                    </ul> {% endcomment %}
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-box">
+                                        <div class="card-head">
+                                            <header>{% trans "Students Information" %}</header>
+                                            <div class="col-lg-12 counselor-card-select">
+                                            <div class="row">
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body ">
+                                            {% if request.user.person_role == "Futurely_admin" %}
+                                                <div >
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id-school-region" name="school-region" required>
+                                                                        {% if request.LANGUAGE_CODE == "it" %}
+                                                                        <option value="" disabled selected>{% trans "School region" %}</option>
+                                                                        {% else %}
+                                                                        <option value="" disabled selected>{% trans "School state" %}</option>
+                                                                        {% endif %}
+                                                                        {% for school in school_regions %}
+                                                                        <option value="{{school.region}}">{{school.region}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id-school-city" name="school-city" required>
+                                                                        <option value="" disabled selected>{% trans "School city" %}</option>
+                                                                        {% for school in school_cities %}
+                                                                        <option value="{{school.city}}">{{school.city}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-6">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id-school-name" name="school-name" required>
+                                                                        <option value="" disabled selected>{% trans "School name" %}</option>
+                                                                        {% for school in school_names %}
+                                                                        <option value="{{school.name}}">{{school.name}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="{% trans "Submit" %}">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <hr>
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_cohort" name="cohort" required>
+                                                                        <option value="" disabled selected>{% trans "Choose A Cohort" %}</option>
+                                                                        {% for cohortlist in allcohort %}
+                                                                        <option value="{{cohortlist.cohort_name}}" name="cohortidselect">{{cohortlist.cohort_name}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_cohort_dates" name="cohort_date" required>
+                                                                        <option value="" disabled selected>{% trans "Cohort Date" %}</option>
+                                                                        
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                         
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="Search">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <hr>
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                                                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                                                    <input type="text" class="text-box form-control" name="student-email" placeholder="{% trans "Enter email" %}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="{% trans "Submit" %}">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <hr>
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                                                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                                                    <input type="text" class="text-box form-control" name="discount_code" placeholder="{% trans "Discount code" %}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="{% trans "Submit" %}">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <hr>
+                                                    <form class="row" method="POST" action="">
+                                                        {% csrf_token %}
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_discount_code" name="discount_code" required>
+                                                                        <option value="" disabled selected>{% trans "Choose A Discount code" %}</option>
+                                                                        {% for discount_code in discount_codes %}
+                                                                        <option value="{{ discount_code.code }}" name="cohortidselect">{{ discount_code.code }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_coupon_cohort" name="cohort" required>
+                                                                        <option value="" disabled selected>{% trans "Choose A Cohort" %}</option>
+                                                                        {% comment %} {% for cohortlist in allcohort %}
+                                                                        <option value="{{cohortlist.cohort_name}}" name="cohortidselect">{{cohortlist.cohort_name}}</option>
+                                                                        {% endfor %} {% endcomment %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="border-grad-inner">
+                                                                <div class="border-grad">
+                                                                    <select class="select-box form-select select2" id="id_coupon_cohort_dates" name="cohort_date" required>
+                                                                        <option value="" disabled selected>{% trans "Cohort Date" %}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                         
+                                                        <div class="col-md-2 col-sm-2 col-2">
+                                                            <div class="btn-group">
+                                                                <input type="submit" class="btn btn-info" value="Search">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $('#id_cohort11').on('change', function (e) {
+        var school_region = $(this).val();
+
+         $.ajax({
+            type: 'GET',
+            url: "{% url 'cohortfilter' %}",
+            
+            dataType: 'json',
+            data: {
+              'cohortlist': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if(data.cohortStep.length==0){
+                alert("No Step For this")
+                return;
+              }
+              console.log(data.cohortStep)
+              console.log(data.cohortStep[0].starting_date)
+              if(data.cohortStep.length==0){
+                alert("No Starting Time")
+              }
+              var select = document.getElementById('id_cohort_dates')
+              for(var i =0; i < data.cohortStep.length ; i++){
+                var option = document.createElement("option");
+                option.value = data.cohortStep[i].starting_date;
+                option.innerHTML = data.cohortStep[i].starting_date;
+                 
+                select.appendChild(option)
+              }
+               
+            },
+            error: function (response) {
+            }
+          })
+    });
+
+    $(document).ready(function() {
+        $('td').removeClass('sorting_1');
+    });
+    $(document).ready(function () {
+        $('#id-school-region').select2();
+        $('#id-school-region').val(null).trigger("change");
+        $('#id-school-city').select2();
+        $('#id-school-name').select2();
+        $('#id_cohort').select2();
+        $('#id_cohort_dates').select2();
+        $('#id_discount_code').select2();
+
+      });
+      $('#id-school-region').on('change', function (e) {
+        var school_region = $(this).val();
+        $("#id-school-city").empty();
+        $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-cities-name' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+                var school_city = data['all_cities'];
+               
+                for(var i = 0; i<school_city.length; i++)
+                {
+                $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+                }
+              } 
+            },
+            error: function (response) {
+            }
+          })
+        }
+      });
+    
+      $('#id-school-city').on('change', function (e) {
+        var school_region = $("#id-school-region").val();
+        var school_city = $(this).val();
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region && school_city) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-name-by-city' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+              'school_city':school_city,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+              var school_names = data['all_schools'];
+               
+               for(var i = 0; i<school_names.length; i++)
+               {
+               $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+               }
+              }
+              else{
+              
+              }
+            },
+            error: function (response) {
+    
+            }
+          })
+        }
+      });
+
+      $("#id_coupon_cohort").empty();
+      $("#id_coupon_cohort").append(`<option value="" disabled selected>{% trans "Choose A Cohort" %}</option>`);
+
+      $("#id_discount_code").on('change', function() {
+        var selected_discount_code = $(this).val();
+        $("#id_coupon_cohort").empty();
+        $("#id_coupon_cohort").append(`<option value="" disabled selected>{% trans "Choose A Cohort" %}</option>`);
+        $("#id_coupon_cohort_dates").empty();
+        $("#id_coupon_cohort_dates").append(`<option value="" disabled selected>Cohort Date</option>`);
+        if(selected_discount_code){
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'discount_filter' %}",
+                headers: {
+                  'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                data: {
+                    'discount_code_id': selected_discount_code,
+                  },
+                success: function (response) {
+                    var data = JSON.parse(JSON.stringify(response));
+                    if (data['message'] == 'success') {
+                      var cohort_name = data['cohortname'];
+                      for(var i = 0; i<cohort_name.length; i++)
+                      {
+                        $("#id_coupon_cohort").append('<option value="'+cohort_name[i][0]+'">'+cohort_name[i][0]+'</option>');
+                      }
+                    } 
+                },
+                error: function (response) {
+                }
+              });
+        }
+      });
+
+      $(document).on('change', 'select#id_coupon_cohort', function (e) {
+        var selected_cohort = $(this).val();
+        $("#id_coupon_cohort_dates").empty();
+        $("#id_coupon_cohort_dates").append(`<option value="" disabled selected>Cohort Date</option>`);
+        if (selected_cohort) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'cohortfilter' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+                'cohortname': selected_cohort,
+              },
+            success: function (response) {
+                var data = JSON.parse(JSON.stringify(response));
+                if (data['message'] == 'success') {
+                  
+                  var cohort_dates = data['cohort_dates'];
+                 
+                  for(var i = 0; i<cohort_dates.length; i++)
+                  {
+                  $("#id_coupon_cohort_dates").append('<option value="'+cohort_dates[i][0]+'">'+cohort_dates[i][1]+'</option>');
+                  }
+                } 
+            },
+            error: function (response) {
+            }
+          });
+        }
+      });
+
+      $('#id_cohort').on('change', function (e) {
+        var selected_cohort = $(this).val();
+        $("#id_cohort_dates").empty();
+        $("#id_cohort_dates").append(`<option value="" disabled selected>Cohort Date</option>`);
+        if (selected_cohort) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'cohortfilter' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+                'cohortname': selected_cohort,
+              },
+            success: function (response) {
+                var data = JSON.parse(JSON.stringify(response));
+                if (data['message'] == 'success') {
+                  
+                  var cohort_dates = data['cohort_dates'];
+                 
+                  for(var i = 0; i<cohort_dates.length; i++)
+                  {
+                  $("#id_cohort_dates").append('<option value="'+cohort_dates[i][0]+'">'+cohort_dates[i][1]+'</option>');
+                  }
+                } 
+            },
+            error: function (response) {
+            }
+          });
+        }
+      });
+</script>
+<script>
+    $("#studentreport").click(function() {
+        $("#stuperformance").removeClass('active');
+        $("#studentreport").addClass('active');
+    });
+    $("#stuperformance").click(function() {
+        $("#stuperformance").addClass('active');
+        $("#studentreport").removeClass('active');
+    });
+</script>
+{% endblock %}

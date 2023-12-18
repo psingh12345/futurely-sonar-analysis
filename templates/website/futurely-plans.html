@@ -1,0 +1,534 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Plans" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <section class="school-banner-section pricing-banner">
+      <div class="banner-img">
+	  <img src="{% static '/website/images/price-banner.png' %}"/>
+      </div>
+	  <div class="pricing-banner-content ">
+	  <h2>{% trans "Build your future. Choose your plan."%}</h2>
+	  {% if request.LANGUAGE_CODE != "it" %}
+	  	<p>“There are dreamers and there are planners; the planners make their dreams come true.”</p>
+	  {% endif %}
+	  </div>
+    </section>
+<div class="bg-img-sec">
+	<div class="star-field">
+		<div class="layer"></div>
+		<div class="layer"></div>
+		<div class="layer"></div>
+	  </div>
+	<section class="pricing-section bg-image-pricingeffect">
+        <div class="container container-card-paddingtop">
+			  <div class="row " >
+				{% for plan in all_plans %}
+				{% if plan.plan_name == "Community" %}
+				  <div class="col-lg-4  px-0" id="first-price">
+					    <div class="card-pricing text-center card-radius2">
+							 <div class="card-pricing-header text-center">
+								<h1 class=" h1-text-size">{{plan.title}}</h1>
+								{% if request.LANGUAGE_CODE == "it" %}
+								<p>1° step + 2 webinar</p>
+								<!-- <p>10h Webinar<br>(1h webinar / mese) </p> -->
+								{% else %}
+								  <p>5h Webinar<br>(1h webinar every 2 months) </p>
+								{% endif %}
+								<h3>Free</h3>
+							  <div class="btn-btm-pricing">
+								{% if request.session.is_from_ios_app %}
+								{% else %}
+							  		<a href="{% url 'register'%}?plan=Community" class="btn btn-buy-btn">Free login</a>
+								{% endif %}
+							  <a id="first-popup-btn"class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+							  </div>
+							  <img class="img-card-top" src="{% static '/website/images/pricing-2-img.png' %}">
+							</div>
+						</div>
+				  </div>
+				{% elif plan.plan_name == "Premium" %}
+				  	<div class="col-lg-4  px-0" id="second-price">
+					<div class="card-pricing text-center card-radius2">
+						 <div class="card-pricing-header text-center">
+							<h1 class=" h1-text-size">{{plan.title}}</h1>
+							{% if request.LANGUAGE_CODE == "it" %}
+							<p>Community + Percorso <br> "{{plan.sub_title}}"
+							</p>
+							{% else %}
+							<p>Community plan + <br>"{{plan.sub_title}}"<br> 'Online class'
+							</p>
+							{% endif %}
+							<h3>{% trans '$'%}{{plan.cost}}</h3>
+							{% if request.LANGUAGE_CODE == "it" %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+									<a href="{% url 'register'%}?plan=Premium" class="btn btn-buy-btn">{% trans "Free 10 days trial" %}<span class="small-text-messag">{% trans "No credit card required" %}</span></a>
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									{% endif %}
+								<a id="second-popup-btn" class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+							{% else %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+									<a href="{% url 'register'%}?plan=Premium" class="btn btn-buy-btn">{% trans "Free 10 days trial" %}<span class="small-text-messag">{% trans "No credit card required" %}</span></a>
+									<a href="{% url 'register'%}?plan=Premium" class="btn btn-buy-btn">{% trans "Signup" %}</a>
+									{% endif %}
+									<a id="second-popup-btn" class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+								<!-- <div class="btn-btm-pricing">
+									<a href="/checkout/{{plan.id}}/futu100/?lang=en" class="btn btn-buy-btn">{% trans "Free 10 days trial" %}<span class="small-text-messag">{% trans "No credit card required" %}</span></a>
+									<a href="/checkout/{{plan.id}}/futu100/?lang=en" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									<a id="second-popup-btn" class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div> -->
+							{% endif %}
+						  <img class="img-card-top" src="{% static '/website/images/pricing-1-img.png' %}">
+						</div>
+					</div>
+			  		</div>
+				{% elif plan.plan_name == "Elite" %}
+					<div class="col-lg-4  px-0" id="third-price">
+						<div class="card-pricing text-center card-radius2">
+							<div class="card-pricing-header text-center">
+								<h1 class=" h1-text-size">{{plan.title}}</h1>
+								{% if request.LANGUAGE_CODE == "it" %}
+								<p> Premium  +  Percorso <br>"{{plan.sub_title}}"</p>
+								{% else %}
+								<p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+								{% endif %}
+								<h3>{% trans '$'%}{{plan.cost}}</h3>
+							{% if request.LANGUAGE_CODE == "it" %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% comment %} <a href="{% url 'register'%}?plan=Elite" class="btn btn-buy-btn">{% trans "Signup" %}</a> {% endcomment %}
+									{% else %}
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									{% endif %}
+									<a id="third-popup-btn"class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+							{% else %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+									<a href="{% url 'register'%}?plan=Elite" class="btn btn-buy-btn">{% trans "Signup" %}</a>
+									{% endif %}
+									<a id="third-popup-btn"class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+								<!-- <div class="btn-btm-pricing">
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									<a id="third-popup-btn"class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div> -->
+							{% endif %}
+							<img class="img-card-top" src="{% static '/website/images/pricing-3-img.png' %}">
+							</div>
+							
+						</div>
+					</div>
+				{% endif %}
+				{% endfor %}
+				{% for plan in all_plans %}
+          			{% if plan.plan_name == "Community" %}
+					<div class="col-lg-8 px-0 popup-showw-first" id="first-price">
+						<div class="card-pricing text-center card-radius2">
+							<div class="row">
+							<div class="col-lg-6">
+							<div class="card-pricing-header text-center">
+								<h1 class=" h1-text-size">{{plan.title}}</h1>
+								{% if request.LANGUAGE_CODE == "it" %}
+								<p>1° step + 2 webinar</p>
+								  <!-- <p>10h Webinar<br>(1h webinar / mese) </p> -->
+								{% else %}
+								  <p>5h Webinar<br>(1h webinar every 2 months) </p>
+								{% endif %}
+								<br>
+								<h3>Free</h3>
+							<div class="btn-btm-pricing">
+								{% if request.session.is_from_ios_app %}
+									{% else %}
+							<a href="{% url 'register'%}" class="btn btn-buy-btn">Free login</a>
+							{% endif %}
+							<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+							</div>
+							<img class="img-card-top" src="{% static '/website/images/pricing-1-img.png' %}">
+							</div>
+						</div>
+						<div class="col-lg-6" >
+							<div class="card-pricing-body">
+								<img class="arrow-card-backk popup-hide-first" src="{% static '/website/images/arrow-sliderr.png' %}">
+								{% if request.LANGUAGE_CODE == "it" %}
+									<h3>1° step del Percorso “Conoscenza di Sé e Nuove Prospettive”</h3>
+
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Test della personalità e testimonianze a partire dai risultati</p>
+									<p>+</p>
+									<h3>Due tra i nostri Webinar</h3>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Io ci sono passato: Professionisti e studenti universitari condividono la propria esperienza</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Diversità e integrazione: La differenza diventa un punto di forza</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">
+									Pronti per il 2030: Competenze e lavori del futuro
+									</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Consigli pratici: Come avere successo all’università e nel primo lavoro</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Molto altro…</p>
+									<p>+</p>
+									<h3>Tips & Tricks per Università, ITS e competenze del Futuro</h3>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Metodo di studio</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Andare all’Estero</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Rapporto con i professori</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Kit di sopravvivenza</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Le competenze più richieste</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Molto altro…</p>
+								{% else %}
+									<h3> 5h Webinar <br> 1h webinar every 2 months</h3>
+									
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Panels with young professionals from different colleges share their experience</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Skills and jobs of the future</p>
+									<p><img
+										src="{% static '/website/images/orientamiwhit.png' %}">
+										Practical advice for college and first job
+									</p>
+								
+									<h3>25 posts include Tips & Tricks for college admission and Skills of the Future</h3>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">1 post every 2 weeks</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Method to study</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Relationship with professors</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">College survival kit</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">The most requested skills</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Much more….</p>
+								{% endif %}
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					{% elif plan.plan_name == "Premium" %}
+					<div class="col-lg-8 px-0 popup-showw-second" id="second-price">
+						<div class="card-pricing text-center card-radius2">
+							<div class="row">
+							<div class="col-lg-6">
+							<div class="card-pricing-header text-center">
+								<h1 class=" h1-text-size">{{plan.title}}</h1>
+								{% if request.LANGUAGE_CODE == "it" %}
+								<p>Community + Percorso <br>"{{plan.sub_title}}"
+								</p>
+								{% else %}
+								<p>Community plan + <br>"{{plan.sub_title}}"<br> Online class
+								</p>
+								{% endif %}
+								<br>
+								<h3>{% trans '$'%}{{plan.cost}}</h3>
+
+							{% if request.LANGUAGE_CODE == "it" %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% comment %} <a href="{% url 'register'%}" class="btn btn-buy-btn">{% trans "Signup" %}</a> {% endcomment %}
+									{% else %}
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									{% endif %}
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+							{% else %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+									<a href="{% url 'register'%}" class="btn btn-buy-btn">{% trans "Signup" %}</a>
+									{% endif %}
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+								<!-- <div class="btn-btm-pricing">
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div> -->
+							{% endif %}
+							<img class="img-card-top" src="{% static '/website/images/pricing-2-img.png' %}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card-pricing-body">
+								<img class="arrow-card-backk popup-hide-second" src="{% static '/website/images/arrow-sliderr.png' %}">
+								{% if request.LANGUAGE_CODE == "it" %}
+									<h3>Community + Percorso <br>"{{plan.sub_title}}"</h3>
+									
+									
+									<h4>Video, esercizi interattivi, quiz e testimonianze (10 settimane, 1h/settimana) con:</h4>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Test della personalità e testimonianze a partire dai risultati</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Competenze richieste nel mondo del lavoro e consigli su come svilupparle</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Auto-valutazione delle competenze e analisi gap</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Esperienze di carriera condivise da giovani lavoratori</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Guida per la costruzione del CV</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Elenco dei criteri per la scelta universitaria/ITS e metodo per prioritizzarli</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Metodo per la valutazione di diverse facoltà e i passi da fare</p>
+									<p>+</p>
+									<h3>Contenuti Extra</h3>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">1 Webinar / mese</p>
+								{% else %}
+									<h3>Community Plan<br>+<br> "{{plan.sub_title}}" Online class</h3>
+									<h4>Videos, interactive exercises, quizzes and interviews with professionals (7 weeks, 1h/week) with:</h4>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Personality traits discovery</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">List of suitable careers</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Developing the right skills for the right job</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Skills self-assessment and areas for growth</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Shared career experiences</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Resume builder</p>
+								{% endif %}
+							</div>
+							</div>
+						</div>
+						</div>
+					</div>
+					{% elif plan.plan_name == "Elite" %}
+					<div class="col-lg-8 px-0 popup-showw-third" id="third-price">
+						<div class="card-pricing text-center card-radius2">
+							<div class="row">
+							<div class="col-lg-6">
+							<div class="card-pricing-header text-center">
+								<h1 class=" h1-text-size">{{plan.title}}</h1>
+								{% if request.LANGUAGE_CODE == "it" %}
+								<p>Premium  + Percorso <br>"{{plan.sub_title}}"</p>
+								{% else %}
+								<p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+								{% endif %}
+								<br>
+								<h3>{% trans '$'%}{{plan.cost}}</h3>
+							{% if request.LANGUAGE_CODE == "it" %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% comment %} <a href="{% url 'register'%}" class="btn btn-buy-btn">{% trans "Signup" %}</a> {% endcomment %}
+									{% else %}
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									{% endif %}
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+							{% else %}
+								<div class="btn-btm-pricing">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+									<a href="{% url 'register'%}" class="btn btn-buy-btn">{% trans "Signup" %}</a>
+									{% endif %}
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div>
+								<!-- <div class="btn-btm-pricing">
+									<a href="/checkout/{{plan.id}}/futu100/?lang=it" class="btn btn-buy-btn">{% trans "Buy" %}</a>
+									<a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+								</div> -->
+							{% endif %}
+							<img class="img-card-top" src="{% static '/website/images/pricing-3-img.png' %}">
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card-pricing-body">
+								<img class="arrow-card-backk popup-hide-third" src="{% static '/website/images/arrow-sliderr.png' %}">
+								{% if request.LANGUAGE_CODE == "it" %}
+									<h3>Premium + Percorso<br> "{{plan.sub_title}}"</h3>
+									
+									<h4>Video, esercizi interattivi, quiz e testimonianze (10settimane, 1h/settimana) con:</h4>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Catalogo universitario/ITS con informazioni e curiosità su facoltà e atenei</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Possibilità di contattare giovani lavoratori per fare domande su carriere</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Valutazione opzioni per studiare all’estero e passi da fare</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Tool per prioritizzare le opzioni universitarie/ITS e definire la short-list</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Presentazione finale (utilizzabile per la presentazione del PCTO alla maturità)</p>
+
+								{% else %}
+									<h3>Premium Plan<br>+ <br>"{{plan.sub_title}}" Online class</h3>
+									<h4>Videos, interactive exercises, quizzes and interviews with professionals (13 weeks, 1h/week) with:</h4>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Overview of options after high school</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Strategies for comparing & evaluating colleges & careers</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to create a short-list of preferred options</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to build a valuable network</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Access to young professionals for career advice & mentoring</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to get hands on experiences</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Scholarships and loans discovery</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Budget builder</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Essay builder</p>
+									<p><img src="{% static '/website/images/orientamiwhit.png' %}">Action plan to pursue preferred options successfully</p>
+								{% endif %}
+							</div>
+						</div>
+						</div>
+						</div>
+					</div>
+					{% endif %}
+          			{% endfor %}	
+			  </div>
+			  {% if request.LANGUAGE_CODE == "it" %}	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="bottom-price-text-blocke text-center">
+							<!-- <h3>* Il 100% delle scuole con cui stiamo lavorando ha riconosciuto queste ore PCTO, per avere conferma del riconoscimento chiedere al proprio referente PCTO; il riconoscimento è a discrezione della scuola.</h3> -->
+							<h3>Il riconoscimento delle ore PCTO è a discrezione della scuola: forniamo tutto il supporto necessario.</h3>
+						</div>
+					</div>
+				</div>
+			  {% endif %}	
+		</div>
+	</section>
+	<section class="contact-section">
+		<div class="container">
+		<div class="contact-us-section" style="background: url({% static '/website/new/images/contact-img.png' %}) no-repeat;">
+			  <div class="row">
+				<div class="col-lg-5  col-md-8   fadeInUp d">
+					<div class="contact-forme" id="lets-talk-f">
+						<div class="showing-message-forme" id="showing-message">
+							<div style="text-align: right; display: none; cursor: pointer;" id="cross-contact"><a  style="color: white;">X</a></div>
+							<img src="{% static '/website/images/send-icon.png' %}"/>
+							<h1>{% trans "Thank’s for your request" %}</h1>
+							<p>{% trans "We’ll send you a reply as soon as posible" %}</p>
+						</div>
+					<form id="contct-form">
+					<h2>{% trans "Let’s talk" %}</h2>
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your name" %}</label>
+						<input type="text" id="lets-talk-name" class="form-control" >
+						<label id="error-contact-landing-name" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your email" %}</label>
+						<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                        <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+						<input type="email" id="lets-talk-email" class="form-control" >
+						<label id="error-contact-landing-email" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your message" %}</label>
+						<textarea class="form-control" id="lets-talk-message-body" rows="4"></textarea>
+						<input type="hidden" id="lets-talk-subject" value="Student Page query" >
+					</div>
+					<div class=" mt-2">
+						<label id="error-contact-landing" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3 contact-btn-pos">
+						<a id="lets-talk-send-btn" class="btn btn-sign-up" >
+							<span id="spinner" class="color-white fontclass16" style="display: none;"> {% trans "Please wait" %}..</span>
+							<span id="btn-txt" class="color-white fontclass16"> {% trans "Send message" %}</span>
+						</a>
+					</div>
+					</form>
+				  </div>
+				</div>
+				<div class="col-md-12  fadeInUp d">
+					<div class="row justify-content-center">
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<div class="icon-cardd justify-content-center">
+									<div class="icon-contact">
+										<img src="{% static '/website/images/mail.png' %}"/>
+										</div>
+										<div class="icon-contact-content">
+											{% if request.LANGUAGE_CODE == "it" %}	
+											<h2><a href = "mailto: segreteria@myfuturely.com">segreteria@myfuturely.com</a></h2>
+										{% else %}
+											<h2><a href = "mailto: counselors@myfuturely.com">counselors@myfuturely.com</a></h2>
+										{% endif %}
+									</div>
+									</div>
+								</div>
+								<div class="col-md-12 ">
+									<div class="icon-cardd icon-cardd-p">
+										<div class="icon-contact">
+										<img src="{% static '/website/images/map-pin.png' %}"/>
+										</div>
+										<div class="icon-contact-content">
+											{% if request.LANGUAGE_CODE == "it" %}	
+											<h2>Sede</h2>
+											<p>Piazzale Maciachini, 11 20159<br>Milano MI, Italy. </p>
+										{% else %}
+											<h2>{% trans "Headquarters" %}</h2>
+											<p>405 Howard Street,<br>San Francisco,<br>California, 94105 United States. </p>
+										{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			 </div>
+		</div>
+		</div>
+	</section>
+</div>
+</div>
+
+
+	{% block script %}
+	
+	<script>
+		jQuery(document).ready(function(){
+	jQuery("#first-popup-btn").click(function(){
+		jQuery(".popup-showw-second").hide();
+		jQuery(".popup-showw-third").hide();
+		jQuery(".popup-showw-first").show();
+		jQuery("#first-price").removeClass("small");
+		jQuery("#second-price").removeClass("small");
+		jQuery("#third-price").removeClass("small");
+		jQuery("#first-price").removeClass("large");
+		jQuery("#second-price").removeClass("large");
+		jQuery("#third-price").removeClass("large");
+		jQuery("#first-price.col-lg-4").addClass("large");
+		jQuery("#second-price").addClass("small");
+		jQuery("#third-price").addClass("small");
+	  });
+	  
+	  jQuery(".popup-hide-first").click(function(){
+		jQuery(".popup-showw-first").hide();
+		jQuery("#first-price.col-lg-4").removeClass("large");
+		jQuery("#second-price").removeClass("small");
+		jQuery("#third-price").removeClass("small");
+	  });
+	  jQuery("#second-popup-btn").click(function(){
+		jQuery(".popup-showw-third").hide();
+		jQuery(".popup-showw-first").hide();
+		jQuery(".popup-showw-second").show();
+		jQuery("#first-price").removeClass("small");
+		jQuery("#second-price").removeClass("small");
+		jQuery("#third-price").removeClass("small");
+		jQuery("#first-price").removeClass("large");
+		jQuery("#second-price").removeClass("large");
+		jQuery("#third-price").removeClass("large");
+		jQuery("#first-price").addClass("small");
+		jQuery("#second-price").addClass("large");
+		jQuery("#third-price").addClass("small");
+	  });
+	  
+	  jQuery(".popup-hide-second").click(function(){
+		jQuery(".popup-showw-second").hide();
+		jQuery("#first-price").removeClass("small");
+		jQuery("#second-price").removeClass("large");
+		jQuery("#third-price").removeClass("small");
+	  });
+	  jQuery("#third-popup-btn").click(function(){
+		jQuery(".popup-showw-first").hide();
+		jQuery(".popup-showw-second").hide();
+		jQuery(".popup-showw-third").show();
+		jQuery("#first-price").removeClass("small");
+		jQuery("#second-price").removeClass("small");
+		jQuery("#third-price").removeClass("small");
+		jQuery("#first-price").removeClass("large");
+		jQuery("#second-price").removeClass("large");
+		jQuery("#third-price").removeClass("large");
+		jQuery("#first-price").addClass("small");
+		jQuery("#second-price").addClass("small");
+		jQuery("#third-price").addClass("large");
+	  });
+	  
+	  jQuery(".popup-hide-third").click(function(){
+		jQuery(".popup-showw-third").hide();
+		jQuery("#first-price").removeClass("small");
+		jQuery("#second-price").removeClass("small");
+		jQuery("#third-price").removeClass("large");
+	  });
+	});
+	</script>	
+	{% endblock%}
+{% endblock%}

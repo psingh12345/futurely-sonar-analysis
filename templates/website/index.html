@@ -1,0 +1,446 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Home Page" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<!-- TrustBox script -->
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+<!-- End TrustBox script -->
+{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+	<section class="banner-section" style="background-image:url({% static '/website/new/images/Banner.png' %})">
+		<div class="banner-item">
+			<div class="container">
+				<div class="row banner-text align-items-center" >
+					<div class="col-lg-6 px-1">
+						<div class="banner-content">
+							<h1 class="mb-3">{% blocktrans %} Your path, <br> our mission</h1> {% endblocktrans %}
+							<p>{% blocktrans %} Futurely is a digital career counseling platform that accompanies high school students in achieving goals with clear steps, in a personal way.{% endblocktrans %}</p>
+							{% comment %} <div class="card-meet">
+								<div class="row align-items-center">
+									<div class="col-md-7" style="padding: 15px;">
+										<h3>{% blocktrans %} Awareness · Curiosity · Courage {% endblocktrans %}</h3>
+									</div>
+									<div class="col-md-5">
+										<div class="meet-us-btn">
+											<a class="btn btn-meet-us" href="{% url 'plans' %}">{% trans 'Build your future' %}</a>
+										</div>
+									</div>
+						  		</div>
+				   			</div>  {% endcomment %}
+				   			<!-- {% if request.LANGUAGE_CODE == "it" %}
+							<div class="card-meet" style="margin-top: 10px;">
+								<div class="row align-items-center">
+									<div class="col-md-7">
+										<h3>Summer program</h3>
+									</div>
+									<div class="col-md-5">
+										<div class="meet-us-btn">
+											<a class="btn btn-meet-us" target="_blank" href="https://info.myfuturely.com/summer-program-0">Iscriviti</a>
+										</div>
+									</div>
+								</div>
+							</div>
+				 			{% endif %} -->
+            			</div>
+            		</div>
+          		</div>
+        	</div>
+    	</div>
+	</section>
+	<div class="bg-img-sec">
+		<div class="star-field">
+			<div class="layer"></div>
+			<div class="layer"></div>
+			<div class="layer"></div>
+		</div>
+		<section class="our-audiencese">
+			<div class="mission-banner-item">
+		   		<div class="container">
+			 		<div class="row banner-text align-items-center" >
+				   		<div class="col-md-12  mb-sm-2 mb-lg-5 ">
+							<div class="banner-content">
+								<div class="h1">{% trans 'Our audience' %}</div>
+							</div>
+				   		</div>
+				   		<div class="col-lg-6  mb-3">
+					   		<div class="audiencese-img">
+								<img src="{% static '/website/new/images/multiethnic-group-young-cheerfuls.png' %}"/>
+								<div class="text-normal h1" >{% trans 'Students' %}</div>
+					   		</div>
+					   		<div class="audiencese-content">
+								<p>{% trans 'Do you want to plan your future with awareness?' %}</p>
+								{% comment %} <a class="btn fontclass16" href="{% url 'student' %}">{% trans 'Start here' %}</a> {% endcomment %}
+					   		</div>	
+				   		</div>
+				   		<div class="col-lg-6  mb-3">
+					   		<div class="audiencese-img">
+								<img src="{% static '/website/new/images/high-school-img.png' %}"/>
+								<div class="text-normal h1">{% trans 'High Schools' %}</div>
+					   		</div>
+					   		<div class="audiencese-content">
+								<p>{% trans 'Do you want to acompany students on their path?' %}</p>
+								<a class="btn fontclass16" href="{% url 'school' %}">{% trans 'Start here' %}</a>
+					   		</div>	
+				   		</div>
+			 		</div>
+		   		</div>
+		 	</div>
+	   	</section>
+		<section class="questions-section">
+      		<div class="banner-item">
+        		<div class="container">
+          			<div class="row banner-text align-items-center" >
+            			<div class="col-lg-8  px-1">
+							<div class="banner-content">
+								<div class="h1">{% trans "It is normal to have so many questions" %}</div>
+            				</div>
+            			</div>
+		  			</div>
+		  			<div class="row">
+						<div class="col-lg-9">
+							<div class="row">
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+		  								<div class="h3">?</div>
+		  								<p>{% trans "What are my options?" %}</p>
+		  							</div>
+		  						</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+		  								<p>{% trans "What am I really good at?" %}</p>
+		  							</div>
+		  						</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+										<p>{% trans "How do I make a plan?" %}</p>
+									</div>
+		  						</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+										<p>{% trans "Will my future be happy & stable?" %}</p>
+									</div>
+								</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+										<p>{% trans "Can I get a scholarship?" %}</p>
+									</div>
+								</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+										<p>{% trans "How can I gain more confidence?" %}</p>
+									</div>
+								</div>
+								<div class="col-lg-4 ">
+									<div class="card-boxe">
+										<div class="h3">?</div>
+										<p>{% trans "Can this be less stressful?" %}</p>
+									</div>
+								</div>
+								<div class="col-lg-8 ">
+									<div class="card-boxe-content">
+										<p>{% blocktrans %} With Futurely, you’ll discover the answers in a personal,<br> guided way—not with an algorithm, and not all alone. {% endblocktrans %}</p>
+									</div>
+								</div>
+		  					</div>
+		  				</div>
+		  				<div class="col-lg-3 ">
+		  					<div class="card-boxe-img">
+		  						<img src="{% static '/website/new/images/portrait-thinking-girl.png' %}"/>
+		  					</div>
+		  				</div>
+        			</div>
+				</div>
+			</div>
+    	</section>
+		<section class="methodology-section">
+			<div class="row m-0">
+		   		<div class="col-md-12  mb-sm-2 mb-lg-5 ">
+					<div class="methodology-title">
+						<h2>{% trans 'Our method' %}</h2>
+					</div>
+		   		</div>
+		   		<div class="col-lg-6 col-md-12 ">
+					<div class="methodology-content">
+						<p>{% trans 'Futurely was the idea of graduates from Harvard, MIT, and Italian schools Bocconi and Politecnico of Milan.' %}</p>
+						<p>{% trans "The step-by-step approach is scientific and structured, based on the feedback of real students and educators, breaking down the large task of choosing future into simple, actionable steps. It’s already popular in some of Italy’s top schools!" %}</p>
+						<p>{% trans 'Offering the stability and support students crave at this time, Futurely  transforms their anxiety into self-awareness, curiosity, and courage to name their goals and achieve them with confidence.' %}</p>
+						{% if request.LANGUAGE_CODE == "it" %}
+							<p>Questo permetterà loro di valorizzare la propria unicità nella società di oggi e di domani.</p>
+						{% endif %}
+						<!-- <p>We use techniques developed by Harvard guidance experts adapted for high school students with the support of coaching experts, career counselors and psychologists</p>
+			   			<p>We do not give closed answers, but we open horizons and help children to grow according to three fundamental metrics:</p> -->
+			   		</div>
+		   		</div>
+		   		<div class="col-lg-6 col-md-12 ">
+		   			<div class="row">
+						<div class="col-md-8 col-sm-8">
+							<div class="methodology-card">
+								<img src="{% static '/website/new/images/asian-businessmen-.jpg' %}"/>
+								<div class="methodology-card-body">
+									<div class="methodology-card-title h5"><span>#</span>{% trans "awareness" %}</div>
+								</div>
+		   					</div>
+		   				</div>
+		   				<div class="col-md-4 col-sm-4 hidden-mobile">
+		   					<div class="methodology-card radies-try">
+		   						<img src="{% static '/website/new/images/young-managers-ceo.png' %}"/>
+		   					</div>
+		   				</div>
+		   			</div>
+		   		</div>
+		   		<div class="col-md-12">
+		   			<div class="row">
+		   				<div class="col-md-1  hidden-mobile">
+		   					<div class="methodology-card radies-tly">
+		   						<img src="{% static '/website/new/images/3rd.png' %}"/>
+		   					</div>
+		   				</div>
+		   				<div class="col-md-11">
+		   					<div class="row">
+								<div class="col-md-4 hidden-mobile">
+									<div class="methodology-card">
+										<img src="{% static '/website/new/images/hands-joined-by-team.png' %}"/>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="methodology-card">
+										<img src="{% static '/website/new/images/young-readers-university.png' %}"/>
+										<div class="methodology-card-body">
+											<div class="methodology-card-title h5"><span>#</span>{% trans "curiosity" %}</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 ">
+									<div class="methodology-card radies-try">
+										<img src="{% static '/website/new/images/excited-girl-blue-shirt-showing-peace.png' %}"/>
+										<div class="methodology-card-body">
+											<div class="methodology-card-title h5"><span>#</span>{% trans "courage" %}</div>
+										</div>
+									</div>
+								</div>
+		   					</div>
+		   				</div>
+		   			</div>
+		   		</div>
+			</div>
+
+			
+		</section>
+		<section class="partner-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12  text-center">
+						<div class="partner-title">
+							<div class="h2">{% trans "Partner schools" %}</div>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<div class="partner-card ">
+							<div class="partner-card-header">
+								<div class="h2">60+ {% trans "Schools" %}</div>
+								<!-- <p>we cooperate with many schools<br> from all over the world </p> -->
+							</div>
+						</div>
+						<div class="partner-card ">
+							<div class="partner-card-header">
+								<div class="h2">9000+ {% trans "Students" %}</div>
+							<!-- <p>Students choos us</p> -->
+							</div>
+						</div>
+						<div class="partner-card ">
+							<div class="partner-card-header">
+								<div class="h2">200+ {% trans "Mentors" %}</div>
+								<!-- <p>Mentors</p> -->
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-7 ">
+						<div class="partner-image">
+							<img style="height: 365px;" src="{% static '/website/new/images/partner-img.jpg' %}"/>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--  -->
+		<section class="testimonial-seetion ">
+			<div class="col-lg-12 text-center ">
+				<div class="testimonial-title">{% trans "What people say about us" %} </div>
+			</div>
+			<div class="testimonial-slider school-testimonial owl-carousel">	
+				{% for sttestimonal in stu_testimonials %}
+				{% if forloop.counter|divisibleby:2  %}
+				{% else %}
+				<div class="item">
+				{% endif %}
+					<div class="testimonial-main-card mb-4">
+						<div class="testimonial-main-card-header">
+							<img src="{{sttestimonal.icon.url}}">
+							<div class="h3">{{sttestimonal.name}}<br><span class="designation-span" >{{sttestimonal.designation}}</span></div>
+						</div>
+						<div class="testimonial-main-card-body">
+							<p>{{sttestimonal.feedback}}
+							</p>
+						</div>
+					</div>
+				{% if forloop.counter|divisibleby:2  %}
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+			<!-- TrustBox widget - Micro Review Count -->
+			<div class="align-items-center">
+				<div class="trustpilot-widget" data-locale="en-GB" style="max-width:300px;background:white;margin: 0 auto;" data-template-id="5419b6a8b0d04a076446a9ad" data-businessunit-id="62d1246d193f738bedd37634" data-style-height="24px" data-style-width="100%" data-theme="light" data-min-review-count="10" data-style-alignment="center">
+					<a href="https://uk.trustpilot.com/review/myfuturely.com" target="_blank" rel="noopener">Trustpilot</a>
+				</div>
+			</div>
+			<!-- End TrustBox widget -->
+		</section>
+		
+		<section class="contact-section">
+			<div class="container">
+				<div class="contact-us-section" style="background: url({% static '/website/new/images/contact-img.png' %}) no-repeat;">
+				  	<div class="row">
+					 	<div class="col-lg-5  col-md-8   fadeInUp d">
+							<div class="contact-forme" id="lets-talk-f">
+								<div class="showing-message-forme" id="showing-message">
+									<div style="text-align: right; display: none; cursor: pointer;" id="cross-contact"><a  style="color: white;">X</a></div>
+										<img src="{% static '/website/new/images/send-icon.png' %}"/>
+										<div class="h1">{% trans "Thank’s for your request" %}</div>
+										<p>{% trans "We’ll send you a reply as soon as posible" %}</p>
+									</div>
+									<form id="contct-form">
+										{% csrf_token %}
+										<div class="h2">{% trans "Let’s talk" %}</div>
+										<div class="mb-3">
+											<label class="form-label">{% trans "Your name" %}</label>
+											<input type="text" id="lets-talk-name" class="form-control">
+											<label id="error-contact-landing-name" class="form-label error-color"></label>
+										</div>
+										<div class="mb-3">
+											<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+											<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+											<label class="form-label">{% trans "Your email" %}</label>
+											<input type="email" id="lets-talk-email" class="form-control" >
+											<label id="error-contact-landing-email" class="form-label error-color"></label>
+										</div>
+										<div class="mb-3">
+											<label class="form-label">{% trans "Your message" %}</label>
+											<textarea class="form-control" id="lets-talk-message-body" rows="4"></textarea>
+											<input type="hidden" id="lets-talk-subject" value="Query from landing page" >
+										</div>
+										<div class=" mt-2">
+											<label id="error-contact-landing" class="form-label error-color"></label>
+										</div>
+										<div class="mb-3 contact-btn-pos">
+											<a id="lets-talk-send-btn" class="btn btn-sign-up " >
+												<span id="spinner" class="color-white fontclass16" style="display: none;">{% trans "Please wait" %}..</span>
+												<span id="btn-txt" class="color-white fontclass16"> {% trans "Send message" %}</span>
+											</a>
+										</div>
+									</form>
+						  		</div>
+							</div>
+							<div class="col-md-12  fadeInUp d">
+								<div class="row justify-content-center">
+									<div class="col-lg-8">
+										<div class="row">
+											<div class="col-md-12 text-center">
+												<div class="icon-cardd justify-content-center">
+													<div class="icon-contact">
+														<img src="{% static '/website/new/images/mail.png' %}"/>
+													</div>
+													<div class="icon-contact-content">
+														{% if request.LANGUAGE_CODE == "it" %}	
+															<div class="h2"><a href = "mailto: segreteria@myfuturely.com">segreteria@myfuturely.com</a></div>
+														{% else %}
+															<div class="h2"><a href = "mailto: counselors@myfuturely.com">counselors@myfuturely.com</a></div>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+											<div class="col-md-12 ">
+												<div class="icon-cardd icon-cardd-p">
+													<div class="icon-contact">
+														<img src="{% static '/website/new/images/map-pin.png' %}"/>
+													</div>
+													<div class="icon-contact-content">
+														<div class="icon-contact-content">
+															{% if request.LANGUAGE_CODE == "it" %}	
+															<div class="h2">Sede</div>
+															<p>Piazzale Maciachini, 11 20159<br>Milano MI, Italy. </p>
+															{% else %}
+															<div class="h2">{% trans "Headquarters" %}</div>
+															<p>405 Howard Street,<br>San Francisco,<br>California, 94105 United States. </p>
+															{% endif %}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+				 			</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+
+
+<script>
+	$(document).ready(function() {
+		$('.testimonial-slider').owlCarousel({
+			loop:true,
+			nav: true,
+			dots: false,
+	 		navigation: true,
+     		navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+  			autoplay:false,
+  			responsive:{
+				  0:{
+					  margin:0,
+					  items:1,
+					  stagePadding: 0,
+					},
+					600:{
+						margin:0,
+						items:2,
+      					stagePadding: 0,
+    					},
+						1000:{
+							margin:30,
+							items:3,
+							stagePadding: 130,
+				}
+			}
+		});
+	});
+</script>
+{% block script %}
+<script>
+	$(document).ready(function(){
+		var current_url = window.location.href
+	});
+</script>
+{% endblock%}
+{% endblock%}

@@ -1,0 +1,490 @@
+
+{% extends 'base_landing_website_registration.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Register</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+    .error-msg {
+        color: red;
+        font-size: 14px;
+    }
+    .select2-selection__rendered[title="Sesso"] {
+        color: #757575 !important;
+    }
+
+    .select2-selection__rendered[title="Età"] {
+        color: #757575 !important;
+    }
+
+    .select2-selection__rendered {
+        color: black !important;
+    }
+    
+</style>
+{% endblock %}
+{% block content %}
+    <div class="register-top-bar">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <a href="javascript:void(0);" onclick="back_btn()"><img class="arrow-back-icon"
+                        src="{% static 'landing_website/images/back-arrow-icon.png' %}"></a>
+                <a href="{% url 'login' %}" class="btn-outline">Accedi</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content-block">
+        <div class="login-block-main white-bg pt-0">
+            <div class="container">
+                <div class="d-flex justify-content-center flex-wrap">
+                    <div class="col-md-7">
+                        <form class="register-form" method="post" id="register-form-id">
+                            {% csrf_token %}
+                            <input type="hidden" name="first_stage" value="Yes">
+                            <input type="hidden" name="second_stage" value="Yes">
+                            <h4 class="form-title">Registrati come studente</h4>
+                            <p class="form-discription">Inserisci i tuoi dati, crea un account e diventa un Futurist</p>
+                            <div class="row">
+                            {% if coupon_code_obj.is_for_middle_school == True %}
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Nome studente </label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.first_name class='input100 field-input' placeholder='Nome' %}
+                                        </div>
+                                        {% if user_resgiter_form.first_name.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.first_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                            <div class="error-msg" id="id_first_name_error">
+                                                <p></p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Cognome studente</label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.last_name class='input100 field-input' placeholder='Cognome' %}
+                                        </div>
+                                        {% if user_resgiter_form.last_name.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.last_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_last_name_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Nome </label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.first_name class='input100 field-input' placeholder='Nome' %}
+                                        </div>
+                                        {% if user_resgiter_form.first_name.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.first_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                            <div class="error-msg" id="id_first_name_error">
+                                                <p></p>
+                                            </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Cognome</label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.last_name class='input100 field-input' placeholder='Cognome' %}
+                                        </div>
+                                        {% if user_resgiter_form.last_name.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.last_name.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_last_name_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Sesso</label>
+                                        <input type="hidden" name="gender" id="id_gender">
+                                        <div class="wrap-input-inner custom-select-dropdown">
+                                            <select class="input100 field-input form-select select2" id="maschio-select1" aria-label="E-mail di un genitore" name="dropdown_gender" required>
+                                                <option selected="" value="" disabled>Sesso</option>
+                                                {% for x, y in user_resgiter_form.fields.gender.choices %}
+                                                    <option value="{{ x }}">{{ y }}</option>
+                                                {% endfor %}
+                                          </select>
+                                        </div>
+                                        {% if user_resgiter_form.gender.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.gender.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_gender_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% if coupon_code_obj.is_for_middle_school == True %}
+                                    <div class="col-md-6">
+                                        <div class="wrap-input100">
+                                            <label class="form-label">E-mail del genitore</label>
+                                            <div class="wrap-input-inner">
+                                                {% render_field user_resgiter_form.email class='input100 field-input' placeholder='E-mail del genitore' %}
+                                            </div>
+                                            {% if user_resgiter_form.email.errors %}
+                                                <div class="error-msg">
+                                                    {{ user_resgiter_form.email.errors }}
+                                                </div>
+                                            {% endif %}
+                                            {% if error_message %}
+                                                <div class="error-msg">
+                                                    <p>{{ error_message }}</p>
+                                                </div>
+                                                <script>
+                                                    $('#id_email').css('border', '2px solid #ff1313');
+                                                </script>
+                                            {% endif %}
+                                            <div class="error-msg" id="id_email_error">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="wrap-input100">
+                                            <label class="form-label">Numero di telefono</label>
+                                            <div class="wrap-input-inner">
+                                                {% render_field user_resgiter_form.contact_number class='input100 field-input' placeholder='Numero di telefono' %}
+                                            </div>
+                                            {% if user_resgiter_form.contact_number.errors %}
+                                                <div class="error-msg">
+                                                    {{ user_resgiter_form.contact_number.errors }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="error-msg" id="id_contact_number_error">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Numero di telefono</label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.contact_number class='input100 field-input' placeholder='Numero di telefono' %}
+                                        </div>
+                                        {% if user_resgiter_form.contact_number.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.contact_number.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_contact_number_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Età</label>
+                                        <div class="wrap-input-inner custom-select-dropdown">
+                                            <select class="input100 field-input form-select select2" id="maschio-select2" aria-label="Età" name="age" required>
+                                                <option selected="" value="" disabled>Età</option>
+                                                {% for x, y in user_resgiter_form.fields.age.choices %}
+                                                    <option value="{{ x }}">{{ y }}</option>
+                                                {% endfor %}
+                                          </select>
+                                        </div>
+                                        {% if user_resgiter_form.age.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.age.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_age_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">E-mail</label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.email class='input100 field-input' placeholder='E-mail' %}
+                                        </div>
+                                        {% if user_resgiter_form.email.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.email.errors }}
+                                            </div>
+                                        {% endif %}
+                                        {% if error_message %}
+                                            <div class="error-msg">
+                                                <p>{{ error_message }}</p>
+                                            </div>
+                                            <script>
+                                                $('#id_email').css('border', '2px solid #ff1313');
+                                            </script>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_email_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="col-md-6">
+                                    <div class="wrap-input100">
+                                        <label class="form-label">Password</label>
+                                        <div class="wrap-input-inner">
+                                            {% render_field user_resgiter_form.password class='input100 field-input' placeholder='Password' id='id_password' %}
+                                            <img class="icon-input password-preview" onclick="passview()" src="{% static 'landing_website/images/eye.svg' %}">
+                                            <img class="icon-input password-unpreview" onclick="passview()" src="{% static 'landing_website/images/eye-slash.svg' %}">
+                                          
+                                        </div>
+                                        {% if user_resgiter_form.password.errors %}
+                                            <div class="error-msg">
+                                                {{ user_resgiter_form.password.errors }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="error-msg" id="id_password_error">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% comment %} {% if coupon_code_obj.is_for_middle_school == True %}
+									<input type="hidden" class="custom-control-input" name="are_you_fourteen_plus" value="Yes">
+                                {% else %}
+                                <div class="col-md-12 mb-4">
+									<label class="custom-control custom-checkbox mt-4">
+										<input type="checkbox" class="custom-control-input" name="are_you_fourteen_plus" required>
+                                        <span class="custom-control-label">Ho più di 14 anni già compiuti.</span>
+									</label>
+								</div>
+                                {% endif %}
+                                {% if are_you_fourteen_plus_error %}
+                                    <div class="error-msg">
+                                        <p>{{ are_you_fourteen_plus_error }}</p>
+                                    </div>
+                                {% endif %} {% endcomment %}
+                                <div class="col-md-12">
+                                    <div class="d-flex">
+                                        <div class="col-md-6">
+                                            <div class="login-form-btn-block"><button type="submit"
+                                                    class="btn-filed login-form-btn mt-0" id="al_prossimo_passo_id">Al prossimo passo</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+{% block script %}
+    <script>
+        if("{{ email_error }}" == "Yes"){
+            $('#id_email').css('border', '2px solid #ff1313');
+        }
+
+        function passview(){
+            var x = document.getElementById("id_password");
+            if (x.type === "password") {
+                x.type = "text";
+                $(".password-preview").show();
+                $(".password-unpreview").hide();
+                //$("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+            }else{
+                x.type = "password";
+                $(".password-preview").hide();
+                $(".password-unpreview").show();
+                //$("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+            }
+        }
+
+        $('#maschio-select1').change(function() {
+            var selected_option = $(this).find("option:selected").val();
+            $('#id_gender').val(selected_option);
+        });
+
+        {% comment %} $('#maschio-select2').change(function() {
+            var selected_option = $(this).find("option:selected").val();
+            $('#id_are_you_fourteen_plus').val(selected_option);
+        }); {% endcomment %}
+
+    $('#id_password').keyup(function() {
+        $("#id_password_error p").text(checkStrength($('#id_password').val()));
+        {% if request.LANGUAGE_CODE == "it" %}
+            check_password();
+        {% else %}
+            check_password_english();
+        {% endif %}
+        
+    });
+
+        function checkStrength(password) { 
+            var strength = 0
+            if (password.length <= 7) {  
+                is_password_valid = false;
+                $('#id_password_error').removeClass();
+                $('#id_password_error').addClass('error-msg');
+                $('#id_password').css('border', '2px solid #ff1313');
+                $("#id_password_error p").text("{% trans 'La tua password deve contenere una lettera maiuscola, una lettera minuscola, 1 numero e deve avere almeno 8 caratteri.' %}");
+                    return "{% trans 'La tua password deve contenere una lettera maiuscola, una lettera minuscola, 1 numero e deve avere almeno 8 caratteri.' %}"
+            }  
+            if (password.length > 5) strength += 1  
+            // If password contains both lower and uppercase characters, increase strength value.  
+            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1  
+            // If it has numbers and characters, increase strength value.  
+            if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1  
+            // If it has one special character, increase strength value.  
+            // If value is less than 2  
+            if (strength < 3) {
+                is_password_valid = false;
+                $('#id_password_error').removeClass();
+                $('#id_password_error').addClass('error-msg');
+                $("#id_password_error p").text("{% trans 'La tua password deve contenere una lettera maiuscola, una lettera minuscola, 1 numero e deve avere almeno 8 caratteri.' %}");
+                $('#id_password').css('border', '2px solid #ff1313');
+                return "{% trans 'La tua password deve contenere una lettera maiuscola, una lettera minuscola, 1 numero e deve avere almeno 8 caratteri.' %}"  
+            } else {  
+                $('#id_password_error').removeClass();  
+                $('#id_password_error').addClass('strong-msg');
+                $("#id_password_error p").text("");  
+                $('#id_password').css('border', '1px solid #000');
+                is_password_valid = true;
+                return ''  
+            }  
+        }
+        //border: 2px solid #000;
+        function check_password_english(){
+            var password = document.getElementById("id_password").value;
+            var confirm_password = document.getElementById("id_confirm_password_english").value;
+            if(password != confirm_password) {
+                $('#id_confirm_password_error_english').removeClass();
+                $('#id_confirm_password_error_english').addClass('error-msg-confirm-english');
+                $("#id_confirm_password_error_english p").text("Passwords do not match");
+                $('#id_confirm_password_error_english').show();
+                return "La password non corrisponde"
+            }
+            else{
+                $('#id_confirm_password_error_english').removeClass('error-msg-confirm-english');
+                $('#id_confirm_password_error_english').addClass('strong-msg');
+                $("#id_confirm_password_error_english p").text("");
+                $('#id_confirm_password_error_english').hide();
+                return "";
+            }
+        };
+
+        function check_password(){
+            var password = document.getElementById("id_password").value;
+            var confirm_password = document.getElementById("id_confirm_password").value;
+            if(password != confirm_password) {
+                $('#id_confirm_password_error').removeClass();
+                $('#id_confirm_password_error').addClass('error-msg-confirm');
+                $("#id_confirm_password_error p").text("La password non corrisponde");
+                return "La password non corrisponde"
+            }
+            else{
+                $('#id_confirm_password_error').removeClass('error-msg-confirm');
+                $('#id_confirm_password_error').addClass('strong-msg');
+                $("#id_confirm_password_error p").text("");
+                return "";
+            }
+        };
+
+    // $(document).ready(function() {
+         {% comment %} $('#al_prossimo_passo_id').on('click', function(e) {
+             e.preventDefault();
+             var formIsValid = true;
+             formIsValid = validateField("#id_first_name", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#id_last_name", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#id_contact_number", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#id_password", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#id_email", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#maschio-select1", "Campo obbligatorio") && formIsValid;
+             formIsValid = validateField("#maschio-select2", "Campo obbligatorio") && formIsValid;
+             if(formIsValid){
+                 console.log("Form submitted successfully!");
+                 document.getElementById("register-form-id").submit();
+             }else{
+                 console.log("Form is not valid!");
+             }
+         }); {% endcomment %}
+    
+         {% comment %} function validateField(fieldSelector, errorMessage) {
+             const value = $(fieldSelector).val().trim();
+             if (value === "") {
+               $(fieldSelector + "_error p").text(errorMessage);
+               $(fieldSelector).css('border', '2px solid #ff1313');
+               return false;
+             }
+             //document.getElementById("register-form-id").submit();
+         }; {% endcomment %}
+        $('#id_first_name').keyup(function() {
+            check_value($('#id_first_name').val(), '#id_first_name');
+        });
+    
+        $('#id_last_name').keyup(function() {
+            check_value($('#id_last_name').val(), '#id_last_name');
+        });
+    
+        $('#maschio-select1').keyup(function() {
+            check_value($('#maschio-select1').val(), '#maschio-select1');
+        });
+
+        $('#maschio-select2').keyup(function() {
+            check_value($('#maschio-select2').val(), '#maschio-select2');
+        });
+    
+        $('#id_contact_number').keyup(function() {
+            check_value($('#id_contact_number').val(), '#id_contact_number');
+        });
+    
+        $('#id_email').keyup(function() {
+            check_value($('#id_email').val(), '#id_email');
+        });
+    
+        function check_value(text_value, fieldSelector){
+            if(text_value.length > 0){
+                $(fieldSelector + "_error p").text("");  
+                $(fieldSelector).css('border', '1px solid #000');
+            }else{
+                $(fieldSelector + "_error p").text("Campo obbligatorio");  
+                $(fieldSelector).css('border', '2px solid #ff1313');
+            }
+    
+        }
+    // });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('#maschio-select1').select2({
+          minimumResultsForSearch: Infinity
+        });
+        $('#maschio-select2').select2({
+          minimumResultsForSearch: Infinity
+        });
+      });
+    </script>
+{% endblock %}

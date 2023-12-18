@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load stu_tags %}
+<html lang="en">
+
+<head>
+    {% phrase_javascript %}
+    <title>{% trans "Futurely: Home Page Select Language" %}</title>
+    <meta charset="utf-8">
+    <meta property='og:title' content='Futurely' />
+    <meta property='og:image' content="{% static '/website/new/images/Banner.png' %}" />
+    <meta property='og:description'
+        content='Futurely is a digital career counseling platform that accompany high school students in achieving goals with clear steps, in a personal way.' />
+    <meta property='og:url' content='https://www.myfuturely.com/' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <!-- Google font version -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static '/website/new/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/website/new/css/bootstrap-grid.css' %}">
+	<link rel="stylesheet" href="{% static '/website/new/css/animate.css' %}">
+	<link rel="stylesheet" href="{% static '/website/new/css/owl.carousel.min.css' %}">
+	
+	<script src="{% static '/website/new/js/jquery.min.js' %}"></script>
+	<script src="{% static '/website/new/js/bootstrap.min.js' %}"></script>
+	<script src="{% static '/website/new/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static '/website/new/js/main.js' %}" ></script>
+    <script type="application/ld+json">
+        {
+            "@type": "Futurely",
+            "image": "{% static '/website/new/images/logo.png' %}",
+            "url": "https://www.myfuturely.com/",
+            "name": "Futurely"
+         }
+        </script>
+    <style>
+        .modal.fade.show.change-country-popup {
+            display: flex !important;
+        }
+
+        .modal.change-country-popup {
+            z-index: 9999999999;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .change-country-popup .modal-body img+img {
+            margin-top: 18px;
+        }
+
+        .change-country-popup .modal-body img:hover {
+            transform: scale(1.1);
+        }
+
+        .change-country-popup .modal-body img {
+            max-width: 100%;
+            width: 150px;
+            display: table;
+            margin: 0 auto;
+            transition: all .5s;
+        }
+
+        .change-country-popup .modal-title {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .change-country-popup .modal-header {
+            justify-content: center;
+            border-color: #333333;
+        }
+
+           
+
+        /* .change-country-popup .modal-body {
+            margin: 28px 0 0;
+            display: flex;
+            justify-content: center;
+        } */
+
+        .change-country-popup .modal-body {
+            margin: 38px 0 14px;
+        }
+
+        .change-country-popup .modal-dialog {
+            padding: 30px;
+            background-color: #1A1A1A;
+            border-radius: 10px;
+        }
+
+        .change-country-popup .flag-country-block {
+            /* border: 1px solid #333; */
+            /* display: flex; */
+            /* justify-content: center; */
+            cursor: pointer;
+            /* flex-direction: column; */
+        }
+
+        .change-country-popup .flag-country-block h4 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 12px 0 0;
+            text-align: center;
+        }
+
+        .modal-open {
+            overflow: hidden !important;
+        }
+
+        .country-change-text p a {
+            cursor: pointer;
+        }
+
+           
+
+        /* .flag-country-block p {
+            margin: 0;
+            color: #fff;
+            font-weight: 500;
+            width: 150px;
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            line-height: 3;
+        } */
+
+           
+
+        .flag-country-block p:hover {
+            transform: scale(1.1);
+
+        }
+
+        .flag-country-block p {
+            margin: 0;
+            color: #000;
+            font-weight: 400;
+            width: 185px;
+            text-align: center;
+            padding: 10px;
+            background: #fff;
+            line-height: 3;
+            transition: all .5s;
+            font-size: 20px;
+        }
+
+        .change-country-popup .modal-footer p {
+            margin: 0;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .change-country-popup .modal-footer {
+            border-color: #333333;
+            padding: 30px 0 0;
+            justify-content: left;
+        }
+
+        .change-country-popup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            z-index: 11;
+        }
+
+        .overlay-bg-block {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: #333333ad;
+            z-index: 1;
+        }
+
+        #hubspot-messages-iframe-container {
+            display: none !important;
+        }
+
+        
+@media (max-width: 767px) {
+.flag-country-block + .flag-country-block {
+    margin-top: 15px;
+}
+.change-country-popup .modal-body img {
+    width: 250px;
+    height: 100px;
+}
+.flag-country-block p {
+    width: 250px;
+    line-height: 4;
+    height: 100px;
+	margin: 0 auto;
+}
+.change-country-popup .modal-title {
+    font-size: 17px;
+}
+}
+@media (min-width: 768px) {
+.change-country-popup .modal-body {
+    margin: 38px 0 14px;
+    display: flex;
+    justify-content: center;
+}
+.flag-country-block + .flag-country-block {
+    margin-left: 15px;
+}
+}
+@media (min-width: 576px) {
+/* .change-country-popup .modal-dialog {
+    max-width: 500px;
+	width: 100%;
+}  */
+.change-country-popup .modal-dialog {
+    max-width: 650px;
+    width: 100%;
+}
+}
+    </style>
+    
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar " id="ftco-navbar">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-2">
+                    <div class="left-blocks  align-items-center">
+                        {% if request.session.is_from_mobile_app %}
+                        <a class="navbar-brand logo" href="{% url 'login' %}">
+                            <img src="{% static '/website/new/images/logo.png' %}" />
+                        </a>
+                        {% else %}
+                        <a class="navbar-brand logo" href="{% url 'index' %}">
+                            <img src="{% static '/website/new/images/logo.png' %}" />
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+
+    <div class="bg-img-sec">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        <section class="banner-section"
+            style="pointer-events: none;position: absolute;opacity: 0;background-image:{% static '/website/new/images/Banner.png' %}">
+            <div class="banner-item">
+
+                <div class="container">
+                    <div class="row banner-text align-items-center">
+                        <div class="col-lg-6 px-1">
+                            <div class="banner-content">
+                                <h1 class="mb-3">{% blocktrans %} Your path, <br> our mission</h1> {% endblocktrans %}
+                                <p>{% blocktrans %} Futurely is a digital career counseling platform that accompanies
+                                    high school students in achieving goals with clear steps, in a personal way.{% endblocktrans %}</p>
+                                <div class="card-meet">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-7">
+                                            <h3>{% blocktrans %} Awareness · Curiosity · Courage {% endblocktrans %}
+                                            </h3>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="meet-us-btn">
+                                                {% comment %} <a class="btn btn-meet-us" href="{% url 'plans' %}">{% trans 'Build your future' %}</a> {% endcomment %}
+                                                
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="country-change-text">
+                                                    <p>
+                                                        <a type="button" id="autopopup" data-bs-toggle="modal" data-bs-target="#changecountryModal">{% trans 'Switch Country' %}</a> 
+                                                        
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="modal fade change-country-popup"  data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true" id="changecountryModal" >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    
+                  <h5 class="modal-title">{% trans 'Select Your Country' %}</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="flag-country-block">
+                    <a href="{% url 'set_lang' %}?lang=it&u={{request.build_absolute_uri}}">
+                        <img src="{% static '/website/new/images/italy-flag-icon.png' %}" />
+                        <h4>ITALY</h4>
+                    </a>
+                    </div>
+                    <div class="flag-country-block">
+                    <a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+                        <img src="{% static '/website/new/images/usa-flag-icon.png' %}" />
+                        <h4>USA</h4>
+                    </a>
+                    </div>
+                    <div class="flag-country-block">
+                    <a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+                    <p>{% trans 'Other' %}</p>
+                    </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p>*{% trans 'You can switch the country any time from the bottom of the page' %}*</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    <script>
+        $(document).ready(function()
+		{
+			$(function(){
+				$('#autopopup')[0].click();
+			});
+			
+		});
+    </script>
+</body>
+
+</html>

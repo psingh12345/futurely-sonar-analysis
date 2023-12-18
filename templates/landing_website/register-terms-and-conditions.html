@@ -1,0 +1,59 @@
+{% extends 'base_landing_website.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% block title %}
+<title>Register Terms and Condition</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+    .btn-outline-cookies {
+        border: 1px solid #000000;
+        background: transparent;
+        border-radius: 8px;
+        padding: 12px 16px !important;
+        color: #000000;
+        font-family: 'Roboto', sans-serif;
+        font-style: normal;
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        letter-spacing: 0 !important;
+        transition: all .5s;
+        max-width: 186px;
+    }
+    @media (max-width: 767px) {
+        .innder-content-safe .acc__card ul li {
+    font-size: 15px;
+}
+    }
+    .innder-content-safe .acc__card p{
+        word-break: unset !important;
+        margin-bottom: 0px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="main-content-block">
+    <section class="faq-section">
+        <div class="container">
+            <div class="row align-items-center">
+            {% for terms in terms_of_use %}
+                    <div class="col-md-12">
+                        <div class="acc innder-content-safe">
+                            <div class="d-flex mb-3 mb-lg-4 align-items-center justify-content-between">
+                            <h2 class="h2 mb-0 d-block section-title">Termini e condizioni</h2>
+                            <a href="{% url 'download_pdf_cookies' %}?filename=register_terms_and_conditions" class="outline-button-link d-block">Scarica il documento</a>
+                            </div>
+                            <div class="acc__card">
+                            {{terms.content |safe}}
+                            </div>
+                        </div>
+                    </div>
+            {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

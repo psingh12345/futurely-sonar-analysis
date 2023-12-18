@@ -1,0 +1,664 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Journal" %}</title>
+{% endblock %}
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}">
+<style>
+.card_right_sidebar {
+    background-color: #26272b;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 20px;
+    border: 1px solid #26272B;
+    box-shadow: -8px 12px 18px 0 #020203;
+    padding: 20px;
+}
+.quiz_right_block label {
+    color: #fff;
+    font-size: 14px;
+    margin: 0 0 12px;
+}
+.quiz_right_block textarea::placeholder {
+    color: #fff;
+}
+
+.quiz_right_block textarea {
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 100%;
+    resize: none;
+    outline: none;
+    background: #46474b;
+    border-color: #47484E;
+    font-size: 14px;
+    min-height: 60px;
+}
+.quiz_right_block {
+    display: block;
+    margin: 0 0 15px;
+    width: 100%;
+}
+.quiz_right_block label>span {
+    position: relative;
+    background: #336df3;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.quiz_right_block label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.quiz_right_block .count {
+    position: absolute;
+    top: 49%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    font-size: 12px;
+}
+.card_right_sidebar_inner {
+    background: #333333;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #26272B;
+    padding: 15px 15px 0;
+}
+.comment-button {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    margin: 10px 0 0;
+}
+.form-items-comment {
+    display: flex;
+    align-items: center;
+}
+.form-items-comment .comment-label {
+    color: #fff;
+    font-size: 15px;
+    flex: none;
+    margin: 0;
+    background: #336df3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 600;
+}
+.form-items-comment .form-control::placeholder, .submit-comment-button::placeholder {
+    color: #fff;
+}
+
+.form-items-comment .form-control {
+    background-color: #46474b;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 65%;
+    outline: none;
+    border-color: #47484E;
+    font-size: 14px;
+    box-shadow: none;
+}
+.form-items-comment + .form-items-comment {
+    margin-top: 10px;
+}
+.submit-comment-button {
+    background: #46474b;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    outline: none;
+}
+.submit-comment {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.form-submit-comment {
+    position: relative;
+}
+.arrow-right {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: rotate(135deg);
+}
+.form-items-comment.user-comments {
+    justify-content: end;
+}
+.form-group-comment {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+.form-group-comment::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.form-group-comment::-webkit-scrollbar {
+    width: 8px;
+    background-color: #232326d9;
+}
+.form-group-comment:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #232326d9;
+}
+
+.total-comment {
+    color: white;
+    margin-top: 10px;
+}
+
+textarea.form-control.text-white.text-justify-now.comment-box {
+    margin-top: 20px;
+    min-height: 30px !important;
+    background-color: #e6f7ee00 !important;
+    font-size: 17px !important;
+}
+
+
+div#admin-comments {
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #47484E;
+    border-radius: 15px;
+    padding: 20px;
+}
+.comment-icon-box {
+    font-size: 30px;
+    color: #fff;
+    margin-right: 15px;
+}
+#admin-comments .comment-label {
+    font-size: 12px;
+    color: #fff;
+    margin: 0;
+}
+
+.video-card-bottom-box #admin-comments .form-control {
+    background: #ffffff00 !important;
+    font-size: 16px;
+    min-height: inherit;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+.col-md-6.mb-5.question-blog {
+    margin: 5px -30px 0px 15px;
+    border: 3px solid;
+    border-radius: 20px;
+}
+
+.quiz_seprate_block{
+    border: 1px solid #47484e;
+    border-radius: 20px;
+    padding: 20px;
+}
+</style>
+{% endblock%}
+{% block content %}
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        <div class="row courses-block">
+            {% comment %} {% if is_trial_active %}
+            <div class="col-lg-12 col-md-12">
+                <div class="notification-bars text-center ">
+                    <span class="notify_text">
+                        {% if request.LANGUAGE_CODE == "it" %}
+                        Questa pagina è accessibile solo con il piano {{trial_plan_name}}. 
+                        Assicurati di <a href = "{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">aggiornare il tuo piano</a>
+                        entro il {{trial_end_date | date:'M d, Y'}} per continuare ad avere accesso a questa pagina, svolgere il corso "{{module_title}}" e usufruire di altri vantaggi {{trial_plan_name}}
+                        {% else %}
+                        This page can only be accessed by {{trial_plan_name}}. 
+                        Make sure to <a href = "{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">upgrade your plan</a>
+                        by {{trial_end_date | date:'M d, Y'}} to continue to have access to this page, do the "{{module_title}}" course, and enjoy the other {{trial_plan_name}} benefits
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+            {% if current_plan_type == "Community" %}
+                {% if is_trial_expired %}
+                <div class="notification-bars text-center" >
+                    <span class="notify_text">
+                        {% if request.LANGUAGE_CODE == "it" %}
+                            Il periodo di prova gratuita del piano {{trial_expired_plan_name}} è terminato.
+                            <a href ="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">
+                            Fai l'upgrade del tuo piano</a> 
+                            per continuare il corso "{{module_title}}" e usufruire di altri vantaggi {{trial_expired_plan_name}}
+                        {% else %}
+                            Your free trial period for the {{trial_expired_plan_name}} plan ended. 
+                            <a href ="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">
+                            Upgrade your plan</a> 
+                            to continue the "{{module_title}}" course and to enjoy other {{trial_expired_plan_name}} benefits
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+            {% endif %} {% endcomment %}
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre"> 
+                    <a href="{% url 'home' %}">{% trans "Home" %} ></a>
+                    {% trans "Diary" %}
+                </span>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="watch-video-card">
+                    <div class="card-video-watch row m-0">
+                        <div class="col-md-8">
+                            <div class="card-video-content ">
+                                <h3>{% trans "Your Personal Journal" %}
+                                </h3>
+                                <p class="text-justify-now">{% blocktrans %}Use this journal to accompany you during this course. It
+                                    will be a place for you to write and reflect on key takeaways after each step of the
+                                    program. This will be the primary space for you to capture your learnings and
+                                    reflections as you progress through this journey. Use bullet points, quotes, images
+                                    and anything that might help you!{% endblocktrans %}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-video-videos">
+                                <img src="{% static 'images/image-beautiful-woman.png'%}" />
+                            </div>
+                        </div>
+                    </div>
+                    {% if purchase_msg %}
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class=" col-md-10 notification-bars mt-5 mb-5 diary-lock-bgcolor" >
+                            <div class="bottom-lock-div">	
+                                <div class="col-lg-12 padding-left-col">
+                                    <div class="col-lg-8"  style="float: left;">
+                                        <h3 class="h3-color-white">{% trans 'Your journal is locked right now'%}</h3>
+                                        <span class="span-des-dairy">{% trans 'Upgrade to our premium/elite plan to have access'%}</span>
+                                        <div class="mt-2">
+                                            <a href="{% url 'home' %}" class="btn btn-dairy"><span >{% trans 'Back'%}</span></a>
+                                            <a href="{% url 'courses-available' %}" class="btn btn-dairy"><span >{% trans 'Our Plans'%}</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="lock-image-dairy" style="float: right;">
+                                        <img src="{% static 'images/Lock-dairy.png'%}"/>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    {% elif date_error %}
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class=" col-md-10 notification-bars mt-5 mb-5 diary-lock-bgcolor" >
+                            <div class="bottom-lock-div">	
+                                <div class="col-lg-12 padding-left-col">
+                                    <div class="col-lg-8"  style="float: left;">
+                                        <h3 class="h3-color-white">{% trans 'Congrats, you have unlocked your deliverables section'%}</h3>
+                                        <span class="span-des-dairy">{% trans 'You will find the deliverables here as  you progress through your course'%}</span>
+                                        <div class="mt-2">
+                                            <a href="{% url 'home' %}" class="btn btn-dairy"><span >{% trans 'Back'%}</span></a>
+                                                <a href="{% url 'courses-available' %}" class="btn btn-dairy"><span >{% trans 'Courses'%}</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="lock-image-dairy" style="float: right;">
+                                        <img src="{% static 'images/Lock-dairy.png'%}"/>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    {% else %}
+                    <div class="video-card-bottom-content">
+                        {% total_steps all_courses as tot_steps %}
+                        {% if tot_steps is 0 %}
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class=" col-md-10 notification-bars mt-5 mb-5 diary-lock-bgcolor" >
+                                <div class="bottom-lock-div">	
+                                    <div class="col-lg-12 padding-left-col">
+                                        <div class="col-lg-8"  style="float: left;">
+                                            <h3 class="h3-color-white">{% trans 'Congrats, you have unlocked your deliverables section'%} </h3>
+                                            <span class="span-des-dairy">{% trans 'You will find the deliverables here as  you progress through your course'%}</span>
+                                            <div class="mt-2">
+                                                <a href="{% url 'home' %}" class="btn btn-dairy"><span >{% trans 'Back'%}</span></a>
+                                                <a href="{% url 'courses-available' %}" class="btn btn-dairy"><span >{% trans 'Courses'%}</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="lock-image-dairy" style="float: right;">
+                                            <img src="{% static 'images/Lock-dairy.png'%}"/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        {% else %}
+                        <span class="slider-counter-main">{{tot_steps}} {% trans "steps" %}</span>
+                        <div class="video-card-bottom-box watch-video-slider owl-carousel">
+                            {% with loopV=0 %}
+                            {% for all_steps in all_courses %}
+                            {% for step in all_steps %}
+                            <div class="item">
+                                <div class="video-card-bottom-title">
+                                    <br>
+                                    {% count_steps loopV as loopV %}
+                                    <h3>Step {{loopV}} : {{step.step_status_id.step.title}} </h3>
+                                </div>
+                                {% if step.step_status_id.is_active %}
+                                <div class="row">
+                                    {% for all_diaries in step.get_diary %}
+                                    {% for diary in all_diaries %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="quiz_seprate_block">
+                                        <label class="form-label text-justify-now"><img
+                                                src="{% static 'images/icon-date.png'%}" />{{diary.action_item_diary.question}}</label>
+                                        <textarea readonly class="form-control text-white text-justify-now"
+                                            rows="2">{{diary.answer}}</textarea>
+                                        {% if diary.comments_student_actions_item_diary.all %}
+                                        <p class="total-comment">{{ diary.comments_student_actions_item_diary.count }} {% trans 'Comments' %}</p>
+                                            {% comment %} <button type="button" class="comment-button btn btn-primary" data-toggle="modal" data-target="#commentModal" onclick="open_modal('{{diary.action_item_diary.question}}', '{{diary.answer}}', '{{ diary.id }}')">{% trans "See Comments" %}</button> {% endcomment %}
+                                            {% for comment in diary.comments_student_actions_item_diary.all %}
+                                                <div class="" id="admin-comments">
+                                                    <span class="comment-icon-box"><i class="far fa-comment-alt"></i></span>
+                                                    <div class="comment-admin-right">
+                                                    <p class="comment-label text-white" title="Futurely Admin"> {% trans 'Commented by' %} {{ comment.person.first_name|title }} {{ comment.person.last_name|title }}</p>
+                                                    <p class="text-white text-justify-now" rows="10">{{ comment.comment }}</p>
+                                                    </div>
+                                                </div>
+                                            
+                                            {% endfor %}
+                                        {% endif  %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="quiz_seprate_block">
+                                        <label class="form-label text-justify-now"><img
+                                                src="{% static 'images/icon-date.png'%}" />{% trans "Locked" %}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal fade learn-popup" id="commentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" style="color: #fff">{% trans 'Tutor Comments' %}</h5>
+                            <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                                aria-label="Close" onclick="close_btn()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <div class="quiz_right_block" id="id_ques_ans">
+                                    
+                                </div>
+                            </div>
+                        <div class="col-md-12">
+                            <form id="id_modal_form">
+                                <div class="form-group-comment" id="id_stu_admin_comments">
+                                    {% csrf_token %}
+                                    
+                                </div>
+                                {% comment %} <div class="form-submit-comment">
+                                <input type="text" placeholder="{% trans 'Comments By Student' %}" name="comment" class="submit-comment-button mt-3">
+                                <button type="submit" class="submit-comment"><span class="arrow-right"></span><span class="arrow-right"></span></button>
+                                </div> {% endcomment %}
+                            
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-lg-4">
+				<div class="card_right_sidebar">
+                    <div class="card_right_sidebar_inner">
+					<div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">1</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                    </div>
+                    <div class="card_right_sidebar_inner">
+                    <div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">2</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                </div>
+                <div class="card_right_sidebar_inner">
+                    <div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">3</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                </div>
+                <div class="card_right_sidebar_inner">
+                    <div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">4</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                </div>
+                <div class="card_right_sidebar_inner">
+                    <div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">5</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                 </div>
+                 <div class="card_right_sidebar_inner">
+                    <div class="quiz_right_block">
+                        <label class="form-label text-justify-now"><span><i class='far fa-comment-alt'></i><span class="count">5</span></span>  Answer: This is my Answer 1 </label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="2">Replied: Based on the charecter of your peak experince</textarea>
+					</div>
+                 </div>
+            </div> {% endcomment %}
+			</div>
+        </div>
+    </div>
+</div>
+<div class="modal fade learn-popup" id="id-contact-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content contact-pop-back">
+            <div class="modal-header">
+                <button type="button" id="btn-close-tutor" class="btn-close color-white cross-btn-cls"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 class="color-white">{% trans "Submit Query to your tutor" %}</h2>
+                <hr class="color-white">
+                <div class="modal-body info_form">
+                    <form id="post-contact-tutor" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                    <input id="email" class="form-control text-white" type="text"
+                                        placeholder="your-email@futurely.com" value="{{user.email}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <input id="subject" class="form-control" type="text"
+                                        placeholder="{% trans 'Subject of discussion' %}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <textarea id="questions" class="form-control" type="text"
+                                        placeholder="{% trans 'Enter your queries for the tutor' %}"
+                                        required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary con-tutor tutor-submit">{% trans "Submit" %}</button>
+                                <button type="submit"  style="display: none" class="btn btn-primary con-tutor start-loading contact_tutor_loader"><i class="fa fa-spinner fa-spin"></i></button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function open_modal(question, ans, diary_id){
+        $("#id_modal_form").append(`<input type="hidden" name="answer" id="ans_id" value="${diary_id}">`)
+        $("#id_ques_ans").append(`
+            <label class="form-label text-justify-now">Question: ${question}</label>
+            <textarea readonly class="form-control text-white text-justify-now" rows="2">Answer: ${ans}</textarea>
+        `)
+        comment_fun(diary_id);
+        $('#commentModal').modal('toggle');
+    };
+
+    $("form").on('submit', function(e){
+        var form_values = $(this).serialize();
+        form_submit(form_values, e)
+    });
+
+    $(function () {
+        $("form").validate();
+    });
+
+    function close_btn(){
+        jQuery("#ans_id").remove();
+        $("#id_ques_ans").html("");
+        $('#commentModal').modal('hide');
+        $("#id_stu_admin_comments").html("");
+        $('#id_modal_form').trigger("reset");
+    };
+
+    function form_submit(form_values, e){
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'submit_comment' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: form_values,
+            success: function(response){
+                jQuery("#ans_id").remove();
+                $("#id_ques_ans").html("");
+                $('#commentModal').modal('hide');
+                $("#id_stu_admin_comments").html("");
+                $('#id_modal_form').trigger("reset");
+            },
+            error: function (response){
+                jQuery("#ans_id").remove();
+                $("#id_ques_ans").html("");
+                $('#commentModal').modal('hide');
+                $("#id_stu_admin_comments").html("");
+                $('#id_modal_form').trigger("reset");
+            }
+        });
+        e.preventDefault();
+    }
+
+    function comment_fun(diary_id){
+        var html_content = ""
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'get_comments' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: {'diary_id': diary_id},
+            success: function(response){
+                for(var i=0; i<response['admin_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment admin-comments" id="admin-comments">
+                        <label class="comment-label" title="Tutor">T</label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="1">${response['admin_comment'][i]}</textarea>
+                    </div>
+                    `;
+                    $("#id_stu_admin_comments").append(html_content);
+                    html_content = ""
+                }
+                for(var i=0; i<response['student_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment user-comments" id="user-comments">
+                        <label title="{{ request.user.first_name }}" class="comment-label">{{ request.user.first_name.0 | capfirst }}</label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="1">${response['student_comment'][i]}</textarea>
+                    </div>
+                    `;
+                    $("#id_stu_admin_comments").append(html_content);
+                    html_content = ""
+                }
+                
+                $('#commentModal').modal('hide');
+            },
+            error: function (response) {
+                $("#id_stu_admin_comments").html("");
+            },
+        });
+    };
+</script>
+
+{% endblock %}

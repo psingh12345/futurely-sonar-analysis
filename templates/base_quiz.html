@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load tz %}
+{% load phrase_i18n %}
+{% current_plan request as current_plan %}
+<html lang="en" style="background-color: #26272b;">
+
+<head>
+    {% css_version as css_version %}
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+     <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <!-- Custom fonts for this template-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <!-- <link href="{% static 'css/custom.css'%}?v={{css_version}}" rel="stylesheet"> -->
+    <link href="{% static 'css/new_custom.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}?v={{css_version}}"> -->
+    <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}">
+    
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+   
+    {% block title %}
+    {% endblock %}
+    {% block style%}
+    {% endblock%}
+    <style>
+        .modal.show .modal-dialog {
+        transform: translateY(-50%);
+        top: 50%;
+        }
+        .hidden{
+            display: none !important;
+        }
+       
+        .notification-update span {
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .notification-update {
+            background: linear-gradient(to right, #c7a84c , #ffc107);
+            border: none !important;
+            color: #fff;
+            border-color: transparent;
+            padding: 0.7rem;
+            margin-bottom: 0 !important;
+            font-size: 14px;
+            width: 100%;
+            position: relative;
+            border-radius: 0.7rem;
+        }
+       
+        {% comment %} body #wrapper #content-wrapper #content .main-content {
+            padding-top: 0!important;
+        } {% endcomment %}
+        .topbar {
+            flex-wrap: wrap;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            height: auto;
+        }
+
+                .notification-update.top-noti {
+            padding: 0.5rem;
+            width: auto;
+            flex: 100%;
+            margin: 0 -20px;
+            border-radius: 0;
+            display: none;
+            margin-top: -12px;
+        }
+            
+            .close:before {
+            transform: rotate(45deg);
+        }
+        .close:after {
+            transform: rotate(-45deg);
+        }
+        .cookie-disclaimer {
+            background: #04060f;
+            color: #FFF;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            position: fixed;
+            opacity: 0.9;
+        }
+        .cookie-disclaimer .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+        }
+    
+        .cookie-button {
+            color: #fff !important;
+            border-radius: 10px;
+            position: relative;
+            /* padding: 14px 40px; */
+            box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+            transition: 0.5s;
+            background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+            /* font-weight: 600; */
+            cursor: pointer;
+        }
+    
+        .cookies-setting:hover {
+            border: 0px solid white !important;
+        }
+        #request-access-popup.modal.fade.show {
+            display: flex !important;
+            align-content: center;
+        }
+        @media (min-width: 768px) {
+        .cookie-discription span {
+    display: none;
+}
+}
+        @media (max-width:767px) {
+            .btn.cookies-setting {
+    font-size: 12px;
+    text-decoration-line: underline;
+}
+.cookie-button {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+            .cookie-discription.sho {
+    display: block;
+}
+.cookie-discription.show span {
+    display: none;
+}
+
+.cookie-discription.show p {
+    white-space: normal;
+}
+.cookie-disclaimer {
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1 !important;
+}
+            .cookie-discription p {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.cookie-discription span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration-line: underline;
+    color: #FFFFFF;
+    white-space: nowrap;
+    padding: 0 15px;
+}
+.cookie-discription {
+    display: flex;
+    align-items: baseline;
+}
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+            .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+        }
+        @media (min-width:768px) {
+        #request-access-popup .modal-dialog {
+        max-width: 800px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)translatey(-50%);
+        top: 50%;
+        }
+    }
+    {% comment %} .free-trail-button{
+        display: none;
+    } {% endcomment %}
+    
+    .free-trail-button:hover {
+        color: #fff;
+    }
+    .free-trail-button {
+        filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.02)) drop-shadow(0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852)) drop-shadow(0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481)) drop-shadow(0px 20px 13px rgba(0, 0, 0, 0.01)) drop-shadow(0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185)) drop-shadow(0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481));
+        border-radius: 10px;
+        border: 2px solid #EA454B;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        color: #FFFFFF;
+        padding: 8px 15px;
+        display: inline-block;
+        transition: all .5s;
+    }
+    .free-trail-button {
+        display: inline-block !important;
+    }
+    .trial-expiring-button:hover {
+    color: #fff;
+    border-color: #fff;
+}
+.upgrade-now-button:hover {
+    color: #fff;
+    
+}
+.upgrade-now-button {
+    background: linear-gradient(116.59deg, #ED8147 80.44%, #F6C05B 100.73%);
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 15px;
+    cursor: pointer;
+}
+.trial-expiring-button {
+    background: #7E74F5;
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 126.02%;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 25px 15px;
+    border: 1px solid transparent;
+    transition: all .5s;
+    margin: 0 15px;
+    cursor: pointer;
+}
+@media (max-width:767px) {
+    .trial-expiring-button {
+    text-align: center;
+    padding: 10px;
+    margin: -12px -10px 12px;
+    flex: 100%;
+}
+.free-trail-button {
+    font-size: 9px;
+    padding: 8px 10px;
+}
+.upgrade-new-span-btn {
+    position: fixed;
+    top: 42px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: #ccc;
+}
+.upgrade-now-button {
+    
+    padding: 10px;
+    display: inline-block;
+    margin: 4px auto;
+}
+.mobile-hide{
+        display: none;
+    }
+}
+@media (min-width:768px) {
+    .dasktop-hide{
+        display: none;
+    }
+}
+{% if request.path == "/futurely-plans/" %}
+@media (max-width: 767px) {
+    body #wrapper #content-wrapper #content .main-content.notifi {
+                padding-top: 160px !important;
+    }
+   
+   
+    }
+
+@media (min-width:768px) {
+   
+	#wrapper #content-wrapper {
+    padding-left: 0px !important;
+}
+}
+{% endif %}
+.rating-data-title a.btn.buy-now {
+    background: rgba(6, 21, 71, 0.9);
+}
+.rating-data-title .btn.buy-now-trial {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    right: 0;
+    left: 0;
+    max-width: 80%;
+    margin: auto;
+    bottom: 80px;
+}
+.new-courses-box-footer a.btn {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+}
+.free-trail-button-red {
+    background: red !important;
+}
+
+    .student_faq {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 18px 12px;
+        gap: 4px;
+        /* position: absolute; */
+        width: 73px;
+        height: 29px;
+        /* left: 231px; */
+        /* top: 83px; */
+        background: linear-gradient(99.57deg, #061547 81.99%, #7E74F5 159.56%);
+        box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+        border-radius: 8px;
+    }
+
+    .student_faq a.nav-link:hover {
+        color: white;
+        border: none !important;
+    }
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-KW23H71RW3');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+        <!-- End Google Tag Manager -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<style>
+    .prove-row-card {
+    background: #26272B;
+    padding: 30px;
+    --bs-gutter-x: 16px;
+    }
+    .top-back-block {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    }
+    .top-back-block .h3 {
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.27px;
+    margin: 0;
+    }
+    .title-main-prove {
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.96px;
+    margin-bottom: 18px;
+    margin-top: 18px;
+    }
+    
+    .prove-card p {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-bottom: 12px;
+    }
+    
+    .prove-card h3 {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+    margin-bottom: 14px;
+    }
+    .prove-card {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    background: #444;
+    margin-bottom: 16px;
+    }
+    .prove-image img {
+    width: 100%;
+    height: 90px;
+    border-radius: 8px 8px 0px 0px;
+    object-fit: cover;
+    }
+    .prove-card-inner {
+    width: 100%;
+    padding: 20px;
+    display: block;
+    }
+    .prove-button:hover {
+    color: #fff;
+    border: 1px solid #fff;
+    }
+    
+    .prove-button {
+    display: table;
+    padding: 10px 24px;
+    margin-left: auto;
+    border-radius: 8px;
+    background: linear-gradient(131deg, #0068FF 7.68%, #FE45C2 100%);
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.24px;
+    transition: all .5s;
+    }
+    .prove-chiudi-button:hover {
+    background: #fff;
+    color: #333;
+    }
+    
+    .prove-chiudi-button {
+    display: table;
+    padding: 10px 20px;
+    margin-left: auto;
+    border-radius: 8px;
+    border: 1px solid #FFF;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.24px;
+    width: 142px;
+    transition: all .5s;
+    }
+    .prove-container-fluid {
+    padding-left: 8px;
+    padding-right: 8px;
+    }
+    @media (max-width:767px) {
+    .title-main-prove {
+    font-size: 24px;
+    }
+    .top-back-block .h3 {
+    font-size: 14px;
+    }
+    .back-button-icon svg {
+    width: 24px;
+    }
+    .prove-chiudi-button {
+    width: 100%;
+    }
+    }
+    </style>
+</head>
+
+<body id="page-top">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ --><script>(function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'//app-worker.visitor-analytics.io/main.js','7388998c-4d85-11ec-b589-901b0edac50a','va')</script><!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+    
+    <!-- Page Wrapper -->
+    <div id="wrapperr">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapperr">
+            <!-- Main Content -->
+            <div id="content">
+                
+                
+            
+                {% block content %}
+           
+                {% endblock %}
+                
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    
+
+    {% block to_do_popup%}
+    {% endblock %}
+    {% block learn_more %}
+    {% endblock %}
+    {% block contact_tutor %}
+    {% endblock %}
+    <!-- Start Cookies popup-->
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    {% else %}
+	{% if request.session.to_display_first_time_cookie_banner == "True" %}
+	<div class="cookie-disclaimer">
+		<div class="container">
+			{% if request.LANGUAGE_CODE == "it" %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">Facendo clic su "Accetta tutti i cookie", l'utente accetta la memorizzazione dei cookie sul proprio dispositivo per migliorare le prestazioni del sito web, migliorare la propria esperienza e analizzare l'utilizzo del sito.</p>
+                    <span>sapere di più</span>
+                   </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accetta tutti i cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Impostazioni dei cookie</a>
+				</div>
+			</div>
+			{% else %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">By clicking “Accept All Cookies”, you agree to the storing of cookies on your device to enhance website performance, improve your experience, and analyze site usage.</p>
+                    <span>See more</span>
+                </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accept all cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Customize cookies</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+	<!--End Cookies popup-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    
+    <script>
+        jQuery('#request-access-popup').click(function() {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'send_email' %}",
+            data: {"email": "{{ request.user.email }}"},
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            success: function(response){
+              console.log(response);
+            },
+            error: function(error_msg){
+              console.log(error_msg)
+            }
+          });
+        });
+      </script>
+    <script>
+        function tourNext(activePop, activeClass, nextClass, nextPop) {
+            $('.' + activeClass).removeClass("tooltip-active");
+            $('.' + activePop).addClass("d-none");
+            $('.' + nextClass).addClass("tooltip-active");
+            $('.' + nextPop).removeClass("d-none");
+            $('.' + nextPop).show();
+            $('.' + nextPop).focus();
+            if (parseInt(nextClass) == 0) {
+                tourSkip();
+            }
+        }
+
+        function tourSkip() {
+            $("#page-top").removeClass("tooltips-open");
+            $(".skiptd").removeClass("tooltip-active");
+            $(".skiptp").addClass("d-none");
+
+        }
+
+        function taketour() {
+            $("#page-top").addClass("tooltips-open");
+            $(".div1").addClass("tooltip-active");
+            $(".pop1").removeClass("d-none");
+
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $(".accept-cookie").click(function(){
+                $.ajax({
+                    url: "{% url 'cookie_accept' %}",
+                    type: "POST",
+                    headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                    success: function(response){
+                        if(response.cookies_accepted == true){
+                            $(".cookie-disclaimer").hide();
+                        }else{
+                            $(".cookie-disclaimer").show();
+                        }
+                    },
+                    error: function(error){
+                        alert("Something went wrong!!")
+                    },
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $("#sidebarToggleTop").click();
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    fn=input.files[0].name;
+                    if(fn.endsWith("pdf"))
+                    {
+                        var htmlPreview =
+                        '<i class="bi bi-file-pdf pdf-icon-upload"></i>' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    else if(fn.endsWith("doc") || fn.endsWith("docx")){
+                        var htmlPreview =
+                        '<i class="bi bi-file-word word-icon-upload"></i>' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    else{
+                    var htmlPreview =
+                        '<img width="200" src="' + e.target.result + '" />' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    var wrapperZone = $(input).parent();
+                    var previewZone = $(input).parent().parent().find('.preview-zone');
+                    var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+                    wrapperZone.removeClass('dragover');
+                    previewZone.removeClass('hidden');
+                    boxZone.empty();
+                    boxZone.append(htmlPreview);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function reset(e) {
+            e.wrap('<form>').closest('form').get(0).reset();
+            e.unwrap();
+        }
+        $(".dropzone").change(function () {
+            readFile(this);
+        });
+        $('.dropzone-wrapper').on('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).addClass('dragover');
+        });
+        $('.dropzone-wrapper').on('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+        });
+        $('.remove-preview').on('click', function () {
+            var boxZone = $(this).parents('.preview-zone').find('.box-body');
+            var previewZone = $(this).parents('.preview-zone');
+            var dropzone = $(this).parents('.form-group').find('.dropzone');
+            boxZone.empty();
+            previewZone.addClass('hidden');
+            reset(dropzone);
+        });
+        $('.calender-slider').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                480: {
+                    items: 4
+                },
+                600: {
+                    items: 4
+                },
+                1000: {
+                    items: 6
+                },
+                1200: {
+                    items: 7
+                }
+
+            }
+        });
+        $('.steup-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                }
+
+            }
+        });
+        $('.multi-question-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            rows: 2,
+            dots: true,
+            navText: ['<img class="slider-arrow left" src="img/slider-arrow-right.png">',
+                '<img class="slider-arrow right" src="img/slider-arrow-right.png">'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 2
+                }
+
+            }
+        });
+        $(document).ready(function () {
+            var sync1 = $("#sync1");
+            var sync2 = $("#sync2");
+            var slidesPerPage = 4; //globaly define number of elements per page
+            var syncedSecondary = true;
+
+            sync1.owlCarousel({
+                items: 1,
+                slideSpeed: 2000,
+                nav: false,
+                autoplay: false,
+                dots: false,
+                loop: true,
+                responsiveRefreshRate: 200,
+                navText: ['<span class="slick-arrow arrow-left"></span>',
+                    '<span class="slick-arrow arrow-right"></span>'
+                ],
+            }).on('changed.owl.carousel', syncPosition);
+            sync2
+                .on('initialized.owl.carousel', function () {
+                    sync2.find(".owl-item").eq(0).addClass("current");
+                })
+                .owlCarousel({
+                    items: slidesPerPage,
+                    margin: 15,
+                    dots: false,
+                    nav: true,
+                    smartSpeed: 200,
+                    slideSpeed: 500,
+                    slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
+                    responsiveRefreshRate: 100,
+                    navText: ['<span class="slick-arrow arrow-left"></span>',
+                        '<span class="slick-arrow arrow-right"></span>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        480: {
+                            items: 2
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        },
+                        1200: {
+                            items: 4
+                        }
+
+                    }
+                }).on('changed.owl.carousel', syncPosition2);
+
+            function syncPosition(el) {
+                //if you set loop to false, you have to restore this next line
+                //var current = el.item.index;
+
+                //if you disable loop you have to comment this block
+                var count = el.item.count - 1;
+                var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+
+                if (current < 0) {
+                    current = count;
+                }
+                if (current > count) {
+                    current = 0;
+                }
+
+                //end block
+
+                sync2
+                    .find(".owl-item")
+                    .removeClass("current")
+                    .eq(current)
+                    .addClass("current");
+                var onscreen = sync2.find('.owl-item.active').length - 1;
+                var start = sync2.find('.owl-item.active').first().index();
+                var end = sync2.find('.owl-item.active').last().index();
+
+                if (current > end) {
+                    sync2.data('owl.carousel').to(current, 100, true);
+                }
+                if (current < start) {
+                    sync2.data('owl.carousel').to(current - onscreen, 100, true);
+                }
+            }
+
+            function syncPosition2(el) {
+                if (syncedSecondary) {
+                    var number = el.item.index;
+                    sync1.data('owl.carousel').to(number, 100, true);
+                }
+            }
+
+            sync2.on("click", ".owl-item", function (e) {
+                e.preventDefault();
+                var number = $(this).index();
+                sync1.data('owl.carousel').to(number, 300, true);
+            });
+        });
+
+        $("form").on("change", ".file-upload-field", function () {
+            $(this).parent(".file-upload-wrapper").attr("data-text", $(this).val().replace(/.*(\/|\\)/, ''));
+        });
+
+        $('.close').on('click', function () {
+            $(this).parent('.notification-bars').hide();
+        });
+        $('.close-main').on('click', function () {
+            $(this).parent('.notification-update').hide();
+        });
+
+        $('.next').click(function () {
+            var activetabindex = $('.active').index() + 1;
+            var containers = $('.tab-content>div').length;
+            if (containers == activetabindex) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').first().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').next();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.prev').click(function () {
+            var activetabindex = $('.active').index();
+            if (activetabindex == 0) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').last().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').prev();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.watch-video-slider').owlCarousel({
+            loop: false,
+            margin: 40,
+            nav: true,
+            dots: true,
+            autoplay: false,
+            items: 1,
+            roq: 1,
+            autoplayHoverPause: false,
+            navText: ['<span class="btn back-btn">{% trans "Back" %}</span>',
+                '<span class="btn next-btn gradient-border"><span>{% trans "Next step" %}</span></span>'
+            ],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+
+            }
+        });
+    </script>
+    <script>
+        $('#post-todo').on('submit', function (event) {
+            $("#btn-close").click();
+            event.preventDefault();
+            var title = $('#title').val();
+            var date = $("#selected_date_id").val();
+            var active_class = $("#selected_date_loop_id").val();
+            
+            $.ajax({
+                url: "{% url 'add_todo' %}",
+                type: "POST",
+                data: {
+                    'title': title,
+                    'todo_date': $('#todo_date').val(),
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    //$('#title').val('');
+                    display_notifymsg("{% trans 'Todo added'%} : " + response['todo_title']);
+                    update_to_do_texts(date);
+                },
+                error: function (response) {
+                    display_notifymsg("{% trans 'Something went wrong' %}");
+                }
+            });
+        });
+        $('#post-contact-tutor').on('submit', function (event) {
+            $("#btn-close-tutor").click();
+            display_notifymsg("{% trans 'Please wait, we are sending your queries to tutor' %}");
+            event.preventDefault();
+            $.ajax({
+                url: "{% url 'contact_tutor' %}",
+                type: "POST",
+                data: {
+                    'email': $("#email").val(),
+                    'subject': $('#subject').val(),
+                    'questions': $('#questions').val(),
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    display_notifymsg("{% trans 'Your queries are submitted. Your tutor will respond to your email within the next 48 hours' %}");
+                },
+                error: function (response) {
+                    display_notifymsg("{% trans 'Something went wrong' %}");
+                }
+            });
+        });
+
+        function update_to_do_texts(date) {
+            $.ajax({
+                url: "{% url 'get_todo' %}",
+                type: "GET",
+                data: {
+                    "date": date,
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    todo = response['lst_todos'];
+                    lst_stp = response['lst_steps'];
+                    
+                    text = `{% if current_plan_type == "Community" %}
+                                {% for meetup in my_meetups %}
+                                <div class="col-md-12 p-0 mt-3">
+                                    <div class="data-box">
+                                        {% date_for_weekday meetup.meet_day meetup.meet_time as date_for_weekday1 %}
+                                        <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                        <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                            <u>
+                                                <span>{{meetup.title}} -
+                                                    <i ><span>Date: {{date_for_weekday1 |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}}</span></i>
+                                                </span>
+                                            </u>
+                                        </a>
+                                            
+                                    </div>
+                                </div>
+                                {% endfor%}
+                            {% else %}
+                            {% for lst_meetups in my_meetups %}
+                                {% for meetup in lst_meetups %}
+                                    <div class="col-md-12 p-0 mt-3">
+                                        <div class="data-box">
+                                            <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                            <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                                <u>
+                                                    <span>{{meetup.title}} -
+                                                    <i ><span>Date: {{meetup.meet_date_time |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}} </span></i>
+                                                    </span>
+                                                </u>
+                                                </a>
+                                            
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor%}
+                        {% endif %}`;
+                    var img = document.createElement('img');
+                    img.src = "{% static 'images/Journal.png'%}";
+                    if (todo.length > 0) {
+                        for (let i = 0; i < todo.length; i++) {
+                            text+=`<div class="col-md-12 mt-3 data-box data-box`+todo[i].id+`">
+                                <div class="edits-iconss">
+                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('`+todo[i].id+`');"></i>
+                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('`+todo[i].id+`');"></i>
+                                </div>
+                                <div class="hover-tooltip-popup top step-scr confirm`+todo[i].id+`">
+                                    <div class="tooltip-steps">
+                                        <h3 class="todo-pop-des">Are you sure you want to delete this task?</h3>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "No" %}</span>
+                                        </a>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "Yes" %}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="to-do-rows">
+                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                            <img src="{% static 'images/Journal.png'%}">
+                                        </div>
+                                        <div class="col-md-11 todo-des-textt">
+                                            <span id="span`+todo[i].id+`">`+todo[i].msg+`</span>
+                                            <textarea class=" todo-text-area d-none" id="textarea`+todo[i].id+`">`+todo[i].msg+`</textarea>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel`+todo[i].id+`" data-bs-toggle="modal"  onclick="cancelEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Cancel" %}</span>
+                                            </a>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn`+todo[i].id+`" data-bs-toggle="modal"  onclick="submitEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Save changes" %}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            //text += '<div class="col-md-12 p-0 mt-3"><i class="bi bi-trash top-0 end-0 float-right delete-dash-todo"></i><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>' + lst[i] + '</span></div></div>'
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                        for (let i = 0; i < lst_stp.length; i++) {
+                            text += `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "Complete the step"%} -<a class="color-white " style="text-decoration: underline;" href="/action-items/`+lst_stp[i].id+`/0/ "><i><span><u>`+lst_stp[i].stp_msg+`</u></span></i></a></span></div></div>`;
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                    }
+                    else if(lst_stp.length>0){
+                        for (let i = 0; i < todo.length; i++) {
+                            let t = i + 1
+                            text+=`<div class="col-md-12 mt-3 data-box data-box`+todo[i].id+`">
+                                <div class="edits-iconss">
+                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('`+todo[i].id+`');"></i>
+                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('`+todo[i].id+`');"></i>
+                                </div>
+                                <div class="hover-tooltip-popup top step-scr confirm`+todo[i].id+`">
+                                    <div class="tooltip-steps">
+                                        <h3 class="todo-pop-des">Are you sure you want to delete this task?</h3>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "No" %}</span>
+                                        </a>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "Yes" %}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="to-do-rows">
+                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                            <img src="{% static 'images/Journal.png'%}">
+                                        </div>
+                                        <div class="col-md-11 todo-des-textt">
+                                            <span id="span`+todo[i].id+`">`+todo[i].msg+`</span>
+                                            <textarea class=" todo-text-area d-none" id="textarea`+todo[i].id+`">`+todo[i].msg+`</textarea>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel`+todo[i].id+`" data-bs-toggle="modal"  onclick="cancelEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Cancel" %}</span>
+                                            </a>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn`+todo[i].id+`" data-bs-toggle="modal"  onclick="submitEditTodo('`+todo.id+`');">
+                                                <span>  {% trans "Save changes" %}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            //text += '<div class="col-md-12 p-0 mt-3"><i class="bi bi-trash top-0 end-0 float-right delete-dash-todo"></i><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>' + lst[i] + '</span></div></div>'
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                        for (let i = 0; i < lst_stp.length; i++) {
+                            
+                            text += `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "Complete the step"%} -<a class="color-white " style="text-decoration: underline;" href="/action-items/`+lst_stp[i].id+`/0/ "><i><span><u>`+lst_stp[i].stp_msg+`</u></span></i></a></span></div></div>`;
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                    }
+                    else {
+                        '{% if my_meetups %}'
+                        '{% else %}'
+                        text = `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "You have no pending task" %}</span></div></div>`
+                        '{% endif %}'
+    
+                    }
+                    $("#todo_msg").html(text);
+    
+                },
+                error: function (response) {
+                    alert("{% trans 'Server not responding, try later' %}....");
+                }
+            });
+        
+        };
+
+        function display_notifymsg(msg) {
+            $('.notify_text').html(msg);
+            $('.notification-bars').css({
+                'display': 'block'
+            });
+            $('.scroll-to-top').click();
+            $('.notification-bars').delay(4000).hide(0);
+        };
+
+        function fun_notify_update(id) {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'notification-read' %}",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                data: {
+                    'id': id,
+                },
+                success: function (response) {
+                    $("#noti_link" + id).css("background", "transparent");
+                    var new_notify = parseInt($("#new_notifications_tot").text());
+                    if (new_notify > 0) {
+                        new_notify = new_notify - 1
+                        $("#new_notifications_tot").text(new_notify);
+                        if (new_notify == 0) {
+                            $("#new_notifications_tot").css('display', 'none');
+                        }
+                    }
+                },
+                error: function (response) {}
+            })
+        }
+        $(document).ready(function(){
+    $("#navbarSupportedContent ul.dropdown-menu>li>a").click(function(){
+        $("#navbarSupportedContent").toggleClass("show");		
+    });
+});
+
+
+</script>
+<script>
+   
+
+{% comment %} function read_generate_notification(notification_id){
+    $.ajax({
+        type: "POST",
+        data: {"notification_id": notification_id},
+        headers: {"X-CSRFTOKEN": "{{ csrf_token }}"},
+        url: "{% url 'generate-notification-bar' %}",
+        success: function(response){
+            console.log(response);
+        },
+        error: function(response){
+            console.log(response);
+            alert("Something went wrong!!");
+        }
+    });
+}; {% endcomment %}
+</script>
+<script>
+        
+        $('.cookie-discription span').click(function() {
+        $('.cookie-discription').toggleClass('show');
+        });
+        
+</script>
+    {% block script %}
+
+    {% endblock %}
+
+</body>
+
+</html>

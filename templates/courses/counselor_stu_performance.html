@@ -1,0 +1,593 @@
+{% extends 'base_admin.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Student Performance</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+<style>
+ 
+</style>
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+{% endblock%}
+{% block content %}
+<style>
+    .card_comments_block {
+    background-color: #46474b;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    font-weight: 400;
+    color: #fff;
+    }
+    .answer-quiz-card {
+    background-color: #46474b;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    font-weight: 400;
+    color: #fff;
+}
+#ID_Comment.show {
+    display: flex !important;
+    align-items: center;
+}
+    .card-box {
+    background-color: #26272ba6 !important;
+    }
+    .searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
+        right: 1em;
+        content: "" !important;
+    }
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+    right: 0.5em;
+    content: "" !important;
+    }
+    .dataTables_info{
+        display: none !important;
+    }
+    .id_modal_form input {
+        background-color: #1e1d1d !important;
+        border: 1px solid #1121f1 !important;
+
+    }
+    .form-modal .form-control::placeholder {
+    color: #fff;
+}
+.form-modal .form-control {
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 100%;
+    resize: none;
+    outline: none;
+    background: #46474b;
+    border-color: #47484E;
+    font-size: 14px;
+}
+.form-modal .btn.btn-primary {
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+}
+.table .btn {
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    margin: 4px 0 0;
+}
+.comment-button {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    margin: 10px 0 0;
+}
+.form-items-comment {
+    display: flex;
+    align-items: center;
+}
+.form-items-comment .comment-label {
+    color: #fff;
+    font-size: 15px;
+    flex: none;
+    margin: 0;
+    background: #336df3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 600;
+}
+.form-items-comment .form-control::placeholder, .submit-comment-button::placeholder {
+    color: #fff;
+}
+
+.form-items-comment .form-control {
+    background-color: #46474b;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 65%;
+    outline: none;
+    border-color: #47484E;
+    font-size: 14px;
+    box-shadow: none;
+}
+.form-items-comment + .form-items-comment {
+    margin-top: 10px;
+}
+.submit-comment-button {
+    background: #46474b;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    outline: none;
+    max-height: 100px;
+    overflow-y: auto;
+    padding-right: 30px;
+    resize: none;
+}
+.submit-comment {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+    right: 10px;
+    top: 58%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transform: translateY(-50%);
+}
+.form-submit-comment {
+    position: relative;
+}
+.arrow-right {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: rotate(135deg);
+}
+.form-items-comment.admin-comments {
+    justify-content: end;
+}
+.form-group-comment {
+    max-height: 250px;
+    overflow-y: auto;
+}
+.form-group-comment::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.form-group-comment::-webkit-scrollbar {
+    width: 8px;
+    background-color: #232326d9;
+}
+.form-group-comment:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #232326d9;
+}
+.submit-comment-button::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.submit-comment-button::-webkit-scrollbar {
+    width: 8px;
+    background-color: #232326d9;
+}
+.submit-comment-button:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #232326d9;
+}
+.quiz_right_block label {
+    color: #fff;
+    font-size: 14px;
+    margin: 0 0 12px;
+}
+
+.question-answer {
+    margin-bottom: 15px;
+}
+
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                        <li class="nav-item"><a href="{% url 'admin_dashboard' %}" class="nav-link"><b> {% trans "Students Information" %}</b></a></li>
+                        <li class="nav-item"><a href="{% url 'admin_students_kpis' %}" class="nav-link" id="studentreport"><b>{% trans "Student Progress Report" %}</b></a></li>
+                        <li class="nav-item"><a class="nav-link active"><b> {% trans "Student Performance" %}</b></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                {% for stu_cohort in stu_cohorts %}
+                                <div class="col-md-12">
+                                    <div class="card card-box">
+                                        <div class="card-head">
+                                            <header>{% trans "Course-Steps Information" %}</header>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    <label class="color-white"> {% trans "Student Name" %} : {{student.first_name}} {{student.last_name}} </label>
+                                                    <br>
+                                                    <label class="color-white">{% trans "Email Id" %}: {{student.username}}</label>
+                                                    <br>
+                                                    <label class="color-white"> {% trans "Cohort Name" %} : {{stu_cohort.cohort.cohort_name}} </label>
+                                                    <br>
+                                                    <label class="color-white"> {% trans "Starting Date" %} : {{stu_cohort.cohort.starting_date}}</label>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                function childtable_toggle(currentobj,ctable,icon){
+                                                    
+                                                    $('.mychildtable').hide();
+                                                    if($('.minus_'+icon).is(":visible") == true){
+                                                        $('.minus_'+icon).hide();
+                                                        $('.plus_'+icon).show();
+                                                        $('#'+ctable).hide();
+
+                                                    }else{
+                                                        var row = document.getElementById(ctable);
+                                                        var rcells=row.cells.length;
+                                                        if(rcells>1){
+                                                            for (var i = 0; i < rcells; i++) {
+                                                                if (i== 4) { 
+                                                                    row.cells[0].setAttribute("colspan", "5");
+                                                                }else{
+                                                                    row.deleteCell(0);
+                                                                }
+                                                            }
+                                                        }
+                                                        $('.bi-plus-square-fill').show();
+                                                        $('.plus_'+icon).hide();
+                                                        $('#'+ctable).show();
+                                                        $('.bi-dash-square-fill').hide();
+                                                        $('.minus_'+icon).show();
+                                                        
+                                                    }
+                                                }
+                                                
+                                            </script>
+                                            <div class="table-scrollable">
+                                                <table
+                                                    class="table table-striped table-bordered table-checkable order-column valign-middle"
+                                                    id="exportTable{{forloop.counter}}">
+                                                    <thead>
+                                                        <tr>
+                                                            <th data-orderable="false">Step No</th>
+                                                            <th data-orderable="false"> {% trans "Title" %} </th>
+                                                            <th data-orderable="false">{% trans "Status" %}</th>
+                                                            <th data-orderable="false">{% trans "Completion date" %}</th>
+                                                            <th data-orderable="false">{% trans "Resources" %}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for stu in stu_cohort.stu_cohort_map.all %}
+                                                        <tr class="odd gradeX">
+                                                            <td> {{forloop.counter}}</td>
+                                                            <td class="left">{{stu.step_status_id.step.title}}</td>
+                                                            {% if stu.step_status_id.is_active %}
+                                                            {% if stu.is_completed %}
+                                                            <td class="left">{% trans "Completed" %}</td>
+                                                            {% else %}
+                                                            <td class="left">{% trans "Not completed" %}</td>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            <td class="left">{% trans "Locked" %}</td>
+                                                            
+                                                            {% endif %}
+                                                            {% if stu.is_completed %}
+                                                            <td class="left">{{stu.modified_at}}</td>
+                                                            {% else %}
+                                                            <td></td>
+                                                            {% endif %}
+                                                            <td>
+                                                                <a class="toggleicomain" style="font-size: 24px;" onclick="childtable_toggle(this,'ctable_{{forloop.parentloop.counter}}{{forloop.counter}}','icontable_{{forloop.parentloop.counter}}{{forloop.counter}}')" >
+                                                                    <i class="bi bi-plus-square-fill plus_icontable_{{forloop.parentloop.counter}}{{forloop.counter}}" ></i> 
+                                                                    <i class="bi bi-dash-square-fill minus_icontable_{{forloop.parentloop.counter}}{{forloop.counter}}" style="display: none;"></i>
+                                                                </a>
+                                                        </td>
+                                                        </tr>
+                                                        <tr class="odd gradeX mychildtable" style="display: none;" id="ctable_{{forloop.parentloop.counter}}{{forloop.counter}}">
+                                                            <td> {{forloop.counter}}.{% trans "Resources List" %}</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                <table style="width: 100%;">
+                                                                    <tr><td style='background-color: #303030'><b>{% trans "Journal Responses" %}</b></td></tr>
+                                                                    {% for actionItems in stu.stu_action_items.all %}
+                                                                        {% for question in actionItems.action_item_diary_track.all %}
+                                                                            <tr>
+                                                                                <td style="text-align:left;padding: 15px !important;max-width:200px !important;">
+                                                                                <b > {% trans "Question" %} {{forloop.counter}} : {{question.action_item_diary.question }}</b><br>
+                                                                                    {% trans "Answer" %} : {{question.answer }} </br>
+                                                                                    <input type= "hidden" id= "hdnques{{ question.id }}" value = "{{question.action_item_diary.question}}">
+                                                                                    <input type= "hidden" id= "hdnans{{ question.id }}" value = "{{question.answer}}">
+                                                                                    {% if request.user.person_role == "Futurely_admin" %}
+                                                                                    {% if stu.step_status_id.is_active %}
+                                                                                        <button class="btn" type="button" style="color: #e5e5ef; background-color: #0d6efd;" onclick="openmodal('{{ question.id }}', '{{ request.user.first_name }}')">{% trans "Comments" %}</button>
+                                                                                    {% endif %}
+                                                                                    {% endif %}
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                    {% for actionItems in stu.stu_action_items.all %}
+                                                                        {% for file in actionItems.action_item_file_track.all %}
+                                                                            {% if file.action_item_file.filetype.filetype == "Assignments" %}
+                                                                                {% if file.is_completed == "Yes" %}
+                                                                                    <tr><td style='background-color: #303030;'><b>{% trans "Submitted assignment" %}</b></td></tr>
+                                                                                    <tr>
+                                                                                        <td style='text-align:left;padding: 15px !important;max-width:200px !important;'>
+                                                                                            {% comment %} <b>Submitted assignment:</b> <br> {% endcomment %}
+                                                                                            {{forloop.counter}}. <a href='{{ file.uploaded_file.url }}' target="_blank">{{file.uploaded_file}}</a>
+                                                                                        </td>
+                                                                                        
+                                                                                    </tr>
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                    <tr><td style='background-color: #303030;'><b>{% trans "Exit Ticket" %}</b></td></tr>
+                                                                    {% for actionItems in stu.stu_action_items.all %}
+                                                                        {% for exit_ticket in actionItems.action_item_exit_ticket_track.all %}
+                                                                            {% if exit_ticket.is_completed == 'Yes' %}
+                                                                                <tr>
+                                                                                    <td style="text-align:left;padding: 15px !important;max-width:200px !important;">
+                                                                                        <b>{% trans "Question" %} {{forloop.counter}}: {{exit_ticket.action_item_exit_ticket.question}} </b> <br>
+                                                                                        {% trans "Answer" %} : {{ exit_ticket.answer }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    {% endfor %}
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        {% empty %}
+                                                        <tr class="odd gradeX">
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if request.user.person_role == "Futurely_admin" %}
+    <div class="modal fade learn-popup" id="ID_Comment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: #fff">{% trans 'Comments For Submission' %}</h5>
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                        aria-label="Close" onclick="close_btn()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 question-answer">
+                        <div class="quiz_right_block" id="id_ques_ans">
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <form id="id_modal_form">
+                            <div class="form-group-comment" id="id_student_admin">
+                                {% csrf_token %}
+                                
+                            </div>
+                            <div class="form-submit-comment">
+                                <textarea name="comment" class="submit-comment-button mt-3" rows="1" placeholder="{% trans 'Comment By Futurely Admin' %}"></textarea>
+                                <button type="submit" class="submit-comment"><span class="arrow-right"></span><span class="arrow-right"></span></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $(document).ready(function() {
+        $('td').removeClass('sorting_1');
+    });
+    
+    {% if request.user.person_role == "Futurely_admin" %}
+        function openmodal(dairy_id, first_name){
+            var question = $("#hdnques"+dairy_id).val();
+            var ans = $("#hdnans"+dairy_id).val();
+            $("#id_modal_form").append(`<input type="hidden" name="answer" id="ans_id" value="${dairy_id}">`);
+            $("#id_ques_ans").append(`
+                <label class="form-label text-justify-now">{% trans 'Question' %}: ${question}</label>
+                <div class="answer-quiz-card">{% trans 'Answer' %}: ${ans}</div>
+            `);
+            get_student_comment(dairy_id);
+            $('#ID_Comment').modal('toggle');
+        };
+    {% endif %}
+    function close_btn(){
+        $("#id_ques_ans").html("");
+        $('#ID_Comment').modal('hide');
+        $('#id_modal_form').trigger("reset");
+        $("#id_student_admin").html("");
+    };
+
+    $("form").on('submit', function(e){
+        var form_values = $(this).serialize();
+        form_submit(form_values, e)
+    });
+
+    $(function () {
+        $("form").validate();
+    });
+
+    function get_student_comment(dairy_id){
+        var html_content = ""
+        $("#id_student_admin").html("");
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'get_comments' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: {"diary_id": dairy_id},
+            success: function(response){
+                for(var i=0; i<response['student_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment user-comments" id="user-comments">
+                        <label title="Student" class="comment-label">S</label>
+                        <div class="card_comments_block">${response['student_comment'][i]}</div>
+                        </div>
+                        `;
+                    $("#id_student_admin").append(html_content);
+                    html_content = ""
+                }
+                for(var i=0; i<response['admin_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment admin-comments" id="admin-comments">
+                        <label class="comment-label" title="{{ request.user.first_name }}">{{ request.user.first_name.0 | capfirst }}</label>
+                        <div class="card_comments_block">${response['admin_comment'][i]}</div>
+                    </div>
+                    `;
+                    $("#id_student_admin").append(html_content);
+                    html_content = ""
+                }
+                $('#ID_Comment').modal('hide');
+            },
+            error: function (response) {
+                $("#id_student_admin").html("")
+            }
+        });
+    }
+
+    function form_submit(form_values, e){
+        $("#id_ques_ans").html("");
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'submit_comment' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: form_values,
+            success: function(response){
+                jQuery("#ans_id").remove();
+                $('#ID_Comment').modal('hide');
+                $('#id_modal_form').trigger("reset");
+            },
+            error: function (response) {
+                $("#id_student_admin").html("");
+                $('#id_modal_form').trigger("reset");
+            }
+        });
+        e.preventDefault();
+    };
+</script>
+{% endblock %}

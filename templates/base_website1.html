@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load stu_tags %}
+<html lang="{% if request.LANGUAGE_CODE == 'it' %}it{% else %}en{% endif %}">
+<head>
+	{% phrase_javascript %}
+	{% block title %}
+	{% endblock %}
+	<meta charset="utf-8">
+	<meta property='og:title' content='Futurely'/>
+	<meta property='og:image' content="{% static '/website/new/images/Banner.png' %}"/>
+	{% if request.LANGUAGE_CODE == 'it' %}
+		<meta property='og:description' content="Futurely è una piattaforma per l'orientamento scolastico, digitale, guidata personalizzata, incentrata sulla scoperta di sè e delle opzioni dopo le scuole superiori."/>
+	{% else %}	
+		<meta property='og:description' content='Futurely is a digital career counseling platform that accompany high school students in achieving goals with clear steps, in a personal way.'/>
+	{% endif %}
+	<meta property='og:url' content='https://www.myfuturely.com/'/>
+	{% include 'components/seo.html' %}
+	{% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+	{% else %}
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	{% endif %}
+	<!-- favicon-->
+	<link rel="icon" href="{% static 'website/images/favicon.png'%}">
+	<!-- Google font version -->
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+		rel="stylesheet">
+	<!-- Font Awesome icons (free version)-->
+	<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="{% static '/website/new/css/bootstrap-grid.css' %}">
+	<link rel="stylesheet" href="{% static '/website/new/css/animate.css' %}">
+	<link rel="stylesheet" href="{% static '/website/new/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static '/website/new/css/style.css' %}">
+	<link rel="alternate" href="https://www.myfuturely.com/" hreflang="x-default">
+	<script src="{% static '/website/new/js/jquery.min.js' %}"></script>
+	<script src="{% static '/website/new/js/bootstrap.min.js' %}"></script>
+	<script src="{% static '/website/new/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static '/website/new/js/main.js' %}"></script>
+	<script>
+		function cookie_setting() {
+			var _hsp = window._hsp = window._hsp || [];
+			_hsp.push(['showBanner']);
+		}
+	</script>
+	{% comment %} <script type="text/javascript">
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window, document, "clarity", "script", "hte35rg50h");
+	</script> {% endcomment %} 
+	<script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+	{% block style_sheet %}
+	{% endblock %}
+	<style>
+		.hidden {
+			display: none !important;
+		}
+
+		.notification-update .notify_text {
+			color: #000;
+			font-size: 15px;
+			font-weight: 500;
+		}
+
+		.notification-update button.close {
+			background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+			display: inline-block;
+			width: 0.5em;
+			height: 0.5em;
+			right: 20px;
+			top: 12px;
+		}
+
+		.notification-update {
+			background: linear-gradient(to right, #c7a84c, #ffc107);
+			border: none !important;
+			color: #fff;
+			border-color: transparent;
+			padding: 0.7rem;
+			font-size: 14px;
+			width: 100%;
+			position: relative;
+		}
+
+		.notification-update.top-noti {
+			margin-top: -9px;
+		}
+
+		.notification-update.bot-noti {
+			margin-bottom: -9px;
+		}
+
+		nav#ftco-navbar {
+			flex-wrap: wrap;
+		}
+
+		.modal.fade.show.cookies-popup {
+			display: flex !important;
+
+		}
+
+		.modal.cookies-popup {
+			z-index: 9999999999;
+			align-items: center;
+			justify-content: center;
+			background: #000000b8;
+		}
+
+		.cookies-popup .modal-dialog {
+			padding: 30px;
+			background-color: #1A1A1A;
+			border-radius: 10px;
+		}
+
+		.modal .cookies-popup {
+			display: block !important;
+			/* I added this to see the modal, you don't need this */
+		}
+
+		/* Important part */
+		.cookies-popup .modal-dialog {
+			overflow-y: initial !important
+		}
+
+		.cookies-popup .modal-dialog .modal-body {
+			height: 60vh;
+			overflow-y: auto;
+		}
+
+		.cookies-popup.modal-body img {
+			max-width: 100%;
+			width: 150px;
+			display: table;
+			margin: 0 auto;
+			transition: all .5s;
+		}
+
+		.cookies-popup .modal-title {
+			color: #fff;
+			font-size: 20px;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		.cookies-popup .modal-header {
+			justify-content: center;
+			border-color: #333333;
+		}
+
+		.modal.fade.show.change-country-popup {
+			display: flex !important;
+		}
+
+		.modal.change-country-popup {
+			z-index: 9999999999;
+			align-items: center;
+			justify-content: center;
+			background: #000000b8;
+		}
+
+		.change-country-popup .modal-body img+img {
+			margin-top: 18px;
+		}
+
+		.change-country-popup .modal-body img:hover {
+			transform: scale(1.1);
+		}
+
+		.change-country-popup .modal-body img {
+			max-width: 100%;
+			width: 150px;
+			display: table;
+			margin: 0 auto;
+			transition: all .5s;
+		}
+
+		.change-country-popup .modal-title {
+			color: #fff;
+			font-size: 20px;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		.change-country-popup .modal-header {
+			justify-content: center;
+			border-color: #333333;
+		}
+
+			{
+			% comment %
+		}
+
+		.change-country-popup .modal-body {
+			margin: 28px 0 0;
+			display: flex;
+			justify-content: center;
+		}
+
+			{
+			% endcomment %
+		}
+
+		.change-country-popup .modal-body {
+			margin: 38px 0 14px;
+		}
+
+		.change-country-popup .modal-dialog {
+			padding: 30px;
+			background-color: #1A1A1A;
+			border-radius: 10px;
+		}
+
+		.change-country-popup .flag-country-block {
+			/* border: 1px solid #333; */
+			/* display: flex; */
+			/* justify-content: center; */
+			cursor: pointer;
+			/* flex-direction: column; */
+		}
+
+		.change-country-popup .flag-country-block h4 {
+			color: #fff;
+			font-size: 16px;
+			font-weight: 500;
+			margin: 12px 0 0;
+			text-align: center;
+		}
+
+		.modal-open {
+			overflow: hidden !important;
+		}
+
+		.country-change-text p a {
+			cursor: pointer;
+		}
+
+			{
+			% comment %
+		}
+
+		.flag-country-block p {
+			margin: 0;
+			color: #fff;
+			font-weight: 500;
+			width: 150px;
+			text-align: center;
+			padding: 10px;
+			background: #333;
+			line-height: 3;
+		}
+
+			{
+			% endcomment %
+		}
+
+		.flag-country-block p:hover {
+			transform: scale(1.1);
+
+		}
+
+		.flag-country-block p {
+			margin: 0;
+			color: #000;
+			font-weight: 400;
+			width: 185px;
+			text-align: center;
+			padding: 10px;
+			background: #fff;
+			line-height: 3;
+			transition: all .5s;
+			font-size: 20px;
+		}
+
+		.change-country-popup .modal-footer p {
+			margin: 0;
+			color: #fff;
+			font-size: 12px;
+		}
+
+		.change-country-popup .modal-footer {
+			border-color: #333333;
+			padding: 30px 0 0;
+			justify-content: left;
+		}
+
+		@media (min-width: 768px) {
+			.cookie-discription span {
+				display: none;
+			}
+		}
+
+		@media (max-width: 990px){
+			.btn-margin-head-website{
+				margin-top: 5px;
+				margin-bottom: 10px;
+			}
+
+			.right-blocks.mainnav-button-wrap.align-items-center {
+				padding-right: 0px;
+			}
+		}
+
+		.right-blocks.mainnav-button-wrap.align-items-center {
+			padding-right: 5px;
+		}
+
+		@media (max-width: 767px) {
+			.btn.cookies-setting {
+				font-size: 12px;
+				text-decoration-line: underline;
+			}
+			.mobile-margin-botton{
+				margin-bottom: 10px;
+			}
+
+			.cookie-button {
+				font-weight: 700;
+				font-size: 12px;
+			}
+
+			#hubspot-messages-iframe-container {
+				z-index: 111 !important;
+				max-width: 81% !important;
+				max-height: 67% !important;
+			}
+
+			.cookie-discription.sho {
+				display: block;
+			}
+
+			.cookie-discription.show span {
+				display: none;
+			}
+
+			.cookie-discription.show p {
+				white-space: normal;
+			}
+
+			.cookie-disclaimer {
+				border-radius: 8px 8px 0px 0px;
+				opacity: 1 !important;
+			}
+
+			.cookie-discription p {
+				white-space: nowrap;
+				overflow: hidden;
+				margin: 0;
+				font-size: 12px;
+				text-overflow: ellipsis;
+			}
+
+			.cookie-discription span {
+				font-style: normal;
+				font-weight: 700;
+				font-size: 12px;
+				text-decoration-line: underline;
+				color: #FFFFFF;
+				white-space: nowrap;
+				padding: 0 15px;
+			}
+
+			.cookie-discription {
+				display: flex;
+				align-items: baseline;
+			}
+
+			.flag-country-block+.flag-country-block {
+				margin-top: 15px;
+			}
+
+			.change-country-popup .modal-body img {
+				width: 250px;
+				height: 100px;
+			}
+
+			.flag-country-block p {
+				width: 250px;
+				line-height: 4;
+				height: 100px;
+				margin: 0 auto;
+			}
+
+			.change-country-popup .modal-title {
+				font-size: 17px;
+			}
+		}
+
+		@media (min-width: 768px) {
+			.change-country-popup .modal-body {
+				margin: 38px 0 14px;
+				display: flex;
+				justify-content: center;
+			}
+
+			.flag-country-block+.flag-country-block {
+				margin-left: 15px;
+			}
+		}
+
+		@media (min-width: 576px) {
+				{
+				% comment %
+			}
+
+			.change-country-popup .modal-dialog {
+				max-width: 500px;
+				width: 100%;
+			}
+
+				{
+				% endcomment %
+			}
+
+			.change-country-popup .modal-dialog {
+				max-width: 650px;
+				width: 100%;
+			}
+		}
+
+		.cookie-disclaimer {
+			background: #04060f;
+			color: #FFF;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			z-index: 999;
+			position: fixed;
+			opacity: 0.9;
+		}
+
+		.cookie-disclaimer .container {
+			text-align: center;
+			padding-top: 20px;
+			padding-bottom: 20px;
+		}
+
+		.cookie-disclaimer .cookie-close {
+			float: right;
+			padding: 10px;
+			cursor: pointer;
+		}
+
+		.cookie-button {
+			color: #fff !important;
+			border-radius: 10px;
+			position: relative;
+			/* padding: 14px 40px; */
+			box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+			transition: 0.5s;
+			background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+			/* font-weight: 600; */
+			cursor: pointer;
+		}
+
+		.cookies-setting:hover {
+			border: 0px solid white !important;
+		}
+
+		.header-text {
+			margin-top: revert;
+			margin-bottom: revert;
+			color: #fff;
+		}
+
+		.register-modal-popup .modal-content {
+			background: rgba(38, 39, 43, 0.33);
+			backdrop-filter: blur(17.5px);
+			border-radius: 8px;
+			padding: 15px;
+		}
+		.register-modal-popup .modal-body {
+			background: #26272B;
+			box-shadow: 0px 4px 29px 16px rgba(0, 0, 0, 0.25);
+			border-radius: 8px;
+			padding: 24px;
+		}
+		.register-modal-popup .modal-body-header {
+		background-image: url(/static/images/sign-up-banner-new.png);
+		padding: 24px 15px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 22px;
+		display: flex;
+		align-items: center;
+		letter-spacing: -0.035em;
+		color: #FFFFFF;
+		justify-content: center;
+		margin-bottom: 22px;
+		background-color: #266AF6;
+		border-radius: 8px;
+		background-position: left center;
+	}
+		.register-modal-popup.show {
+		display: flex !important;
+		align-items: center;
+	}
+		.register-modal-popup .modal-dialog {
+		max-width: 575px;
+	}
+	.register-modal-button-register, .button-modal-blue {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 10px;
+    width: 100%;
+	display: block;
+	text-align: center;
+}
+.register-modal-button-register:hover, .button-modal-blue:hover {
+    background: linear-gradient(29deg, #0068FF 7.68%, #FE45C2 112.25%);
+    color: #fff;
+}
+.button-modal-blue {
+    width: 100%;
+    max-width: 200px;
+    margin: auto;
+    display: table;
+	text-align: center;
+}
+.form-register-modal {
+    margin-bottom: 30px;
+}
+		.register-modal-popup .modal-body p {
+			font-weight: 500;
+			font-size: 18px;
+			text-align: center;
+			color: #FFFFFF;
+			line-height: 1.2;
+		}
+		.form-register-modal .register-modal-form-control {
+			background: #2E2F32;
+			box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+			border-radius: 8px;
+			font-weight: 400;
+			font-size: 16px;
+			letter-spacing: 0.025em;
+			color: #9B9FA6;
+			display: block;
+			border: none;
+			padding: 8px 15px;
+			width: 100%;
+		}
+	</style>
+	<script type="text/javascript">
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+		})(window, document, "clarity", "script", "encgjjcg70");
+	</script>
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+  
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MXTQH4HQR6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MXTQH4HQR6');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+	<!-- End Google Tag Manager -->
+</head>
+
+<body>
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+	<script>(function (v, i, s, a, t) { v[t] = v[t] || function () { (v[t].v = v[t].v || []).push(arguments) }; if (!v._visaSettings) { v._visaSettings = {} } v._visaSettings[a] = { v: '1.0', s: a, a: '1', t: t }; var b = i.getElementsByTagName('body')[0]; var p = i.createElement('script'); p.defer = 1; p.async = 1; p.src = s + '?s=' + a; b.appendChild(p) })(window, document, '//app-worker.visitor-analytics.io/main.js', '7388998c-4d85-11ec-b589-901b0edac50a', 'va')</script>
+	<!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+	<!-- Start of HubSpot Embed Code -->
+
+	{% if request.session.display_lang_popup == "True" %}
+	<script>
+		window.location.href = "{% url 'select_lang'%}";
+	</script>
+	{% endif %}
+
+	<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+	<!-- End of HubSpot Embed Code -->
+
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar " id="ftco-navbar">
+		<div class="container-fluid">
+			<div class="row align-items-center">
+				<div class="col-lg-2">
+					<div class="left-blocks  align-items-center">
+						<a class="navbar-brand logo" href="{% url 'index' %}"><img
+								src="{% static '/website/new/images/logo.png' %}" /></a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+							data-bs-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
+				</div>
+				<div class="col-lg-10">
+					<div class="collapse navbar-collapse mx-auto" id="ftco-nav">
+						<ul class="navbar-nav mx-auto ">
+							<li class="nav-item"><a href="{% url 'index' %}"
+									class="nav-link {% if current_page == 'index' %} active {% endif %}">{% trans 'Home' %}</a></li>
+							{% comment %} <li class="nav-item dropdown {% if current_page == 'student' %} active {% endif %}">
+								<a href="{% url 'student' %}" class="nav-link">{% trans 'Students' %} {% endcomment %}
+									<!-- <i class="bi bi-chevron-down"></i> -->
+								</a>
+								<!-- <ul class="dropdown-menu">
+										<li><a href="#">Drop Down 1</a></li>
+										<li><a href="#">Drop Down 2</a></li>
+									</ul> -->
+							</li>
+							<li class="nav-item dropdown {% if current_page == 'school' %} active {% endif %}">
+								<a href="{% url 'school' %}" class="nav-link">{% trans 'High Schools' %}
+									<!-- <i class="bi bi-chevron-down"></i> -->
+								</a>
+								<!-- <ul class="dropdown-menu">
+										<li><a href="#">Drop Down 1</a></li>
+										<li><a href="#">Drop Down 2</a></li>
+		      						</ul> -->
+							</li>
+							<li class="nav-item dropdown {% if current_page == 'mentor' %} active {% endif %} ">
+								<a href="{% url 'mentor' %}" class="nav-link">{% trans 'Mentors' %}
+									<!-- <i class="bi bi-chevron-down"></i> -->
+								</a>
+							</li>
+							{% comment %} {% if request.session.is_from_ios_app %}
+							{% else %}
+								{% if request.LANGUAGE_CODE == "it" %}
+								{% else %}
+									<li class="nav-item {% if current_page == 'price' %} active {% endif %}"><a
+											href="{% url 'plans' %}" class="nav-link">{% trans 'Our Plans' %}</a></li>
+								{% endif %}
+							{% endif %} {% endcomment %}
+							<li class="nav-item {% if current_page == 'about' %} active {% endif %}"><a
+									href="{% url 'about' %}" class="nav-link">{% trans 'About Us' %}</a></li>
+							{% if request.LANGUAGE_CODE == "it" %}
+							<li class="nav-item {% if current_page == 'faq' %} active {% endif %}"><a
+									href="{% url 'faq' %}" class="nav-link">{% trans 'FAQ' %}</a></li>
+							{% endif %}
+						</ul>
+						<div class="right-blocks mainnav-button-wrap align-items-center">
+					{% if request.LANGUAGE_CODE == "it" %}
+							<ul class="navbar-nav ml-auto ">
+								{% if request.session.ctype == "future_lab" or request.session.is_from_mobile_app %}
+								<li class="nav-item"><a  id="register-button" type ="button" class="nav-link btn-register btn-margin-head-website" data-bs-toggle="modal" data-bs-target="#registerModal">Registrati</a></li>
+								{% else %}
+								<li class="nav-item"><a id="register-button" type="button" data-bs-toggle="modal" data-bs-target="#registerModal" class="nav-link btn-register btn-margin-head-website">Registrati</a></li>
+								{% endif %}
+							</ul>
+					{% else %}
+								<ul class="navbar-nav ml-auto ">
+									{% if request.session.ctype == "future_lab" or request.session.is_from_mobile_app %}
+									<li class="nav-item"><a href="{% url 'futurelab_signup_new' %}" class="nav-link btn-register btn-margin-head-website">{% trans 'Register' %}</a></li>
+									{% else %}
+									<li class="nav-item"><a href="{% url 'register' %}{% if request.session.ctype %}{% if request.session.ctype != 'general' and request.session.ctype != '' %}?ctype={{request.session.ctype}}{% endif %}{% endif %}" class="nav-link btn-register btn-margin-head-website">{% trans 'Register' %}</a></li>
+									{% endif %}
+								</ul>
+					{% endif %}
+						</div>
+
+						<div class="right-blocks mainnav-button-wrap align-items-center">
+							<ul class="navbar-nav ml-auto ">
+								<li class="nav-item"><a href="{% url 'login' %}" class="nav-link btn-login">{% trans 'Log in' %}</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% comment %} {% genarate_notification_bar request as noti_bar %}
+		{% if noti_bar.count > 0 %}
+		{% for notification in noti_bar %}
+		<div class="notification-update notification-bars text-center bot-noti">
+			<span class="notify_text">
+				{{ notification.notification }}
+			</span><button class="close"></button>
+		</div>
+		{% endfor %}
+		{% endif %} {% endcomment %}
+	</nav>
+	<!-- END nav -->
+
+	{% block content %}
+
+	{% endblock%}
+
+	{% if current_page != '404' %}
+	<footer class="ftco-footer ftco-section img">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="row align-items-center justify-content-between">
+						<div class="col-lg-3">
+							<div class="ftco-footer-widget ">
+								<a href="{% url 'index' %}">
+									<img src="{% static '/website/new/images/logo.png' %}"></a>
+							</div>
+						</div>
+						<div class="col-lg-9">
+							<div class="ftco-footer-widget">
+								<ul class="navbar-nav mx-auto float-xl-right">
+									<li class=" nav-item active"><a href="{% url 'index' %}" class="nav-link">{% trans 'Home' %}</a></li>
+									{% comment %} <li class=" nav-item dropdown">
+										<a href="{% url 'student' %}" class="nav-link">{% trans 'Students' %}
+										</a>
+										<!-- <ul class="dropdown-menu">
+											<li><a href="#">Drop Down 1</a></li>
+											<li><a href="#">Drop Down 2</a></li>
+										</ul> -->
+									</li> {% endcomment %}
+									<li class="  nav-item dropdown">
+										<a href="{% url 'school' %}" class="nav-link">{% trans 'High Schools' %}
+										</a>
+
+										<!-- <ul class="dropdown-menu">
+											<li><a href="#">Drop Down 1</a></li>
+											<li><a href="#">Drop Down 2</a></li>
+											</ul> -->
+									</li>
+									<li class=" nav-item dropdown">
+										<a href="{% url 'mentor' %}" class="nav-link">{% trans 'Mentors' %} </a>
+									</li>
+									{% comment %} {% if request.session.is_from_ios_app %}
+									{% else %}
+									<li class=" nav-item"><a href="{% url 'plans' %}" class="nav-link">{% trans 'Our Plans' %}</a></li>
+									{% endif %} {% endcomment %}
+									<li class=" nav-item"><a href="{% url 'about' %}" class="nav-link">{% trans 'About Us' %}</a></li>
+									<li class=" nav-item"><a href="{% url 'faq' %}" class="nav-link">{% trans 'FAQ' %}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="row mt-lg-1 mt-md-2 mb-md-1 justify-content-between ">
+						<div class="col-lg-6">
+							<div class="copyright-block">
+								<p>
+									© {% trans 'Copyright' %} {{year}} FUTURELY. {% trans 'All rights reserved' %}
+								</p>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="social-buttons float-xl-right">
+								<!-- LinkedIn Button -->
+								<a href="https://www.linkedin.com/company/orientami" class="social-margin"
+									target="blank">
+									<div class="social-icon linkedin">
+										<i class="fab fa-linkedin" aria-hidden="true"></i>
+									</div>
+								</a>
+								<!-- instaButton -->
+								<a href="https://www.instagram.com/futurely.it/" target="blank" class="social-margin">
+									<div class="social-icon instagram">
+										<i class="fab fa-instagram" aria-hidden="true"></i>
+									</div>
+								</a>
+								<!-- facebook  Button -->
+								<a href="https://www.facebook.com/futurely.it" target="blank" class="social-margin">
+									<div class="social-icon facebook">
+										<i class="fab fa-facebook" aria-hidden="true"></i>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="country-change-text">
+						<p>
+							<a type="button" id="autopopup" data-bs-toggle="modal"
+								data-bs-target="#changecountryModal">{% trans 'Switch Country' %}</a>|
+							<a href="{% url 'privacy_policy' %}" style="color: #fcfcfc;">Privacy policy</a>|
+							<a href="{% url 'cookies_policy' %}" style="color: #fcfcfc;">Cookies policy</a>|
+							<a href="{% url 'terms_of_use' %}" style="color: #fcfcfc;">Terms of use</a>
+						</p>
+					</div>
+				</div>
+			</div>
+	</footer>
+
+	<!-- Start Cookies popup-->
+	{% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+	{% else %}
+	{% if request.session.to_display_first_time_cookie_banner == "True" %}
+	<div class="cookie-disclaimer">
+		<div class="container">
+			{% if request.LANGUAGE_CODE == "it" %}
+			<div class="row">
+				<div class="col-md-6">
+					<div class="cookie-discription">
+						<p style="color: #FFF; text-align: justify;">Facendo clic su "Accetta tutti i cookie", l'utente
+							accetta la memorizzazione dei cookie sul proprio dispositivo per migliorare le prestazioni
+							del sito web, migliorare la propria esperienza e analizzare l'utilizzo del sito.</p>
+						<span>sapere di più</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accetta tutti i cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True"
+						class="btn cookies-setting mt-3" style="color: white;">Impostazioni dei cookie</a>
+				</div>
+			</div>
+			{% else %}
+			<div class="row">
+				<div class="col-md-6">
+					<div class="cookie-discription">
+						<p style="color: #FFF; text-align: justify;">By clicking “Accept All Cookies”, you agree to the
+							storing of cookies on your device to enhance website performance, improve your experience,
+							and analyze site usage.</p>
+						<span>See more</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accept all cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True"
+						class="btn cookies-setting mt-3" style="color: white;">Customize cookies</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+	<!--End Cookies popup-->
+	</div>
+
+	{% endif %}
+
+	<!-- change country popup -->
+	<div class="modal fade change-country-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+		id="changecountryModal">
+
+		<div class="modal-dialog" style=" max-width: 650px !important; ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" id="hidecountrypopup" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+					<h5 class="modal-title">{% trans 'Select Your Country' %}</h5>
+				</div>
+				<div class="modal-body">
+					<div class="flag-country-block">
+						<a href="{% url 'set_lang' %}?lang=it&u={{request.build_absolute_uri}}">
+							<img src="{% static '/website/new/images/italy-flag-icon.png' %}" />
+							<h4>ITALY</h4>
+						</a>
+					</div>
+					<div class="flag-country-block">
+						<a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+							<img src="{% static '/website/new/images/usa-flag-icon.png' %}" />
+							<h4>USA</h4>
+						</a>
+					</div>
+					<div class="flag-country-block">
+						<a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+							<p>{% trans 'Other' %}</p>
+						</a>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p>*{% trans 'You can switch the country any time from the bottom of the page' %}*</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- change country popup -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<!-- 16:9 aspect ratio -->
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always"
+							allow="autoplay"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="scroll-top">
+		<a href="#" id="scroll" style="display: none;"><span>
+				<img src="{% static '/website/new/images/arrow-top.png' %}" />
+			</span></a>
+	</div>
+<!-- registerModal -->
+<div class="modal fade register-modal-popup" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">  
+		<div class="modal-body">
+			<div class="modal-body-header">
+				{% trans "Welcome to Futurely!" %}
+			</div>
+			<p>Se possiedi il codice sconto di una scuola o un'azienda, inseriscilo e clicca su "Registrati".</p>
+			<form class="row form-register-modal" method="post" action="/check-coupon/">
+				{% csrf_token %}				
+				<div class="col-md-6 ">
+				  <div class="border-grad-inner">
+					<div class="border-grad">
+					<input type="text" name="coupon_code" class="register-modal-form-control mobile-margin-botton" required="" placeholder="Codice Sconto" >
+					<b><span id="coupon-error" style="color: red;"></span></b>
+					</div>
+				  </div>  
+				</div>
+				<div class="col-md-6">
+				  <div class="border-grad-inner">
+				  <div class="border-grad">
+					<!-- <a href="{% url 'register' %}{% if request.session.ctype %}{% if request.session.ctype != 'general' and request.session.ctype != '' %}?ctype={{request.session.ctype}}{% endif %}{% endif %}" class="register-modal-button-register">{% trans 'Register' %}</a> -->
+					<button type="submit" class="register-modal-button-register">Registrati</button>
+				  </div>
+				  </div> 
+				</div>
+			  </form>
+			<p>Se non hai un codice, clicca qui sotto e scopri come ottenere Futurely gratuitamente.</p>
+			<a href="https://info.myfuturely.com/futurely-ambassador" class="button-modal-blue" target="_blank">Ottieni Futurely gratis</a>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+		$(".form-register-modal").submit(function(event) {
+			event.preventDefault();
+			var coupon_code = $("input[name='coupon_code']").val();
+
+			var form = this;
+
+			$.ajax({
+			url: "/check-coupon/",
+			type: 'POST',
+			headers: {
+						"X-CSRFTOKEN": "{{ csrf_token }}"
+					},
+					contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+					data: {
+						"coupon_code": coupon_code ,
+					},
+			success: function(data) {
+				if (data.is_valid) {
+				// form.submit();
+					if(data.redirect_url == "futurelab_signup_new")
+						window.location.href = '/futurelab-register/?lang=it';
+
+					if(data.redirect_url == "organization_coupon")
+						window.location.href = '/register/?ctype=company&lang=it';
+
+					if(data.redirect_url == "is_for_middle_school")
+						window.location.href = '/middle-school-registration/?lang=it';
+
+					if(data.redirect_url == "is_for_fast_track_program")
+						window.location.href = '/register/?ctype=company&lang=it';
+						
+
+
+				} else {
+					$("#coupon-error").text("{% trans 'Please enter the valid discount code' %}");
+				}
+			}
+			});
+		});
+		});
+
+	</script>
+	<script>
+		$('#MainNavHelp').click(function () {
+			$('#modelWindow').modal('show');
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$(".accept-cookie").click(function () {
+				$.ajax({
+					url: "{% url 'cookie_accept' %}",
+					type: "POST",
+					headers: { "X-CSRFToken": "{{ csrf_token }}" },
+					success: function (response) {
+						if (response.cookies_accepted == true) {
+							$(".cookie-disclaimer").hide();
+						} else {
+							$(".cookie-disclaimer").show();
+						}
+					},
+					error: function (error) {
+						alert("Something went wrong!!")
+					},
+				});
+			});
+		});
+	</script>
+	<script>
+		{% comment %} $('.close').on('click', function () {
+			$(this).parent('.notification-bars').hide();
+		});
+		$('.close-main').on('click', function () {
+			$(this).parent('.notification-update').hide();
+		}); {% endcomment %}
+	</script>
+	<script>
+		(function ($) {
+			$('.customer-logos-slider').owlCarousel({
+				loop: true,
+				margin: 30,
+				autoplay: false,
+				responsive: {
+					0: {
+						items: 1
+					},
+					600: {
+						items: 3
+					},
+					1000: {
+						stagePadding: 130,
+						items: 5
+					}
+				}
+			});
+
+
+			$('#lets-talk-send-btn').on("click", function () {
+				var name = $("#lets-talk-name").val();
+				var email = $("#lets-talk-email").val();
+				var message_body = $("#lets-talk-message-body").val();
+				var is_valid = true;
+
+				var subject = $("#lets-talk-subject").val();
+				if (!validateEmail(email)) {
+					$('#error-contact-landing-email').html("Please enter a valid email address");
+					is_valid = false;
+				}
+				else {
+					$('#error-contact-landing-email').html("");
+				}
+				if (!name) {
+					$('#error-contact-landing-name').html("Please enter your name");
+					is_valid = false;
+				}
+				else {
+					$('#error-contact-landing-name').html("");
+				}
+				if (!message_body) {
+					$('#error-contact-landing').html("Please enter a message body");
+					is_valid = false;
+				}
+				else {
+					$('#error-contact-landing').html("");
+				}
+
+				if (!is_valid) {
+					return false;
+				}
+
+				$('#spinner').show();
+				$('#btn-txt').hide();
+				$.ajax({
+					url: "/lets-talk-send-message/?page=index",
+					type: 'POST',
+					headers: {
+						"X-CSRFTOKEN": "{{ csrf_token }}"
+					},
+					contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+					data: {
+						"name": name,
+						"email": email,
+						"message_body": message_body,
+						"subject": subject,
+					},
+					success: function (response) {
+						$("#showing-message").show();
+						$('#btn-txt').show();
+						$('#spinner').hide();
+						$('#contct-form').hide();
+						$('#cross-contact').show();
+						$('#error-contact-landing-name').html("");
+						$('#error-contact-landing-email').html("");
+						$('#error-contact-landing').html("");
+						$("#lets-talk-name").val("");
+						$("#lets-talk-email").val("");
+						$("#lets-talk-message-body").val("");
+					},
+					error: function (response) {
+						$('#error-contact-landing').html("Something went wrong");
+						$('#btn-txt').show();
+						$('#spinner').hide();
+					}
+				});
+			});
+
+			function validateEmail($email) {
+				var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+				return regex.test($email);
+			}
+			$(document).ready(function () {
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 200) {
+						$('#scroll').fadeIn();
+					} else {
+						$('#scroll').fadeOut();
+					}
+				});
+				$('#scroll').click(function () {
+					$("html, body").animate({
+						scrollTop: 0
+					}, 600);
+					return false;
+				});
+			});
+			$('#cross-contact').on("click", function () {
+				$("#showing-message").hide();
+				$('#contct-form').show();
+				$('#cross-contact').hide();
+			});
+
+		})(jQuery);
+	</script>
+	<script>
+
+		$('.cookie-discription span').click(function () {
+			$('.cookie-discription').toggleClass('show');
+		});
+	</script>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+		  $('#register-modal-link').click(function(e) {
+			e.preventDefault();
+			$('#registerModal').modal('show');
+		  });
+		});
+		</script>
+
+	<script>
+	$(document).ready(function() {
+	  var urlParams = new URLSearchParams(window.location.search);
+	  var showModal = urlParams.get('validate_discount_code');
+	
+	  if (showModal === 'true') {
+		$('#registerModal').modal('show');
+	  }
+	});
+	</script>
+	
+
+
+</body>
+
+</html>

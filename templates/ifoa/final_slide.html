@@ -1,0 +1,17 @@
+{% load stu_tags %}
+{% load static %}
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-12 flex-wrap align-items-center">
+            <img class="logo-hero-custom logo-hero-custom-mid" src="{% static 'unipegaso/images/logoIFOA.png' %}"/>
+            <div class="custom-hero-card custom-hero-card-mid">
+                <div class="congratulazion-finish">
+                    <img id="star" src="{% static 'unipegaso/images/star.png' %}" alt="">
+                    <h3 class="mt-4" align="center">Congratulazioni hai completato la prima parte del percorso di orientamento!</h3>
+                    <p class="text-justify-now text-center">Riceverai una mail di riepilogo di ciò che è emerso di te e dei tuoi interessi.<br>In base ad essi, ti condivideremo alcune informazioni utili per approfondire le tue competenze.</p>
+                    <a href="{% url 'ifoa_certificate' %}" class="button-custom-hero">Scarica l’attestato -></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

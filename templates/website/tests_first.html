@@ -1,0 +1,137 @@
+{% extends 'base_quiz.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses" %}</title>
+{% endblock %}
+<!-- google font new -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Begin Page Content -->
+<div class="main-content">
+    <div class="container-fluid prove-container-fluid">
+        <div class="row prove-row-card">
+            <div class="col-md-12">
+                <div class="top-back-block">
+                    <a class="back-button-icon">
+                    <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.95 23.9L0 11.95L11.95 0L14.1 2.15L5.8 10.45H36V13.45H5.8L14.1 21.75L11.95 23.9Z" fill="white"/>
+                    </svg> 
+                    </a>                       
+                    <div class="h3">Torna alla Dashboard</div>
+                </div>
+                <div class="title-main-prove">
+                Prove dei test d’ingresso
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="prove-card">
+                    <div class="prove-image">
+                        <img src="{% static 'images/prove-img1.png' %}"/>
+                        <div class="prove-card-inner">
+                        <h3>Logica </h3>
+                        <p>90 min</p>
+                        <a href="" class="prove-button">
+                            Inizia
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="prove-card">
+                    <div class="prove-image">
+                        <img src="{% static 'images/prove-img2.png' %}"/>
+                        <div class="prove-card-inner">
+                        <h3>TOLC - I  </h3>
+                        <p>110 min </p>
+                        <a href="" class="prove-button">
+                            Inizia
+                        </a>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="prove-card">
+                    <div class="prove-image">
+                        <img src="{% static 'images/prove-img3.png' %}"/>
+                        <div class="prove-card-inner">
+                        <h3>TOLC - MED </h3>
+                        <p>90 min</p>
+                        <a href="" class="prove-button">
+                            Inizia
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="prove-card">
+                    <div class="prove-image">
+                        <img src="{% static 'images/prove-img4.png' %}"/>
+                        <div class="prove-card-inner">
+                        <h3>TOLC - VET </h3>
+                        <p>90 min</p>
+                        <a href="" class="prove-button">
+                            Inizia
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="prove-card">
+                    <div class="prove-image">
+                        <img src="{% static 'images/prove-img5.png' %}"/>
+                        <div class="prove-card-inner">
+                        <h3>Professioni sanitarie</h3>
+                        <p>60 min</p>
+                        <a href="" class="prove-button">
+                            Inizia
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <a href="" class="prove-chiudi-button">
+                    Chiudi
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Main Content -->
+
+               
+            </div>
+            <!-- End of Main Content -->
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+   
+    
+	
+	<!--End Cookies popup-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
+{% block script %}
+{% endblock %}

@@ -1,0 +1,295 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: E-mail</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+    background-color: #26272ba6 !important;
+    }
+	.searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.sorting_3, table.dataTable th.sorting_1, table.dataTable th.sorting_2, table.dataTable th.sorting_3 {
+    background: none !important;
+    }
+
+    .border-grad .select2-container {
+    width: 100% !important;
+}
+.select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+}
+.border-grad .select2-container .select2-selection--single {
+    height: 45px;
+    border-radius: 10px
+ !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.svg' %}) !important;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+.border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+    display: none;
+}
+.select2-dropdown {
+    background-color: #333333;
+    padding: 10px;
+    color: #fff !important;
+}
+.select2-results__options {
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="page-bar">
+            <!-- <div class="page-title-breadcrumb">
+                <div class=" pull-left">
+                    <div class="page-title">E-mail page</div>
+                </div>
+            </div> -->
+            {% if request.user.counselor.is_verified_by_futurely == False %}
+            <div class="notification-bars text-center">
+                <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tabbable-line">
+                        <ul class="nav customtab nav-tabs" role="tablist">
+                            <li class="nav-item"><a href="{% url 'bulk_email_panel_view' %}" class="nav-link active" >Student E-Mail</a></li>
+                        </ul>
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{message.tags}} alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            {{ message }}
+                            </button>
+                          </div>
+                          {% endfor %}
+                          {% endif %}
+
+                        <div class="tab-content">
+                            <div class="tab-pane active fontawesome-demo" id="tab1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card card-box">
+                                            <div class="card-head">
+                                                <header>Student E-Mail</header>
+                                                <div class="col-lg-12 counselor-card-select">
+                                                    <div class="row">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-6">
+                                                        <a href="{% url 'excelfiledownload' %}" class="btn btn-info rounded-pill">Download Sample Excel</a>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <form action="{% url 'save_excel_file' %}" class="row mt-4" method="post" enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1" style="color: #68fbd9;">Upload Excel File</label>
+                                                            <input type="file" class="text-box form-control fileupload-border" name="upload_file" id="UpLoadID" style="color: beige;">
+                                                            </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1" style="color: #68fbd9;">Select Template</label>
+                                                                    <div class="border-grad-inner">
+                                                                        <div class="border-grad">
+                                                                            <select class="select-box form-select select2" id="emailtemplate" name="templatetags" required>
+                                                                                <option value="" disabled selected>{% trans "Select Option" %}</option>
+                                                                                {% for temp in email_temp %}
+                                                                                <option value="{{ temp.id }}">{{ temp|title}}</option>
+                                                                                {% endfor %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="subjectInput" style="color: #68fbd9;">Subject</label>
+                                                                     <input type="text" class="text-box form-control" name="subject" id="SubjectID" placeholder="Enter Subject" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="descriptioninput" style="color: #68fbd9;">Description</label>
+                                                                     <input type="text" class="text-box form-control" name="description" id="DescriptionID" placeholder="Enter Description" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="campaignnameInput" style="color: #68fbd9;">Campaign Name</label>
+                                                                     <input type="text" class="text-box form-control" name="campaignname" id="CampaignNameID" placeholder="Enter Campaign Name" required>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="col-12">
+                                                                <div id="addtemp">
+                                                            
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2 mt-3" id="sendboxID">
+                                                                <input type="submit" value="Save" class="btn btn-primary btn btn-info">
+                                                            </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div> 
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#sendboxID").hide();
+
+        // Hold excel file in the form.
+        $('input[type="file"]').change(function(e) {
+                var datafile = e.target.files[0].name;
+                // alert(datafile)
+                $("#filename").val(datafile);
+        });
+
+        $("#emailtemplate").on("change", function() {
+            var email_temp = $(this).val();
+            // var excel_file = $("input[type='file']").val()
+            get_template(email_temp);
+        });
+
+        function get_template(email_temp){
+            console.log(email_temp)
+            if (email_temp.length){
+                $.ajax({
+                type: "POST",
+                url: "{% url 'bulk_email_panel_view' %}",
+                data: {
+                    "email_temp": email_temp,
+                },
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+                success: function(res){
+                    $("#addtemp").empty();
+                    $("#addtemp").append(res);
+                    $("#sendboxID").show();
+                    $("#template_name").val(email_temp);
+                },
+                error: function(res){
+                    console.log(res)
+                }
+            });
+            }else{
+                console.log("warning!!")
+            }
+        };
+        
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#id-school-region').select2();
+        $('#id-school-region').val(null).trigger("change");
+        $('#id-school-city').select2();
+        $('#emailtemplate').select2();
+      });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#excelFIleID").click(function () {
+            $.ajax({
+            type: "GET",
+            url: "{% url 'excelfiledownload' %}",
+            success: function(response){
+                console.log(response);
+            }
+        });
+        });
+    });
+</script>
+{% endblock %}

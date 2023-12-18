@@ -1,0 +1,1038 @@
+{% extends 'base_landing_website_registration.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Register</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+	.col-md-12.check-box-error {
+    /* padding-left: 20px; */
+	padding-top: 13px;
+}
+	span.custom-control-label {
+    margin-left: 6px;
+	vertical-align: middle;
+	display: inline-block;
+}
+.checkbox-inner-spaces span.custom-control-label {
+    margin-left: 8px;
+}
+	.error-msg {
+		color: red;
+		font-size: 14px;
+	}
+
+	.select2-selection__rendered[title="Regione (scuola)"],
+	.select2-selection__rendered[title="Nome della scuola"],
+	.select2-selection__rendered[title="Nome (scuola)"],
+	.select2-selection__rendered[title="Città (scuola)"],
+	.select2-selection__rendered[title="Anno di studio"],
+	.select2-selection__rendered[title="Sezione"],
+	.select2-selection__rendered[title="Indirizzo di studio"] {
+		color: #757575 !important;
+	}
+
+	.select2-selection__rendered {
+		color: black !important;
+	}
+	.field-input.disabled {
+		border: 1px solid #C4C4C4;
+		background: #EEE;
+		color: #999CA0 !important;
+	}
+	.field-input.disabled::placeholder {
+		color: #999CA0;
+	}
+	.checkbox-inner-spaces {
+		padding: 0 32px;
+		margin-top: -2px;
+	}
+	.custom-checkbox .custom-control-label:before {
+		width: 24px;
+		height: 24px;
+		border: 2px solid #000;
+
+	}
+	.custom-control.custom-checkbox {
+		padding-left: 1.8rem;
+	}
+	.checkbox-inner-spaces .custom-control-label:before {
+		width: 18px;
+		height: 18px;
+		top: -1px;	
+		border: 2px solid var(--color-grey-slightly-light-grey, #505050);
+	}
+	.checkbox-inner-spaces .custom-control {
+		padding-left: 1.7rem;
+		line-height: 16px;
+	}
+	.checkbox-inner-spaces .custom-control-label {
+    font-size: 12px;
+	color:#505050;
+}
+.checkbox-inner-spaces .custom-control-label a {
+    color: #505050;
+}
+.checkbox-inner-spaces .custom-control.custom-checkbox {
+    margin-top: 14px !important;
+}
+.register-form .form-label {
+    position: relative;
+    display: inline-block;
+}
+@keyframes dotColor {
+  0%, 49% {
+    background: rgba(78, 70, 180, 1)
+  }
+  50%, 99% {
+    background: rgba(196, 196, 196, 1);
+  }
+}
+.ajaxLoad {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    width: 24px;
+    height: 26px;
+}
+.ajaxLoad .l {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(196, 196, 196, 1);
+    border-radius: 2px;
+    margin: -5px 0 -2px;
+}
+.ajaxLoad .l1 {
+    -moz-transform: translate(0, -15px);
+    -ms-transform: translate(0, -15px);
+    -webkit-transform: translate(0, -15px);
+    transform: translate(0, -15px);
+    -moz-animation: dotColor 2s infinite 0;
+    -webkit-animation: dotColor 2s infinite 0;
+    animation: dotColor 2s infinite 0;
+}
+.ajaxLoad .l2 {
+    -moz-transform: translate(8px, -12px);
+    -ms-transform: translate(8px, -12px);
+    -webkit-transform: translate(8px, -12px);
+    transform: translate(8px, -12px);
+    -moz-animation: dotColor 2s infinite 0.1s;
+    -webkit-animation: dotColor 2s infinite 0.1s;
+    animation: dotColor 2s infinite 0.1s;
+}
+.ajaxLoad .l3 {
+    -moz-transform: translate(14px, -5px);
+    -ms-transform: translate(14px, -5px);
+    -webkit-transform: translate(14px, -5px);
+    transform: translate(14px, -5px);
+    -moz-animation: dotColor 2s infinite 0.2s;
+    -webkit-animation: dotColor 2s infinite 0.2s;
+    animation: dotColor 2s infinite 0.2s;
+}
+.ajaxLoad .l4 {
+    -moz-transform: translate(14px, 5px);
+    -ms-transform: translate(14px, 5px);
+    -webkit-transform: translate(14px, 5px);
+    transform: translate(14px, 5px);
+    -moz-animation: dotColor 2s infinite 0.3s;
+    -webkit-animation: dotColor 2s infinite 0.3s;
+    animation: dotColor 2s infinite 0.3s;
+}
+.ajaxLoad .l5 {
+    -moz-transform: translate(8px, 12px);
+    -ms-transform: translate(8px, 12px);
+    -webkit-transform: translate(8px, 12px);
+    transform: translate(8px, 12px);
+    -moz-animation: dotColor 2s infinite 0.4s;
+    -webkit-animation: dotColor 2s infinite 0.4s;
+    animation: dotColor 2s infinite 0.4s;
+}
+.ajaxLoad .l6 {
+    -moz-transform: translate(0, 15px);
+    -ms-transform: translate(0, 15px);
+    -webkit-transform: translate(0, 15px);
+    transform: translate(0, 15px);
+    -moz-animation: dotColor 2s infinite 0.5s;
+    -webkit-animation: dotColor 2s infinite 0.5s;
+    animation: dotColor 2s infinite 0.5s;
+}
+.ajaxLoad .l7 {
+    -moz-transform: translate(-8px, 12px);
+    -ms-transform: translate(-8px, 12px);
+    -webkit-transform: translate(-8px, 12px);
+    transform: translate(-8px, 12px);
+    -moz-animation: dotColor 2s infinite 0.6s;
+    -webkit-animation: dotColor 2s infinite 0.6s;
+    animation: dotColor 2s infinite 0.6s;
+}
+.ajaxLoad .l8 {
+    -moz-transform: translate(-14px, 5px);
+    -ms-transform: translate(-14px, 5px);
+    -webkit-transform: translate(-14px, 5px);
+    transform: translate(-14px, 5px);
+    -moz-animation: dotColor 2s infinite 0.7s;
+    -webkit-animation: dotColor 2s infinite 0.7s;
+    animation: dotColor 2s infinite 0.7s;
+}
+.ajaxLoad .l9 {
+    -moz-transform: translate(-14px, -5px);
+    -ms-transform: translate(-14px, -5px);
+    -webkit-transform: translate(-14px, -5px);
+    transform: translate(-14px, -5px);
+    -moz-animation: dotColor 2s infinite 0.8s;
+    -webkit-animation: dotColor 2s infinite 0.8s;
+    animation: dotColor 2s infinite 0.8s;
+}
+.ajaxLoad .l10 {
+    -moz-transform: translate(-8px, -12px);
+    -ms-transform: translate(-8px, -12px);
+    -webkit-transform: translate(-8px, -12px);
+    transform: translate(-8px, -12px);
+    -moz-animation: dotColor 2s infinite 0.9s;
+    -webkit-animation: dotColor 2s infinite 0.9s;
+    animation: dotColor 2s infinite 0.9s;
+}
+@media (max-width:767px) {
+	.custom-control span {
+    font-size: 14px;
+}
+.custom-checkbox .custom-control-label:before {
+    top: 50%;
+    transform: translateY(-50%);
+}
+.checkbox-inner-spaces .custom-control-label:before {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+}
+.checkbox-inner-spaces {
+    padding: 0 20px;
+}
+
+span.custom-control-label {
+    margin-left: 6px;
+	vertical-align: middle;
+}
+.checkbox-inner-spaces span.custom-control-label {
+    margin-left: 8px;
+}
+}
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="register-top-bar">
+	<div class="container">
+		<div class="d-flex flex-wrap align-items-center justify-content-between">
+			<a href="javascript:void(0);" onclick="back_btn()"><img class="arrow-back-icon"
+					src="{% static 'landing_website/images/back-arrow-icon.png' %}"></a>
+			<a href="{% url 'login' %}" class="btn-outline">Accedi</a>
+		</div>
+	</div>
+</div>
+
+<div class="main-content-block">
+	<div class="login-block-main white-bg pt-0">
+		<div class="container">
+			<div class="d-flex justify-content-center flex-wrap">
+				<div class="col-lg-7">
+					<form class="register-form" method="post">
+						<div class="d-none">
+							{{ user_resgiter_form }}
+							{{student_completion_form.are_you_a_student}}
+						</div>
+						{% csrf_token %}
+						<input type="hidden" name="first_stage" value="Yes">
+						<input type="hidden" name="second_stage" value="Yes">
+						<input type="hidden" name="third_stage" value="Yes">
+						<h4 class="form-title">Registrati come studente</h4>
+
+						{% if request.session.is_for_middle_school == True %}
+						<p class="form-discription">Qualche altra informazione e iniziamo!</p>
+						<div class="row">
+
+							{% if coupon_detail_obj.company %}
+							{% comment %} <div class="col-md-12">
+								<div class="wrap-input100 custom-select-dropdown">
+									<label class="form-label">Nome dell’azienda </label>
+									<select class="input100 field-input form-select select2"
+										aria-label="Nome dell’azienda" name='company-name' required>
+										<option value="{{coupon_detail_obj.company.name }}" selected="">
+										{{ coupon_detail_obj.company.name }}</option>
+									</select>
+								</div>
+							</div> {% endcomment %}
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">Nome dell’azienda </label>
+									<div class="wrap-input-inner">
+										<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.company.name }}" value="{{ coupon_detail_obj.company.name }}" name="company-name" required="" disabled>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+
+							<div class="col-md-6">
+								{% if coupon_detail_obj.school %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner">
+											<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.region }}" value="{{ coupon_detail_obj.school.region }}" name="school-region" required="" disabled>
+										</div>
+									</div>
+								{% else %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<select class="input100 field-input form-select select2"
+												aria-label="Regione (scuola)" id="id-school-region" name="school-region"
+												required>
+												{% comment %} {% if coupon_detail_obj.school %}
+												<option value="{{coupon_detail_obj.school.region }}" selected="">{{ coupon_detail_obj.school.region }}</option>
+												{% else %} {% endcomment %}
+												<option value="" disabled selected="">Regione (scuola)</option>
+												{% for school_region in school_regions %}
+													<option value="{{ school_region.region }}">{{ school_region.region }}</option>
+												{% endfor %}
+												{% comment %} {% endif %} {% endcomment %}
+											</select>
+										</div>
+									</div> 
+								{% endif %}
+							</div>
+
+
+							<div class="col-md-6">
+							{% if coupon_detail_obj.school %}
+								<div class="wrap-input100">
+									<label class="form-label">Città (scuola) </label>
+									<div class="wrap-input-inner">
+										<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.city }}" value="{{ coupon_detail_obj.school.city }}" name="school-city" required="" disabled>
+									</div>
+								</div>
+							{% else %}
+								<div class="wrap-input100">
+									<label class="form-label" id="school_city_loader_id">Città (scuola)</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Città (scuola)" id="id-school-city" name="school-city" required>
+											<option disabled selected="" value="">Città (scuola)</option>
+										</select>
+									</div>
+								</div> 
+							{% endif %}
+							</div>
+
+							<div id="main_div_id_school_name">
+								<div class="col-md-12" id="select_school_name_id">
+									{% if coupon_detail_obj.school %}
+										<div class="wrap-input100">
+											<label class="form-label">Nome della scuola</label>
+											<div class="wrap-input-inner">
+												<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.name }}" value="{{ coupon_detail_obj.school.name }}" name="school-name" required="" disabled>
+											</div>
+										</div>
+									{% else %}
+										<div class="wrap-input100 custom-select-dropdown">
+											<label class="form-label">Nome della scuola</label>
+											<div class="wrap-input-inner">
+												{% comment %} <select class="input100 field-input form-select select2"
+													aria-label="Nome della scuola" id="id-school-name" name="school-name" required>
+													<option disabled selected="" value="">Nome della scuola</option>
+												</select> {% endcomment %}
+												<input type="hidden" id="id-school-name" name="school-name" value="Other" >
+												<input type="text" class="input100 field-input"
+												placeholder="Nome della scuola" name="school_name_other"
+												id="id_school_name_other">
+											</div>
+										</div>
+									{% endif %}
+								</div>
+
+								{% comment %} <div class="col-md-12 d-none" id="other_school_name_id">
+									<div class="wrap-input100">
+										<label class="form-label">Scrivi il nome della scuola</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<input type="text" class="input100 field-input"
+												placeholder="Scrivi il nome della scuola" name="school_name_other"
+												id="id_school_name_other">
+										</div>
+									</div>
+								</div> {% endcomment %}
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Anno di studio</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Anno di studio" name="class-year" id="id_class_year" required>
+											<option disabled selected="" value="">Anno di studio</option>
+											{% for class_year in class_years %}
+											<option value="{{class_year.pk}}">{{class_year.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Sezione</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2" aria-label="Sezione"
+											name="class-name" id="id_class_name" required>
+											<option disabled selected="" value="">Sezione</option>
+											{% for class_name in class_names %}
+											<option value="{{class_name.pk}}">{{class_name.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+							{% if coupon_detail_obj.school %}
+								<h4 class="form-title">Dati di un genitore</h4>
+							{% else %}
+								<h4 class="form-title">Dati del genitore dipendente dell’azienda</h4>
+							{% endif %}
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Nome del genitore </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Nome del genitore " name="parent_first_name" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Cognome del genitore </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Cognome del genitore " name="parent_last_name" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">Numero di cellulare di un genitore </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Numero di cellulare di un genitore " name="parent_contact_number" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12 mb-4">
+								<div class="col-md-12 mt-3">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" name="third_partiest_checkbox"  id="id_all_terms_btn">
+										<span class="custom-control-label">Seleziona tutti i termini e le condizioni elencate.</span>
+									</label>
+								</div>
+								<div class="checkbox-inner-spaces">
+								<div class="col-md-12 ">
+									<label class="custom-control custom-checkbox mt-3">
+										<input type="checkbox" class="custom-control-input" name="data_track_checkbox" id="id_data_track_checkbox">
+										<span class="custom-control-label">Accetto il tracciamento dei dati al fine di migliorare il servizio offerto.</span>
+									</label>
+								</div>
+								<div class="col-md-12 mb-2">
+									<label class="custom-control custom-checkbox mt-3">
+										<input type="checkbox" class="custom-control-input" name="data_marketing_checkbox" id="id_data_marketing_checkbox">
+										<span class="custom-control-label">Accetto l’utilizzo dei dati per finalità di marketing.</span>
+									</label>
+								</div>
+								<div class="col-md-12">
+								<label class="custom-control custom-checkbox mt-3">
+									<input type="checkbox" class="custom-control-input" name="terms_checkbox" id="id_terms_checkbox" required>
+									<span class="custom-control-label">Accetto la <a target="_blank"
+											href="{% url 'register_privacy_policy' %}">privacy policy</a> di Futurely ed i <a target="_blank" href="{% url 'register_terms_and_conditions' %}">termini del servizio.</a>
+											<!-- di
+										Futurely ed i <a target="_blank" href="">termini del
+											servizio</a> -->
+										</span>
+								</label>
+								</div>
+									{% if terms_checkbox_error %}
+									<div class="col-md-12 check-box-error">
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+											<path d="M6.56589 0.333008C2.94152 0.333008 0 3.31967 0 6.99967C0 10.6797 2.94152 13.6663 6.56589 13.6663C10.1903 13.6663 13.1318 10.6797 13.1318 6.99967C13.1318 3.31967 10.1903 0.333008 6.56589 0.333008ZM7.22248 10.333H5.9093V8.99967H7.22248V10.333ZM7.22248 7.66634H5.9093V3.66634H7.22248V7.66634Z" fill="#DB4E4E"/>
+										  </svg>
+										<span style="color: #DB4E4E; font-family: rubik; font-size: 12px; font-style: normal; font-weight: 400; line-height: 16px; letter-spacing: 0.27px;">Accetta per procedere.</span>
+									</div>							
+									{% endif %}
+								</div>
+								
+							</div>
+
+							<div class="col-md-6 mt-2">
+								<div class="login-form-btn-block">
+									<button type="submit" class="btn-filed login-form-btn mt-0">Iniziamo</button>
+								</div>
+							</div>
+
+						</div>
+						{% else %}
+						<p class="form-discription">Qualche altra informazione e iniziamo!  </p>
+						<div class="row">
+						{% if coupon_detail_obj.company %}
+							{% comment %} <div class="col-md-12">
+								<div class="wrap-input100 custom-select-dropdown">
+									<label class="form-label">Nome dell’azienda </label>
+									<select class="input100 field-input form-select select2"
+										aria-label="Nome dell’azienda" name='company-name' required>
+										<option value="{{coupon_detail_obj.company.name }}" selected="">
+										{{ coupon_detail_obj.company.name }}</option>
+									</select>
+								</div>
+							</div> {% endcomment %}
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">Nome dell’azienda </label>
+									<div class="wrap-input-inner">
+										<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.company.name }}" value="{{ coupon_detail_obj.company.name }}" name="company-name" required="" disabled>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="col-md-6">
+								{% if coupon_detail_obj.school %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner">
+											<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.region }}" value="{{ coupon_detail_obj.school.region }}" name="school-region" required="" disabled>
+										</div>
+									</div>
+								{% else %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<select class="input100 field-input form-select select2"
+												aria-label="Regione (scuola)" id="id-school-region" name="school-region"
+												required>
+												<option value="" disabled selected="">Regione (scuola)</option>
+												{% for school_region in school_regions %}
+													<option value="{{ school_region.region }}">{{ school_region.region }}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div> 
+								{% endif %}
+							</div>
+
+
+							<div class="col-md-6">
+								{% if coupon_detail_obj.school %}
+								<div class="wrap-input100">
+									<label class="form-label">Città (scuola) </label>
+									<div class="wrap-input-inner">
+										<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.city }}" value="{{ coupon_detail_obj.school.city }}" name="school-city" required="" disabled>
+									</div>
+								</div>
+							{% else %}
+								<div class="wrap-input100">
+									<label class="form-label" id="school_city_loader_id">Città (scuola) </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Città (scuola)" id="id-school-city" name="school-city" required>
+											<option disabled selected="" value="">Città (scuola)</option>
+										</select>
+									</div>
+								</div> 
+							{% endif %}
+							</div>
+
+							<div id="main_div_id_school_name">
+								<div class="col-md-12" id="select_school_name_id">
+								{% if coupon_detail_obj.school %}
+									<div class="wrap-input100">
+										<label class="form-label">Nome della scuola</label>
+										<div class="wrap-input-inner">
+											<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.name }}" value="{{ coupon_detail_obj.school.name }}" name="school-name" required="" disabled>
+										</div>
+									</div>
+								{% else %}
+									<div class="wrap-input100 custom-select-dropdown">
+										<label class="form-label" id="school_name_loader_id">Nome della scuola</label>
+										<div class="wrap-input-inner">
+											<select class="input100 field-input form-select select2"
+												aria-label="Nome della scuola" id="id-school-name" name="school-name" required>
+												{% if coupon_detail_obj.school %}
+												<option value="{{coupon_detail_obj.school.name }}" selected="">{{ coupon_detail_obj.school.name }}</option>
+												{% else %}
+												<option disabled selected="" value="">Nome della scuola</option>
+												{% endif %}
+											</select>
+										</div>
+									</div>
+								{% endif %}	
+									{% comment %} <div class="wrap-input100">
+										<label class="form-label">Nome della scuola</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<input type="text" class="input100 field-input"
+												placeholder="Nome della scuola" name="school-name"
+												id="id-school-name" required>
+										</div>
+									</div> {% endcomment %}
+								</div>
+
+								<div class="col-md-12 d-none" id="other_school_name_id">
+									<div class="wrap-input100">
+										<label class="form-label">Scrivi il nome della scuola</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<input type="text" class="input100 field-input"
+												placeholder="Scrivi il nome della scuola" name="school_name_other"
+												id="id_school_name_other">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Anno di studio</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Anno di studio" name="class-year" id="id_class_year" required>
+											<option disabled selected="" value="">Anno di studio</option>
+											{% for class_year in class_years %}
+											<option value="{{class_year.pk}}">{{class_year.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Sezione</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2" aria-label="Sezione"
+											name="class-name" id="id_class_name" required>
+											<option disabled selected="" value="">Sezione</option>
+											{% for class_name in class_names %}
+											<option value="{{class_name.pk}}">{{class_name.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">Indirizzo di studio</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Indirizzo di studio" name="class-specialization" required>
+											<option disabled selected="" value="">Indirizzo di studio</option>
+											{% for specilization in specilizations %}
+											<option value="{{specilization.pk}}">{{specilization.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+							<h4 class="form-title">Dati del genitore dipendente dell’azienda</h4>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Nome del genitore </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Nome del genitore " name="parent_first_name" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Cognome del genitore </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Cognome del genitore" name="parent_last_name" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">E-mail di un genitore</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="email" class="input100 field-input"
+											placeholder="E-mail di un genitore" name="parent_email" required>
+									</div>
+								</div>
+							</div>
+
+						{% else %}
+
+							<div class="col-md-6">
+								{% if coupon_detail_obj.school %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner">
+											<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.region }}" value="{{ coupon_detail_obj.school.region }}" name="school-region" required="" disabled>
+										</div>
+									</div>
+								{% else %}
+									<div class="wrap-input100">
+										<label class="form-label">Regione (scuola)</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<select class="input100 field-input form-select select2"
+												aria-label="Regione (scuola)" id="id-school-region" name="school-region"
+												required>
+												{% comment %} {% if coupon_detail_obj.school %}
+												<option value="{{coupon_detail_obj.school.region }}" selected="">{{ coupon_detail_obj.school.region }}</option>
+												{% else %} {% endcomment %}
+												<option value="" disabled selected="">Regione (scuola)</option>
+												{% for school_region in school_regions %}
+													<option value="{{ school_region.region }}">{{ school_region.region }}</option>
+												{% endfor %}
+												{% comment %} {% endif %} {% endcomment %}
+											</select>
+										</div>
+									</div> 
+								{% endif %}
+							</div>
+
+
+							<div class="col-md-6">
+								{% if coupon_detail_obj.school %}
+								<div class="wrap-input100">
+									<label class="form-label">Città (scuola) </label>
+									<div class="wrap-input-inner">
+										<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.city }}" value="{{ coupon_detail_obj.school.city }}" name="school-city" required="" disabled>
+									</div>
+								</div>
+							{% else %}
+								<div class="wrap-input100">
+									<label class="form-label" id="school_city_loader_id">Città (scuola) </label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Città (scuola)" id="id-school-city" name="school-city" required>
+											<option disabled selected="" value="">Città (scuola)</option>
+										</select>
+									</div>
+								</div> 
+							{% endif %}
+							</div>
+
+							<div id="main_div_id_school_name">
+								<div class="col-md-12" id="select_school_name_id">
+									{% if coupon_detail_obj.school %}
+										<div class="wrap-input100">
+											<label class="form-label">Nome della scuola</label>
+											<div class="wrap-input-inner">
+												<input type="text" class="input100 field-input disabled" placeholder="{{ coupon_detail_obj.school.name }}" value="{{ coupon_detail_obj.school.name }}" name="school-name" required="" disabled>
+											</div>
+										</div>
+									{% else %}
+										<div class="wrap-input100 custom-select-dropdown">
+											<label class="form-label" id="school_name_loader_id">Nome della scuola</label>
+											<div class="wrap-input-inner">
+												<select class="input100 field-input form-select select2"
+													aria-label="Nome della scuola" id="id-school-name" name="school-name" required>
+													<option disabled selected="" value="">Nome della scuola</option>
+												</select>
+											</div>
+										</div>
+									{% endif %}
+								</div>
+
+								<div class="col-md-12 d-none" id="other_school_name_id">
+									<div class="wrap-input100">
+										<label class="form-label">Scrivi il nome della scuola</label>
+										<div class="wrap-input-inner custom-select-dropdown">
+											<input type="text" class="input100 field-input"
+												placeholder="Scrivi il nome della scuola" name="school_name_other"
+												id="id_school_name_other">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{% comment %} <div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Cellulare di un genitore</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="text" class="input100 field-input"
+											placeholder="Cellulare di un genitore" name="parent_contact_number"
+											required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">E-mail di un genitore</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="email" class="input100 field-input"
+											placeholder="E-mail di un genitore" name="parent_email" required>
+									</div>
+								</div>
+							</div> {% endcomment %}
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Anno di studio</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Anno di studio" name="class-year" id="id_class_year" required>
+											<option disabled selected="" value="">Anno di studio</option>
+											{% for class_year in class_years %}
+											<option value="{{class_year.pk}}">{{class_year.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="wrap-input100">
+									<label class="form-label">Sezione</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2" aria-label="Sezione"
+											name="class-name" id="id_class_name" required>
+											<option disabled selected="" value="">Sezione</option>
+											{% for class_name in class_names %}
+											<option value="{{class_name.pk}}">{{class_name.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">Indirizzo di studio</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<select class="input100 field-input form-select select2"
+											aria-label="Indirizzo di studio" name="class-specialization" required>
+											<option disabled selected="" value="">Indirizzo di studio</option>
+											{% for specilization in specilizations %}
+											<option value="{{specilization.pk}}">{{specilization.name}}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="wrap-input100">
+									<label class="form-label">E-mail di un genitore</label>
+									<div class="wrap-input-inner custom-select-dropdown">
+										<input type="email" class="input100 field-input"
+											placeholder="E-mail di un genitore" name="parent_email" required>
+									</div>
+								</div>
+							</div>
+
+							{% endif %}
+							{% comment %} <div class="col-md-12">
+								<div class="d-flex">
+									<div class="col-md-6">
+										<div class="wrap-input100">
+											<label class="form-label">Password</label>
+											<div class="wrap-input-inner custom-select-dropdown">
+												<input class="input100 field-input" type="text" name="email"
+													placeholder="Password">
+												<img class="icon-input"
+													src="{% static 'landing_website/images/visibility_off_icon.png' %}">
+											</div>
+										</div>
+									</div>
+								</div> {% endcomment %}
+							
+							<div class="col-md-12 mb-4">
+								<div class="col-md-12 mt-3">
+									<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" name="third_partiest_checkbox" id="id_all_terms_btn">
+										<span class="custom-control-label">Seleziona tutti i termini e le condizioni elencate.</span>
+									</label>
+								</div>	
+								<div class="checkbox-inner-spaces">
+								<div class="col-md-12">
+									<label class="custom-control custom-checkbox mt-3">
+										<input type="checkbox" class="custom-control-input" name="data_track_checkbox" id="id_data_track_checkbox">
+										<span class="custom-control-label">Accetto il tracciamento dei dati al fine di migliorare il servizio offerto.</span>
+									</label>
+								</div>
+								<div class="col-md-12 mb-2">
+									<label class="custom-control custom-checkbox mt-3">
+										<input type="checkbox" class="custom-control-input" name="data_marketing_checkbox" id="id_data_marketing_checkbox">
+										<span class="custom-control-label">Accetto l’utilizzo dei dati per finalità di marketing.</span>
+									</label>
+								</div>
+								<div class="col-md-12">
+								<label class="custom-control custom-checkbox mt-3">
+									<input type="checkbox" class="custom-control-input" name="terms_checkbox" id="id_terms_checkbox" required>
+									<span class="custom-control-label">Accetto la <a target="_blank"
+											href="{% url 'register_privacy_policy' %}">privacy policy</a> di Futurely ed i <a target="_blank" href="{% url 'register_terms_and_conditions' %}">termini del servizio.</a>
+										{% comment %} <a target="_blank" href="#">termini del
+											servizio</a> {% endcomment %}
+										</span>
+								</label>
+								</div>
+								{% if terms_checkbox_error %}
+									<div class="col-md-12 check-box-error">
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+											<path d="M6.56589 0.333008C2.94152 0.333008 0 3.31967 0 6.99967C0 10.6797 2.94152 13.6663 6.56589 13.6663C10.1903 13.6663 13.1318 10.6797 13.1318 6.99967C13.1318 3.31967 10.1903 0.333008 6.56589 0.333008ZM7.22248 10.333H5.9093V8.99967H7.22248V10.333ZM7.22248 7.66634H5.9093V3.66634H7.22248V7.66634Z" fill="#DB4E4E"/>
+										  </svg>
+										<span style="color: #DB4E4E; font-family: rubik; font-size: 12px; font-style: normal; font-weight: 400; line-height: 16px; letter-spacing: 0.27px;">Accetta per procedere.</span>
+									</div>							
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="login-form-btn-block">
+									<button type="submit" class="btn-filed login-form-btn mt-0">Iniziamo</button>
+								</div>
+							</div>
+							
+						</div>
+						{% endif %}
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+
+	$('#id_password').val('{{ password }}');
+
+	$('#id-school-region').on('change', function (e) {
+		$("#school_city_loader_id").html(`Città (scuola) <div class="ajaxLoad"><div class="l l1"></div><div class="l l2"></div><div class="l l3"></div><div class="l l4"></div><div class="l l5"></div><div class="l l6"></div><div class="l l7"></div><div class="l l8"></div><div class="l l9"></div><div class="l l10"></div></div>`);
+		var school_region = $(this).val();
+		$("#id-school-city").empty();
+		$("#id-school-city").append(`<option value="" disabled selected>Città (scuola)</option>`);
+		$("#id-school-name").empty();
+		$("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+		$('#div_School_name_other').hide();
+		$('#id_school_name_other').removeAttr("required");
+
+		if (school_region) {
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'get-school-cities-name' %}",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				dataType: 'json',
+				data: {
+					'school_region': school_region,
+				},
+				success: function (response) {
+					var data = JSON.parse(JSON.stringify(response));
+					if (data['message'] == 'success') {
+						var school_city = data['all_cities'];
+						for (var i = 0; i < school_city.length; i++) {
+							$("#id-school-city").append('<option value="' + school_city[i] + '">' + school_city[i] + '</option>');
+						}
+						$("#school_city_loader_id").html(`Città (scuola)`);
+					}
+				},
+				error: function (response) {
+				}
+			})
+		}
+	});
+
+	$('#id-school-city').on('change', function (e) {
+		$("#school_name_loader_id").html(`Nome della scuola <div class="ajaxLoad"><div class="l l1"></div><div class="l l2"></div><div class="l l3"></div><div class="l l4"></div><div class="l l5"></div><div class="l l6"></div><div class="l l7"></div><div class="l l8"></div><div class="l l9"></div><div class="l l10"></div></div>`);
+		var school_region = $("#id-school-region").val();
+		var school_city = $(this).val();
+		$("#id-school-name").empty();
+		$("#id-school-name").append(`<option value="" disabled selected>Nome della scuola</option>`);
+		if (school_region && school_city) {
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'get-school-name-by-city' %}",
+				headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+				dataType: 'json',
+				data: {
+					'school_region': school_region,
+					'school_city': school_city,
+				},
+				success: function (response) {
+					var data = JSON.parse(JSON.stringify(response));
+					if (data['message'] == 'success') {
+						var school_names = data['all_schools'];
+						
+						$("#school_name_loader_id").html(`Nome della scuola`);
+						for (var i = 0; i < school_names.length; i++) {
+							$("#id-school-name").append("<option value='" + school_names[i] + "'>" + school_names[i] + "</option>");
+						}
+						$("#id-school-name").append(`<option value="Other">{% trans "Other"%}</option>`);
+						$("#school_name_loader_id").html(`Nome della scuola`);
+					}
+					else {
+					}
+				},
+				error: function (response) {
+				}
+			});
+		}
+	});
+
+	$('#id-school-name').on('change', function (e) {
+		var school_name = $(this).val();
+		if (school_name == "Other" || school_name == "Altro") {
+			$('#other_school_name_id').removeClass('d-none');
+			$('#id_school_name_other').attr("required", "True");
+		} else {
+			$('#other_school_name_id').addClass('d-none');
+			$('#id_school_name_other').removeAttr("required");
+		}
+	});
+
+	$(document).ready(function() {
+        $('#id_class_year').select2({
+          	minimumResultsForSearch: Infinity
+        });
+        $('#id_class_name').select2({
+          	minimumResultsForSearch: Infinity
+        });
+    });
+
+	$("#id_all_terms_btn").on("click", function() {
+		var checkbox = document.getElementById("id_all_terms_btn");
+		if (checkbox.checked) {
+			$("#id_data_track_checkbox").prop( "checked", true );
+			$("#id_data_marketing_checkbox").prop( "checked", true );
+			$("#id_terms_checkbox").prop( "checked", true );
+		} else {
+			$("#id_data_track_checkbox").prop( "checked", false );
+			$("#id_data_marketing_checkbox").prop( "checked", false );
+			$("#id_terms_checkbox").prop( "checked", false );
+		}
+	});
+	$("#id_data_track_checkbox, #id_data_marketing_checkbox, #id_terms_checkbox").on("click", function() {
+		var checkbox1 = document.getElementById("id_data_track_checkbox");
+		var checkbox2 = document.getElementById("id_data_marketing_checkbox");
+		var checkbox3 = document.getElementById("id_terms_checkbox");
+		if(checkbox1.checked && checkbox2.checked && checkbox3.checked)
+		{
+			$("#id_all_terms_btn").prop( "checked", true );
+		}
+		else{
+			$("#id_all_terms_btn").prop( "checked", false );
+		}
+	});
+
+
+</script>
+{% endblock %}

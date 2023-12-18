@@ -1,0 +1,82 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "The Futurely: Page not found" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+    <section class="page-not-found-section" style="background-image:url({% static '/website/images/404.png' %})">
+      <div class="banner-page-not-found">
+        <div class="container">
+          <div class="row page-not-found-banner-text align-items-center" data-scrollax-parent="true">
+            <div class="col-lg-6 px-1">
+			<div class="page-not-found-banner-content">
+              <h1 class="mb-3">{% trans 'Bad things happen' %}</h1>
+              <p>{% trans 'We can’t show the page you requested' %}</p>
+              {% if request.session.is_from_mobile_app %}
+              <a href="{% url 'login' %}" class="btn page-not-found-back-btn">{% trans 'Back to home page' %}</a>
+              {% else %}
+              <a href="{% url 'index' %}" class="btn page-not-found-back-btn">{% trans 'Back to home page' %}</a>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <style>
+    section.page-not-found-section {
+      position: relative;
+      padding: 10rem 0;
+      background-size: cover;
+      background-position: center center;
+      height: 100vh;
+    }
+
+    .page-not-found-banner-content h1 {
+      font-size: 50px;
+      color: #fff;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .page-not-found-banner-content p {
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.5;
+      letter-spacing: 1px;
+      margin-bottom: 1.8rem;
+    }
+
+    a.btn.page-not-found-back-btn {
+      color: #fff !important;
+      border-radius: 10px;
+      position: relative;
+      padding: 14px 30px;
+      /* background-size: 200% auto; */
+      box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+      transition: 0.5s;
+      background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+      font-weight: 600;
+      border: none;
+    }
+  </style>
+</div>
+
+
+
+{% block script %}
+
+{% endblock%}
+{% endblock%}

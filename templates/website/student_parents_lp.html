@@ -1,0 +1,1082 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: About us" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+	.main-content-inner {
+    background-position: bottom;
+}
+
+</style>
+<style>
+	.new-form-banner-section {
+    position: relative;
+    padding: 5rem 0;
+    background-size: cover;
+    background-position: center center;
+    display: block;
+    width: 100%;
+	}
+	.new-form-banner-content h1 {
+    font-size: 48px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+	}
+	.new-form-banner-content p {
+    font-weight: 400;
+    font-size: 22px;
+	line-height: 1.5;
+    color: #fff;
+	}
+	.form-company-title {
+    font-size: 38px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+	}
+	.form-company-discription {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    text-align: center;
+    color: #ffffff;
+	}
+	.form-company-block {
+    padding: 30px;
+    background: #012150;
+    border-radius: 24px;
+	max-width: 800px;
+    width: 100%;
+    margin: auto;
+	}
+	.form-company-group .form-label {
+    display: block;
+    font-weight: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+	}
+	.form-company-group .after-label-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #FFFFFF;
+    display: block;
+	}
+	.form-company-group .form-input-text::placeholder {
+    color: #fff;
+	opacity: 0.5;
+	}
+	.form-company-group .form-input-text option {
+		background: #736a7d;
+	}
+	.form-company-group .form-input-text {
+		background-color: rgba(255, 255, 255, 0.3) !important;
+		border-radius: 10px;
+		font-size: 14px;
+		padding: 11px 15px;
+		color: #fff;
+		border: none;
+		width: 100%;
+		display: block;
+		margin-top: 12px;
+		outline: none;
+	}
+	.form-company-group {
+    display: block;
+    margin-bottom: 18px;
+}
+.country {
+    position: relative;
+    width: 90px;
+    margin-top: 12px;
+}
+.country .select img {
+    width: 22px;
+    height: 22px;
+    object-fit: scale-down;
+}
+.country .dropdown li img {
+    width: 22px;
+    height: 22px;
+    object-fit: scale-down;
+	margin-right: 6px;
+}
+.country .select {
+    position: relative;
+    height: 43px;
+    line-height: 43px;
+    background: rgba(255, 255, 255, 0.3) !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+	padding: 0 15px;
+    border-radius: 10px 0px 0px 10px;
+	color: #fff;
+	    font-size: 13px;
+}
+.country .select::after {
+    content: "";
+    border-right: 1px solid #ffffff6b;
+    width: 1px;
+    height: 18px;
+    position: absolute;
+    right: 12px;
+    top: 10px;
+}
+.country .select img {
+    margin: -3px 4px -2px 0px;
+}
+.country .dropdown {
+    display: none;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    width: 120px;
+    max-height: 120px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: scroll;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.3);
+	border-radius: 10px;
+}
+.form-input-text.form-select {
+    background-image: url({% static 'images/dropdown.svg' %});
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 15px 10px;
+    appearance: none;
+}
+.country .dropdown::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color:rgba(255, 255, 255, 0.3);
+}
+
+.country .dropdown::-webkit-scrollbar
+{
+	width: 5px;
+	background-color:rgba(255, 255, 255, 0.3);
+}
+
+.country .dropdown::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #f5f5f5;
+}
+
+
+.country .dropdown ul {
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+}
+.country .dropdown li {
+    padding: 0 20px;
+    line-height: 34px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+	list-style: none;
+}
+.country .dropdown li:first-child {
+    margin-top: 12px;
+}
+.input-form-block {
+    width: 100%;
+}
+.input-form-block .form-input-text {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    padding: 0 0;
+    outline: none;
+    box-shadow: none;
+    line-height: 43px;
+    height: 43px;
+	border-radius: 0px 10px 10px 0px;
+}
+.form-company-group .btn.form-submit-btn {
+    background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    border-radius: 10px;
+    border: none;
+    padding: 15px 50px;
+    color: #fff;
+    margin: 15px auto 0;
+    display: table;
+    width: 100%;
+    max-width: 170px;
+    font-weight: 500;
+    font-size: 15px;
+}
+.form-company-section {
+    padding: 0 0 4rem;
+    display: block;
+    width: 100%;
+}
+
+
+.navbar-expand-lg .navbar-collapse {
+    display: none !important;
+}
+.navbar-dark .navbar-toggler {
+    display: none;
+}
+.form-showing-message-forme {
+    text-align: center;
+    display: block;
+}
+.form-showing-message-forme .h1 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 44px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 8px 0;
+}
+.form-showing-message-forme p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #fff;
+}
+.form-company-block.showing-message-append {
+    max-width: 600px;
+    margin: auto;
+}
+@media (min-width:768px) and (max-width:991px) {
+.new-form-banner-content h1 {
+    font-size: 38px;
+}
+.new-form-banner-content p {
+    font-size: 18px;
+}
+}
+@media (max-width:767px) {
+.new-form-banner-content h1 {
+    font-size: 28px;
+}
+.new-form-banner-content p {
+    font-size: 16px;
+}
+.new-form-banner-section {
+    padding: 4rem 0;
+    text-align: center;
+}
+.form-company-title {
+    font-size: 28px;
+}
+.form-company-discription {
+    font-size: 16px;
+}
+.form-company-block {
+    padding: 20px;
+}
+}
+
+
+div#privcy-policy-modal .modal-content {
+  background: #26272B;
+  box-shadow: 0px 5px 40px #000000;
+  border-radius: 24px;
+  padding: 15px;
+  margin-top: 100px;
+}
+div#privcy-policy-modal .modal-content .modal-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 31px;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  margin: 0 0 10px;
+  
+}
+div#privcy-policy-modal .modal-body {
+  height: 400px;
+  overflow-y: scroll;
+}
+div#privcy-policy-modal .modal-body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  background-color: #545454;
+}
+div#privcy-policy-modal .modal-body::-webkit-scrollbar {
+  width: 8px;
+  background-color: #363739;
+}
+div#privcy-policy-modal button.btn-close {
+  background: url(../static/images/close.png); 
+  background-repeat: no-repeat;
+}
+div#privcy-policy-modal .modal-body:-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 10px;
+  background-color: #363739;
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 10px;
+  background-color: #26272b;
+}
+div#privcy-policy-modal .modal-body p {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: #B5B5B5;
+}
+.modal-header .btn-close {
+  padding: 0.5rem 0.5rem;
+  margin: -0.5rem -0.5rem -0.5rem auto;
+}
+.modal-body b {
+  float: left;
+  font-size: 14px;
+}
+.modal-body ul li {
+    color: #B5B5B5;
+    font-size: 13px;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+button, select {
+    text-transform: none;
+}
+
+</style>
+
+
+<div class="main-content">
+	<section class="new-form-banner-section">
+        <div class="new-form-banner-item">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-8">
+                <div class="new-form-banner-content">
+                  <h1 class="mb-3"> BENVENUTI IN FUTURELY <br>Il loro futuro, la nostra missione!</h1>
+                  <p> Il percorso di orientamento Futurely accompagna i ragazzi nella scoperta delle proprie  inclinazioni, passioni, competenze, fornendo loro gli strumenti necessari per una scelta consapevole del proprio futuro. </p>
+                  <!--  -->
+                </div>
+              </div>
+			  <div class="col-lg-4">
+			  <img class="img-fluid" src="{% static 'website/images/young-project-team.png' %}" alt="banner" />
+            </div>
+			</div>
+          </div>
+        </div>
+      </section>
+	 
+		<div class="bg-img-sec">
+			<div class="star-field">
+				<div class="layer"></div>
+				<div class="layer"></div>
+				<div class="layer"></div>
+			  </div>
+
+		<section class="form-company-section">
+			<div class="form-company-section-item">
+			  <div class="container">
+				<div class="row align-items-center">
+				  <div class="col-md-12 mb-sm-2 mb-lg-5 mb-4">
+					<div class="form-title-content text-center">
+					  <h3 class="form-company-title mb-3">LASCIACI I CONTATTI </h3>
+					  <h5 class="form-company-discription">Se sei interessato/a al Percorso Futurely, lasciaci i tuoi contatti*: riceverai tutte le informazioni sui prossimi passi.</h5>
+					<p class="color-white" style="font-size: 14px;">*Ti preghiamo di fornirci la tua email personale al fine di  ricevere le nostre comunicazioni ed evitare che finiscano nella casella Spam</p>
+                    </div>
+				  </div>
+				</div>
+            <form id="get_stu_parent_info" enctype="multipart/form-data" method="post" action="">
+                {% csrf_token %}
+				<div id="form-company-sec" class="row align-items-end">
+					<div class="col-md-12">
+						<div class="form-company-group">
+							<label class="form-label">Nome e Cognome<sub>*</sub></label>
+							<span class="after-label-text">(Dipendente dell’azienda)</span>
+                            {% render_field form.parent_name class="form-input-text" placeholder="" %}
+							{% comment %} <input type="text" class="form-input-text" placeholder="Type your answer here..." id="parent_name" name="parent_name" value="{{parent_name}}" required> {% endcomment %}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-company-group">
+							<label class="form-label">La tua email<sub>*</sub></label>
+                            {% render_field form.parent_email class="form-input-text" placeholder="" %}
+							{% comment %} <input type="email" class="form-input-text" placeholder="name@example.com" id="parent_email" name="parent_email" value="{{parent_email}}" required> {% endcomment %}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-company-group">
+                            <label class="form-label">Nome della tua azienda<sub>*</sub></label>
+                            <select class="form-input-text form-select" aria-label="Default select example" id="company" name="company" value="" required >
+                                <option value="" disabled selected>Seleziona la tua azienda</option>
+                                {% for company in companies %}
+                                    <option value="{{ company.company.id }}" id="company_{{company.company.id}}" attr="{{company.company_path_type}}">{{ company.company.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>                       
+					</div>
+					<div class="col-md-12">
+						<div class="form-company-group">
+							<label class="form-label">Nome e Cognome (Studente/ssa)<sub>*</sub></label>
+							<span class="after-label-text">Ti chiediamo i suoi contatti per poter comunicare in modo diretto con lui/lei</span>
+							{% render_field form.child_name class="form-input-text" placeholder="" %}
+                            {% comment %} <input type="text" class="form-input-text" placeholder="Type your answer here..." id="child_name" name="child_name" value="{{child_name}}" required> {% endcomment %}
+						</div>
+					</div>
+
+                    <div class="col-md-12">
+						<div class="form-company-group">
+                            <label class="form-label">Scuola frequentata<sub>*</sub></label>
+                            <select class="form-input-text form-select" aria-label="Default select example" id="id_school_grade" name="school_path_drop" value="" required >
+                                <option value="" disabled selected>Seleziona il grado di scuola</option>
+                                    <option value="Scuola Media (Secondaria di primo grado)" id="id_middle_school">Scuola Media (Secondaria di primo grado)</option>
+                                    <option value="Scuola Superiore (Secondaria di secondo grado)" id="id_high_school">Scuola Superiore (Secondaria di secondo grado)</option>
+                            </select>
+                            <input type="hidden" id="id_school_grade_hdn" name="school_path">
+                        </div>                       
+					</div>
+
+					<div class="col-md-12 d-none" id="div_id_child_email">
+						<div class="form-company-group">
+							<label class="form-label">Email<sub>*</sub></label>
+							<span class="after-label-text">(Studente/ssa)</span>
+							{% render_field form.child_email class="form-input-text" placeholder="" %}
+                            {% comment %} <input type="text" class="form-input-text" placeholder="name@example.com" id="child_email" name="child_email" value="{{child_email}}" required> {% endcomment %}
+						</div>
+					</div>
+					<div class="col-md-12 d-none" id="div_id_phone_number">
+						<div class="form-company-group">
+							<label class="form-label">Numero di telefono</label>
+							<span class="after-label-text">(Studente/ssa)</span>
+							<span class="after-label-text">Visto che la email non viene sempre visualizzata dai ragazzi, avere il numero telefonico ci permetterà di avere un contatto più diretto. Inoltre, potrà essere inserito all'interno di un gruppo whatsapp con altri studenti coetanei che svolgono il suo stesso percorso</span>
+							<div class="phone-form-group d-flex">
+							  <div class="country">
+								<div id="country" class="select"><img src="{% static 'website/new/images/italy-flag-icon.png' %}" />+39</div>
+								<div id="country-drop" class="dropdown">
+								  <ul>
+									<li data-code="IN" data-name="india" data-cid="c32"><img src="{% static 'website/new/images/usa-flag-icon.png' %}" /> +39</li>
+									<!-- <li data-code="IN" data-name="Albania" data-cid="c33"><img src="https://www.myfuturely.com/static/website/new/images/italy-flag-icon.png"/>+35</li>
+									<li data-code="IN" data-name="Albania" data-cid="c33"><img src="https://www.myfuturely.com/static/website/new/images/italy-flag-icon.png"/>+35</li>
+									<li data-code="IN" data-name="Albania" data-cid="c33"><img src="https://www.myfuturely.com/static/website/new/images/italy-flag-icon.png"/>+35</li> -->
+								  </ul>
+								</div>
+							  </div>
+							  <div class="input-form-block">
+                                    {% render_field form.child_number class="form-input-text" placeholder="" %}
+								  {% comment %} <input type="text" class="form-input-text" placeholder="067 212 3456" id="child_number" name="child_number" value="{{child_number}}" required> {% endcomment %}
+							  </div>
+							  </div>
+						</div>
+					</div>
+
+                    <div class="col-md-12">
+                            <div class="form-check margin-none">
+                            <input class="form-check-input" type="checkbox" value="Checked" id="id_check_tos" name="check_tos" required style="width: 16px; height: 16px;">
+                            <label class="form-check-label color-white" for="id_check_tos" >
+                                {% trans "I agree " %} 
+                                <u> 
+                                {% comment %} <a type="button" data-bs-toggle="modal"
+                                data-bs-target="#privcy-policy-modal">{% trans "to Futurely’s terms of service and privacy policy" %}</a> {% endcomment %}
+                                 <a target="_blank" type="button" href="{% url 'privacy_policy' %}" style="color: white;">{% trans "to Futurely’s terms of service and privacy policy" %}</a>
+                                </u>
+                            </label><br>
+                            <label id="error-tos" class="form-label error-color">{{tos_message}}</label>
+                            </div>
+
+                        </div>
+
+					<div class="col-md-12">
+						<div class="form-company-group">
+                            
+							<button id="form-company-submit"  type="submit" class="btn form-submit-btn"> {% trans "Submit" %}</button>
+                       
+						</div>
+					</div>
+				</div>
+            </form>
+				</div>
+			  </div>
+			</div>
+		  </section>
+		
+		</div>
+</div>
+
+    <!-- ToS and Privacy Policy Modal -->
+<div class="modal fade show" id="privcy-policy-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+  
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="color: white;">
+          <h5 class="modal-title" id="exampleModalLabel">{% trans "Terms of Service and Privacy Policy" %}</h5>
+          {% if request.LANGUAGE_CODE == "it" %}
+          <b class="fleft">Art. 1 – Premesse, definizioni e allegati</b><br>
+          <b>1.1. </b>
+          <p>I termini e le condizioni qui di seguito indicati (le “Condizioni Generali di Vendita”) formano parte
+            integrante dei contratti conclusi tra il Venditore e l’Acquirente per la vendita dell’Offerta Formativa (come
+            meglio descritto infra) acquistabili sul sito internet www.myfuturely.com e fruibili dallo Studente (come
+            infra definito). </p>
+          <b>1.2. </b>
+          <p>Le Condizioni Generali di Vendita si applicano a tutti i contratti conclusi tra il Venditore e l’Acquirente
+            senza la necessità che vi sia un espresso richiamo alle stesse o uno specifico accordo in tal senso alla
+            conclusione di ogni singolo contratto. Qualsiasi condizione o termine differente trova applicazione soltanto
+            se confermato per iscritto da parte del Venditore. </p>
+          <b>1.3. </b>
+          <p> Il Venditore si riserva il diritto di modificare, integrare o variare le Condizioni Generali di Vendita,
+            allegando tali variazioni alle offerte ovvero a qualsivoglia corrispondenza inviata per iscritto
+            all’Acquirente.</p>
+          <b>1.4. </b>
+          <p> Nelle presenti Condizioni Generali di Vendita, i termini, con iniziale maiuscola, hanno il significato
+            indicato nelle seguenti definizioni:</p>
+          <ul>
+            <li> “Venditore”: si intende Futurely srl;</li>
+            <li>“Acquirente” e/o “Cliente”: persona giuridica o persona fisica, maggiore di anni 18, che acquista,
+              anche on-line, l’Offerta Formativa predisposta e realizzata a cura di Futurely;</li>
+            <li>“Contratto”: il contratto avente ad oggetto l’acquisto di una Offerta Formativa predisposta e realizzata a
+              cura di Futurely;</li>
+            <li>“Esperto”: risorsa che è messa in contatto con lo Studente come parte del programma di Futurely;</li>
+            <li> “Offerta Formativa”: programma di supporto alla scelta universitaria erogato da Futurely che, per il
+              tramite anche di Esperti, si impegna a fornire allo Studente le migliori indicazioni sulla base delle
+              informazioni disponibili e della comprensione delle inclinazioni personali del soggetto e del contesto
+              lavorativo di riferimento;</li>
+            <li>“Profilo Utente”: area personale del Sito a cui il Cliente e lo Studente possono accedere tramite le
+              credenziali (Username e Password) generate e inviate automaticamente mediante la procedura di iscrizione ivi
+              presente;</li>
+            <li>“Sito”: il sito internet www.myfuturely.com, il cui dominio è di titolarità di Google;</li>
+            <li>“Studente”: ragazzo o ragazza che aderisce all’Offerta Formativa per ricevere i servizi di supporto alla
+              scelta universitaria erogati da Futurely.</li>
+          </ul>
+          <b class="fleft">Art. 2. – Disposizioni generali</b><br>
+          <b>2.1. </b>
+          <p>Le presenti Condizioni Generali di Vendita disciplinano l’offerta e la vendita da parte di Futurely, in
+            favore dei propri Clienti, del Percorso Formativo erogato per Studenti.</p>
+          <b class="fleft">Art. 3 – Oggetto e conclusione del contratto</b><br>
+          <b>3.1. </b>
+          <p>Il presente Contratto ha per oggetto l’erogazione, da parte di Futurely, di una Offerta Formativa predisposta
+            e realizzata a cura della stessa, le cui caratteristiche sono illustrate sul Sito (finalità e modalità di
+            svolgimento, calendario, durata, programma, sede di svolgimento, eventuale materiale didattico fornito, costi,
+            Esperti, etc.).</p>
+          <b>3.2. </b>
+          <p>In caso di acquisto tramite il Sito, il Contratto si intende concluso al momento della ricezione, da parte di
+            Futurely, della documentazione contrattuale inviata telematicamente dal Cliente all’esito della procedura di
+            acquisto “point and click” ivi presente oppure mediante caricamento del PDF con firma autografa nell’apposita
+            sezione del Sito.</p>
+          <b>3.3. </b>
+          <p>La documentazione contrattuale accettata dal Cliente sarà archiviata nella banca dati di Futurely per il
+            tempo necessario all’esecuzione del Contratto, e, comunque, nel rispetto dei termini di legge. </p>
+          <b class="fleft">Art. 4 – Prezzi e modalità di pagamento</b><br>
+          <b>4.1. </b>
+          <p>I prezzi dell’Offerta Formativa sono espressi in Euro (€) e non sono compresi di IVA che deve essere
+            corrisposta al momento della consegna o in conformità alle specifiche disposizioni indicare nella fattura.
+          </p>
+          <b>4.2. </b>
+          <p>Futurely si riserva il diritto di modificare il prezzo dell’Offerta Formativa in ogni momento; resta inteso
+            che il prezzo che sarà addebitato al Cliente sarà quello applicato al momento della conclusione del contratto
+            ai sensi dell’art. 3.2 ed indicato nella conferma di avvenuta iscrizione.</p>
+          <b>4.3. </b>
+          <p>Il pagamento della quota di iscrizione potrà essere effettuato dal Cliente con le seguenti modalità:</p>
+          <ul>
+            <li> Carta di Credito (solo per acquisti on-line);</li>
+          </ul>
+          <b>4.4. </b>
+          <p>Nel rispetto della vigente normativa, a seguito dell’acquisto di ciascuna Offerta Formativa, Futurely
+            emetterà ed invierà al Cliente il documento fiscale. Nessuna variazione del documento fiscale sarà possibile
+            dopo l’emissione dello stesso.</p>
+          <b class="fleft">Art. 5 – Validità e modifica delle Condizioni Generali di Vendita</b><br>
+          <b>5.1. </b>
+          <p>Le presenti Condizioni Generali di Vendita sono valide ed efficaci nei confronti di tutti i Clienti.</p>
+          <b>5.2. </b>
+          <p>Le Condizioni Generali di Vendita applicabili sono quelle in vigore alla data di perfezionamento del
+            Contratto nei termini indicati all’art. 3.2.</p>
+          <b>5.3. </b>
+          <p>Prima di procedere all’acquisto, il Cliente è tenuto a leggere attentamente tutte le informazioni fornite da
+            Futurely, sia prima che durante la procedura di acquisto, nonché ad esaminare le Condizioni Generali
+            applicabili.</p>
+          <b>5.4. </b>
+          <p>Eventuali modifiche e/o nuove condizioni saranno in vigore dal momento della loro pubblicazione in calce alla
+            Home Page del Sito, con indicazione della data di aggiornamento. I Clienti dovranno, pertanto, accedere con
+            regolarità al Sito e consultare, prima di effettuare qualsiasi acquisto, la versione più aggiornata delle
+            Condizioni Generali di Vendita.</p>
+          <b class="fleft">Art. 6 – Inizio e fruizione dell’Offerta Formativa</b><br>
+          <b>6.1. </b>
+          <p>Perfezionatasi la procedura di iscrizione ed il pagamento del prezzo nei termini di cui all’art. 4, il
+            Cliente e/o lo Studente riceverà, almeno (●) giorni prima della data di inizio dell’Offerta Formativa, una
+            e-mail con la conferma della data di avvio. </p>
+          <b>6.2. </b>
+          <p>Lo Studente accede al proprio Profilo Utente tramite le credenziali (Username e Password) che gli vengono
+            fornite durante la procedura di registrazione al Sito. Ogni Cliente è responsabile, in via esclusiva, circa
+            l’esattezza e/o completezza dei dati personali forniti in fase di iscrizione sul Sito e/o di perfezionamento
+            del Contratto nei termini di cui all’art. 3.2. È inoltre vietata la comunicazione di dati relativi a terze
+            persone, di dati falsi, inventati, di fantasia e/o in qualsiasi modo non corrispondenti al vero.</p>
+          <b>6.3. </b>
+          <p>Il Cliente, accedendo al proprio Profilo Utente sul Sito, può fruire delle iniziative On-line, tramite le
+            pagine ed i link specificamente dedicati, accedendo ai contenuti digitali di cui l’Offerta Formativa si
+            compone.</p>
+          <b>6.4. </b>
+          <p>Le credenziali di accesso fornite in fase di iscrizione devono essere conservate dal Cliente, e non potranno
+            essere cedute a soggetti terzi. Il Cliente sarà inoltre ritenuto responsabile, nei limiti consentiti dalla
+            legge, di tutte le attività che verranno effettuate mediante il Profilo Utente, manlevando e tenendo indenne
+            Futurely da qualsiasi danno, obbligo risarcitorio e/o sanzione derivante dalla violazione del divieto di cui
+            al presente articolo.</p>
+          <b>6.5. </b>
+          <p>Dopo aver ricevuto i dati del Cliente, Futurely si avvale di rigorose procedure di funzionalità di sicurezza
+            per impedire accessi abusivi al Sito e/o al Profilo Utente. Futurely declina ogni responsabilità per eventuali
+            danni derivanti dall’inaccessibilità ai servizi presenti sul sito o da eventuali danni causati da virus, file
+            danneggiati, errori, omissioni, interruzioni del servizio, cancellazioni dei contenuti, problemi connessi alla
+            rete, ai provider o a collegamenti telefonici e/o telematici, ad accessi non autorizzati, ad alterazioni di
+            dati, al mancato e/o difettoso funzionamento delle apparecchiature elettroniche del Cliente stesso.</p>
+          <b>6.6. </b>
+          <p>Sebbene adotti misure volte a proteggere le informazioni immesse, Futurely non potrà essere quindi ritenuta
+            responsabile dei danni conseguenti alla mancata prestazione del servizio a causa dell’errato o mancato
+            funzionamento dei mezzi elettronici di comunicazione per cause estranee alla sfera del proprio prevedibile
+            controllo. A titolo esemplificativo, ma non esaustivo, il malfunzionamento dei server ed altri dispositivi
+            elettronici anche non facenti parte integrante della rete Internet, malfunzionamento dei software installati,
+            virus informatici sull’eventuale presenza di virus o altri componenti informatici nocivi e dannosi, nonché da
+            azioni di hacker o altri utenti aventi accesso alla rete. Il Cliente s’impegna dunque a tenere indenne e
+            manlevare Futurely da qualsiasi responsabilità e/o richiesta al riguardo. In ogni caso, Futurely si riserva il
+            diritto di negare al Cliente, motivatamente e senza preavviso, l’accesso al Sito e/o al Profilo Utente.</p>
+          <b>6.7. </b>
+          <p>Il Cliente dichiara di essere a conoscenza e di accettare i requisiti hardware e software necessari per poter
+            accedere al Sito e/o al Profilo Utente e/o all’Offerta Formativa (Personal Computer, browser, etc.),
+            impegnandosi a adeguare il proprio impianto hardware e/o software nel caso in cui fosse necessario a seguito
+            di aggiornamenti della piattaforma telematica predisposta per l’erogazione dei corsi.</p>
+          <b class="fleft">Art. 7 – Rischi e responsabilità</b><br>
+          <b>7.1. </b>
+          <p>Il Cliente rimane l’unico esclusivo responsabile della correttezza e completezza dei dati identificativi
+            propri nonché di quelli del partecipante (ove persona diversa) dal medesimo forniti, e, comunque, di ogni dato
+            inserito nella Scheda Iscrizione e/o nel Modulo Iscrizione On-line e/o sul Sito, con esclusione di
+            qualsivoglia responsabilità di Futurely.</p>
+          <b>7.2. </b>
+          <p>Futurely declina qualsiasi responsabilità per le informazioni, documenti e materiali eventualmente immessi da
+            terzi nel Sito, anche qualora tali contenuti siano messi a disposizione del Cliente nell’ambito di un servizio
+            pubblicitario offerto dalla medesima e/o da terzi.</p>
+          <b class="fleft">Art. 8 – Diritto di recesso del Cliente Consumatore</b><br>
+          <b>8.1. </b>
+          <p>Ai sensi dell’art. 52, e con le limitazioni di cui all’art. 59, del d.lgs. 206/2005 (c.d. Codice del
+            consumo), l’Acquirente, ove sia qualificabile come consumatore ai sensi dell’art. 3 d.lgs. 206/2005, ha il
+            diritto di recedere dal contratto, senza alcuna penalità e senza specificarne il motivo, entro il termine
+            perentorio di 14 (quattordici) giorni dalla conclusione del contratto. La comunicazione di recesso potrà
+            essere inviata per il tramite di:</p>
+          <ul>
+            <li> Posta Elettronica all’indirizzo: segreteria@myfuturely.com</li>
+            <li> PEC all’indirizzo: orientami@pec.it</li>
+          </ul>
+          <b>8.2. </b>
+          <p>A seguito del recesso esercitato nei termini e con le modalità di cui all’art. 8.1, Futurely provvederà a
+            riaccreditare al Cliente Consumatore gli importi eventualmente pagati entro (●) giorni dalla data di ricezione
+            della comunicazione di recesso. Resta inteso che, oltre il termine sopra indicato, il Cliente Consumatore non
+            potrà esercitare il recesso.</p>
+          <b>8.3. </b>
+          <p> In virtù dell’art. 59, 1° comma, lett. a) e o) del Codice del Consumo, il Cliente Consumatore,
+            consapevolmente ed espressamente, accetta di perdere ogni diritto di recesso dal presente contratto una volta
+            effettuato anche un solo accesso al portale telematico da cui scaricare i contenuti formativi. </p>
+          <b class="fleft">Art. 9 – Tutela del diritto d’autore</b><br>
+          <b>9.1. </b>
+          <p>Con la richiesta di iscrizione, il Cliente, promettendo, ex art. 1381 cc, altresì l’impegno dello Studente
+            (ove persona diversa), autorizza Futurely, a titolo gratuito e senza limiti di tempo, anche ai sensi degli
+            artt. 10 e 320 c.c. e degli artt. 96 e 97 Legge n. 633/1941 (Legge sul diritto d’autore), a trasmettere e/o
+            pubblicare e/o diffondere in qualsiasi forma di materiale audio, video e/o fotografico delle lezioni in cui il
+            Cliente e/o il partecipante appaia rappresentato o sia comunque riconoscibile. Il Cliente, promettendo ex art.
+            1381 cc altresì l’impegno dello Studente (ove persona diversa), autorizza inoltre la conservazione del
+            predetto materiale negli archivi informatici di Futurely, prendendo atto che la finalità di tali pubblicazioni
+            sono di carattere informativo e divulgativo. Il materiale video-fotografico non sarà utilizzato per finalità
+            commerciali e/o di lucro e/o ceduto a terzi.</p>
+          <b>9.2. </b>
+          <p>In considerazione della circostanza che il materiale di cui all’art. 9.1, una volta reso pubblico, potrebbe
+            essere oggetto di acquisizione e di ripubblicazione da parte di terzi, anche senza il consenso di Futurely e/o
+            dell’interessato, il Cliente, promettendo ex art. 1381 cc l’impegno dello Studente (ove persona diversa), </p>
+          <ul>
+            <li> solleva la stessa Futurely da ogni effetto pregiudizievole che possa derivare da un uso abusivo o
+              scorretto da parte di terzi del predetto materiale audio-foto-video.</li>
+          </ul>
+          <b>9.3. </b>
+          <p>Il Cliente, promettendo altresì l’impegno del partecipante (ove persona diversa) ai sensi dell’art. 1381
+            c.c., conferma di non aver nulla a pretendere in ragione di quanto indicato ai precedenti artt. 9.1 e 9.2 e di
+            rinunciare irrevocabilmente ad ogni diritto, azione o pretesa derivante da quanto sopra autorizzato.</p>
+          <b>9.4. </b>
+          <p>Il Cliente, promettendo altresì l’impegno dello Studente (ove persona diversa) ai sensi dell’art. 1381 c.c.,
+            si impegna a non riprodurre o divulgare fotografie, registrazioni audio e video, immagini delle lezioni (in
+            aula, registrate e/o in live streaming) e materiali didattici, ove non espressamente autorizzato da Futurely.
+          </p>
+          <b class="fleft">Art. 10 – Trattamento dei dati personali</b><br>
+          <b>10.1. </b>
+          <p>Futurely si impegna a proteggere la privacy e la sicurezza dei propri Clienti. Tutte le informazioni
+            personali, del Cliente e/o del partecipante (ove persona diversa), raccolte saranno trattate da Futurely nel
+            rispetto della normativa sulla privacy, come specificato nell’informativa resa ai sensi degli artt. 13 e 14
+            del Regolamento (UE) 2016/679 (GDPR).</p>
+          <b>10.2. </b>
+          <p>Il Cliente dichiara di avere preso visione della Privacy Policy e di essere quindi a conoscenza che i dati
+            personali, societari e fiscali del Cliente stesso e/o del partecipante (ove persona diversa), acquisiti
+            direttamente o indirettamente da Futurely, anche eventualmente ai fini della navigazione sul Sito e/o di
+            eventuali richieste di contatto, saranno raccolti e trattati in forma cartacea, informatica e/o telematica, al
+            fine di consentire il perfezionamento del Contratto e/o per attività promozionale riguardante la medesima
+            tipologia di prodotto e/o servizio (Soft Spam) analogo al prodotto/servizio oggetto della vendita.</p>
+          <b>10.3. </b>
+          <p>I dati acquisiti da Futurely saranno in ogni caso conservati per un periodo di tempo non superiore a quello
+            necessario agli scopi per i quali sono stati raccolti e successivamente trattati. La loro rimozione avverrà
+            inoltre in maniera sicura. Per quanto qui non espressamente previsto, si fa rinvio alla suddetta Privacy
+            Policy, che, con l’accettazione delle presenti Condizioni Generali di Vendita, il Cliente dichiara di avere
+            ricevuto, visionato e inteso.</p>
+          <b class="fleft">Art. 11 – Legge applicabile, giurisdizione e foro competente.</b><br>
+          <b>11.1. </b>
+          <p>Le presenti Condizioni Generali di Vendita sono regolate dalla legge italiana e, per quanto di interesse, dal
+            D. Lgs. n. 206/2005 (Codice del Consumo) e dalle norme in materia di commercio elettronico (D. Lgs. n.
+            70/2003).</p>
+          <b>11.1. </b>
+          <p>Per ogni eventuale controversia che dovesse sorgere in relazione all’applicazione, esecuzione,
+            interpretazione e/o risoluzione del presente Contratto, la parti convengono e stabiliscono che sia competente
+            in via esclusiva:</p>
+          <ul>
+            <li>in caso di Cliente Consumatore, il Foro del Consumatore ai sensi dell’art. 33 del Codice del Consumo;
+            </li>
+            <li>in ogni altro caso, il Foro di Milano. </li>
+          </ul>
+          <b class="fleft">Art. 12 – Contatti e reclami</b><br>
+          <b>12.1. </b>
+          <p>Eventuali richieste di informazioni e/o reclami del Cliente concernenti il presente Contratto potranno essere
+            inviati all’indirizzo e-mail segreteria@myfuturely.com</p>
+          <b>12.2. </b>
+          <p>La gestione dell’eventuale reclamo avverrà entro e non oltre 30 giorni lavorativi dalla ricezione del
+            medesimo.</p>
+          {% else %}
+            <b class = "fleft"> Art. 1 - Introduction, definitions and annexes </b> <br>
+            <b> 1.1. </b>
+            <p> The terms and conditions indicated below (the "General Conditions of Sale") form part
+              integral of the contracts concluded between the Seller and the Buyer for the sale of the Training Offer (as
+              better described below) that can be purchased on the website www.myfuturely.com and can be used by the Student (such as
+              defined below). </p>
+            <b> 1.2. </b>
+            <p> The General Conditions of Sale apply to all contracts concluded between the Seller and the Buyer
+              without the need for an express reference to them or a specific agreement to that effect to the
+              conclusion of each individual contract. Any different conditions or terms apply only
+              if confirmed in writing by the Seller. </p>
+              <b> 1.3. </b>
+              <p> The Seller reserves the right to modify, supplement or vary the General Conditions of Sale,
+                attaching these changes to the offers or to any correspondence sent in writing
+                to the Buyer. </p>
+              <b> 1.4. </b>
+              <p> In these General Conditions of Sale, the terms, with a capital initial, have the meaning
+                indicated in the following definitions: </p>
+              <ul>
+                <li> "Seller": means Futurely srl; </li>
+                <li> "Buyer" and / or "Customer": legal person or natural person, over the age of 18, who purchases,
+                  also online, the Training Offer prepared and created by Futurely; </li>
+                <li> "Contract": the contract concerning the purchase of a Training Offer prepared and implemented a
+                  edited by Futurely; </li>
+                <li> "Expert": resource that is put in contact with the Student as part of the Futurely program; </li>
+                <li> “Training Offer”: support program for university choice provided by Futurely which, for the
+                  also through Experts, undertakes to provide the Student with the best information on the basis of the
+                  available information and an understanding of the subject's personal inclinations and context
+                  reference work; </li>
+                <li> "User Profile": personal area of ​​the Site which the Client and the Student can access through the
+                  credentials (Username and Password) generated and sent automatically through the registration procedure therein
+                  present; </li>
+                <li> "Site": the website www.myfuturely.com, whose domain is owned by Google; </li>
+                <li> "Student": boy or girl who adheres to the Educational Offer to receive support services for
+                  university choice provided by Futurely. </li>
+              </ul>
+              <b class = "fleft"> Art. 2. - General provisions </b> <br>
+            <b> 2.1. </b>
+            <p> These General Conditions of Sale govern the offer and sale by Futurely, in
+              favor of its Customers, of the Training Course provided for Students. </p>
+            <b class = "fleft"> Art. 3 - Object and conclusion of the contract </b> <br>
+            <b> 3.1. </b>
+            <p> This Agreement relates to the provision, by Futurely, of a Training Offer prepared
+              and created by the same, the characteristics of which are illustrated on the Site (purposes and methods of
+              performance, calendar, duration, program, venue, any didactic material provided, costs,
+              Experts, etc.). </p>
+            <b> 3.2. </b>
+            <p> In case of purchase through the Site, the Contract is concluded upon receipt by
+              Futurely, of the contractual documentation sent electronically by the Customer upon the outcome of the procedure
+              "point and click" purchase present therein or by uploading the PDF with handwritten signature in the appropriate
+              section of the Site. </p>
+            <b> 3.3. </b>
+            <p> The contractual documentation accepted by the Client will be archived in the Futurely database for
+              time necessary for the execution of the Contract, and, in any case, in compliance with the terms of the law. </p>
+            <b class = "fleft"> Art. 4 - Prices and payment methods </b> <br>
+            <b> 4.1. </b>
+            <p> The prices of the Training Offer are expressed in Euros (€) and do not include VAT which must be
+              paid upon delivery or in accordance with the specific provisions indicate on the invoice.
+            </p>
+            <b> 4.2. </b>
+            <p> Futurely reserves the right to change the price of the Educational Offer at any time; it is understood
+              that the price that will be charged to the Customer will be that applied at the time of the conclusion of the contract
+              pursuant to art. 3.2 and indicated in the confirmation of registration. </p>
+            <b> 4.3. </b>
+            <p> The payment of the registration fee can be made by the Customer in the following ways: </p>
+            <ul>
+              <li> Credit Card (for online purchases only); </li>
+            </ul>
+            <b> 4.4. </b>
+            <p> In compliance with current legislation, following the purchase of each Educational Offer, Futurely
+              will issue and send the customer the tax document. No changes to the tax document will be possible
+              after the issuance of the same. </p>
+            <b class = "fleft"> Art. 5 - Validity and modification of the General Conditions of Sale </b> <br>
+            5.1. </b>
+            <p> These General Conditions of Sale are valid and effective towards all Customers. </p>
+            5.2. </b>
+            <p> The applicable General Conditions of Sale are those in force on the date of completion of the
+              Contract in the terms indicated in art. 3.2. </p>
+            <b> 5.3. </b>
+            <p> Before proceeding with the purchase, the Customer is required to carefully read all the information provided by
+              Futurely, both before and during the purchase process, as well as to examine the General Conditions
+              applicable. </p>
+            <b> 5.4. </b>
+            <p> Any changes and / or new conditions will be effective from the time of their publication at the bottom of the
+              Home Page of the Site, with indication of the update date. Customers must, therefore, log in with
+              regularity to the Site and consult, before making any purchase, the most updated version of the
+              General Conditions of Sale. </p>
+              <b class = "fleft"> Art. 6 - Start and use of the Training Offer </b> <br>
+              <b> 6.1. </b>
+              <p> The registration procedure and the payment of the price have been completed in accordance with the terms of art. 4, the
+                Client and / or Student will receive, at least (●) days before the start date of the Educational Offer, a
+                e-mail confirming the start date. </p>
+              <b> 6.2. </b>
+              <p> The Student accesses his / her User Profile through the credentials (Username and Password) provided to him
+                provided during the registration procedure on the Site. Each Customer is exclusively responsible for approximately
+                the accuracy and / or completeness of personal data provided during registration on the Site and / or completion
+                of the Contract under the terms of art. 3.2. The communication of data relating to third parties is also prohibited
+                people, of false, invented, fictional data and / or in any way not corresponding to the truth. </p>
+              <b> 6.3. </b>
+              <p> The Customer, by accessing his User Profile on the Site, can take advantage of the On-line initiatives, through the
+                specifically dedicated pages and links, by accessing the digital content referred to in the Training Offer
+                composes. </p>
+              <b> 6.4. </b>
+              <p> The access credentials provided during registration must be kept by the Customer, and cannot
+                be sold to third parties. The Customer will also be held responsible, within the limits permitted by
+                law, of all the activities that will be carried out through the User Profile, indemnifying and holding harmless
+                Futurely from any damage, compensation obligation and / or sanction deriving from the violation of the prohibition referred to
+                to this article. </p>
+              <b> 6.5. </b>
+              <p> After receiving Customer data, Futurely uses rigorous security feature procedures
+                to prevent unauthorized access to the Site and / or the User Profile. Futurely declines all responsibility for any
+                damage resulting from inaccessibility to the services on the site or from any damage caused by viruses, files
+                damaged, errors, omissions, service interruptions, content deletions, problems related to the
+                network, to providers or to telephone and / or telematic connections, to unauthorized access, to alterations of
+                data, the failure and / or faulty operation of the Customer's electronic equipment. </p>
+              <b> 6.6. </b>
+              <p> Although Futurely takes measures to protect the information entered, it cannot therefore be held
+                responsible for damage resulting from the failure to provide the service due to the wrong or missing
+                operation of electronic means of communication for reasons beyond the sphere of its foreseeable
+                check. By way of example, but not limited to, the malfunction of servers and other devices
+                electronic devices even if they are not an integral part of the Internet network, malfunction of installed software,
+                computer viruses on the possible presence of viruses or other harmful and harmful computer components, as well as from
+                actions of hackers or other users having access to the network. The Customer therefore undertakes to indemnify and
+                release Futurely from any responsibility and / or request in this regard. In any case, Futurely reserves the
+                right to deny the Customer, with justification and without notice, access to the Site and / or the User Profile. </p>
+              <b> 6.7. </b>
+              <p> The Customer declares to be aware of and accept the hardware and software requirements necessary to be able to
+                access the Site and / or the User Profile and / or the Training Offer (Personal Computer, browser, etc.),
+                undertaking to adapt its hardware and / or software system in the event that it is necessary later
+                updates to the telematic platform set up for the delivery of courses. </p>
+                <b class = "fleft"> Art. 7 - Risks and responsibilities </b> <br>
+                7.1. </b>
+                <p> The Customer remains solely responsible for the accuracy and completeness of the identification data
+                  own as well as those of the participant (where different person) provided by the same, and, in any case, of any data
+                  inserted in the Registration Form and / or in the On-line Registration Form and / or on the Site, with the exclusion of
+                  any liability of Futurely. </p>
+                <b> 7.2. </b>
+                <p> Futurely accepts no responsibility for any information, documents and materials that may be entered by
+                  third parties on the Site, even if such contents are made available to the Customer as part of a service
+                  advertising offered by the same and / or by third parties. </p>
+                <b class = "fleft"> Art. 8 - Consumer Customer's right of withdrawal </b> <br>
+                <b> 8.1. </b>
+                <p> Pursuant to art. 52, and with the limitations set forth in art. 59, of Legislative Decree 206/2005 (so-called Code of
+                  consumption), the Purchaser, where he qualifies as a consumer pursuant to art. 3 of Legislative Decree 206/2005, has the
+                  right to withdraw from the contract, without any penalty and without specifying the reason, within the term
+                  peremptory of 14 (fourteen) days from the conclusion of the contract. The notice of withdrawal may
+                  be sent via: </p>
+                <ul>
+                  <li> E-mail to the address: segreteria@myfuturely.com </li>
+                  <li> PEC at the address: orientami@pec.it </li>
+                </ul>
+                <b> 8.2. </b>
+                <p> Following the withdrawal exercised within the terms and in the manner set out in art. 8.1, Futurely will arrange
+                  re-credit to the Consumer Customer any amounts paid within (●) days from the date of receipt
+                  of the notice of withdrawal. It is understood that, after the deadline indicated above, the Consumer Customer does not
+                  may exercise the withdrawal. </p>
+                <b> 8.3. </b>
+                <p> By virtue of art. 59, paragraph 1, lett. a) and o) of the Consumer Code, the Consumer Customer,
+                  knowingly and expressly, you agree to lose any right of withdrawal from this contract once
+                  made even a single access to the online portal from which to download the training contents. </p>
+                <b class = "fleft"> Art. 9 - Copyright protection </b> <br>
+                <b> 9.1. </b>
+                <p> With the registration request, the Customer, promising, pursuant to art. 1381 of the Civil Code, as well as the commitment of the Student
+                  (where different person), authorizes Futurely, free of charge and without time limits, also pursuant to
+                  articles 10 and 320 of the Italian Civil Code and art. 96 and 97 Law no. 633/1941 (Copyright Law), to transmit and / or
+                  publish and / or disseminate in any form of audio, video and / or photographic material of the lessons in which the
+                  Customer and / or the participant appears represented or is in any case recognizable. The Customer, promising pursuant to art.
+                  1381 cc also the commitment of the Student (where different person), also authorizes the conservation of
+                  aforementioned material in the computer archives of Futurely, noting that the purpose of such publications
+                  they are informative and informative. The video-photographic material will not be used for purposes
+                  commercial and / or for profit and / or sold to third parties. </p>
+                <b> 9.2. </b>
+                <p> In consideration of the fact that the material referred to in art. 9.1, once made public, it could
+                  be subject to acquisition and republication by third parties, even without the consent of Futurely and / or
+                  of the interested party, the Customer, promising pursuant to art. 1381 cc the commitment of the student (where different person), </p>
+                <ul>
+                  <li> relieves Futurely from any detrimental effect that may derive from abusive use or
+                    incorrect by third parties of the aforementioned audio-photo-video material. </li>
+                </ul>
+                <b> 9.3. </b>
+                <p> The Customer, also promising the commitment of the participant (where different person) pursuant to art. 1381
+                  of the Italian Civil Code, confirms that it has nothing to claim by reason of what is indicated in the previous articles. 9.1 and 9.2 and of
+                  irrevocably renounce any right, action or claim deriving from the above authorized. </p>
+                <b> 9.4. </b>
+                <p> The Customer, also promising the commitment of the Student (where different person) pursuant to art. 1381 of the Italian Civil Code,
+                  undertakes not to reproduce or disclose photographs, audio and video recordings, images of the lessons (in
+                  classroom, recorded and / or live streaming) and teaching materials, unless expressly authorized by Futurely.
+                </p>
+                <b class = "fleft"> Art. 10 - Treatment of personal data </b> <br>
+                <b> 10.1. </b>
+                <p> Futurely is committed to protecting the privacy and security of its Customers. All information
+                  personal, of the Customer and / or of the participant (where different person), collected will be processed by Futurely in
+                  compliance with privacy legislation, as specified in the information provided pursuant to Articles 13 and 14
+                  of Regulation (EU) 2016/679 (GDPR). </p>
+                <b> 10.2. </b>
+                <p> The Customer declares to have read the Privacy Policy and therefore to be aware that the data
+                  personal, corporate and fiscal rights of the Customer and / or the participant (if different person), acquired
+                  directly or indirectly from Futurely, also possibly for the purpose of browsing the Site and / or
+                  any contact requests will be collected and processed in paper, computerized and / or telematic form, al
+                  in order to allow the completion of the Contract and / or for promotional activities concerning the same
+                  type of product and / or service (Soft Spam) similar to the product / service being sold. </p>
+                <b> 10.3. </b>
+                <p> The data acquired by Futurely will in any case be kept for a period of time not exceeding that
+                  necessary for the purposes for which they were collected and subsequently processed. Their removal will take place
+                  also safely. Although not expressly provided for here, reference is made to the aforementioned Privacy
+                  Policy, which, by accepting these General Conditions of Sale, the Customer declares to have
+                  received, viewed and understood. </p>
+                <b class = "fleft"> Art. 11 - Applicable law, jurisdiction and competent court. </b> <br>
+                <b> 11.1. </b>
+                <p> These General Conditions of Sale are governed by Italian law and, as far as they are concerned, by
+                  Legislative Decree no. 206/2005 (Consumer Code) and the rules on electronic commerce (Legislative Decree no.
+                  70/2003). </p>
+                <b> 11.1. </b>
+                <p> For any dispute that may arise in relation to the application, execution,
+                  interpretation and / or termination of this Agreement, the parties agree and establish that it is competent
+                  exclusively: </p>
+                <ul>
+                  <li> in the case of a Consumer Customer, the Consumer Court pursuant to art. 33 of the Consumer Code;
+                  </li>
+                  <li> in any other case, the Court of Milan. </li>
+                </ul>
+                <b class = "fleft"> Art. 12 - Contacts and complaints </b> <br>
+                <b> 12.1. </b>
+                <p> Any requests for information and / or complaints from the Customer concerning this Agreement may be
+                  sent to the e-mail address segreteria@myfuturely.com </p>
+                12.2. </b>
+                <p> The management of any complaint will take place no later than 30 working days from receipt of the
+                  same. </p>
+    
+                {% endif %}
+          </div>
+  
+      </div>
+    </div>
+  </div>
+
+
+{% block script %}
+<script>
+	  function countryDropdown(seletor){
+  var Selected = $(seletor);
+  var Drop = $(seletor+'-drop');
+  var DropItem = Drop.find('li');
+
+  Selected.click(function(){
+	  Selected.toggleClass('open');
+	  Drop.toggle();
+  });
+
+  Drop.find('li').click(function(){
+	  Selected.removeClass('open');
+	  Drop.hide();
+	  
+	  var item = $(this);
+	  Selected.html(item.html());
+  });
+
+  DropItem.each(function(){
+	  var code = $(this).attr('data-code');
+
+	  if(code != undefined){
+		  var countryCode = code.toLowerCase();
+		  $(this).find('i').addClass('flagstrap-'+countryCode);
+	  }
+  });
+}
+
+$("#company").on('change', function() {
+  $("#id_school_grade_hdn").val('');
+	var company_name = $("#company").find(":selected").val();
+	var company_type = $("#company_"+company_name).attr("attr");
+	if(company_type == "High School"){
+		$('#id_school_grade').removeAttr("disabled");
+		$('#id_school_grade').prop('selectedIndex',2);
+    $("#id_school_grade_hdn").val($("#id_school_grade").val());
+		$('#id_school_grade').prop('disabled', true);
+	} else if(company_type == "Middle School"){
+		$('#id_school_grade').removeAttr("disabled");
+		$('#id_school_grade').prop('selectedIndex',1);
+		$("#id_school_grade_hdn").val($("#id_school_grade").val());
+    $('#id_school_grade').prop('disabled', true);
+	}else{
+		$('#id_school_grade').removeAttr("disabled");
+		$('#id_school_grade').prop('selectedIndex',0);
+	}
+
+	var school_grade_val = $('#id_school_grade').find(":selected").val();
+    $("#id_child_email").val('');
+    $("#id_child_number").val('');
+    if(school_grade_val == "Scuola Superiore (Secondaria di secondo grado)"){
+        $("#div_id_phone_number").removeClass('d-none');
+        $("#div_id_child_email").removeClass('d-none');
+    }else{
+        $("#div_id_phone_number").addClass('d-none');
+        $("#div_id_child_email").addClass('d-none');
+    }
+
+});
+
+$("#id_school_grade").on('change', function() {
+    $("#id_school_grade_hdn").val($("#id_school_grade").val());
+    var school_grade_val = $('#id_school_grade').find(":selected").val();
+    $("#id_child_email").val('');
+    $("#id_child_number").val('');
+    if(school_grade_val == "Scuola Superiore (Secondaria di secondo grado)"){
+        $("#div_id_phone_number").removeClass('d-none');
+        $("#div_id_child_email").removeClass('d-none');
+    }else{
+        $("#div_id_phone_number").addClass('d-none');
+        $("#div_id_child_email").addClass('d-none');
+    }
+});
+
+// $("#form-company-submit").click(function(){
+//     $("#form-showing-message").show();
+//     $("#form-company-sec").hide();
+//     $(".form-title-content").hide();
+//     $(".form-company-block").addClass('showing-message-append');    
+// });
+  </script>
+{% endblock%}
+{% endblock%}

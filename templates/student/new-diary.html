@@ -1,0 +1,1075 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Journal" %}</title>
+{% endblock %}
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}">
+<style>
+     @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+     /* new css 15 nov */
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+     /* new end css 15 nov */
+     button.accordion-button {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19.2px;
+}
+.accordion-item .accordion-header {
+    background-color: #26272B;
+    border-radius: 8px !important;
+    padding: 20px 20px;
+}
+.accordion-item  {
+    padding: 0 10px;    
+    margin: 16px 0;
+    background-color: transparent;
+}
+button.accordion-button.collapsed {
+    background-color: #26272B;
+    color: #fff;
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+}   
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22' fill='none'%3e%3cpath d='M9.875 21.5V12.125H0.5V9.875H9.875V0.5H12.125V9.875H21.5V12.125H12.125V21.5H9.875Z' fill='white'/%3e%3c/svg%3e");
+    margin-left: 15px;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='22' height='2' viewBox='0 0 22 2' fill='none'%3e%3cpath d='M0 2V0H22V2H0Z' fill='%23FAFAFA'/%3e%3c/svg%3e");
+    transform: translate(0px, 10px);
+}
+
+    button.accordion-button.collapsed {
+    padding: 0px;
+}
+.accordion-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.accordion-link {
+    margin-left: auto; /* Push the link to the right side */
+}
+
+/* Optional: Add padding to the link for spacing */
+.accordion-link a {
+    padding-right: 10px; /* Adjust the padding as needed */
+}
+span.accordion-link a {
+    border-radius: 8px;
+    border: 1px solid var(--pink-linear, #FF409A);
+    background: var(--pink-linear, linear-gradient(90deg, #FF409A 0%, #C438EF 35%));
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 8px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px;
+}
+.accordion-button:not(.collapsed) {
+    color: #fff;
+    box-shadow: none;
+    border-radius: 8px;
+    background: var(--color-grey-grey, #26272B);
+    padding: 0px;
+}
+.main-text-body {
+    display: flex;
+    padding: 24px 21px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid #47484E;
+}
+.main-text-body + .main-text-body {
+    margin-top: 16px;
+}
+.accordion-card-body .parent-text {
+    /* display: flex; */
+    padding: 8px 12px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 8px 8px 0px 0px;
+    background: var(--color-grey-slightly-light-grey, #505050);
+    color: #FFF;
+    text-align: justify;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    flex: 1 0 0;
+    margin: 0px;
+}
+.child-text {
+    display: flex;
+    padding: 12px;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 0px 0px 8px 8px;
+    background: var(--color-grey-grey, #26272B);
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.25) inset;
+    color: var(--1Bianco, #F5F5FA);
+    text-align: justify;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0;
+}
+textarea#message {
+    border-radius: 8px;
+    border: 3px solid var(--pink-linear, #FF409A);
+    background: var(--color-grey-grey, #26272B);
+    display: flex;
+    padding: 21px 735.8px 50px 21px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    width: 100%;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+.child-text-body {
+    display: flex;
+    padding: 24px 21px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid #47484E;
+    margin-top: 16px;
+}
+textarea#message::placeholder {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    display: flex;
+    width: 514.2px;
+    height: 21px;
+    flex-direction: column;
+    justify-content: center;
+}
+.accordion-button:focus {
+    z-index: 3;
+    border: none;
+    outline: 0;
+    box-shadow:none;
+}
+a.custom-btn {
+    border-radius: 10px;
+    border: 1px solid #FAFAFA;
+    padding: 6.5px 16px;
+    align-items: flex-start;
+    gap: 8px;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-top: 24px;
+}
+.col-lg-9.responsive-span {
+    display: contents;
+}
+.question-question-ans-card .title-of-question {
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 3px;
+}
+.question-question-ans-card span {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+}
+textarea#message::placeholder {
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    padding-top: 20px;
+    padding-left: 5px;
+}
+.question-text {
+    display: none;
+}
+
+
+
+
+
+
+
+
+.card_right_sidebar {
+    background-color: #26272b;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 20px;
+    border: 1px solid #26272B;
+    box-shadow: -8px 12px 18px 0 #020203;
+    padding: 20px;
+}
+.quiz_right_block label {
+    color: #fff;
+    font-size: 14px;
+    margin: 0 0 12px;
+}
+.quiz_right_block textarea::placeholder {
+    color: #fff;
+}
+
+.quiz_right_block textarea {
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 100%;
+    resize: none;
+    outline: none;
+    background: #46474b;
+    border-color: #47484E;
+    font-size: 14px;
+    min-height: 60px;
+}
+.quiz_right_block {
+    display: block;
+    margin: 0 0 15px;
+    width: 100%;
+}
+.quiz_right_block label>span {
+    position: relative;
+    background: #336df3;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.quiz_right_block label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.quiz_right_block .count {
+    position: absolute;
+    top: 49%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    font-size: 12px;
+}
+.card_right_sidebar_inner {
+    background: #333333;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #26272B;
+    padding: 15px 15px 0;
+}
+.comment-button {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    margin: 10px 0 0;
+}
+.form-items-comment {
+    display: flex;
+    align-items: center;
+}
+.form-items-comment .comment-label {
+    color: #fff;
+    font-size: 15px;
+    flex: none;
+    margin: 0;
+    background: #336df3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: 600;
+}
+.form-items-comment .form-control::placeholder, .submit-comment-button::placeholder {
+    color: #fff;
+}
+
+.form-items-comment .form-control {
+    background-color: #46474b;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #fff;
+    width: 65%;
+    outline: none;
+    border-color: #47484E;
+    font-size: 14px;
+    box-shadow: none;
+}
+.form-items-comment + .form-items-comment {
+    margin-top: 10px;
+}
+.submit-comment-button {
+    background: #46474b;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    outline: none;
+}
+.submit-comment {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.form-submit-comment {
+    position: relative;
+}
+.arrow-right {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: rotate(135deg);
+}
+.form-items-comment.user-comments {
+    justify-content: end;
+}
+.form-group-comment {
+    max-height: 100px;
+    overflow-y: scroll;
+}
+.form-group-comment::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.form-group-comment::-webkit-scrollbar {
+    width: 8px;
+    background-color: #232326d9;
+}
+.form-group-comment:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #232326d9;
+}
+
+.total-comment {
+    color: white;
+    margin-top: 10px;
+}
+
+textarea.form-control.text-white.text-justify-now.comment-box {
+    margin-top: 20px;
+    min-height: 30px !important;
+    background-color: #e6f7ee00 !important;
+    font-size: 17px !important;
+}
+
+
+div#admin-comments {
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid #47484E;
+    border-radius: 15px;
+    padding: 20px;
+}
+.comment-icon-box {
+    font-size: 30px;
+    color: #fff;
+    margin-right: 15px;
+}
+#admin-comments .comment-label {
+    font-size: 12px;
+    color: #fff;
+    margin: 0;
+}
+
+.video-card-bottom-box #admin-comments .form-control {
+    background: #ffffff00 !important;
+    font-size: 16px;
+    min-height: inherit;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+.col-md-6.mb-5.question-blog {
+    margin: 5px -30px 0px 15px;
+    border: 3px solid;
+    border-radius: 20px;
+}
+
+.quiz_seprate_block{
+    border: 1px solid #47484e;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+
+@media (max-width:767px) {
+    .accordion-button {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    flex-direction: column;
+}
+.accordion-link {
+    margin-left: 0px;
+    margin-top: 8px;
+}
+span.accordion-text {
+    font-size: 16px;
+    line-height: 19.2px;
+    width: 223px;
+    max-width: 100%;
+}
+span.accordion-link a {
+    display: inline-block;
+    margin-top: 8px;
+}
+textarea#message {
+    display: flex;
+    padding: 21px 0px 252px 21px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.responsive-span {
+    display: table-footer-group;
+}
+button.accordion-button.collapsed {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+}
+.accordion-item .accordion-header{
+    display: block;
+    padding: 12px 12px 12px 21px;
+    gap: 4px;
+    align-self: stretch;
+    max-height: 100%;
+}
+.accordion-button::after {
+    /* margin-left: auto; */
+    /* width: 20px; */
+    /* float: right; */
+    /* margin-right: -28px; */
+    /* margin-top: -47px; */
+}
+a.custom-btn{
+    display: none;
+}
+.card-video-content p {
+    color: #fff;
+    font-size: 14px;
+    line-height: normal;
+}
+.col-lg-9.responsive-span {
+    display: inline-grid;
+}
+button.accordion-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.accordion-card-body .parent-text {
+    font-size: 14px;
+    text-align: left;
+}
+.main-text-body {
+    padding: 12px 20px 22px 20px;
+    gap: 12px;
+}
+.main-text-body .question-text {
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    display: block;
+    margin: 0;
+}
+
+}
+
+/* new css 15 nov */
+.diary-journals-card-content h3 {
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.diary-journals-card-content p {
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 22px;
+}
+.outline-button-link {
+    display: inline-block;
+    padding: 6.5px 16px;
+    border-radius: 10px;
+    border: 1px solid #FAFAFA;
+    color: #FFF;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    transition: all .5s;
+}
+.outline-button-link:hover {
+    /*background: #fff;*/
+    color: #fff;
+} 
+.diary-journals-card-content .outline-button-link:hover {
+border: 1px solid var(--pink-linear, #FF409A);
+background: rgba(255, 255, 255, 0.12);
+}
+.outline-button-link:hover svg, .outline-button-link:hover svg path {
+   /* fill: #333;*/
+}
+.outline-button-link:focus {
+    /* background: #fff;
+    color: #333; */
+    box-shadow: 0px 0px 0px 4px rgba(78, 70, 180, 0.2);
+}
+.diary-journals-card-image img {
+    max-width: 100%;
+    width: 100%;
+    height: 205px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.accordion-header-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.accordion-header-inner .accordion-text {
+    color: #FFF;
+    font-family: 'Rubik';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+}
+.btn-filed {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #FF409A;
+    background: linear-gradient(90deg, #FF409A 0%, #C438EF 35%);
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    outline: none;
+    transition: all .5s;
+    margin: -10px 0;
+}
+.read_button {
+    border-radius: 8px;
+    border: 1px solid var(--1Bianco, #F5F5FA);
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 8px;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight:400;
+    line-height: 21px;
+    text-decoration: none;
+     background: transparent;
+     margin: -10px 0;
+}
+.btn-filed:hover {
+    color: #fff;
+   /* background: linear-gradient(90deg, #FF409A 0%, #C438EF 75%);*/
+}
+.accordion-card-body {
+    width: 100%;
+    display: block;
+    margin-top: 16px;
+}
+.question-question-ans-card {
+    display: flex;
+    padding: 21px 21px 50px 21px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    border-radius: 8px;
+    border: 3px solid #FF409A;
+    background: #26272B;
+    width: 100%;
+}
+.main-text-body .question-header-row {
+    width: 100%;
+}
+@media (min-width:992px) {
+.diary-journals-card-image {
+    padding-left: 20px;
+}
+}
+@media (max-width:767px) {
+.diary-journals-card-content h3 {
+    font-size: 20px;
+}
+.diary-journals-card-content p {
+    font-size: 14px;
+}
+.diary-journals-card .outline-button-link {
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+.diary-journals-card-image img {
+    height: 168px;
+}
+.accordion-header-inner {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+.accordion-header-inner .accordion-text {
+    font-size: 15px;
+}
+.accordion-header-inner {
+    width: calc(100% - 35px);
+}
+.accordion-header-inner .btn-filed {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.accordion-item {
+    margin: 12px 0;
+}
+.accordion-button::after {
+    background-size: 18px;
+}
+#wrapper #content-wrapper #content .main-content .container-fluid {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+#wrapper #content-wrapper #content .main-content {
+    padding-top: 80px !important;
+}
+.question-header-row .child-text {
+    text-align: left;
+}
+.accordion-collapse.collapse.show {
+    border-bottom: 1px solid #47484E;
+    padding-bottom: 15px;
+}
+.question-question-ans-card .title-of-question {
+    font-size: 12px;
+}
+.question-question-ans-card span {
+    font-size: 12px;
+    margin-bottom: 0;
+}
+.question-question-ans-card {
+    padding: 21px 15px 50px 15px;
+}
+}
+
+@media (min-width:768px) and (max-width:991px) {
+    .accordion-header-inner .accordion-text {
+    font-size: 16px;
+}
+.btn-filed {
+    font-size: 12px;
+}
+.accordion-button::after {
+    background-size: 15px;
+}
+.accordion-card-body .parent-text {
+    font-size: 14px;
+}
+}
+button.accordion-button.button-accordion.collapsed:after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='25' viewBox='0 0 20 26' fill='none'%3e%3cpath d='M2.47619 26C1.79524 26 1.2123 25.7575 0.727381 25.2726C0.24246 24.7877 0 24.2048 0 23.5238V11.1429C0 10.4619 0.24246 9.87897 0.727381 9.39405C1.2123 8.90913 1.79524 8.66667 2.47619 8.66667H3.71429V6.19048C3.71429 4.47778 4.31786 3.01786 5.525 1.81071C6.73214 0.603571 8.19206 0 9.90476 0C11.6175 0 13.0774 0.603571 14.2845 1.81071C15.4917 3.01786 16.0952 4.47778 16.0952 6.19048V8.66667H17.3333C18.0143 8.66667 18.5972 8.90913 19.0821 9.39405C19.5671 9.87897 19.8095 10.4619 19.8095 11.1429V23.5238C19.8095 24.2048 19.5671 24.7877 19.0821 25.2726C18.5972 25.7575 18.0143 26 17.3333 26H2.47619ZM2.47619 23.5238H17.3333V11.1429H2.47619V23.5238ZM9.90476 19.8095C10.5857 19.8095 11.1687 19.5671 11.6536 19.0821C12.1385 18.5972 12.381 18.0143 12.381 17.3333C12.381 16.6524 12.1385 16.0694 11.6536 15.5845C11.1687 15.0996 10.5857 14.8571 9.90476 14.8571C9.22381 14.8571 8.64087 15.0996 8.15595 15.5845C7.67103 16.0694 7.42857 16.6524 7.42857 17.3333C7.42857 18.0143 7.67103 18.5972 8.15595 19.0821C8.64087 19.5671 9.22381 19.8095 9.90476 19.8095ZM6.19048 8.66667H13.619V6.19048C13.619 5.15873 13.2579 4.28175 12.5357 3.55952C11.8135 2.8373 10.9365 2.47619 9.90476 2.47619C8.87302 2.47619 7.99603 2.8373 7.27381 3.55952C6.55159 4.28175 6.19048 5.15873 6.19048 6.19048V8.66667Z' fill='%23F5F5FA'/%3e%3c/svg%3e");
+    margin-left: 15px;
+    padding-bottom: 25px;
+
+}
+
+</style>
+{% endblock%}
+{% block content %}
+
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        <div class="row courses-block">
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre"> 
+                    <a href="{% url 'home' %}">Home &gt;</a>
+                    DIARIO DI BORDO
+                </span>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="watch-video-card">
+                    <div class="diary-journals-card row m-0">
+                        <div class="col-md-8">
+                            <div class="diary-journals-card-content">
+                                <h3>Il tuo Diario di Bordo</h3>
+                                <p>In questa sezione del diario di bordo hai la possibilità di rileggere le risposte che hai dato, per riprendere dei concetti e delle osservazioni di cui hai fatto esperienza durante il percorso. Rileggendo le risposte potrai capire effettivamente com’è cambiata da tua consapevolezza verso il futuro. 
+                                    Potrai inoltre scaricare le risposte al diario di bordo per rileggerle in qualunque momento. Se hai dimenticato di rispondere a qualche domanda, corri a completarla all’interno del percorso!</p>
+                                <a href="{% url 'download_pdf_file' %}" type="button" class="outline-button-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#fff">
+                                    <path d="M12 16L7 11L8.4 9.55L11 12.15V4H13V12.15L15.6 9.55L17 11L12 16ZM6 20C5.45 20 4.97917 19.8042 4.5875 19.4125C4.19583 19.0208 4 18.55 4 18V15H6V18H18V15H20V18C20 18.55 19.8042 19.0208 19.4125 19.4125C19.0208 19.8042 18.55 20 18 20H6Z" fill="white"/>
+                                  </svg></i> Scarica il Diario di Bordo</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="diary-journals-card-image">
+                                <img src="{% static '/images/image-beautiful-woman.png' %}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="myAccordion">
+                        <!-- Accordion Item 1 -->
+                        {% with loopV=0 %}
+                        {% for all_steps in all_courses %}
+                        {% for step in all_steps %}
+                            {% if step.step_status_id.is_active %}
+                            {% count_steps loopV as loopV %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{loopV}}">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collaps{{loopV}}" aria-expanded="false" onclick="handleAccordionClick('{{step.step_track_id}}','{{loopV}}')">
+                                        <div class="accordion-header-inner">
+                                            <span class="accordion-text">Step {{loopV}} : {{step.step_status_id.step.title}}</span>
+                                                {% if step.total_diary_comments_count > 0 %}
+                                                    {% if step.is_any_pending_comment_to_read %}
+                                                        <a class="btn-filed" id="tutor_comment_tag{{loopV}}" href="#" data-tooltip="false">La tua tutor ha commentato</a>
+                                                    {% else %}
+                                                    <a class="btn-filed read_button" id="tutor_comment_tag{{loopV}}"  href="#" data-tooltip="true">La tua tutor ha commentato</a>
+                                                    {% endif %}
+                                                {% endif %}
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collaps{{loopV}}" class="accordion-collapse collapse" data-bs-parent="#myAccordion" style="">
+                                    <div class="accordion-card-body">
+                                        {% for all_diaries in step.get_diary %}
+                                        {% for diary in all_diaries %}
+                                        <div class="main-text-body">
+                                            <h2 class="question-text">Domanda N°{{forelopp.counter}}</h2>
+                                            <div class="question-header-row">
+                                                <p class="parent-text">{{diary.action_item_diary.question}}</p>
+                                                <p class="child-text">{{diary.answer}}</p>
+                                            </div>
+                                            {% if diary.comments_student_actions_item_diary.all %}
+                                                {% for comment in diary.comments_student_actions_item_diary.all %}
+
+                                                <div class="question-question-ans-card">
+                                                    <h2 class="title-of-question">Commento dal tutor di Futurely</h2>
+                                                    <span>{{ comment.comment }}</span>
+                                                </div>
+                                            {% endfor %}
+                                            {% endif  %}
+                                        </div>
+                                        {% endfor %}
+                                        {% endfor %}                            
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            {% count_steps loopV as loopV %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="{{loopV}}">
+                                    <button type="button" class="accordion-button button-accordion collapsed" data-bs-toggle="collapse" data-bs-target="#collaps{{loopV}}" aria-expanded="false">
+                                            <span class="accordion-text">Step {{loopV}} : {{step.step_status_id.step.title}}</span>
+                                    </button>
+                                </h2>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="modal fade learn-popup" id="commentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: #fff">Commenti della Tutor</h5>
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal" aria-label="Close" onclick="close_btn()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="quiz_right_block" id="id_ques_ans">
+                        </div>
+                    </div>
+                <div class="col-md-12">
+                    <form id="id_modal_form" data-hs-cf-bound="true">
+                        <div class="form-group-comment" id="id_stu_admin_comments">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="jwA6Qv6F2SJdqERkEBNmcGnaXet4goXRozwhQwqxcxIgRDsFB19MOna1H2jmnGJK">
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade learn-popup" id="id-contact-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content contact-pop-back">
+            <div class="modal-header">
+                <button type="button" id="btn-close-tutor" class="btn-close color-white cross-btn-cls"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 class="color-white">{% trans "Submit Query to your tutor" %}</h2>
+                <hr class="color-white">
+                <div class="modal-body info_form">
+                    <form id="post-contact-tutor" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                    <input id="email" class="form-control text-white" type="text"
+                                        placeholder="your-email@futurely.com" value="{{user.email}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <input id="subject" class="form-control" type="text"
+                                        placeholder="{% trans 'Subject of discussion' %}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <textarea id="questions" class="form-control" type="text"
+                                        placeholder="{% trans 'Enter your queries for the tutor' %}"
+                                        required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary con-tutor tutor-submit">{% trans "Submit" %}</button>
+                                <button type="submit"  style="display: none" class="btn btn-primary con-tutor start-loading contact_tutor_loader"><i class="fa fa-spinner fa-spin"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+open_modal
+{% block script %}
+
+<script>
+    function open_modal(question, ans, diary_id){
+        $("#id_modal_form").append(`<input type="hidden" name="answer" id="ans_id" value="${diary_id}">`)
+        $("#id_ques_ans").append(`
+            <label class="form-label text-justify-now">Question: ${question}</label>
+            <textarea readonly class="form-control text-white text-justify-now" rows="2">Answer: ${ans}</textarea>
+        `)
+        comment_fun(diary_id);
+        $('#commentModal').modal('toggle');
+    };
+
+    $("form").on('submit', function(e){
+        var form_values = $(this).serialize();
+        form_submit(form_values, e)
+    });
+
+    function close_btn(){
+        jQuery("#ans_id").remove();
+        $("#id_ques_ans").html("");
+        $('#commentModal').modal('hide');
+        $("#id_stu_admin_comments").html("");
+        $('#id_modal_form').trigger("reset");
+    };
+
+    function form_submit(form_values, e){
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'submit_comment' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: form_values,
+            success: function(response){
+                jQuery("#ans_id").remove();
+                $("#id_ques_ans").html("");
+                $('#commentModal').modal('hide');
+                $("#id_stu_admin_comments").html("");
+                $('#id_modal_form').trigger("reset");
+            },
+            error: function (response){
+                jQuery("#ans_id").remove();
+                $("#id_ques_ans").html("");
+                $('#commentModal').modal('hide');
+                $("#id_stu_admin_comments").html("");
+                $('#id_modal_form').trigger("reset");
+            }
+        });
+        e.preventDefault();
+    }
+
+    function comment_fun(diary_id){
+        var html_content = ""
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'get_comments' %}",
+            headers: {'X-CSRFToken': "{{ csrf_token }}"},
+            data: {'diary_id': diary_id},
+            success: function(response){
+                for(var i=0; i<response['admin_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment admin-comments" id="admin-comments">
+                        <label class="comment-label" title="Tutor">T</label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="1">${response['admin_comment'][i]}</textarea>
+                    </div>
+                    `;
+                    $("#id_stu_admin_comments").append(html_content);
+                    html_content = ""
+                }
+                for(var i=0; i<response['student_comment'].length; i++){
+                    html_content = `
+                    <div class="form-items-comment user-comments" id="user-comments">
+                        <label title="{{ request.user.first_name }}" class="comment-label">{{ request.user.first_name.0 | capfirst }}</label>
+                        <textarea readonly="" class="form-control text-white text-justify-now" rows="1">${response['student_comment'][i]}</textarea>
+                    </div>
+                    `;
+                    $("#id_stu_admin_comments").append(html_content);
+                    html_content = ""
+                }
+                
+                $('#commentModal').modal('hide');
+            },
+            error: function (response) {
+                $("#id_stu_admin_comments").html("");
+            },
+        });
+    };
+
+    function handleAccordionClick(cohort_step_tracker_id, step_number) {
+        var button = $("#tutor_comment_tag" + step_number);
+        var dataTooltip = button.attr('data-tooltip');
+        if (dataTooltip === 'false') {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'read_diary_comments' %}",
+                headers: { 'X-CSRFToken': "{{ csrf_token }}" },
+                data: { 'cohort_step_tracker_id': cohort_step_tracker_id },
+                success: function (response) {
+                    to_check_all_steps = response['to_check_all_steps']
+                    button.addClass('read_button');
+                    button.attr('data-tooltip', 'true');
+                    const isUnreadValue = $('.dairy-notification');
+                    if (!to_check_all_steps) {
+                        isUnreadValue.addClass('d-none');
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,383 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Cookies Policy" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .main-content-inner {
+        background-position: bottom;
+    }
+    .white_color {
+        color: white;
+    }
+    .title-block p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 25px;
+        color: #FFFFFF;
+        text-align: justify;
+    }
+
+    .terms {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+<div class="main-content">
+    <div class="bg-img-sec">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        <section class="terms">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="title-block text-center">
+                            <h1>{% trans 'COOKIE POLICY' %}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% if request.LANGUAGE_CODE == "it" %}
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p><b>1. COSA SONO I COOKIE</b></p>
+                            <p>I cookie sono piccoli file di testo che vengono inviati dal sito web visitato sul dispositivo dell’Utente (solitamente al browser), dove vengono memorizzati in modo da poter riconoscere tale dispositivo alla successiva visita. Ad ogni visita successiva, infatti, i cookie sono re-inviati al sito dal dispositivo dell’Utente.</p>
+                            <p>Ciascun cookie contiene generalmente: il nome del server da cui il cookie è stato inviato, la scadenza ed un valore, solitamente un numero unico generato dal computer. Il server del sito web che trasferisce il cookie utilizza questo numero per riconoscere l’Utente quando torna a visitare un sito o naviga da una pagina all’altra.</p>
+                            <p>I cookie possono essere installati non solo dallo stesso gestore del sito visitato dall’utente (cookie di prima parte), ma anche da un sito diverso che installa cookie per il tramite del primo sito (cookie di terze parti) ed è in grado di riconoscerli. Questo accade perché sul sito visitato possono essere presenti elementi (immagini, mappe, suoni, link a pagine web di altri domini, etc.) che risiedono su server diversi da quello del sito visitato.</p>
+                            <p>In generale, i cookie vengono classificati in diverse tipologie in base a:</p>
+                            <p><b>A. Durata:</b></p>
+                            <ul style="color: white;">
+                                <li>
+                                    cookie di sessione (temporaneo) automaticamente cancellato alla chiusura del browser.
+                                </li>
+                                <li>cookie persistente attivo fino alla sua data di scadenza o alla sua cancellazione da parte dell’utente.</li>
+                            </ul>
+                            <p><b>B. Provenienza:</b></p>
+                            <ul style="color: white;">
+                                <li>cookie di prima-parte inviato al browser direttamente dal sito che si sta visitando.</li>
+                                <li>cookie di terza-parte inviato al browser da altri siti e non dal sito che si sta visitando.</li>
+                            </ul>
+
+                            <p><b>C. Finalità:</b>
+                                alcuni cookie permettono al sito web che li ha installati di ricordare, ad esempio, le preferenze espresse dall’utente durante la navigazione o di effettuare un acquisto, eseguire autenticazioni per accedere ad aree riservate (c.d. “cookie tecnici”), altri cookie consentono al sito che li ha installati di monitorare la navigazione dell’utente anche allo scopo di inviare pubblicità e/o offrire servizi in linea con le preferenze manifestate dall’utente durante la navigazione in rete (c.d. “cookie di profilazione”). Solo i cookie di profilazione richiedono il consenso preventivo dell’utente al loro utilizzo.
+                                Di seguito riportiamo tutte le informazioni sui cookie installati attraverso questo sito, e le indicazioni necessarie su come gestire le preferenze degli Utenti riguardo ad essi.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>2. QUALI COOKIE UTILIZZA IL SITO WWW.MYFUTURELY.COM</b></p>
+                            <p>Il gestore del sito web, FUTURELY SRL SB, desidera informare gli Utenti che il sito www.myfuturely.com può utilizzare le seguenti tipologie di cookie:
+                                <ul style="color: white;">
+                                    <b>A. <u>Cookie Tecnici, che non richiedono il consenso dell’utente</u></b>
+                                </ul>
+                            </p>
+                            <ul>
+                                <p>
+                                    Tali cookie sono necessari per il corretto funzionamento del nostro sito web: si tratta di cookie che servono ad effettuare la navigazione o a fornire un servizio richiesto dall'Utente; non vengono utilizzati per scopi ulteriori e sono installati direttamente dal titolare del trattamento dei dati. Senza il ricorso a tali cookie, alcune operazioni non potrebbero essere compiute o sarebbero più complesse e/o meno sicure. Di seguito, una breve descrizione dei cookie di questo tipo utilizzati dal nostro sito web:
+                                </p>
+                            </ul>
+                            <ul>
+                                <table class="table table-bordered">
+                                    <thead style="color: white;">
+                                        <tr>
+                                            <th scope="col">Nome </th>
+                                            <th scope="col">Fornitore </th>
+                                            <th scope="col">Finalità del cookie</th>
+                                            <th scope="col">Durata </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: white;">
+                                        <tr>
+                                            <td>csrftoken</td>
+                                            <td>Futurely</td>
+                                            <td>Prevenire la falsificazione della richiesta di accesso al sito web</td>
+                                            <td>1 Year</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sessionid</td>
+                                            <td>Futurely</td>
+                                            <td>Identificare i singoli visitatori</td>
+                                            <td>1 Year</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__cf_bm</td>
+                                            <td>Hubspot</td>
+                                            <td>Questo cookie viene impostato dal provider CDN di Hubspot ed è necessario per la protezione dei bot.</td>
+                                            <td>30 Min</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__hs_opt_out</td>
+                                            <td>Hubspot</td>
+                                            <td>Questo cookie è usato dalla politica di opt-in sulla privacy per ricordare di non chiedere nuovamente al visitatore di accettare i cookie.</td>
+                                            <td>6 Months</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__stripe_mid</td>
+                                            <td>Stripe</td>
+                                            <td>Fraud prevention</td>
+                                            <td>1 Year</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ul>
+                            <ul style="color: white;">
+                                <b>B. Cookie di Profilazione che richiedono il consenso dell’utente</b>
+                            </ul>
+                            <p><b>Cookies di hubspot:</b> Noi utilizziamo Hubspot, ovvero uno strumento di analisi web che ci aiuta a capire come gli utenti interagiscono con il sito web. Come molti altri servizi, Hubspot utilizza cookie di prima parte che, nel nostro caso, vengono utilizzati per raccogliere informazioni su come gli utenti utilizzano il nostro sito. Queste informazioni vengono utilizzate per redigere dei report che ci aiutano a capire come migliorare il servizio. Per ulteriori informazioni sui cookie di Hubspot <a href="https://knowledge.hubspot.com/reports/what-cookies-does-hubspot-set-in-a-visitor-s-browser" target="blank">clicca qui</a>.</p>
+                            <p><b>Stripe cookies:</b> Stripe può utilizzare dei cookie se si effettuano pagamenti con carta di credito tramite il nostro sito. <a href="https://stripe.com/in/cookie-settings" target="blank">Clicca qui</a> per visualizzare l’informativa sui cookie di Stripe.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>3. MODALITÀ PER MANIFESTARE IL CONSENSO AI COOKIE DI PROFILAZIONE E PER MODIFICARE E/O ELIMINARE LE </b></p>
+
+                            <p>L’utente ha il diritto di scegliere se accettare o meno i cookie; di seguito spieghiamo come l’utente potrà esercitare questo diritto.</p>
+                            {% comment %} <p>
+                                In occasione della prima visita al sito <a href="https://www.myfuturely.com/" target="blank">www.myfuturely.com</a>, l’utente può decidere di non prestare il consenso al posizionamento dei cookie di profilazione cliccando sulla “Usa solo i cookie necessari”. In questo modo permetterà al sito di utilizzare solo cookie tecnici.
+                            </p> {% endcomment %}
+                            <p>L’utente potrà, invece, accettare i cookie di profilazione tramite il compimento di una delle seguenti azioni:
+                                <ul style="color: white;">
+                                    - cliccando sulla casella “accetta tutti i cookie” presente nel banner, l’Utente accetterà tutti i cookie diversi da quelli tecnici; oppure
+                                </ul>
+                                <ul style="color: white;">
+                                    - cliccando sul link “personalizza cookie” presente nel banner, l’Utente potrà decidere a quali cookie (diversi da quelli tecnici) prestare il consenso.
+                                </ul>
+                            </p>
+                            <p>
+                                È possibile modificare, in ogni momento, le impostazioni dei cookie per questo sito web all'indirizzo <a href="{% url 'cookies_policy' %}?coustomize_cookies=True" target="blank">www.myfuturely.com/cookies-policy/</a>.
+                            </p>
+                            <p>
+                                In alternativa, è possibile bloccare tutti i cookie attivando l'impostazione del browser che consente di rifiutare l'impostazione di tutti o di alcuni cookie. Tuttavia, se si utilizzano le impostazioni del browser per bloccare tutti i cookie (inclusi i cookie essenziali), potrebbe non essere possibile accedere a tutto o a parte del nostro sito.
+                            </p>
+                            <p><b>4. Come controllare o eliminare i cookie e tecnologie simili:</b></p>
+                            <p>L’utente puo’ modificare le sue preferenze cambiando le impostazioni sul proprio browser. Il browser permetterà di: </p>
+                            <ul>
+                                <p>1. vedere quali cookie o altre tecnologie simili sono stati installati sul proprio dispositivo</p>
+                                <p>2. Bloccare i cookie o tecnologie simili</p>
+                                <p>3. Cancellare i cookie o tecnologie simili dal browser </p>
+                            </ul>
+                            <p>L'eliminazione dei cookie o di tecnologie simili comporta la cancellazione delle preferenze impostate dall’utente su un determinato sito web e la conseguente compromissione delle funzionalità del sito. In tal caso, non garantiamo che l'esperienza dell'utente sul nostro sito web sia completa.</p>
+                            <p>Se, in qualunque momento, l’utente desidera modificare le proprie preferenze (ad esempio, accetta tutti i cookie, ma in seguito decide di non volere un certo tipo di cookie), dovrà utilizzare le impostazioni del proprio browser per rimuovere i cookie di terze parti o tecnologie simili rilasciati durante la precedente visita.</p>
+                            <p>Per ulteriori informazioni su come gestire i browser più diffusi, consultare i seguenti link:</p>
+                            <p><a href="https://support.google.com/chrome/answer/95647?hl=en" target="blank"><b>Google Chrome</b></a></p>
+                            <p><a href="https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies" target="blank"><b>Internet Explorer</b></a></p>
+                            <p><a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer?" target="blank"><b>Firefox</b></a></p>
+                            <p><a href="https://support.apple.com/en-au/guide/safari/sfri11471/" target="blank"><b>Safari</b></a></p>
+                            <p><b>5. Come rinunciare ai cookie di terze parti</b></p>
+                            <p>L'utente ha inoltre la possibilità di scegliere di non far raccogliere i dati della propria attività di navigazione all'interno dei siti web tramite cookie e altre tecnologie. Oltre a gestire i cookie nelle impostazioni del browser (come descritto in precedenza), è possibile scegliere di non utilizzare alcuni cookie facendo clic sui link forniti di seguito. Si noti che in questo modo si accede al sito web di terze parti.</p>
+                            <ul>
+                                <p><a target="blank" href="https://knowledge.hubspot.com/reports/what-cookies-does-hubspot-set-in-a-visitor-s-browser">Hubspot</a></p>
+                                <p><a target="blank" href="https://stripe.com/in/cookie-settings">Stripe</a></p>
+                            </ul>
+                            <p><b>Nota:</b> si prega di notare che, se non vengono accettati i nostri cookies, non garantiamo che l'esperienza dell'utente sul nostro Sito web sia esaustiva come potrebbe essere altrimenti.</p>
+                            <p>(ultimo aggiornamento luglio 2022)</p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>FUTURELY SRL SB</b></p>
+                            <p><b>Piazzale Maciachini, 11 20159</b></p>
+                            <p><b>Milano MI, Italy.</b></p>
+                            <p><b>E-mail : <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p><b>1. WHAT COOKIES ARE</b></p>
+                            <p>Cookies are small text files that are sent from the website visited to the User's
+                                device (usually to the browser), where they are stored in order to be able to
+                                recognize this device on the next visit. In fact, on each subsequent visit, the
+                                cookies are sent back to the site from the User's device.</p>
+                            <p>Each cookie generally contains: the name of the server from which the cookie
+                                was sent, the expiration date and a value, usually a unique number generated
+                                by the computer. The website server that transfers the cookie uses this number
+                                to recognize the User when he returns to visit a site or browses from one page
+                                to another.</p>
+                            <p>Cookies can be installed not only by the operator of the site visited by the user
+                                (first-party cookies), but also by a different site that installs cookies through
+                                the first site (third-party cookies) and is able to recognize them. . This happens
+                                because on the visited site there may be elements (images, maps, sounds, links
+                                to web pages of other domains, etc.) that reside on servers other than that of
+                                the visited site.</p>
+                            <p>In general, cookies are classified into different types based on:</p>
+                            <p><b>A. Duration:</b></p>
+                            <ul style="color: white;">
+                                <li>
+                                    session cookie (temporary) automatically deleted when the browser is closed.
+                                </li>
+                                <li>
+                                    persistent cookie active until its expiration date or its cancellation by the user.
+                                </li>
+                            </ul>
+                            <p><b>B. Provenance:</b></p>
+                            <ul style="color: white;">
+                                <li>first-party cookie sent to the browser directly from the site you are visiting.</li>
+                                <li>third-party cookies sent to the browser from other sites and not from the site you are visiting.</li>
+                            </ul>
+
+                            <p><b>C. Purpose:</b>
+                                some cookies allow the website that installed them to remember, for
+                                example, the preferences expressed by the user while browsing or making a
+                                purchase, to authenticate to access restricted areas (so-called "technical
+                                cookies"), other cookies allow the site that installed them to monitor the user's
+                                navigation also for the purpose of sending advertising and / or offering services
+                                in line with the preferences expressed by the user while surfing the net (socalled "profiling cookies"). Only profiling cookies require the user's prior
+                                consent to use them.
+                                Below is all the information on the cookies installed through this site, and the
+                                necessary information on how to manage Users' preferences regarding them.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>2. WHICH COOKIES THE WWW.MYFUTURELY.COM SITE USES</b></p>
+                            <p>The website manager, FUTURELY INC, wishes to inform Users that the website www.myfuturely.com can use the following types of cookies:
+                                <ul style="color: white;">
+                                    <b>A. <u>Technical Cookies, which do not require the user's consent</u></b>
+                                </ul>
+                            </p>
+                            <ul>
+                                <p>
+                                    These cookies are necessary for the proper functioning of our website: these
+                                    are cookies that are used to browse or to provide a service requested by the
+                                    User; they are not used for other purposes and are installed directly by the data
+                                    controller. Without the use of these cookies, some operations could not be
+                                    performed or would be more complex and / or less secure. Below is a brief
+                                    description of the cookies of this type used by our website:
+                                </p>
+                            </ul>
+                            <ul>
+                                <table class="table table-bordered">
+                                    <thead style="color: white;">
+                                        <tr>
+                                            <th scope="col">Name </th>
+                                            <th scope="col">Supplier </th>
+                                            <th scope="col">Purpose of the cookie</th>
+                                            <th scope="col">Duration </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: white;">
+                                        <tr>
+                                            <td>csrftoken</td>
+                                            <td>Futurely</td>
+                                            <td>Cross-Site Request Forgery Prevention</td>
+                                            <td>1 year</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sessionid</td>
+                                            <td>Futurely</td>
+                                            <td>Identifying Unique Visitors</td>
+                                            <td>1 year</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__cf_bm</td>
+                                            <td>Hubspot</td>
+                                            <td>This cookie is set by HubSpot's CDN provider and is a necessary cookie for bot protection.</td>
+                                            <td>30 Min</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__hs_opt_out</td>
+                                            <td>Hubspot</td>
+                                            <td>This cookie is used by the opt-in privacy policy to remember not to ask the visitor to accept cookies again.</td>
+                                            <td>6 Months</td>
+                                        </tr>
+                                        <tr>
+                                            <td>__stripe_mid</td>
+                                            <td>Stripe</td>
+                                            <td>Fraud prevention</td>
+                                            <td>1 year</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ul>
+                            <p><b>Profiling cookies that require the user's consent</b></p>
+                            <p><b>Hubspot cookies:</b> We use Hubspot, which is a web analytics tool that helps us understand how users engage with the Website. Like many services, Hubspot uses first-party cookies to track user interactions, as in our case, where they are used to collect information about how users use our site. This information is used to compile reports and to help us improve our service. For more information on Hubspot Cookies, <a href="https://knowledge.hubspot.com/reports/what-cookies-does-hubspot-set-in-a-visitor-s-browser">see here</a>.</p>
+                            <p><b>Stripe cookies: </b>Stripe may place cookies if you make credit card payments via our service. <a href="https://stripe.com/in/cookie-settings">Click here</a> to see Stripe's cookies policy.</p>
+
+                        </div>
+                        <div class="title-block">
+                            <p><b>3. METHOD FOR MANIFESTING CONSENT TO PROFILING COOKIES AND TO MODIFY AND / OR DELETE THE </b></p>
+                            <p>The user has the right to choose whether or not to accept cookies; below we explain how the user can exercise this right.</p>
+                            {% comment %} <p>
+                                On the first visit to the website <a href="https://www.myfuturely.com/" target="blank">www.myfuturely.com</a>, the user can decide not to
+                                give consent to the placement of profiling cookies by clicking on "Use only
+                                necessary cookies". This will allow the site to use only technical cookies.
+                            </p> {% endcomment %}
+                            <p>The user can accept profiling cookies by carrying out one of the following actions:
+                                <ul style="color: white;">
+                                    - by clicking on the "accept all cookies" box in the banner, the User will accept
+                                    all cookies other than the technical ones; or
+                                </ul>
+                                <ul style="color: white;">
+                                    - by clicking on the "customize cookies" link in the banner, the User can decide
+                                    which cookies (other than technical ones) to give consent.
+                                </ul>
+                            </p>
+                            <p>
+                                You can change the cookie settings for this website at any time at <a href="{% url 'cookies_policy' %}?coustomize_cookies=True">www.myfuturely.com/cookies-policy</a>.
+                            </p>
+                            <p>
+                                Alternatively, you can block all cookies by activating the browser setting which
+                                allows you to refuse the setting of all or some cookies. However, if you use your
+                                browser settings to block all cookies (including essential cookies), you may not
+                                be able to access all or part of our site.
+                            </p>
+                            <p><b>4. How to control or delete cookies and similar technologies</b></p>
+                            <p>You can change your preferences by changing the settings in your browser. Your browser will allow you to:</p>
+                            <ul>
+                                <p>1. See what cookies or other similar technologies have been dropped on your device</p>
+                                <p>2. Block cookies or similar technologies</p>
+                                <p>3. Clear cookies or similar technologies from your browser.</p>
+                            </ul>
+                            <p>Deleting cookies or similar technologies means that any preference settings you have made on a particular website will be lost and the functionality of our Website will be impaired. We cannot guarantee that your experience on our Website will be as good as it could otherwise be.</p>
+                            <p>If you want to change your settings at any time (for example, if you accept all cookies, but later decide you do not want a certain type of cookie) you’ll need to use your browser settings to remove any third party cookies or similar technologies dropped on your previous visit.</p>
+                            <p>For more information on how to manage the most popular browsers, please see below:</p>
+                            <p><a href="https://support.google.com/chrome/answer/95647?hl=en" target="blank"><b>Google Chrome</b></a></p>
+                            <p><a href="https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies" target="blank"><b>Internet Explorer</b></a></p>
+                            <p><a href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer?" target="blank"><b>Firefox</b></a></p>
+                            <p><a href="https://support.apple.com/en-au/guide/safari/sfri11471/" target="blank"><b>Safari</b></a></p>
+                            <p><b>5. How to opt out of third party cookies</b></p>
+                            <p>You also have the option to opt out of having your browsing activity within websites recorded by cookies and other technologies. In addition to managing cookies in your browser settings (described above), you can opt out of certain cookies by clicking on the links provided below. Please note that this will take you to the relevant third party website.</p>
+                            <ul>
+                                <p><a target="blank" href="https://knowledge.hubspot.com/reports/what-cookies-does-hubspot-set-in-a-visitor-s-browser">Hubspot</a></p>
+                                <p><a target="blank" href="https://stripe.com/in/cookie-settings">Stripe</a></p>
+                            </ul>
+                            <p><b>Note:</b> Please note that if you choose not to receive our cookies, we cannot guarantee that your experience on our Website will be as good as it could otherwise be.</p>
+                            <p><b>FUTURELY INC, </b></p>
+                            <p><b>405 Howard Street,</b></p>
+                            <p><b>San Francisco,</b></p>
+                            <p><b>California, 94105 United States.</b></p>
+                            <p>(last update July 2022)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+</div>
+</div>
+{% block script %}
+{% endblock%}
+{% endblock%}

@@ -1,0 +1,618 @@
+{% extends 'base_quiz.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses" %}</title>
+{% endblock %}
+
+<!-- google font new -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+{% block style %}
+
+{% phrase_javascript %}
+{% css_version as css_version %}
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course.css' %}">
+<link rel="stylesheet" href="{% static 'css/new_css/slick.css' %}">
+<style>
+           
+           .personality-quiz-header h2 i {
+        font-size: 15px;
+        margin: 0 6px;
+    }
+    .error-msg p {
+        margin: 17px 0 0;
+        border: 1px solid #d44f4f;
+        color: #d44f4f !important;
+        padding: 6px;
+        background: #ff00000d;
+    }
+
+.personality-quiz-card {
+    border-radius: 20px;
+    width: 100%;
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;
+    position: relative;
+}
+.personality-quiz-header {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+}
+.personality-quiz-item h1 {
+    font-size: 24px;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 18px;
+}
+.personality-quiz-item p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    /* text-transform: capitalize; */
+}
+.personality-quiz-footer {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;    
+    margin: 18px 0 0;
+
+}
+.quiz-button:hover {
+    color: #fff;
+    background: #0068FF;
+}
+
+.quiz-button {
+    padding: 10px 30px;
+    font-size: 15px;
+    text-transform: capitalize;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    transition: all .5s;
+    cursor: pointer;
+    position: relative;
+    z-index: 999;
+}
+.personality-quiz-header h2 span {
+    display: flex;
+    align-items: center;
+}
+.personality-quiz-header img {
+    max-width: 256px;
+    margin: 0 40px;
+}
+.personality-quiz-lists {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 50px 30px;
+    border-radius: 20px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+}
+.quiz-slider.slick-slider {
+    width: 100%;
+}
+.quiz-slider .slick-arrow {
+    display: none !important;
+}
+.personality-quiz-lists.show {
+    display: flex;
+}
+.selector-item_label:hover {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+}
+.personality-quiz-header h2 {
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.personality-quiz-header h2 {
+    position: relative;
+}
+.personality-selecotr-item .selector-item_label span {
+    background: #33333352;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 13px;
+    margin-right: 10px;
+}
+.selector-item_radio:checked + .selector-item_label {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    box-shadow: 0 0 8px #0068ffe0;
+}
+.personality-quiz-option {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+    padding-left: 40px;
+}
+.personality-button {
+    text-align: right;
+}
+.selector-item_label {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #333;
+    color: rgb(255 255 255);
+    max-width: 100%;
+    outline: 0px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition-duration: 0.1s;
+    transition-property: background-color, color, border-color, opacity, box-shadow;
+    transition-timing-function: ease-out;
+    width: 100%;
+    animation: 0.25s ease 0s 2 normal none running jBPXGM;
+    border: 1px solid #FFF;
+    background: #3C3D40;
+}
+.personality-selecotr-item .selector-item_radio {
+    appearance: none;
+    display: none;
+}
+.button-next-quiz {
+    position: relative;
+    padding: 12px 40px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-block;
+    margin: 28px 0 0;
+    cursor: pointer;
+}
+.personality-selecotr-item + .personality-selecotr-item {
+    margin-top: 12px;
+}
+
+.quiz-slider .slick-arrow.slick-prev {
+    right: 100px;
+    border-radius: 6px 0px 0px 6px;
+}
+
+.quiz-slider .slick-arrow:after {
+    content: "\f282";
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+}
+.quiz-slider .slick-arrow.slick-disabled:after {
+    opacity: 0.5;
+}
+.quiz-slider .slick-arrow.slick-disabled {
+    pointer-events: none;
+}
+.quiz-slider .slick-arrow {
+    padding: 8px 15px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 0 6px 6px 0px;
+    color: #fff;
+    display: inline-block;
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    border: none;
+    z-index: 11;
+    font-size: 0;
+}
+.quiz-slider .slick-arrow.slick-prev:after {
+    content: "\f286";
+}
+.progresss {
+    overflow: visible;
+    margin-bottom: 26px;
+    height: 7px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 98%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.progress-barr {
+    background-color: #6c2db1;
+    position: relative;
+    border-radius: 4px;
+    height: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    -webkit-box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+.progress-barr span {
+    background-color: #5c4084;
+    position: absolute;
+    bottom: -38px;
+    font-size: 15px;
+    line-height: 10px;
+    padding: 10px 12px 10px 12px;
+    right: -1.4em;
+    border-radius: 2px;
+}
+    .progress-barr span:after {
+      bottom: 100%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(255, 255, 255, 0);
+      border-bottom-color: #5c4084;
+      border-width: 5px;
+      margin-left: -5px;
+    }
+    .progress-barr span.flag-icon-progress:after {
+    display: none;
+}
+.progress-barr span.flag-icon-progress {
+    bottom: auto;
+    top: -30px;
+    background: transparent;
+    font-size: 20px;
+}
+.hidden{
+    display: none !important;
+}
+    .clock-timmer-block svg {
+        width: 63px;
+        height: 63px;
+    }
+    .clock-timmer-block {
+        display: inline-flex;
+        padding: 16px 24px;
+        align-items: center;
+        gap: 19px;
+        border-radius: 8px;
+        background: #4E46B4;
+    }
+    .right-clock-block h2 {
+        color: #FFF;
+        font-family: Roboto;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        margin: 0;
+    }
+    
+    .right-clock-block h3 {
+        color: #FFF;
+        font-family: Roboto;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+    }
+    
+    .personality-quiz-new-card {
+        display: flex;
+        width: 100%;
+        padding: 15px 15px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        flex-shrink: 0;
+        border-radius: 8px;
+        background: rgba(68, 68, 68, 0.60);
+        margin-top: 38px;
+        height: 598px;
+        min-height: 522.4px;
+    }
+    .personality-quiz-new-text h3 {
+        color: #FFF;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+    }
+    .personality-quiz-new-text p {
+        color: #FFF;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        margin: 0;
+    }
+    .quiz-btn-update:hover {
+        border: 1px solid#fff;
+        color: #fff;
+    }
+    .personality-quiz-new-inner {
+        max-width: 500px;
+        width: 100%;
+        display: block;
+    }
+    .quiz-btn-update {
+        padding: 10px 30px 10px 30px;
+        border-radius: 10px;
+        background: linear-gradient(139deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100%);
+        text-align: center;
+        display: table;
+        margin-top: 22px;
+        margin-left: auto;
+        color: #FFF;
+        font-family: Inter;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 700;
+        text-transform: capitalize;
+        transition: all .5s;
+    }
+    @media (max-width:767px) {
+        .title-main-prove {
+        font-size: 24px;
+    }
+    .top-back-block .h3 {
+        font-size: 14px;
+    }
+    .back-button-icon svg {
+        width: 24px;
+    }
+    .personality-quiz-new-card {
+    height: 400px;
+    min-height: 292.4px;
+    }
+    .clock-timmer-block {
+    width: 100%;
+    justify-content: center;
+    }
+    .quiz-btn-update {
+    margin-left: 0;
+    }
+    }
+
+    .personality-quiz-new-card {
+                display: flex;
+                width: 100%;
+                padding: 15px 15px;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 18px;
+                flex-shrink: 0;
+                border-radius: 8px;
+                background: rgba(68, 68, 68, 0.60);
+                margin-top: 38px;
+                height: 598px;
+                min-height: 522.4px;
+            }
+            .personality-quiz-new-text h3 {
+                color: #FFF;
+                font-family: Inter;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 700;
+            }
+            .personality-quiz-new-text p {
+                color: #FFF;
+                font-family: Inter;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 400;
+                margin: 0;
+            }
+            .quiz-btn-update:hover {
+                border-color: #fff;
+                color: #fff;
+            }
+            .personality-quiz-new-inner {
+                max-width: 500px;
+                width: 100%;
+                display: block;
+            }
+            .quiz-btn-update {
+                padding: 10px 30px 10px 30px;
+                border-radius: 10px;
+                background: linear-gradient(139deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100%);
+                text-align: center;
+                display: table;
+                margin-top: 22px;
+                margin-left: auto;
+                color: #FFF;
+                font-family: Inter;
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 700;
+                text-transform: capitalize;
+                transition: all .5s;
+                border: 1px solid transparent;
+            }
+            .personality-quiz-card {
+            background: rgba(68, 68, 68, 0.60);
+            margin-top: 38px;
+        }
+            .personality-quiz-header {
+                max-width: 500px;
+                text-align: left;
+            }
+
+            .personality-quiz-item h1 {
+                margin-bottom: 12px;
+            }
+            .personality-quiz-footer {
+                align-items: end;
+            }
+            .personality-quiz-header h2 {
+                align-items: flex-start;
+            }
+            .personality-quiz-header h2 {
+                font-size: 20px;
+                font-family: Roboto;
+            }
+           
+            @media (max-width:767px) {
+                .personality-quiz-header img {
+                    margin: 0;
+                }
+                .personality-quiz-option {
+                        padding-left: 0;
+                }
+                .personality-quiz-header h2 {
+                    font-size: 16px;
+                }
+                .personality-quiz-lists {
+                    padding: 50px 15px;
+                }
+                .personality-quiz-lists .slick-slide {
+                    padding: 0 10px;
+                }
+                .button-next-quiz {
+                width: 100%;
+                text-align: center;
+            }
+                .title-main-prove {
+                font-size: 24px;
+            }
+            .top-back-block .h3 {
+                font-size: 14px;
+            }
+            .back-button-icon svg {
+                width: 24px;
+            }
+            .prove-chiudi-button {
+                width: 100%;
+            }
+            .personality-quiz-footer {
+                align-items: flex-start;
+            }   
+            }
+</style>
+{% endblock %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="main-content">
+    <div class="container-fluid prove-container-fluid">
+        <div class="row prove-row-card">
+            <div class="col-md-12">
+            <div class="top-back-block mb-3">
+                <a class="back-button-icon">
+                <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.95 23.9L0 11.95L11.95 0L14.1 2.15L5.8 10.45H36V13.45H5.8L14.1 21.75L11.95 23.9Z" fill="white"/>
+                </svg> 
+                </a>                       
+                <div class="h3">Torna alle prove dei test d’ingresso </div>
+            </div>
+            <div class="clock-timmer-block mt-4">
+                <svg width="63" height="63" viewBox="0 0 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23.625 6.5625V2.625H39.375V6.5625H23.625ZM29.5312 35.8969H33.4687V20.8031H29.5312V35.8969ZM31.5 57.6844C28.2625 57.6844 25.2109 57.0609 22.3453 55.8141C19.4797 54.5672 16.975 52.8719 14.8312 50.7281C12.6875 48.5844 10.9922 46.0797 9.74531 43.2141C8.49844 40.3484 7.875 37.2969 7.875 34.0594C7.875 30.8219 8.49844 27.7703 9.74531 24.9047C10.9922 22.0391 12.6875 19.5344 14.8312 17.3906C16.975 15.2469 19.4797 13.5516 22.3453 12.3047C25.2109 11.0578 28.2625 10.4344 31.5 10.4344C34.4312 10.4344 37.1875 10.9266 39.7687 11.9109C42.35 12.8953 44.6469 14.2625 46.6594 16.0125L50.0062 12.6656L52.7625 15.4219L49.4156 18.7688C50.9906 20.5188 52.3359 22.6406 53.4516 25.1344C54.5672 27.6281 55.125 30.6031 55.125 34.0594C55.125 37.2969 54.5016 40.3484 53.2547 43.2141C52.0078 46.0797 50.3125 48.5844 48.1687 50.7281C46.025 52.8719 43.5203 54.5672 40.6547 55.8141C37.7891 57.0609 34.7375 57.6844 31.5 57.6844ZM31.5 53.7469C36.9687 53.7469 41.6172 51.8328 45.4453 48.0047C49.2734 44.1766 51.1875 39.5281 51.1875 34.0594C51.1875 28.5906 49.2734 23.9422 45.4453 20.1141C41.6172 16.2859 36.9687 14.3719 31.5 14.3719C26.0312 14.3719 21.3828 16.2859 17.5547 20.1141C13.7266 23.9422 11.8125 28.5906 11.8125 34.0594C11.8125 39.5281 13.7266 44.1766 17.5547 48.0047C21.3828 51.8328 26.0312 53.7469 31.5 53.7469Z" fill="white"/>
+                </svg>
+                <div class="right-clock-block">
+                    <h3>Mancano ancora:</h3>
+                    <h2>00 : 00 </h2>
+                </div>                        
+            </div>
+            </div>
+            <div class="col-md-12 d-flex">
+                <div class="personality-quiz-card">
+                    <div class="personality-quiz-header hide-after-clickk">
+                        <div class="personality-quiz-item">
+                            <h1><strong>Il tempo è scaduto!  Il tuo punteggio è: 00 </strong></h1>
+                            <p>Non preoccuparti. Puoi riprovare il test tutte le volte che vuoi. </p>
+                        </div>
+                        <div class="personality-quiz-footer hide-after-clickk">
+                        
+                            <a class="quiz-button">Riprova</a>
+                            
+                            <input type="hidden" name="" value="0" id="flag_val">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                    <a href="" class="prove-chiudi-button">
+                        Chiudi
+                    </a>
+                </div>
+
+            </div>
+
+
+        </div>
+        
+    </div><!-- End of Main Content -->
+
+            </div>
+            <!-- End of Main Content -->
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    
+    
+    
+	
+	<!--End Cookies popup-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
+{% block script %}
+{% endblock %}

@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load tz %}
+{% load phrase_i18n %}
+{% current_plan request as current_plan %}
+<html lang="en">
+
+<head>
+    {% css_version as css_version %}
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+     <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <!-- Custom fonts for this template-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <!-- <link href="{% static 'css/custom.css'%}?v={{css_version}}" rel="stylesheet"> -->
+    <link href="{% static 'css/new_custom.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}?v={{css_version}}"> -->
+    <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}">
+    
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+   
+    {% block title %}
+    {% endblock %}
+    {% block style%}
+    {% endblock%}
+    <style>
+   .notify svg {
+        position: absolute;
+        right: 17px;
+        top: 12px;
+        z-index: 1;
+    }
+    svg.clipboard-svg {
+        border-radius: 15px;
+        background: var(--color-futurely-dark-hit-40, #674C90);
+        /*display: flex;*/
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+    }
+        .modal.show .modal-dialog {
+        transform: translateY(-50%);
+        top: 50%;
+        }
+        .hidden{
+            display: none !important;
+        }
+       
+        .notification-update span {
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .notification-update {
+            background: linear-gradient(to right, #c7a84c , #ffc107);
+            border: none !important;
+            color: #fff;
+            border-color: transparent;
+            padding: 0.7rem;
+            margin-bottom: 0 !important;
+            font-size: 14px;
+            width: 100%;
+            position: relative;
+            border-radius: 0.7rem;
+        }
+       
+        {% comment %} body #wrapper #content-wrapper #content .main-content {
+            padding-top: 0!important;
+        } {% endcomment %}
+        .topbar {
+            flex-wrap: wrap;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            height: auto;
+        }
+
+                .notification-update.top-noti {
+            padding: 0.5rem;
+            width: auto;
+            flex: 100%;
+            margin: 0 -20px;
+            border-radius: 0;
+            display: none;
+            margin-top: -12px;
+        }
+            
+            .close:before {
+            transform: rotate(45deg);
+        }
+        .close:after {
+            transform: rotate(-45deg);
+        }
+        .cookie-disclaimer {
+            background: #04060f;
+            color: #FFF;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            position: fixed;
+            opacity: 0.9;
+        }
+        .cookie-disclaimer .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+        }
+    
+        .cookie-button {
+            color: #fff !important;
+            border-radius: 10px;
+            position: relative;
+            /* padding: 14px 40px; */
+            box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+            transition: 0.5s;
+            background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+            /* font-weight: 600; */
+            cursor: pointer;
+        }
+    
+        .cookies-setting:hover {
+            border: 0px solid white !important;
+        }
+        #request-access-popup.modal.fade.show {
+            display: flex !important;
+            align-content: center;
+        }
+        @media (min-width: 768px) {
+        .cookie-discription span {
+    display: none;
+}
+}
+        @media (max-width:767px) {
+            .btn.cookies-setting {
+    font-size: 12px;
+    text-decoration-line: underline;
+}
+.cookie-button {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+            .cookie-discription.sho {
+    display: block;
+}
+.cookie-discription.show span {
+    display: none;
+}
+
+.cookie-discription.show p {
+    white-space: normal;
+}
+.cookie-disclaimer {
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1 !important;
+}
+            .cookie-discription p {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.cookie-discription span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration-line: underline;
+    color: #FFFFFF;
+    white-space: nowrap;
+    padding: 0 15px;
+}
+.cookie-discription {
+    display: flex;
+    align-items: baseline;
+}
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+            .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+        }
+        @media (min-width:768px) {
+        #request-access-popup .modal-dialog {
+        max-width: 800px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)translatey(-50%);
+        top: 50%;
+        }
+    }
+    {% comment %} .free-trail-button{
+        display: none;
+    } {% endcomment %}
+    
+    .free-trail-button:hover {
+        color: #fff;
+    }
+    .free-trail-button {
+        filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.02)) drop-shadow(0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852)) drop-shadow(0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481)) drop-shadow(0px 20px 13px rgba(0, 0, 0, 0.01)) drop-shadow(0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185)) drop-shadow(0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481));
+        border-radius: 10px;
+        border: 2px solid #EA454B;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        color: #FFFFFF;
+        padding: 8px 15px;
+        display: inline-block;
+        transition: all .5s;
+    }
+    .free-trail-button {
+        display: inline-block !important;
+    }
+    .trial-expiring-button:hover {
+    color: #fff;
+    border-color: #fff;
+}
+.upgrade-now-button:hover {
+    color: #fff;
+    
+}
+.upgrade-now-button {
+    background: linear-gradient(116.59deg, #ED8147 80.44%, #F6C05B 100.73%);
+    box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 15px;
+    cursor: pointer;
+}
+.trial-expiring-button {
+    background: #7E74F5;
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 126.02%;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 25px 15px;
+    border: 1px solid transparent;
+    transition: all .5s;
+    margin: 0 15px;
+    cursor: pointer;
+}
+@media (max-width:767px) {
+    .trial-expiring-button {
+    text-align: center;
+    padding: 10px;
+    margin: -12px -10px 12px;
+    flex: 100%;
+}
+.free-trail-button {
+    font-size: 9px;
+    padding: 8px 10px;
+}
+.upgrade-new-span-btn {
+    position: fixed;
+    top: 42px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: #ccc;
+}
+.upgrade-now-button {
+    
+    padding: 10px;
+    display: inline-block;
+    margin: 4px auto;
+}
+.mobile-hide{
+        display: none;
+    }
+}
+@media (min-width:768px) {
+    .dasktop-hide{
+        display: none;
+    }
+}
+{% if request.path == "/futurely-plans/" %}
+@media (max-width: 767px) {
+    body #wrapper #content-wrapper #content .main-content.notifi {
+                padding-top: 160px !important;
+    }
+   
+   
+    }
+
+@media (min-width:768px) {
+   
+	#wrapper #content-wrapper {
+    padding-left: 0px !important;
+}
+}
+{% endif %}
+.rating-data-title a.btn.buy-now {
+    background: rgba(6, 21, 71, 0.9);
+}
+.rating-data-title .btn.buy-now-trial {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    right: 0;
+    left: 0;
+    max-width: 80%;
+    margin: auto;
+    bottom: 80px;
+}
+.new-courses-box-footer a.btn {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+}
+.free-trail-button-red {
+    background: red !important;
+}
+
+    .student_faq {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 18px 12px;
+        gap: 4px;
+        /* position: absolute; */
+        width: 73px;
+        height: 29px;
+        /* left: 231px; */
+        /* top: 83px; */
+        background: linear-gradient(99.57deg, #061547 81.99%, #7E74F5 159.56%);
+        box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+        border-radius: 8px;
+    }
+
+    .student_faq a.nav-link:hover {
+        color: white;
+        border: none !important;
+    }
+
+    .color-code-quiz {
+        background: #FE45C2;
+    }
+    .fa-file-text:before {
+    content: "\f15c";
+    }
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		var currentPlanName = "{{request.session.current_plan_name}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+			clarity("set", "sessionId", currentPlanName.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-KW23H71RW3');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+        <!-- End Google Tag Manager -->
+
+
+    <!-- Google tag new -------------------(gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z1J7GDWTR"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7Z1J7GDWTR');
+    </script>
+
+    <!-- Google Tag Manager new --------------->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WCFP7FRJ');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body id="page-top">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <!-- Google Tag Manager (noscript) new------------------- -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCFP7FRJ"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) --------------------------->
+
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="star-field">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ --><script>(function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'//app-worker.visitor-analytics.io/main.js','7388998c-4d85-11ec-b589-901b0edac50a','va')</script><!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+    
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        
+        {% comment %} {% if current_plan == "Premium" or current_plan == "Elite" %}  {% endcomment %}
+        {% if request.path != "/futurely-plans/" %}
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion mobile-hide" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <button id="sidebarToggleTop" class="btn btn-link rounded-circle pop-msg-none">
+                
+            </button>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home'%}" data-hover="{% trans 'Home' %}">
+                    <i class="fas fa-home nav-link1-back"></i>
+                </a>
+            </li>
+            {% comment %} {% if request.user.student.is_from_middle_school or request.user.student.is_from_fast_track_program or request.session.is_from_job_course %}
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'courses-available' %}" data-hover="{% trans 'Courses' %}">
+                    <i class="far fa-file-alt nav-link2-back"></i>
+                </a>
+            </li>
+            {% endif %} {% endcomment %}
+            <!-- <li class="nav-item">
+                <a class="nav-link" data-hover="Cohort">
+                    <i class="fas fa-users nav-link3-back"></i>
+                </a>
+            </li> -->
+
+            {% if  request.user.student.is_any_pending_comment_to_read %}
+            <li class="nav-item notify">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
+                <circle class="dairy-notification" cx="5.5" cy="5.5" r="5.5" fill="#FF0000"/>
+                </svg>
+                 <a class="nav-link" href="{% url 'my-diary' %}" data-hover="{% trans 'My journal' %}">
+                    <i class="far fa-edit color-code-dairy"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'my-diary' %}" data-hover="{% trans 'My journal' %}">
+                    <i class="far fa-edit color-code-dairy"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if request.user.student.is_from_fast_track_program %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'quiz_index' %}" data-hover="{% trans 'Quiz' %}">
+                    <i class="far fa-file-text color-code-quiz"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if request.session.is_from_job_course %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'job_posting' %}" data-hover="{% trans 'Posizioni aperte' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none" class="clipboard-svg">
+                    <path d="M1.01293 18.4934L0.837252 18.6712C1.23035 19.0595 1.72796 19.25 2.31034 19.25H19.6897C20.272 19.25 20.7697 19.0595 21.1627 18.6712C21.5561 18.2828 21.75 17.7898 21.75 17.2119V6.00662C21.75 5.42876 21.5561 4.93577 21.1627 4.5473C20.7697 4.15904 20.272 3.96854 19.6897 3.96854H14.5086V2.78808C14.5086 2.21022 14.3147 1.71723 13.9214 1.32876C13.5283 0.940496 13.0307 0.75 12.4483 0.75H9.55172C8.96934 0.75 8.47172 0.940496 8.07863 1.32876C7.68532 1.71723 7.49138 2.21022 7.49138 2.78808V3.96854H2.31034C1.72796 3.96854 1.23035 4.15904 0.837252 4.5473C0.443944 4.93577 0.25 5.42876 0.25 6.00662V17.2119C0.25 17.7898 0.443944 18.2828 0.837251 18.6712L1.01293 18.4934ZM13.1638 3.96854H8.83621V2.78808C8.83621 2.62879 8.9005 2.47142 9.06361 2.31032C9.22659 2.14934 9.38732 2.08444 9.55172 2.08444H12.4483C12.6127 2.08444 12.7734 2.14934 12.9364 2.31032C13.0995 2.47142 13.1638 2.62879 13.1638 2.78808V3.96854ZM20.1778 5.52886L20.3534 5.35099L20.1778 5.52886C20.3409 5.68996 20.4052 5.84733 20.4052 6.00662V17.2119C20.4052 17.3712 20.3409 17.5286 20.1778 17.6897C20.0148 17.8507 19.8541 17.9156 19.6897 17.9156H2.31034C2.14594 17.9156 1.98521 17.8507 1.82223 17.6897C1.65912 17.5286 1.59483 17.3712 1.59483 17.2119V6.00662C1.59483 5.84733 1.65912 5.68996 1.82223 5.52886C1.98522 5.36788 2.14594 5.30298 2.31034 5.30298H19.6897C19.8541 5.30298 20.0148 5.36788 20.1778 5.52886Z" fill="#F2F2F2" stroke="#F2F2F2" stroke-width="0.5"/>
+                    </svg>
+                </a>
+            </li>
+            
+            {% endif %}
+            <!-- Divider -->
+
+
+        </ul>
+        {% endif %}
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                
+                {% if is_trial_active == False and current_plan == "Premium" or current_plan == "Elite" or current_plan == "FastTrack" or current_plan == "MiddleSchool" %} 
+                <nav class="navbar navbar-expand navbar-light bg-gradient-primary  topbar mb-4 static-top shadow">
+                    <div class="logo me-auto">
+                        <a class="logo-block" href="{% url 'home' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                            
+                        </a>
+                        {% if is_applied_for_scholarship == False and request.user.student.src == "future_lab" %}
+                        {% if current_plan == "Community" or is_trial_active == True %} 
+                        <style>
+                            @media (max-width:767px) {
+                            .button-apply-header {
+                                    
+                                    margin: 0 auto;
+                                    display: table;
+                                    max-width: 270px;
+                                    width: 100%;
+                                    text-align: center;
+                                    font-size: 18px;
+                                    z-index: 99999;
+                                }
+                                .apply-button-block {
+                                    width: 100%;
+                                    display: block;
+                                    background: #4848489e;
+                                    position: fixed;
+                                    bottom: 0;
+                                    left: 0;
+                                    right: 0;
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    z-index: 99999;
+                                }
+                                .scroll-to-top {
+                                    bottom: 5rem;
+                                    right: 5.2rem;
+                                }
+                                #hubspot-messages-iframe-container.widget-align-right {
+                                    bottom: 60px !important;
+                                }
+                            }
+                            
+                        </style>
+                        <span class="apply-button-block"> 
+                            <a class="button-apply-header d-lg-inline" href="{% url 'apply_for_scholarship' %}">
+                                {% trans "Apply for Scholarship"%}  🎉 
+                            </a>
+                        </span>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow search-bar">
+                            <!-- <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'images/Magnifier.png'%}" class="fav-search">
+                            </a> -->
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button">
+                                                <img src="{% static 'images/Magnifier.png'%}" class="fav-search">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <!-- Nav Item - Alerts -->
+                        {% if request.user.student.is_from_middle_school or request.user.student.is_from_fast_track_program %}
+                        {% else %}
+                            {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+                            {% else %}
+                            {% if current_plan != "" %}
+                                <li  class="nav-item no-arrow take-toor" >
+                                    <a class="nav-link current-plan-bg basic-nav">
+                                        {% if current_plan == "Community" %}
+                                        {{current_plan}}
+                                        {% else %}
+                                        {% current_plan_title request %}
+                                        {% endif %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        <li class="nav-item dropdown no-arrow noti_icon">
+                            {% show_all_notifications user as all_notification %}
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'images/Union.png'%}">
+                                <!-- Counter - Alerts -->
+                                {% count_unread_notifications user as new_notifications %}
+                                {% if new_notifications is 0 %}
+                                {% else %}
+                                <span id="new_notifications_tot"
+                                    class="notification-counter">{{new_notifications}}</span>
+                                {% endif %}
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    {% trans "Notifications" %}
+                                </h6>
+                                {% for notification in all_notification %}
+                                {% if notification.isread %}
+                                <a class="dropdown-item d-flex align-items-center"
+                                    style="background-color: transparent; border: 1px solid; cursor: pointer;">
+                                    <div class="me-3">
+                                        <div class="icon-circle bg-primary">
+                                            <img src="{% static 'images/us-Memoji.png'%}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="user_name"><span
+                                                class="small date">{{notification.created_at | date:"M d, Y"}}</span>
+                                        </div>
+                                        <span class="notificon_meg">{{notification.title}}</span>
+                                    </div>
+                                </a>
+                                {% else %}
+                                <a id="noti_link{{notification.id}}" class="dropdown-item d-flex align-items-center"
+                                    style="border: 1px solid; cursor: pointer;"
+                                    onclick="fun_notify_update('{{notification.id}}')">
+                                    <div class="me-3">
+                                        <div class="icon-circle bg-primary">
+                                            <img src="{% static 'images/us-Memoji.png'%}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="user_name"><span
+                                                class="small date">{{notification.created_at | date:"M d, Y"}}</span>
+                                        </div>
+                                        <span class="notificon_meg">{{notification.title}}</span>
+                                    </div>
+                                </a>
+
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </li>
+                         <!-- <li id="take_tour" class="nav-item no-arrow take-toor d-none d-lg-block" style="display: none;">
+                            <a class="nav-link" href="#courses-box-f" title="{% trans 'Take a tour' %}" id="alertsDropdown" onclick="taketour()">
+                                <img src="{% static 'images/Subtract.png'%}" />
+                            </a>
+                        </li> -->
+                        
+                        <li id="contactTutorDash" class="nav-item no-arrow take-toor call-buttons">
+                            <a class="nav-link" data-bs-toggle="modal"
+                            data-bs-target="#id-contact-popup"><i class="d-md-none fa fa-envelope" aria-hidden="true"></i>{% trans "Сontact the tutor" %}</a>
+
+                        </li>
+                        {% if request.user.student.is_from_middle_school %}
+                        {% else %}
+                            {% if request.LANGUAGE_CODE == "it" %}
+                                {% if request.session.is_phone_view != True %}
+                                <li id="StudentFAQID" class="nav-item student_faq">
+                                    <a class="nav-link" href="{% url 'student_faq' %}"><i class="d-md-none fa fa-envelope" aria-hidden="true"></i>{% trans "Aiuto" %}</a>
+                                </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow user-det ">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle me-3"
+                                    src="{% static 'images/undraw_profile.png' %}">
+                                    {% if user == "" %}
+                                        <span class="me-2 d-none d-lg-inline small text-white">{{user.username}}</span>
+                                    {% else %}
+                                    <span class="me-2 d-none d-lg-inline small text-white">{{user}}</span>
+                                    {% endif %}
+                                <i class="fas fa-chevron-down text-white mobile-hide"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in profile"
+                                aria-labelledby="userDropdown">
+                                <!-- <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Profile" %}
+                                </a> -->
+                                <a class="dropdown-item" href="{% url 'account-settings' %}">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Settings" %}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Logout" %}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="menu-custom-bar navbar-toggler d-md-none d-block" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse hidden-dasktop" id="navbarSupportedContent">
+                    <!-- Sidebar -->
+                    <ul class="navbar-nav bg-gradient-primary sidebar-mobile-nav ml-auto">
+
+                        <!-- Sidebar - Brand -->
+                        <button id="sidebarToggleTop" class="btn btn-link rounded-circle pop-msg-none">
+                            
+                        </button>
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider my-0">
+                        
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'home'%}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-home"></i>Home 
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="nav-item  courses"><a href="{% url 'home'%}#courses-divee" class="nav-link"><i class="far fa-file-alt"></i>Courses</a></li>
+                                {% if request.user.student.is_from_middle_school %}
+                                {% elif request.user.student.is_from_fast_track_program %}
+                                <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                {% elif request.session.is_from_job_course %} 
+                                <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                <li class="nav-item resources"><a href="{% url 'job_posting'%}" class="nav-link"><i class="fas fa-book-open"></i>Jobs</a></li>
+                                {% else %}
+                                    <li class="nav-item general"><a href="{% url 'home'%}#general-divee" class="nav-link"><i class="fas fa-book"></i>Calender</a></li> 
+                                    <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                    <li class="nav-item articles"><a href="{% url 'home'%}#article-divee" class="nav-link"><i class="fas fa-video"></i>Articles and videos</a></li>
+                                    <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                    <li class="nav-item meetup"><a href="{% url 'home'%}#meetup-divee" class="nav-link"><i class="fas fa-handshake"></i>meetup</a></li>
+                                    <li class="nav-item groups"><a href="{% url 'home'%}#groups-divee" class="nav-link"><i class="fas fa-user-friends"></i>My Groups</a></li>
+                                    <li class="nav-item resources"><a href="{% url 'home'%}#resources-dive" class="nav-link"><i class="fas fa-book-open"></i>My Resources</a></li>
+                                {% endif %}
+                            </ul>
+                          </li>
+                        {% comment %} {% if request.user.student.is_from_middle_school or request.user.student.is_from_fast_track_program or student_plan.plans.plan_name == "JobCourse" %}
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'courses-available' %}" data-hover="{% trans 'Courses' %}">
+                                <i class="far fa-file-alt"></i>Courses
+                                
+                            </a>
+                        </li>
+                        {% endif %} {% endcomment %}
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" data-hover="Cohort">
+                                <i class="fas fa-users nav-link3-back"></i>
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my-diary' %}" data-hover="{% trans 'My journal' %}">
+                                <i class="far fa-edit"></i>{% trans "Diary" %}
+                                
+                            </a>
+                        </li>
+                        {% if request.user.student.is_from_fast_track_program %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'quiz_index' %}" data-hover="{% trans 'Quiz' %}">
+                                <i class="far fa-file-text"></i>{% trans "Quiz" %}
+                                
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if request.LANGUAGE_CODE == "it" %}
+                            {% if request.user.student.is_from_middle_school %}
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'student_faq' %}" data-hover="{% trans 'Aiuto' %}">
+                                    <i class="far fa-envelope"></i>{% trans "Aiuto" %}
+                                    
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endif %}
+                        <li class="nav-item ">
+                            <a class="nav-link setting-btn" href="{% url 'account-settings' %}">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>{% trans "Settings" %}
+                                
+                            </a>
+                            </li>
+                            <li class="nav-item ">
+                            <a class="nav-link logout-btn" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>{% trans "Logout" %}
+                                
+                            </a>
+                            </li>
+                        <!-- Divider -->
+                    </ul>
+                    <!-- End of Sidebar -->
+                    </div>
+                </nav>
+                {% else %}
+                <nav class="new-dashboad-bar navbar navbar-expand navbar-light bg-gradient-primary topbar mb-4 static-top shadow">
+                
+                    {% if is_trial_active == True %}
+                    <a class="trial-expiring-button mobile-show dasktop-hide" href="{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">{% trans "Your trial expiring in" %} {{plan_days_left}} {% trans "days" %}</a>
+                    {% endif %}
+                   
+                    <!-- Start of Notification bar -->
+                        {% comment %} <div class="notification-update notification-bars text-center top-noti">
+                            <span class="notify_text">
+                                Hey, Rohit Kansal! Your course was updated!</span><button class="close"></button>
+                        </div> {% endcomment %}
+                    <!-- End of Notification bar -->
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <!-- Topbar Search -->
+                    
+                    <div class="logo me-auto">
+                        <a class="logo-block" href="{% url 'home' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                            
+                        </a>
+                        {% if is_trial_active == True %}
+                        <a class="mobile-hide trial-expiring-button" href="{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">{% trans "Your trial expiring in" %} {{plan_days_left}} {% trans "days" %}</a>
+                        {% endif %}
+                        {% if is_trial_expired == True %}
+                        
+                        <a class="mobile-hide free-trail-button">{% trans "Your trial has expired" %}</a>
+                        {% endif %}
+                        
+                        {% if is_applied_for_scholarship == False and request.user.student.src == "future_lab" %}
+                        {% if current_plan == "Community" or is_trial_active == True %} 
+                        <style>
+                            @media (max-width:767px) {
+
+                            .button-apply-header {
+                                    
+                                    margin: 0 auto;
+                                    display: table;
+                                    max-width: 270px;
+                                    width: 100%;
+                                    text-align: center;
+                                    font-size: 18px;
+                                    z-index: 99999;
+                                }
+                                .apply-button-block {
+                                    width: 100%;
+                                    display: block;
+                                    background: #4848489e;
+                                    position: fixed;
+                                    bottom: 0;
+                                    left: 0;
+                                    right: 0;
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    z-index: 99999;
+                                }
+                                .scroll-to-top {
+                                    bottom: 5rem;
+                                    right: 5.2rem;
+                                }
+                                #hubspot-messages-iframe-container.widget-align-right {
+                                    bottom: 60px !important;
+                                }
+                            }
+                        </style>
+                        <span class="apply-button-block"> 
+                            <a class="button-apply-header d-lg-inline" href="{% url 'apply_for_scholarship' %}">
+                                {% trans "Apply for Scholarship"%}  🎉 
+                            </a>
+                        </span>
+                        {% comment %} {% elif is_trial_active == True %}
+                        
+                        <span class="apply-button-block"> 
+                            <a class="button-apply-header d-lg-inline" href="{% url 'apply_for_scholarship' %}">
+                                {% trans "Apply for Scholarship"%}  🎉 
+                            </a>
+                        </span> {% endcomment %}
+                        {% endif %}
+                        {% endif %}
+                        
+                        
+                    </div>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                       <!-- Nav Item - User Information -->
+                       <li class="nav-item dropdown no-arrow noti_icon">
+                            {% show_all_notifications user as all_notification %}
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'images/Union.png'%}">
+                                <!-- Counter - Alerts -->
+                                {% count_unread_notifications user as new_notifications %}
+                                {% if new_notifications is 0 %}
+                                {% else %}
+                                <span id="new_notifications_tot"
+                                    class="notification-counter">{{new_notifications}}</span>
+                                {% endif %}
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    {% trans "Notifications" %}
+                                </h6>
+                                {% for notification in all_notification %}
+                                {% if notification.isread %}
+                                <a class="dropdown-item d-flex align-items-center"
+                                    style="background-color: transparent; border: 1px solid; cursor: pointer;">
+                                    <div class="me-3">
+                                        <div class="icon-circle bg-primary">
+                                            <img src="{% static 'images/us-Memoji.png'%}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="user_name"><span
+                                                class="small date">{{notification.created_at | date:"M d, Y"}}</span>
+                                        </div>
+                                        <span class="notificon_meg">{{notification.title}}</span>
+                                    </div>
+                                </a>
+                                {% else %}
+                                <a id="noti_link{{notification.id}}" class="dropdown-item d-flex align-items-center"
+                                    style="border: 1px solid; cursor: pointer;"
+                                    onclick="fun_notify_update('{{notification.id}}')">
+                                    <div class="me-3">
+                                        <div class="icon-circle bg-primary">
+                                            <img src="{% static 'images/us-Memoji.png'%}">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="user_name"><span
+                                                class="small date">{{notification.created_at | date:"M d, Y"}}</span>
+                                        </div>
+                                        <span class="notificon_meg">{{notification.title}}</span>
+                                    </div>
+                                </a>
+
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                       <li id="contactTutorDash" class="nav-item no-arrow take-toor call-buttons">
+                            <a class="nav-link" data-bs-toggle="modal"
+                            data-bs-target="#id-contact-popup"><i class="d-md-none fa fa-envelope" aria-hidden="true"></i>{% trans "Сontact the tutor" %}</a>
+                        </li>
+                        <li class="nav-item dropdown no-arrow user-det ">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle me-3"
+                                    src="{% static 'images/undraw_profile.png' %}">
+                                    {% if user == "" %}
+                                        <span class="me-2 d-none d-lg-inline small text-white">{{user.username}}</span>
+                                    {% else %}
+                                    <span class="me-2 d-none d-lg-inline small text-white">{{user}}</span>
+                                    {% endif %}
+                                <i class="fas fa-chevron-down text-white mobile-hide"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in profile"
+                                aria-labelledby="userDropdown">
+                                <!-- <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Profile" %}
+                                </a> -->
+                                <a class="dropdown-item" href="{% url 'account-settings' %}">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Settings" %}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Logout" %}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="menu-custom-bar navbar-toggler d-md-none d-block" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse hidden-dasktop" id="navbarSupportedContent">
+                    <!-- Sidebar -->
+                    <ul class="navbar-nav bg-gradient-primary sidebar-mobile-nav ml-auto">
+
+                        <!-- Sidebar - Brand -->
+                        <button id="sidebarToggleTop" class="btn btn-link rounded-circle pop-msg-none">
+                            
+                        </button>
+
+                        <!-- Divider -->
+                        <hr class="sidebar-divider my-0">
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'home'%}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-home"></i>Home 
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li class="nav-item  courses"><a href="{% url 'home'%}#courses-divee" class="nav-link"><i class="far fa-file-alt"></i>Courses</a></li>
+                                {% if request.user.student.is_from_middle_school %}
+                                {% elif request.user.student.is_from_fast_track_program %}
+                                <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                {% elif request.session.is_from_job_course %} 
+                                <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                <li class="nav-item resources"><a href="{% url 'job_posting'%}" class="nav-link"><i class="fas fa-book-open"></i>Jobs</a></li>
+                                {% else %}
+                                    <li class="nav-item general"><a href="{% url 'home'%}#general-divee" class="nav-link"><i class="fas fa-book"></i>Calender</a></li> 
+                                    <li class="nav-item webinars"><a href="{% url 'home'%}#webinars-divee" class="nav-link"><i class="fas fa-chalkboard-teacher"></i>Webinars</a></li>
+                                    <li class="nav-item articles"><a href="{% url 'home'%}#article-divee" class="nav-link"><i class="fas fa-video"></i>Articles and videos</a></li>
+                                    <li class="nav-item user"><a href="{% url 'home'%}#profile-divee" class="nav-link"><i class="far fa-user"></i>Profile</a></li>
+                                    <li class="nav-item meetup"><a href="{% url 'home'%}#meetup-divee" class="nav-link"><i class="fas fa-handshake"></i>meetup</a></li>
+                                    <li class="nav-item groups"><a href="{% url 'home'%}#groups-divee" class="nav-link"><i class="fas fa-user-friends"></i>My Groups</a></li>
+                                    <li class="nav-item resources"><a href="{% url 'home'%}#resources-dive" class="nav-link"><i class="fas fa-book-open"></i>My Resources</a></li>
+                                {% endif %}
+                            </ul>
+                          </li>
+                        {% comment %} {% if request.user.student.is_from_middle_school or request.user.student.is_from_fast_track_program  or student_plan.plans.plan_name == "JobCourse" %}
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'courses-available' %}" data-hover="{% trans 'Courses' %}">
+                                <i class="far fa-file-alt"></i>Courses
+                                
+                            </a>
+                        </li>
+                        {% endif %} {% endcomment %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my-diary' %}" data-hover="{% trans 'My journal' %}">
+                                <i class="far fa-edit"></i>{% trans "Diary" %}
+                                
+                            </a>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a class="nav-link setting-btn" href="{% url 'account-settings' %}">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>{% trans "Settings" %}
+                                
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link logout-btn" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>{% trans "Logout" %}
+                            </a>
+                        </li>
+                        <!-- Divider -->
+                    </ul>
+                    <!-- End of Sidebar -->
+                    </div>
+                </nav>
+                {% endif %}
+                <!-- End of Topbar -->
+                {% comment %} {% genarate_notification_bar request as noti_bar %}
+                {% if noti_bar.count > 0 %}
+                <div class="main-content py-4 px-md-3 notifi" id="courses-box-f">
+                    <div class="container-fluid">
+                        {% for notification in noti_bar %}
+                        {% check_read_notification notification.pk request as is_read %}
+                        {% if is_read == False %}
+                            <!-- Start of Notification bar -->
+                            <div class="notification-update text-center">
+                                <span>
+                                    {{ notification.notification }}</span><button class="close-main" onclick="read_generate_notification('{{notification.id}}')"></button>
+                            </div>
+                            <!-- End of Notification bar -->
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %} {% endcomment %}
+                <!-- Begin Page Content -->
+                {% block content %}
+           
+                {% endblock %}
+                <div class="modal fade" id="request-access-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="tables-details-usere">
+                            <button type="button" class="btn-close color-white cross-btn-cls" data-bs-dismiss="modal" aria-label="Close">x</button>
+                            <div class="bottom-popup-details-user-content">
+                                <h3>
+                                    {% trans "Hello" %} {{request.user.first_name}} {{request.user.last_name}}! 
+                                </h3>
+                                <h3>
+                                {% trans "Thanks for notifying us, one of our team members will contact you in the next 48 hours. Please feel free to reach pramod@myfuturely.com and rohit@myfuturely.com if you want to contact us now. We are here to help!"%}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <div class="modal fade learn-popup" id="PCTO" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body pctodiv">
+                    <p>Se sei interessato a vedere riconosciute le tue ore PCTO ma la tua scuola non conosce Futurely, saremo felici di aiutarti. Scrivici una mail con i contatti della tua scuola a <u>segreteria@myfuturely.com</u></p>
+                    <p>Informa il tuo referente PCTO, lo contatteremo a tuo nome per poter avere un colloquio e presentarci.</p>
+                    <p>Ancora nessuna scuola ha rifiutato a nessun ragazzo il riconoscimento di queste ore!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Ready to Leave?" %}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% trans "Select 'Logout' below if you are ready to end your current session." %}</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block to_do_popup%}
+    {% endblock %}
+    {% block learn_more %}
+    {% endblock %}
+    {% block contact_tutor %}
+    {% endblock %}
+    <!-- Start Cookies popup-->
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    {% else %}
+	{% if request.session.to_display_first_time_cookie_banner == "True" %}
+	<div class="cookie-disclaimer">
+		<div class="container">
+			{% if request.LANGUAGE_CODE == "it" %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">Facendo clic su "Accetta tutti i cookie", l'utente accetta la memorizzazione dei cookie sul proprio dispositivo per migliorare le prestazioni del sito web, migliorare la propria esperienza e analizzare l'utilizzo del sito.</p>
+                    <span>sapere di più</span>
+                   </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accetta tutti i cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Impostazioni dei cookie</a>
+				</div>
+			</div>
+			{% else %}
+			<div class="row">
+				<div class="col-md-6">
+                    <div class="cookie-discription">
+					<p style="color: #FFF; text-align: justify;">By clicking “Accept All Cookies”, you agree to the storing of cookies on your device to enhance website performance, improve your experience, and analyze site usage.</p>
+                    <span>See more</span>
+                </div>
+                </div>
+				<div class="col-md-6">
+					<a class="btn cookie-button accept-cookie mt-3" type="button">Accept all cookies</a>
+					<a type="button" href="{% url 'cookies_policy' %}?coustomize_cookies=True" class="btn cookies-setting mt-3" style="color: white;" >Customize cookies</a>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	{% endif %}
+	<!--End Cookies popup-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    
+    <script>
+        jQuery('#request-access-popup').click(function() {
+          $.ajax({
+            type: "POST",
+            url: "{% url 'send_email' %}",
+            data: {"email": "{{ request.user.email }}"},
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            success: function(response){
+              console.log(response);
+            },
+            error: function(error_msg){
+              console.log(error_msg)
+            }
+          });
+        });
+      </script>
+    <script>
+        function tourNext(activePop, activeClass, nextClass, nextPop) {
+            $('.' + activeClass).removeClass("tooltip-active");
+            $('.' + activePop).addClass("d-none");
+            $('.' + nextClass).addClass("tooltip-active");
+            $('.' + nextPop).removeClass("d-none");
+            $('.' + nextPop).show();
+            $('.' + nextPop).focus();
+            if (parseInt(nextClass) == 0) {
+                tourSkip();
+            }
+        }
+
+        function tourSkip() {
+            $("#page-top").removeClass("tooltips-open");
+            $(".skiptd").removeClass("tooltip-active");
+            $(".skiptp").addClass("d-none");
+
+        }
+
+        function taketour() {
+            $("#page-top").addClass("tooltips-open");
+            $(".div1").addClass("tooltip-active");
+            $(".pop1").removeClass("d-none");
+
+        }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $(".accept-cookie").click(function(){
+                $.ajax({
+                    url: "{% url 'cookie_accept' %}",
+                    type: "POST",
+                    headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                    success: function(response){
+                        if(response.cookies_accepted == true){
+                            $(".cookie-disclaimer").hide();
+                        }else{
+                            $(".cookie-disclaimer").show();
+                        }
+                    },
+                    error: function(error){
+                        alert("Something went wrong!!")
+                    },
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $("#sidebarToggleTop").click();
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    fn=input.files[0].name;
+                    if(fn.endsWith("pdf"))
+                    {
+                        var htmlPreview =
+                        '<i class="bi bi-file-pdf pdf-icon-upload"></i>' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    else if(fn.endsWith("doc") || fn.endsWith("docx")){
+                        var htmlPreview =
+                        '<i class="bi bi-file-word word-icon-upload"></i>' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    else{
+                    var htmlPreview =
+                        '<img width="200" src="' + e.target.result + '" />' +
+                        '<p class="color-white">' + input.files[0].name + '</p>';
+                    }
+                    var wrapperZone = $(input).parent();
+                    var previewZone = $(input).parent().parent().find('.preview-zone');
+                    var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+                    wrapperZone.removeClass('dragover');
+                    previewZone.removeClass('hidden');
+                    boxZone.empty();
+                    boxZone.append(htmlPreview);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function reset(e) {
+            e.wrap('<form>').closest('form').get(0).reset();
+            e.unwrap();
+        }
+        $(".dropzone").change(function () {
+            readFile(this);
+        });
+        $('.dropzone-wrapper').on('dragover', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).addClass('dragover');
+        });
+        $('.dropzone-wrapper').on('dragleave', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).removeClass('dragover');
+        });
+        $('.remove-preview').on('click', function () {
+            var boxZone = $(this).parents('.preview-zone').find('.box-body');
+            var previewZone = $(this).parents('.preview-zone');
+            var dropzone = $(this).parents('.form-group').find('.dropzone');
+            boxZone.empty();
+            previewZone.addClass('hidden');
+            reset(dropzone);
+        });
+        $('.calender-slider').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                480: {
+                    items: 4
+                },
+                600: {
+                    items: 4
+                },
+                1000: {
+                    items: 6
+                },
+                1200: {
+                    items: 7
+                }
+
+            }
+        });
+        $('.steup-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                }
+
+            }
+        });
+        $('.multi-question-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            rows: 2,
+            dots: true,
+            navText: ['<img class="slider-arrow left" src="img/slider-arrow-right.png">',
+                '<img class="slider-arrow right" src="img/slider-arrow-right.png">'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 2
+                }
+
+            }
+        });
+        $(document).ready(function () {
+            var sync1 = $("#sync1");
+            var sync2 = $("#sync2");
+            var slidesPerPage = 4; //globaly define number of elements per page
+            var syncedSecondary = true;
+
+            sync1.owlCarousel({
+                items: 1,
+                slideSpeed: 2000,
+                nav: false,
+                autoplay: false,
+                dots: false,
+                loop: true,
+                responsiveRefreshRate: 200,
+                navText: ['<span class="slick-arrow arrow-left"></span>',
+                    '<span class="slick-arrow arrow-right"></span>'
+                ],
+            }).on('changed.owl.carousel', syncPosition);
+            sync2
+                .on('initialized.owl.carousel', function () {
+                    sync2.find(".owl-item").eq(0).addClass("current");
+                })
+                .owlCarousel({
+                    items: slidesPerPage,
+                    margin: 15,
+                    dots: false,
+                    nav: true,
+                    smartSpeed: 200,
+                    slideSpeed: 500,
+                    slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
+                    responsiveRefreshRate: 100,
+                    navText: ['<span class="slick-arrow arrow-left"></span>',
+                        '<span class="slick-arrow arrow-right"></span>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        480: {
+                            items: 2
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        },
+                        1200: {
+                            items: 4
+                        }
+
+                    }
+                }).on('changed.owl.carousel', syncPosition2);
+
+            function syncPosition(el) {
+                //if you set loop to false, you have to restore this next line
+                //var current = el.item.index;
+
+                //if you disable loop you have to comment this block
+                var count = el.item.count - 1;
+                var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+
+                if (current < 0) {
+                    current = count;
+                }
+                if (current > count) {
+                    current = 0;
+                }
+
+                //end block
+
+                sync2
+                    .find(".owl-item")
+                    .removeClass("current")
+                    .eq(current)
+                    .addClass("current");
+                var onscreen = sync2.find('.owl-item.active').length - 1;
+                var start = sync2.find('.owl-item.active').first().index();
+                var end = sync2.find('.owl-item.active').last().index();
+
+                if (current > end) {
+                    sync2.data('owl.carousel').to(current, 100, true);
+                }
+                if (current < start) {
+                    sync2.data('owl.carousel').to(current - onscreen, 100, true);
+                }
+            }
+
+            function syncPosition2(el) {
+                if (syncedSecondary) {
+                    var number = el.item.index;
+                    sync1.data('owl.carousel').to(number, 100, true);
+                }
+            }
+
+            sync2.on("click", ".owl-item", function (e) {
+                e.preventDefault();
+                var number = $(this).index();
+                sync1.data('owl.carousel').to(number, 300, true);
+            });
+        });
+
+        $("form").on("change", ".file-upload-field", function () {
+            $(this).parent(".file-upload-wrapper").attr("data-text", $(this).val().replace(/.*(\/|\\)/, ''));
+        });
+
+        $('.close').on('click', function () {
+            $(this).parent('.notification-bars').hide();
+        });
+        $('.close-main').on('click', function () {
+            $(this).parent('.notification-update').hide();
+        });
+
+        $('.next').click(function () {
+            var activetabindex = $('.active').index() + 1;
+            var containers = $('.tab-content>div').length;
+            if (containers == activetabindex) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').first().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').next();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.prev').click(function () {
+            var activetabindex = $('.active').index();
+            if (activetabindex == 0) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').last().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').prev();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.watch-video-slider').owlCarousel({
+            loop: false,
+            margin: 40,
+            nav: true,
+            dots: true,
+            autoplay: false,
+            items: 1,
+            roq: 1,
+            autoplayHoverPause: false,
+            navText: ['<span class="btn back-btn">{% trans "Back" %}</span>',
+                '<span class="btn next-btn gradient-border"><span>{% trans "Next step" %}</span></span>'
+            ],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+
+            }
+        });
+    </script>
+    <script>
+        $('#post-todo').on('submit', function (event) {
+            $("#btn-close").click();
+            event.preventDefault();
+            var title = $('#title').val();
+            var date = $("#selected_date_id").val();
+            var active_class = $("#selected_date_loop_id").val();
+            
+            $.ajax({
+                url: "{% url 'add_todo' %}",
+                type: "POST",
+                data: {
+                    'title': title,
+                    'todo_date': $('#todo_date').val(),
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    //$('#title').val('');
+                    display_notifymsg("{% trans 'Todo added'%} : " + response['todo_title']);
+                    update_to_do_texts(date);
+                },
+                error: function (response) {
+                    display_notifymsg("{% trans 'Something went wrong' %}");
+                }
+            });
+        });
+        $('#post-contact-tutor').on('submit', function (event) {
+            $(".tutor-submit").hide();
+            $(".contact_tutor_loader").show();
+            //$("#btn-close-tutor").click();
+            display_notifymsg("{% trans 'Please wait, we are sending your queries to tutor' %}");
+            event.preventDefault();
+            $.ajax({
+                url: "{% url 'contact_tutor' %}",
+                type: "POST",
+                data: {
+                    'email': $("#email").val(),
+                    'subject': $('#subject').val(),
+                    'questions': $('#questions').val(),
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    display_notifymsg("{% trans 'Your queries are submitted. Your tutor will respond to your email within the next 48 hours' %}");
+                    $(".contact_tutor_loader").hide();
+                    $(".tutor-submit").show();
+                    $("#btn-close-tutor").click();
+                },
+                error: function (response) {
+                    display_notifymsg("{% trans 'Something went wrong' %}");
+                    $("#btn-close-tutor").click();
+
+                }
+            });
+        });
+
+        function update_to_do_texts(date) {
+            $.ajax({
+                url: "{% url 'get_todo' %}",
+                type: "GET",
+                data: {
+                    "date": date,
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    todo = response['lst_todos'];
+                    lst_stp = response['lst_steps'];
+                    
+                    text = `{% if current_plan_type == "Community" %}
+                                {% for meetup in my_meetups %}
+                                <div class="col-md-12 p-0 mt-3">
+                                    <div class="data-box">
+                                        {% date_for_weekday meetup.meet_day meetup.meet_time as date_for_weekday1 %}
+                                        <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                        <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                            <u>
+                                                <span>{{meetup.title}} -
+                                                    <i ><span>Date: {{date_for_weekday1 |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}}</span></i>
+                                                </span>
+                                            </u>
+                                        </a>
+                                            
+                                    </div>
+                                </div>
+                                {% endfor%}
+                            {% else %}
+                            {% for lst_meetups in my_meetups %}
+                                {% for meetup in lst_meetups %}
+                                    <div class="col-md-12 p-0 mt-3">
+                                        <div class="data-box">
+                                            <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                            <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                                <u>
+                                                    <span>{{meetup.title}} -
+                                                    <i ><span>Date: {{meetup.meet_date_time |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}} </span></i>
+                                                    </span>
+                                                </u>
+                                                </a>
+                                            
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor%}
+                        {% endif %}`;
+                    var img = document.createElement('img');
+                    img.src = "{% static 'images/Journal.png'%}";
+                    if (todo.length > 0) {
+                        for (let i = 0; i < todo.length; i++) {
+                            text+=`<div class="col-md-12 mt-3 data-box data-box`+todo[i].id+`">
+                                <div class="edits-iconss">
+                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('`+todo[i].id+`');"></i>
+                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('`+todo[i].id+`');"></i>
+                                </div>
+                                <div class="hover-tooltip-popup top step-scr confirm`+todo[i].id+`">
+                                    <div class="tooltip-steps">
+                                        <h3 class="todo-pop-des">Are you sure you want to delete this task?</h3>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "No" %}</span>
+                                        </a>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "Yes" %}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="to-do-rows">
+                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                            <img src="{% static 'images/Journal.png'%}">
+                                        </div>
+                                        <div class="col-md-11 todo-des-textt">
+                                            <span id="span`+todo[i].id+`">`+todo[i].msg+`</span>
+                                            <textarea class=" todo-text-area d-none" id="textarea`+todo[i].id+`">`+todo[i].msg+`</textarea>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel`+todo[i].id+`" data-bs-toggle="modal"  onclick="cancelEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Cancel" %}</span>
+                                            </a>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn`+todo[i].id+`" data-bs-toggle="modal"  onclick="submitEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Save changes" %}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                            //text += '<div class="col-md-12 p-0 mt-3"><i class="bi bi-trash top-0 end-0 float-right delete-dash-todo"></i><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>' + lst[i] + '</span></div></div>'
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                        for (let i = 0; i < lst_stp.length; i++) {
+                            text += `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "Complete the step"%} -<a class="color-white " style="text-decoration: underline;" href="/action-items/`+lst_stp[i].id+`/0/ "><i><span><u>`+lst_stp[i].stp_msg+`</u></span></i></a></span></div></div>`;
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                    }
+                    else if(lst_stp.length>0){
+                        for (let i = 0; i < todo.length; i++) {
+                            let t = i + 1
+                            text+=`<div class="col-md-12 mt-3 data-box data-box`+todo[i].id+`">
+                                <div class="edits-iconss">
+                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('`+todo[i].id+`');"></i>
+                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('`+todo[i].id+`');"></i>
+                                </div>
+                                <div class="hover-tooltip-popup top step-scr confirm`+todo[i].id+`">
+                                    <div class="tooltip-steps">
+                                        <h3 class="todo-pop-des">Are you sure you want to delete this task?</h3>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "No" %}</span>
+                                        </a>
+                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('`+todo[i].id+`');">
+                                            <span>  {% trans "Yes" %}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="to-do-rows">
+                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                            <img src="{% static 'images/Journal.png'%}">
+                                        </div>
+                                        <div class="col-md-11 todo-des-textt">
+                                            <span id="span`+todo[i].id+`">`+todo[i].msg+`</span>
+                                            <textarea class=" todo-text-area d-none" id="textarea`+todo[i].id+`">`+todo[i].msg+`</textarea>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel`+todo[i].id+`" data-bs-toggle="modal"  onclick="cancelEditTodo('`+todo[i].id+`');">
+                                                <span>  {% trans "Cancel" %}</span>
+                                            </a>
+                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn`+todo[i].id+`" data-bs-toggle="modal"  onclick="submitEditTodo('`+todo.id+`');">
+                                                <span>  {% trans "Save changes" %}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            //text += '<div class="col-md-12 p-0 mt-3"><i class="bi bi-trash top-0 end-0 float-right delete-dash-todo"></i><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>' + lst[i] + '</span></div></div>'
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                        for (let i = 0; i < lst_stp.length; i++) {
+                            
+                            text += `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "Complete the step"%} -<a class="color-white " style="text-decoration: underline;" href="/action-items/`+lst_stp[i].id+`/0/ "><i><span><u>`+lst_stp[i].stp_msg+`</u></span></i></a></span></div></div>`;
+                            //text += "<p> "+t+". "+ lst[i] + "</p>";
+                        }
+                    }
+                    else {
+                        '{% if my_meetups %}'
+                        '{% else %}'
+                        text = `<div class="col-md-12 p-0 mt-3"><div class="data-box"><img src="{% static 'images/Journal.png'%}"><span>{% trans "You have no pending task" %}</span></div></div>`
+                        '{% endif %}'
+    
+                    }
+                    $("#todo_msg").html(text);
+    
+                },
+                error: function (response) {
+                    alert("{% trans 'Server not responding, try later' %}....");
+                }
+            });
+        
+        };
+
+        function display_notifymsg(msg) {
+            $('.notify_text').html(msg);
+            $('.notification-bars').css({
+                'display': 'block'
+            });
+            $('.scroll-to-top').click();
+            $('.notification-bars').delay(4000).hide(0);
+        };
+
+        function fun_notify_update(id) {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'notification-read' %}",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                data: {
+                    'id': id,
+                },
+                success: function (response) {
+                    $("#noti_link" + id).css("background", "transparent");
+                    var new_notify = parseInt($("#new_notifications_tot").text());
+                    if (new_notify > 0) {
+                        new_notify = new_notify - 1
+                        $("#new_notifications_tot").text(new_notify);
+                        if (new_notify == 0) {
+                            $("#new_notifications_tot").css('display', 'none');
+                        }
+                    }
+                    if(response['notification_type']==="JobCourse"){
+                       window.location.href = "{% url 'job_posting' %}";
+
+                    }
+                    if(response['notification_type']==="Diary"){
+                       window.location.href = "{% url 'my-diary' %}";
+
+                    }
+                    
+                },
+                error: function (response) {}
+            })
+        }
+        $(document).ready(function(){
+    $("#navbarSupportedContent ul.dropdown-menu>li>a").click(function(){
+        $("#navbarSupportedContent").toggleClass("show");		
+    });
+});
+
+
+</script>
+<script>
+   
+
+{% comment %} function read_generate_notification(notification_id){
+    $.ajax({
+        type: "POST",
+        data: {"notification_id": notification_id},
+        headers: {"X-CSRFTOKEN": "{{ csrf_token }}"},
+        url: "{% url 'generate-notification-bar' %}",
+        success: function(response){
+            console.log(response);
+        },
+        error: function(response){
+            console.log(response);
+            alert("Something went wrong!!");
+        }
+    });
+}; {% endcomment %}
+</script>
+<script>
+        
+        $('.cookie-discription span').click(function() {
+        $('.cookie-discription').toggleClass('show');
+        });
+        
+</script>
+    {% block script %}
+
+    {% endblock %}
+
+</body>
+
+</html>

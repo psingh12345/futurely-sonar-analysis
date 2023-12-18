@@ -1,0 +1,604 @@
+{% extends 'base_landing_website.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% block title %}
+<title>About Us</title>
+{% endblock %}
+
+{% block content %}
+
+	<div class="main-content-block">
+	<section class="corporate-section">
+		<div class="container">
+			<div class="row mobilerev">
+				
+				<div class="col-md-6">
+					<div class="corporate-title-content">
+					<h1 class="h1 mb-lg-4">Una start-up nata da giovani, <br class="d-none d-lg-block">per i giovani</h1>
+					<p class="mb-3">Tutti noi, in momenti diversi della nostra vita, abbiamo affrontato <br class="d-none d-lg-block">le difficili scelte del percorso di studio, dell’università e cercato <br class="d-none d-lg-block">un modo per orientarci.</p>
+					<p><b>Futurely è nata </b>proprio <b>per</b> questo: <b>essere al fianco di ragazze e<br class="d-none d-lg-block"> ragazzi che vogliono fare delle scelte consapevoli e tracciare<br class="d-none d-lg-block"> una strada sicura verso il proprio futuro.</b></p>
+					<a href="https://docs.google.com/forms/d/e/1FAIpQLScAhHiMG8QOP4C9ygsVGG58ce2flOMGOgUU98OI7dmA6BqAfA/viewform" target="_blank" class="mt-3 mt-lg-3 btn-filed bg-color-pool text-color-black mobAutoWidth">Conosciamoci</a>
+					</div>
+				</div>
+				<div class="col-md-6 mobMargin">
+					{% comment %} <img class="mb-4 mb-lg-0 w-100" src="{% static 'landing_website/images/video-thumnail.png' %}" alt="pexels-karolina-img"> {% endcomment %}
+					<iframe class="video-round-corner" width="100%" height="315" src="https://www.youtube.com/embed/0kQkDnqin5A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	<section class="founder-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+				<h2 class="h2 mb-3 mb-lg-40 section-title">I nostri founder</h2>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="founder-image">
+								<img class="d-none d-md-block" src="{% static 'landing_website/images/founder-img.png' %}" alt="img"/>
+								<img class="d-block d-md-none" src="{% static 'landing_website/images/f2.png' %}" alt="img"/>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="founder-content">
+							<h2 class="h2">Elisa Piscitelli</h2>
+							<h4 class="h4">Co-founder</h4>
+							<p>Crescendo, sono rimasta affascinata dagli incontri che ho fatto lungo il percorso e che hanno acceso passioni e interessi. Vorrei accompagnare ragazze e ragazzi nella conoscenza di sé.</p>
+							<a target="_blank" href="https://www.linkedin.com/in/data-science-elisa-piscitelli/">
+								<img src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon"/>
+							</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="founder-image">
+								<img class="d-none d-md-block" src="{% static 'landing_website/images/founder-img2.png' %}" alt="img"/>
+								<img class="d-block d-md-none" src="{% static 'landing_website/images/f1.png' %}" alt="img"/>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="founder-content">
+							<h2 class="h2">Pramod Chintapenta</h2>
+							<h4 class="h4">Co-founder</h4>
+							<p>Il mio obiettivo è di guidare gli studenti nella scoperta delle loro passioni tramite l'auto-scoperta strutturata, dopo aver incontrato difficoltà nella scelta dell'università senza avere chiarezza sui miei interessi.</p>
+							<a target="_blank" href="https://www.linkedin.com/in/pramod-chintapenta-0ba26272/">
+							<img src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon"/>
+							</a>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>				
+		</div>
+	</section>
+	<section class="team-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+				<h2 class="h2 mb-3 mb-lg-40 section-title">Il nostro team</h2>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/giulia-image.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Giulia Piscitelli</h3>
+						<h4 class="h4 mb-3">Head of Customer Success</h4>
+						<a href="https://it.linkedin.com/in/giulia-piscitelli-19b261aa" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/davide-quartieri.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Davide Quartieri</h3>
+						<h4 class="h4 mb-3">People Operations Manager</h4>
+						<a href="https://www.linkedin.com/in/davide-quartieri/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/davide-ori.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Davide Ori</h3>
+						<h4 class="h4 mb-3">Sales Specialist</h4>
+						<a href="https://it.linkedin.com/in/davide-ori-160aa794" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/rohit-kansal.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Rohit Kansal</h3>
+						<h4 class="h4 mb-3">Technical Lead</h4>
+						<a href="https://www.linkedin.com/in/er-rohit-k-kansal-9a851771/" target="href">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/prabhjot-singh.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Prabhjot Singh</h3>
+						<h4 class="h4 mb-3">Full-stack Developer</h4>
+						<a href="https://www.linkedin.com/in/prabhjot-singh-bb0a1b107/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/agnese-del-governatore.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Agnese del Governatore </h3>
+						<h4 class="h4 mb-3">Sales Specialist</h4>
+						<a href="https://www.linkedin.com/in/agnese-del-governatore/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/giovanni-alessandro-manzoni.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Giovanni Alessandro Manzoni</h3>
+						<h4 class="h4 mb-3">Product Owner</h4>
+						<a href="https://www.linkedin.com/in/giovanni-alessandro-manzoni/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/tommaso-salcerini.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Tommaso Salcerini</h3>
+						<h4 class="h4 mb-3">Head of Sales</h4>
+						<a href="https://www.linkedin.com/in/tommaso-salcerini-652b84173" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/mattia-savia.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Mattia Savia</h3>
+						<h4 class="h4 mb-3">Sales Specialist</h4>
+						<a href="https://www.linkedin.com/in/mattia-savia/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/Elisa-amicone.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Elisa Amicone</h3>
+						<h4 class="h4 mb-3">Customer Success Specialist</h4>
+						<a href="https://www.linkedin.com/in/elisaamicone/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/Federica-babbi.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Federica Babbi</h3>
+						<h4 class="h4 mb-3">Customer Success Specialist</h4>
+						<a href="https://www.linkedin.com/in/federica-babbi-869402219/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/lorenzo-toscano.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Lorenzo Toscano</h3>
+						<h4 class="h4 mb-3">Copywriter & UX Writer</h4>
+						<a href="https://www.linkedin.com/in/lorenzotoscanod/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/selene-bottari.jpg' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Selene Bottari</h3>
+						<h4 class="h4 mb-3">Sales Account Executive</h4>
+						<a href="https://www.linkedin.com/in/selene-bottari-26ab73131/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/Elisabetta-de-marco.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Elisabetta De Marco</h3>
+						<h4 class="h4 mb-3">Customer Success Specialist</h4>
+						<a href="https://www.linkedin.com/in/elisabetta-de-marco/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/sunil-img.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Sunil Rajput</h3>
+						<h4 class="h4 mb-3">Full-stack Developer</h4>
+						<a href="https://www.linkedin.com/in/sunil-rajput-48372918a/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" style=" border-radius: 5px; " src="{% static 'landing_website/images/Anthea.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Anthea Valentini</h3>
+						<h4 class="h4 mb-3">UX/UI Designer</h4>
+						<a href="https://www.linkedin.com/in/anthea-valentini-66580b14b/" target="_blank">
+							<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+						</a>
+					</div>
+				</div>
+				<!-- <div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/img-empty.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Nome</h3>
+						<h4 class="h4 mb-3">Professione</h4>
+						<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-4 col-lg-2 mb-4 mb-lg-5 d-flex">
+					<div class="team-info-content">
+						<img class="team-img" src="{% static 'landing_website/images/img-empty.png' %}" alt="img-empty" />
+						<h3 class="h3 mb-2">Nome</h3>
+						<h4 class="h4 mb-3">Professione</h4>
+						<img class="linkedin-icon" src="{% static 'landing_website/images/linkedin-icon.png' %}" alt="linkedin-icon" />
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</section>
+	<section class="friends-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 d-flex justify-content-between">
+				<h2 class="h2 mb-3 mb-lg-40 section-title text-white">Siamo, prima di tutto, amici.</h2>
+				<div class="btn-wrap">
+					<button class="slider-arrow friends-prev-btn dnonemob"><img src="{% static 'landing_website/images/prev-arrow.svg' %}" alt="prev-arrow"></button>
+					<button class="slider-arrow friends-next-btn dnonemob"><img src="{% static 'landing_website/images/next-arrow.svg' %}" alt="next-arrow"></button>
+				</div>
+				</div>
+			</div>
+			<div class="friends-slider slider">
+				<div class="slick-slideshow__slide friends-item">
+					<div class="friends-image">
+					<img src="{% static 'landing_website/images/friends-img.png' %}" alt="friends-img">
+					</div>
+				</div>
+				<div class="slick-slideshow__slide friends-item">
+					<div class="friends-image">
+					<img src="{% static 'landing_website/images/friends-img2.png' %}" alt="friends-img">
+					</div>
+				</div>
+				<div class="slick-slideshow__slide friends-item">
+					<div class="friends-image">
+					<img src="{% static 'landing_website/images/friends-img3.png' %}" alt="friends-img">
+					</div>
+				</div>
+				<div class="slick-slideshow__slide friends-item">
+					<div class="friends-image">
+					<img src="{% static 'landing_website/images/friends-img4.png' %}" alt="friends-img">
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		</div>
+	</section>
+	<section class="article-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 d-flex justify-content-between">
+					<h2 class="h2 mb-40 section-title text-white">I nostri ultimi articoli</h2>
+					<div class="btn-wrap">
+						<button class="slider-arrow article-prev-btn"><img src="{% static 'landing_website/images/prev-arrow.svg' %}"
+								alt="prev-arrow"></button>
+						<button class="slider-arrow article-next-btn"><img src="{% static 'landing_website/images/next-arrow.svg' %}"
+								alt="next-arrow"></button>
+					</div>
+				</div>
+			</div>
+		
+		<div class="article-slider slider article-new-dg">
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-1.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Guidano il round Italian Angels for Growth e Angels4Women, insieme a Diego Piacentini, Riccardo Zacconi e Fabio Mondini”</p>
+					<a class="article-button-link" target="_blank" href="https://startupitalia.eu/162972-20210928-futurely-startup-di-career-coaching-digitale-chiude-un-round-da-15-milioni-di-dollari">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-2.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Diecimila gli studenti italiani iscritti, con una chiusura del primo anno di 1 milione e mezzo.”</p>
+					<a class="article-button-link" target="_blank" href="https://www.millionaire.it/futurely-piattaforma-digitale-per-il-percorso-universitario/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-3.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Orientarsi a Milano. Futurely, la startup milanese che aiuta i giovani nella scelta universitaria”</p>
+					<a class="article-button-link" target="_blank" href="https://www.linkiesta.it/2021/09/futurely-startup-orientamento-universitario/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-4.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Il caso Futurely: investire in orientamento crea un mercato più solido”</p>
+					<a class="article-button-link" target="_blank" href="https://www.ilbollettino.eu/2023/03/01/investire-in-orientamento-crea-un-mercato-piu-solido/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-5.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“La piattaforma di orientamento Futurely incassa un round da 1,5 mln $. Partecipano anche IAG, A4W e Piacentini”</p>
+					<a class="article-button-link" target="_blank" href="https://bebeez.it/business-angel/la-piattaforma-di-orientamento-futurely-incassa-un-round-da-15-mln-partecipano-anche-iag-a4w-e-piacentini/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-6.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Le 3C del successo”</p>
+					<a class="article-button-link" target="_blank" href="https://www.manageritalia.it/it/management/intervista-ceo-futurely-elisa-piscitelli">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-7.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Futurely, da Los Angeles due startupper italiane tostissime in campo contro la dispersione scolastica”</p>
+					<a class="article-button-link" target="_blank" href="https://startupitalia.eu/183390-20221006-futurely-elisa-piscitelli-usa">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-8.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Futurely, scoprire cosa fare da grandi con un click”</p>
+					<a class="article-button-link" target="_blank" href="https://nuvola.corriere.it/2022/05/26/futurely-scoprire-cosa-fare-da-grandi-con-un-click/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+			<div class="article-item">
+				<div class="article-card">
+					<img src="{% static 'landing_website/images/partner-9.png' %}" alt="partner-img">
+					<div class="article-card-inner-new">
+					<p>“Futurely: l’orientamento è scoperta di se stessi”</p>
+					<a class="article-button-link" target="_blank" href="https://www.karis.it/futurely-lorientamento-e-scoperta-di-se-stessi/">Leggi di più</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</section>
+	<section class="contact-section">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-10">
+					<div class="contact-info">
+					<h5 class="h5">C’è un posto anche per te!</h5>
+					<h3 class="h3">Ti abbiamo fatto venire voglia di lavorare con noi? <br class="d-none d-lg-block">Invia una candidatura spontanea!</h3>
+					<p>Ti risponderemo il prima possibile.</p>
+					<a href="https://docs.google.com/forms/d/e/1FAIpQLScAhHiMG8QOP4C9ygsVGG58ce2flOMGOgUU98OI7dmA6BqAfA/viewform" target="_blank" class="btn-filed mt-3">Conosciamoci</a>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+
+	</div>
+
+
+{% endblock %}
+{% block script %}
+	<script>
+
+		$('.testimonial-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '200px',
+		  rows: 2,
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			}
+		  ]
+		});
+		
+		$('.article-slider').slick({
+		  slidesToShow: 3,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '0px',
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			}
+		  ]
+		});
+		$('.mentor-testimonial-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '150px',
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			}
+		  ]
+		});
+		var $carousel = $('.friends-slider');
+			var settings = {
+			  dots: false,
+			  arrows: false,
+			  slide: '.slick-slideshow__slide',
+			  slidesToShow: 3,
+			  centerMode: true,
+			  centerPadding: '0px',
+			};
+
+			function setSlideVisibility() {
+			  //Find the visible slides i.e. where aria-hidden="false"
+			  var visibleSlides = $carousel.find('.slick-slideshow__slide[aria-hidden="false"]');
+			  //Make sure all of the visible slides have an opacity of 1
+			  $(visibleSlides).each(function() {
+				$(this).css('opacity', 1);
+			  });
+
+			  //Set the opacity of the first and last partial slides.
+			  $(visibleSlides).first().prev().css('opacity', 0);
+			}
+
+			$carousel.slick(settings);
+			$carousel.slick('slickGoTo', 1);
+			setSlideVisibility();
+
+			$carousel.on('afterChange', function() {
+			  setSlideVisibility();
+			});
+	
+	
+        $(".friends-prev-btn").click(function () {
+            $(".friends-slider").slick("slickPrev");
+        });
+
+        $(".friends-next-btn").click(function () {
+            $(".friends-slider").slick("slickNext");
+        });
+        $(".prev-btn").addClass("slick-disabled");
+        $(".friends-slider").on("afterChange", function () {
+            if ($(".slick-prev").hasClass("slick-disabled")) {
+                $(".friends-prev-btn").addClass("slick-disabled");
+            } else {
+                $(".friends-prev-btn").removeClass("slick-disabled");
+            }
+            if ($(".slick-next").hasClass("slick-disabled")) {
+                $(".friends-next-btn").addClass("slick-disabled");
+            } else {
+                $(".friends-next-btn").removeClass("slick-disabled");
+            }
+        });
+	
+	
+	</script>
+{% endblock %}

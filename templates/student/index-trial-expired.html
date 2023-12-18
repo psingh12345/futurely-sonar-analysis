@@ -1,0 +1,1651 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load payment_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% load tz %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/index.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/index.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    #detail-popup-user.modal.fade.show .modal-dialog {
+    position: absolute;
+    }
+    tables-details-usere button {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    }
+    .tables-details-usere h2 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-deatils-in-tables {
+        text-align: right;
+    }
+    .tables-details-usere table tbody {
+        display: block;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar {
+        width: 8px;
+        background-color: #363739;
+    }
+    .tables-details-usere table tbody:-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #363739;
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #26272b;
+    }
+    .tables-details-usere table tbody tr, .tables-details-usere table thead {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .progress-bar-block .user {
+        display: flex;
+        align-items: center;
+    }
+    .bottom-popup-details-user-content h3 {
+        color: #fff;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-style: italic;
+        margin: 0;
+        padding: 20px 0 0;
+    }
+    .progress-bar-block .user button {
+    border: none !important;
+    }
+    .user-right-box-details h3 {
+        font-size: 14px;
+        color: #fff;
+        margin: 0;
+    }
+    .user-right-box-details h1 {
+        font-size: 16px;
+        color: #fff;
+        font-weight: 900;
+    }
+    .user-right-box-details {
+    float: right;
+    position: relative;
+    /* top: -55px; */
+    /* right: -12px; */
+    /* border: 1px solid #545454; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    /* background: #26272b9c; */
+    margin-left: auto;
+    }
+    .user-right-box-details:hover {
+        border-color: #622BFF;
+    }
+    .user-right-box-details .succsess-color {
+        background: linear-gradient(45deg,#4bd39699,#4bd396);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .user-right-box-details .warning-color {
+        background: linear-gradient(to right, #9d853f , #ffc107) !important;
+        /* background: transparent; */
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .user-right-box-details .danger-color {
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+        border: none;
+        padding: 0;
+        outline: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 63px;
+    }
+    .progress-bar-block .user img {
+        width: 34px;
+        height: 34px;
+        object-fit: scale-down;
+    }
+
+    .progress-bars.border-none {
+        border: none;
+    }
+    .progress-bars .progress-perent.Bittersweet.seprate-colorr .progress-bar {
+        background: linear-gradient( 116.59deg , #6C2DB1 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4) !important;
+      }
+    .tables-details-usere table thead {
+        background: #737373;
+    }
+    .succsess-table-results {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+    }
+    .warning-table-results {
+        padding: 10px;
+        background: linear-gradient(to right, #9d853f , #ffc107);
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+    }
+    .danger-table-results {
+        padding: 10px;
+        border-radius: 4px;
+        width: 55px;
+        height: 38px;
+        text-align: center;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 1.3;
+        display: inline-block;
+        background: linear-gradient(45deg,#ff2247,#ff869a);
+    }
+    .user-card-info-block {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+      }
+      .user-card-info-block .detail-popup-cus {
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .user-card-info-block .detail-popup-cus:hover {
+        color: #2c6cfb;
+     }
+    .card-details-new-ir {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+      }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -80px;
+        z-index: 11;
+    }
+    .hover-popup-inn::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-bottom: solid 15px #26272b;
+        border-left: solid 15px transparent;
+        border-right: solid 15px transparent;
+        position: absolute;
+        top: -15px;
+        right: 40px;
+        transform: rotate( 0deg );
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        z-index: 1111;
+    }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -70px;
+        z-index: 11;
+        display: none;
+    }
+    .courses-block .hover-popup-inn h4 {
+        margin: 0;
+    }
+    .card-details-new:hover .hover-popup-inn {
+        display: flex;
+    }
+    .card-details-new {
+        border-bottom: 1px solid #6f6767;
+        position: relative;
+    }
+    .card-details-inner h3 {
+        color: #fff;
+        font-size: 16px;
+        margin: 0;
+    }
+    .courses-block .card .card-details-inner h4 {
+        margin: 10px 0 0;
+      }
+      .card-details-new-ir .progress-bars {
+        margin: 12px 0;
+    }
+    .card-details-new-ir .progress-bars .progress-perent {
+        margin: 12px 0;
+      }
+      .tables-details-usere button {
+        float: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        outline: none !important;
+        box-shadow: none !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-size: 24px;
+    }
+    .card-details-inner .link-popup-btnn {
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        margin: -4px 0 0 8px;
+    }
+    .tables-details-usere {
+        background: #23293C;
+        padding: 20px 15px;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        pointer-events: auto;
+        position: relative;
+      }
+      .tables-details-usere table {
+        margin: 0;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+      .tables-details-usere table tbody, .tables-details-usere table td, .tables-details-usere table tfoot, .tables-details-usere table th, .tables-details-usere table thead, .tables-details-usere table tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0;
+    }
+    
+      .tables-details-usere table thead tr th {
+        padding: 15px 8px;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+    }
+    .tables-details-usere table td {
+        padding: 15px 8px;
+        vertical-align: middle;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .tables-details-usere .arrow-card-backk.btn-close {
+        float: right;
+        margin: 0 0 12px;
+      }
+      #detail-popup-user.modal.fade.show {
+        display: flex !important;
+        align-content: center;
+      }
+      @media (max-width:767px) {
+        .modal-header-new-table {
+         height: auto;
+     }
+    .modal-header-new p {
+        font-size: 13px;
+    }
+    .modal-header-new h2 {
+    font-size: 20px;
+    }
+    .modal-body-new h2 {
+    font-size: 16px;
+
+    }
+    #detail-popup-user-new .modal-body-new .table th, #detail-popup-user-new .modal-body-new .table td {
+        font-size: 12px;
+    }
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+          .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+      }
+      @media (min-width:768px) {
+        #detail-popup-user .modal-dialog {
+            max-width: 800px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%)translatey(-50%);
+            top: 50%;
+        }
+    }
+    .inner-card {
+        background: rgba(54, 55, 57, 0.85);
+    }
+    .no-seat-reserve-button {
+        background: #26272A;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 19px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        transition: all .5s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+    .no-seat-reserve-button.webinar-field .tooltip-pop:hover:after {
+
+        width: 150px;
+
+    }
+    .no-seat-reserve-button.webinar-field .tooltip-pop:hover:after {
+        top: -110px;
+        width: 140px;
+        left: 30%;
+        transform: translateX(-65%);
+        text-align: center;
+    }
+    .no-seat-reserve-button:hover {
+        color: #ddd;
+    }
+    .no-seat-reserve-button.webinar-field .tooltip-pop.in-filed {
+        top: 10px;
+    }
+    .inner-card-new span.webinar-left-screens {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+    .webinar-field-group-hour-message h4 {
+        font-weight: 400;
+        font-size: 14px !important;
+        line-height: 17px;
+        letter-spacing: -0.03em;
+        text-align: center;
+    }
+    .inner-card-new h2 {
+        margin-top: 8px;
+    }
+    .user-right-box-details {
+        width: 50%;
+    }
+    .user-right-box-details .danger-color {
+        width: 100%;
+    }
+    .user-right-box-details .danger-color {
+        width: 100%;
+        height: auto;
+        padding: 10px 12px;
+    }
+    .detail-popup-user-new-cs.new-cong-popup {
+        display: flex;
+    }
+    .cogratulatio-nmessage {
+        background: #26272b;
+        border-radius: 18px;
+        padding: 30px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        box-shadow: 0px 5px 40px #000000;
+        position: relative;
+    }
+    .cogratulatio-message-heading {
+        color: #fff;
+        font-size: 18px;
+        margin: 0 0 12px;
+    }
+    .cogratulatio-message-heading {
+        color: #fff;
+        font-size: 24px;
+        margin: 0 0 12px;
+        font-weight: 600;
+    }
+    .cogratulatio-message-text {
+        color: #fff;
+        font-size: 18px;
+        margin: 0 0 12px;
+    }
+    .cogratulatio-message-text a {
+        color: #66e8e9;
+        text-decoration: none;
+    }
+    .Cogratulation-table-popup table {
+        border: 1px solid #ccc;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+    .Cogratulation-table-popup table th, .Cogratulation-table-popup table td {
+        color: #fff;
+        padding: 15px;
+        border: 1px solid #ffffff61;
+    }
+    .button-cogratulatio {
+        background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+        display: inline-block;
+        margin: 14px 0 0;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 270px;
+    }
+    .button-cogratulatio:hover {
+        color: #fff;
+    }
+    .new-cong-popup .modal-dialog {
+        top: auto !important;
+        transform: inherit !important;
+        max-width: 500px;
+        background: transparent;
+        box-shadow: none;
+        display: flex;
+        align-items: center;
+        padding: 0px;
+    }
+    .Cogratulation-table-popup h4 {
+        color: #fff;
+        font-size: 14px;
+        margin: 22px 0 12px;
+    }
+    .new-cong-popup .btn-close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        outline: none;
+    }
+    @media (min-width: 1600px) {
+        .user-right-box-details h1 {
+        font-size: 20px;
+    }
+    .user-right-box-details h3 {
+        font-size: 18px;
+    }
+    }
+    .detail-popup-user-new-cs.new-cong-popup-dnone {
+        display: none !important;
+    }
+    .start-loading {
+    background-color: #04AA6D; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 16px; /* Some padding */
+    font-size: 16px /* Set a font size */
+    }
+    .bg-color-dark-blue {
+        background: rgba(6, 21, 71, 0.9) !important;
+    }
+</style>
+<style>
+    #wrapper #content-wrapper {
+        padding: 0;
+    }
+
+    .payment-sec-card {
+        background: #26272B;
+        border-radius: 16px;
+        padding: 30px;
+        display: block;
+        width: 100%;
+    }
+
+    .content-payment-sec p {
+        font-weight: 400;
+        font-size: 17px;
+        text-align: center;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        line-height: 1.2;
+    }
+
+    .content-payment-sec .h2 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 22px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        margin-bottom: 0.7rem;
+    }
+
+    .content-payment-sec {
+        text-align: center;
+    }
+
+    .content-payment-sec h4 {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.3;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        margin: 28px 0 18px;
+    }
+
+    .content-payment-sec iframe {
+        border-radius: 8px;
+    }
+
+    .payment-custom-tabs {
+        padding: 0;
+        margin: 0;
+        background: #D0D4E2;
+        box-shadow: inset 0px 4px 35px 2px rgb(0 0 0 / 25%);
+        border-radius: 8px;
+        display: inline-block;
+    }
+
+    .payment-custom-tabs li {
+        list-style: none;
+        display: inline-block;
+        margin: 0 -2px;
+    }
+
+    .payment-custom-tabs li a.active {
+        background: #7E74F5;
+        border-radius: 8px;
+        color: #FFFFFF !important;
+    }
+
+    .payment-custom-tabs li a {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 14px;
+        text-align: center;
+        color: black !important;
+        padding: 10px 22px;
+        display: inline-block;
+    }
+
+    .payment-method-sec {
+        text-align: center;
+    }
+
+    .payment-increase-timmer {
+        background: #F6C05B;
+        border-radius: 13.5px 13.5px 0px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 12px 22px;
+        gap: 10px;
+        margin: 20px 18px -15px;
+        flex-wrap: wrap;
+    }
+
+    .payment-increase-timmer h3 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+        letter-spacing: 0.833333px;
+        color: #000000;
+        margin: 0;
+    }
+
+    .payment-card-discription {
+        background: #67E3F6;
+        border-radius: 16px;
+        padding: 22px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .payment-card-discription h2 {
+        font-style: normal;
+        font-size: 22px;
+        line-height: 1.3;
+        color: #000000;
+    }
+
+    .payment-under-lists li img {
+        margin-right: 10px;
+    }
+
+    .payment-under-lists li {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: #000000;
+        margin-bottom: 8px;
+        list-style: none;
+        flex: 100%;
+        display: flex;
+        align-items: self-start;
+    }
+
+    .primary-button-link a span {
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        letter-spacing: 0.015em;
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        mix-blend-mode: normal;
+        border-radius: 24px;
+        display: inline-block;
+
+    }
+
+    .primary-button-link a {
+        background: #FFFFFF;
+        mix-blend-mode: normal;
+        border-radius: 24px;
+        display: inline-block;
+        padding: 10px 20px;
+        transition: all .5s;
+        width: 100%;
+        max-width: 214px;
+    }
+
+    .secondary-button-link a {
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.35);
+        border-radius: 57px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        text-align: center;
+        letter-spacing: 0.02em;
+        color: #FFFFFF;
+        border-radius: 24px;
+        display: inline-block;
+        padding: 10px 20px;
+        transition: all .5s;
+        width: 100%;
+        max-width: 300px;
+        float: right;
+    }
+
+    .secondary-button-link a:hover {
+        background: linear-gradient(96.52deg, #FE45C2 7.68%, #0068FF 112.25%);
+    }
+
+    .primary-button-link a:hover span {
+        color: #fff;
+        -webkit-text-fill-color: #fff;
+    }
+
+    .primary-button-link a:hover {
+        background: linear-gradient(96.52deg, #FE45C2 7.68%, #0068FF 112.25%);
+    }
+
+    .payment-buttons-increase {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 8px 0 0;
+        gap: 10px;
+    }
+
+    .payment-under-lists {
+        margin: 12px 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .payment-tabContainer .Tabcondent.active {
+        display: block;
+        transition: all ease-in-out 0.6s;
+    }
+
+    .payment-tabContainer .Tabcondent {
+        transition: all ease-in-out 0.3s;
+        display: none;
+    }
+
+    .free-trail-button:hover {
+        color: #fff;
+    }
+
+    .free-trail-button {
+        filter: drop-shadow(0px 100px 80px rgba(0, 0, 0, 0.02)) drop-shadow(0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852)) drop-shadow(0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481)) drop-shadow(0px 20px 13px rgba(0, 0, 0, 0.01)) drop-shadow(0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185)) drop-shadow(0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481));
+        border-radius: 10px;
+        border: 1px solid #EA454B;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        color: #FFFFFF;
+        padding: 8px 15px;
+        display: inline-block;
+        transition: all .5s;
+    }
+
+    @media (min-width:768px) {
+        .primary-button-link {
+            flex: 40%;
+        }
+
+        .secondary-button-link {
+            flex: 60%;
+        }
+
+        .payment-under-lists li {
+            flex: 50%;
+        }
+    }
+
+    @media (min-width:1400px) {
+        .content-payment-sec h4 {
+            font-size: 24px;
+        }
+
+        .content-payment-sec p {
+            font-size: 22px;
+        }
+
+        .content-payment-sec .h2 {
+            font-size: 32px;
+        }
+    }
+
+    @media(max-width:767px) {
+        .payment-custom-tabs {
+            margin: 18px 0 0;
+        }
+
+        .content-payment-sec p {
+            font-size: 15px;
+            line-height: 1.3;
+        }
+
+        .content-payment-sec .h2 {
+            font-size: 20px;
+        }
+
+        .content-payment-sec iframe {
+            height: 250px;
+        }
+
+        .payment-custom-tabs li a {
+            font-size: 12px;
+            ;
+            padding: 10px 15px;
+        }
+
+        .payment-card-discription h2 {
+            font-size: 16px;
+        }
+
+        .payment-under-lists li {
+            font-size: 14px;
+        }
+
+        .payment-card-discription {
+            padding: 22px 15px;
+        }
+
+        .payment-sec-card {
+            padding: 20px;
+        }
+
+        .primary-button-link a span {
+            font-size: 14px;
+        }
+
+        .secondary-button-link a {
+            font-size: 14px;
+        }
+
+        .payment-buttons-increase {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .payment-card-discription {
+
+    margin: 0 0 22px;
+}
+    }
+
+    .free-trail-button {
+        display: inline-block !important;
+    }
+
+    #accordionSidebar {
+        display: none;
+    }
+    .font-size15{
+        font-size: 15px;
+    }
+    .font-size20{
+        font-size: 20px;
+    }
+    .buy-plan-overlay-block:before {
+    content: "";
+    background: rgba(255, 255, 255, 0.73);
+    backdrop-filter: blur(2px);
+    border-radius: 21px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+}
+.buy-plan-overlay-block {
+    position: relative;
+    max-width: 390px;
+    margin: auto;
+}
+.buy-plan-overlay-block .card {
+    background: #34353700;
+    border: none;
+}
+.buy-plan-overlay-block .card {
+    background: #34353700;
+    border: none;
+    padding: 0 15px !important;
+    height: 360px;
+}
+.buy-plan-overlay-block .left-content-block span {
+    vertical-align: super;
+    margin-left: 0;
+}
+.buy-plan-overlay-block .resoures-block .left-content-block h5 {
+    margin: 0;
+}
+.buy-plan-Webinar-block {
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    z-index: 99999;
+}
+.buy-plan-Webinar-block h3 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    text-align: center;
+    letter-spacing: -0.03em;
+    color: #000000;
+}
+.buy-plan-Webinar-block .continue-btn-buy-plan {
+    background: linear-gradient(116.59deg, #ED8147 80.44%, #F6C05B 100.73%);
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 8px 15px;
+    width: 100%;
+    max-width: 200px;
+    display: table;
+    margin: auto;
+}
+@media (min-width:768px) {
+.hide-dasktop {
+    display: none !important;
+}
+}
+@media (max-width:767px) {
+    .hide-mobile {
+    display: none !important;
+}
+    .free-trail-button {
+    font-size: 9px;
+    padding: 8px 10px;
+}
+.new-dashboad-bar.topbar {
+    top: 0px !important; 
+}
+.mobile-reverce {
+    flex-direction: column-reverse;
+}
+.payment-custom-tabs {
+    margin: 18px 0 20px;
+}
+}
+.topmargin-30 {
+    margin-top : 30px;
+}
+.buy-now-trial {
+    border: none;
+}
+</style>
+{% phrase_javascript %}
+
+{% endblock%}
+{% block content %}
+<div id="content-wrapper" class="d-flex flex-column">
+    <!-- Main Content -->
+    <div id="content">
+        <!-- End of Topbar -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="payment-sec-card">
+                            <div class="row align-items-center mobile-reverce">
+                                <div class="col-md-6">
+                                    <div class="content-payment-sec">
+                                        <div class="hide-mobile">
+                                        <h2 class="h2">{% trans "Hi" %} {{request.user.first_name}} {{request.user.last_name}} 👋</h2>
+                                        {% if coupon_details %}
+                                        {% if request.LANGUAGE_CODE == "it" %}
+                                        <p>La tua prova gratuita è terminata, fai l’upgrade a Elite ora per continuare il tuo percorso in Futurely oppure scegli tra i nostri piani di abbonamento.</p>
+                                        {% else %}
+                                        <p>{% trans "your trial has expired & to continue, upgrade and save" %} {{coupon_details.discount_value}}% {% trans "on all plans" %}</p>
+                                        {% endif %}
+                                        {% else %}
+                                        <p>{% trans "your trial has expired & to continue, upgrade and save 10% on all plans" %}</p>
+                                        {% endif %}
+                                        </div>
+                                        <div class="buy-plan-overlay-block">
+                                            <div class="buy-plan-Webinar-block">
+												<h3>{{webinars.count}} {% trans "Webinar left" %}</h3>
+												<a class="continue-btn-buy-plan" href="">{% trans "Continue" %}</a>
+												</div>
+                                            <div class="card mb-4 webinars resoures-block web-height web-height-increse web-padding-imp divweb skiptd" id="div-web">
+                                                <div class="row justify-content-between alignment-prop">
+                                                    <div class="col-md-9">
+                                                        <div class="left-content-block">
+                                                            <h5><span id="add_live_time">{% trans "Webinars" %}</span></h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="right-btn-block float-sm-end">
+                                                            <!-- <a class="btn" href="">See all</a> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="card webinars resoures-block card-scroll web-padding-imp">
+                                                    {% for webinar in webinars  %}
+                                                        {% is_webinar_already_joined request.user.student webinar as stu_webinar_status %}
+                                                        {% if stu_webinar_status %}
+                                                            {% is_attendance_marked request.user.student webinar as stu_attendance_status %}
+                                                            {% if stu_attendance_status %}
+                                                                {% comment %}  Display screen after attendance{% endcomment %}
+                                                                <div class="inner-card inner-card-new">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <div class="blog-img-webinar">
+                                                                                <img src="{{webinar.icon.url}}"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <div class="blog-content">
+                                                                                <div class="blog-header-content">
+                                                                                    <h2>{{webinar.title}}</h2> 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="mt-3 mb-3 d-flex flex-wrap justify-content-between">
+                                                                                <span>Time: {{webinar.webinar_start_date | date:'G:i:s'}} CET</span>
+                                                                                <span>Date: {{webinar.webinar_start_date | date:'d/m/Y'}}</span>
+                                                                            </div>
+                                                                            <a class="no-seat-reserve-button">{% trans "Attendance marked!" %}</a>
+                                                                        </div>
+                                                                        <div class="webinar-field-group-hour-message mt-3">
+                                                                        <h4>{% trans "Your PCTO Hour is updated in our database" %}</h4>  
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% else %}
+                                                                {% comment %} Join and Mark attendance {% endcomment %}
+                                                                <div class="inner-card inner-card-new">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <div class="blog-img-webinar">
+                                                                                <img src="{{webinar.icon.url}}"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <div class="blog-content">
+                                                                                <div class="blog-header-content">
+                                                                                    <h2>{{webinar.title}}</h2> 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="mt-3 mb-3 d-flex flex-wrap justify-content-between">
+                                                                                <span>Time: {{webinar.webinar_start_date | date:'G:i:s'}} CET</span>
+                                                                                <span>Date: {{webinar.webinar_start_date | date:'d/m/Y'}}</span>
+                                                                            </div>
+                                                                            <a href="{{webinar.link}}" target="_blank" class="btn reserve-button">{% trans "Join the Zoom" %}</a>
+                                                                        </div>
+                                                                        <div class="webinar-field-group mt-3 gap-2 d-flex justify-content-between">
+                                                                            <div class="webinar-field">
+                                                                                <input id="attendance_code_web{{webinar.id}}" type="text" class="form-control"  placeholder="{% trans "Enter code" %}" required="">     
+                                                                                <span title="Hello from speech bubble!" class="tooltip-pop in-filed">
+                                                                                    <svg class="icon-tooltip-pop" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M10 0C4.48889 0 0 4.48889 0 10C0 15.5111 4.48889 20 10 20C15.5111 20 20 15.5111 20 10C20 4.48889 15.5111 0 10 0ZM10 18.2222C5.46667 18.2222 1.77778 14.5333 1.77778 10C1.77778 5.46671 5.46671 1.77778 10 1.77778C14.5333 1.77778 18.2222 5.46671 18.2222 10C18.2222 14.5333 14.5333 18.2222 10 18.2222Z" fill="white"></path>
+                                                                                        <path d="M11.1109 4.61892C11.1109 5.23261 10.6135 5.73003 9.99978 5.73003C9.38609 5.73003 8.88867 5.23261 8.88867 4.61892C8.88867 4.00523 9.38609 3.50781 9.99978 3.50781C10.6135 3.50781 11.1109 4.00523 11.1109 4.61892Z" fill="white"></path>
+                                                                                        <path d="M10.0001 7.39844C9.51125 7.39844 9.11133 7.79836 9.11133 8.28725V15.6206C9.11133 16.1095 9.51125 16.5094 10.0001 16.5094C10.489 16.5094 10.8889 16.1095 10.8889 15.6206V8.28725C10.8889 7.77618 10.489 7.39844 10.0001 7.39844Z" fill="white"></path>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="webinar-field-button">
+                                                                                <button type="button" onclick="mark_attendance_for_webinar({{webinar.id}},'web')">{% trans "Mark Attendance" %}</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12 d-none" id="id_error_msg_web{{webinar.id}}" style="margin-top: 15px;">
+                                                                            <p style="color: red;" class="text-center"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {% if webinar.is_reservation_started %}
+                                                                {% if webinar.is_seat_vacant %}
+                                                                    {% comment %} Reserve Seat {% endcomment %}
+                                                                    {#% if webinar.is_reservation_started %#}
+                                                                    <div class="inner-card inner-card-new">
+                                                                        <div class="row" style="cursor: pointer;">
+                                                                            <div class="col-md-4">
+                                                                                <div class="blog-img-webinar">
+                                                                                    <img src="{{webinar.icon.url}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-8">       
+                                                                                <div class="blog-content">
+                                                                                    <div class="blog-header-content">
+                                                                                        <h2>{{webinar.title}}</h2> 
+                                                                                        <span class="webinar-left-screens">{{webinar.number_of_seats_left}} {% trans "seats left" %}</span> 
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="mt-3 mb-3 d-flex flex-wrap justify-content-between">
+                                                                                    <span>Time: {{webinar.webinar_start_date | date:'G:i:s'}} CET</span>
+                                                                                    <span>Date: {{webinar.webinar_start_date | date:'d/m/Y'}}</span>
+                                                                                </div>
+                                                                                <a class="btn reserve-button" onclick = "reserve_seat_for_webinar({{webinar.id}})">{% trans "Reserve my seat!" %}</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {#% else %#}
+                                                                    {#% endif %#}
+                                                                {% else %}
+                                                                    {% comment %} All Seats are booked {% endcomment %}
+                                                                    <div class="inner-card inner-card-new">
+                                                                        <div class="row" style="cursor: pointer;">
+                                                                            <div class="col-md-4">
+                                                                                <div class="blog-img-webinar">
+                                                                                    <img src="{{webinar.icon.url}}"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-8">       
+                                                                                <div class="blog-content">
+                                                                                    <div class="blog-header-content">
+                                                                                        <h2>{{webinar.title}}</h2>  
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12">
+                                                                                <div class="mt-3 mb-3 d-flex flex-wrap justify-content-between">
+                                                                                    <span>Time: {{webinar.webinar_start_date | date:'G:i:s'}} CET</span>
+                                                                                    <span>Date: {{webinar.webinar_start_date | date:'d/m/Y'}}</span>
+                                                                                </div>
+                                                                                <a class="no-seat-reserve-button">{% trans "Sorry! All seats are booked" %}</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% comment %} Reserve Seat is locked yet{% endcomment %}
+                                                                <div class="inner-card inner-card-new">
+                                                                    <div class="row" style="cursor: pointer;">
+                                                                        <div class="col-md-4">
+                                                                            <div class="blog-img-webinar">
+                                                                                <img src="{{webinar.icon.url}}"/>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-8">       
+                                                                            <div class="blog-content">
+                                                                                <div class="blog-header-content">
+                                                                                    <h2>{{webinar.title}}</h2>  
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <div class="mt-3 mb-3 d-flex flex-wrap justify-content-between">
+                                                                                <span>Time: {{webinar.webinar_start_date | date:'G:i:s'}} CET</span>
+                                                                                <span>Date: {{webinar.webinar_start_date | date:'d/m/Y'}}</span>
+                                                                            </div>
+                                                                            <a class="no-seat-reserve-button webinar-field">
+                                                                                <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M6.49984 0.583313C4.31721 0.583313 2.5415 2.35902 2.5415 4.54165V6.91665H1.74984C0.876629 6.91665 0.166504 7.62677 0.166504 8.49998L0.166504 14.8333C0.166504 15.7065 0.876629 16.4166 1.74984 16.4166H11.2498C12.123 16.4166 12.8332 15.7065 12.8332 14.8333V8.49998C12.8332 7.62677 12.123 6.91665 11.2498 6.91665H10.4582V4.54165C10.4582 2.35902 8.68246 0.583313 6.49984 0.583313ZM11.2498 8.49998L11.2514 14.8333H1.74984L1.74984 8.49998H11.2498ZM4.12484 6.91665V4.54165C4.12484 3.23223 5.19042 2.16665 6.49984 2.16665C7.80925 2.16665 8.87484 3.23223 8.87484 4.54165V6.91665H4.12484Z" fill="#D9D9D9"/>
+                                                                                    </svg>
+                                                                                    {% trans "Reserve my seat!" %}
+                                                                                <span title="Seat reservation will start from {{webinar.reservation_start_date | date:'d/m/Y'}}" class="tooltip-pop in-filed">
+                                                                                    <svg class="icon-tooltip-pop" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                        <path d="M10 0C4.48889 0 0 4.48889 0 10C0 15.5111 4.48889 20 10 20C15.5111 20 20 15.5111 20 10C20 4.48889 15.5111 0 10 0ZM10 18.2222C5.46667 18.2222 1.77778 14.5333 1.77778 10C1.77778 5.46671 5.46671 1.77778 10 1.77778C14.5333 1.77778 18.2222 5.46671 18.2222 10C18.2222 14.5333 14.5333 18.2222 10 18.2222Z" fill="white"></path>
+                                                                                        <path d="M11.1109 4.61892C11.1109 5.23261 10.6135 5.73003 9.99978 5.73003C9.38609 5.73003 8.88867 5.23261 8.88867 4.61892C8.88867 4.00523 9.38609 3.50781 9.99978 3.50781C10.6135 3.50781 11.1109 4.00523 11.1109 4.61892Z" fill="white"></path>
+                                                                                        <path d="M10.0001 7.39844C9.51125 7.39844 9.11133 7.79836 9.11133 8.28725V15.6206C9.11133 16.1095 9.51125 16.5094 10.0001 16.5094C10.489 16.5094 10.8889 16.1095 10.8889 15.6206V8.28725C10.8889 7.77618 10.489 7.39844 10.0001 7.39844Z" fill="white"></path>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif%}
+                                                        {% endif %}
+                                                    {% endfor %} 
+                                                </div>
+                                                
+                                                <div class="tooltip-popup right popweb skiptp d-none">
+                                                    <div class="tooltip-steps">
+                                                        <ul>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','div1','pop1')" href="#courses-box-f"></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                                                        <li class="dots-nav active"><a  href="#div-web"></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divgroup','popgroup')" href="#divgroup"></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divresource','popresource')" href="#dres"></a></li>
+                                                        <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divarticle','poparticle')" href="#darti"></a></li>
+                                                    
+                                                        </ul>
+                                                        <h3>{% trans "Register for webinars from professionals and mentors to improve your skills" %}</h3>
+                                                        <div class="tooltip-buttons">
+                                                            <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                                                            <a class="btn gredient" onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet">{% trans "Next" %}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="payment-method-sec">
+                                            <div class="content-payment-sec hide-dasktop">
+                                            <h2 class="h2">Hi {{request.user.first_name}} {{request.user.last_name}} 👋</h2>
+                                            {% if coupon_details %}
+                                            {% if request.LANGUAGE_CODE == "it" %}
+                                            <p>-- La tua prova gratuita è terminata, fai l’upgrade a Elite ora per continuare il tuo percorso in Futurely oppure scegli tra i nostri piani di abbonamento.--</p>
+                                            {% else %}
+                                            <p>-- {% trans "your trial has expired & to continue, upgrade and save" %} {{coupon_details.discount_value}}% {% trans "on all plans" %} --</p>
+                                            {% endif %}
+                                            {% else %}
+                                            <p>-- {% trans "your trial has expired & to continue, upgrade and save 10% on all plans" %} --</p>
+                                            {% endif %}
+                                            </div>
+                                        <ul class="payment-custom-tabs">
+                                            <li><a href="javascript:void(0);" data-tab="one-type" class="active">{% trans "Pay One-Time" %}</a></li>
+                                            <li><a href="javascript:void(0);" data-tab="pay-weekly">{% trans "Pay Weekly" %}</a></li>
+                                        </ul>
+                                        <div class="payment-tabContainer topmargin-30">
+                                            <div id="one-type" class="Tabcondent active">
+                                                {% comment %} <div class="payment-increase-timmer">
+                                                    <img src="{% static 'images/timmer-icon-svg.svg' %}" />
+                                                    <h3>Price increases in <b>13 hr 25 min 44 sec</b></h3>
+                                                </div> {% endcomment %}
+                                                <div class="payment-card-discription">
+                                                    
+                                                    <h2><b>{{elite_plan.title}} -</b> {% trans "20 Weeks" %} & {% trans "20 PCTO Hours" %}</h2>
+                                                    {% if coupon_details %}
+                                                    {% calculate_amount_coupon_cod_onetime request elite_plan.id as discount_amount_onetime %}
+                                                    <h2><b>{% trans "$" %}{{discount_amount_onetime}}</b> <span class="font-size15"><del>{% trans "$" %}{{elite_plan.cost}}</del>
+                                                            ({{coupon_details.discount_value}}% off)</span></h2>
+                                                    {% else %}
+                                                    <h2><b>{% trans "$" %}{{elite_plan.cost}}</b> </h2>
+                                                    {% endif %}
+                                                    <ul class="payment-under-lists">
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Personality Test & Analysis" %}</li>
+                                                        {% comment %} <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Self Assessment & Gap Analysis" %}</li> {% endcomment %}
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "CV Building Guide" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Group Call with Peers & Mentor" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Informative Short Videos" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Career Experience Talk" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "x - Informative Webinars" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Fast-track path is available" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Plan for Study in Abroad" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "1:1 Connect with Professionals" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Shortlisting Tool for Universities/ITS" %}</li>
+                                                        <li></li>
+                                                    </ul>
+                                                    <div class="payment-buttons-increase">
+                                                        <div class="primary-button-link">
+                                                            <a href="{% url 'futurely-plans' %}"><span>{% trans "Choose other plan" %}</span></a>
+                                                        </div>
+                                                        <div class="secondary-button-link">
+                                                            <a href="{% url 'buy-plan' plan_id=elite_plan.id %}?payment_type=One Time"><span>{% trans "Unlock Elite" %}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="pay-weekly" class="Tabcondent">
+                                                {% comment %} <div class="payment-increase-timmer">
+                                                    <img src="{% static 'images/timmer-icon-svg.svg' %}" />
+                                                    <h3>Price increases in <b>13 hr 25 min 44 sec</b></h3>
+                                                </div> {% endcomment %}
+                                                
+                                                <div class="payment-card-discription">
+                                                    <h2><b>{{elite_plan.title}} -</b> {% trans "20 Weeks" %} & {% trans "20 PCTO Hours"%}</h2>
+                                                    {% if coupon_details %}
+                                                        {% calculate_amount_coupon_cod request elite_plan.id as discount_amount %}
+                                                        <h2><b>{% trans "$" %}{{discount_amount}}/<span class="font-size20">week</span></b> <span class="font-size15"><del>{%trans "$" %}{{elite_plan.weekly_cost}}</del>({{coupon_details.discount_value}}% off)</span></h2>
+                                                    {% else %}
+                                                    <h2><b>{% trans "$" %}{{elite_plan.weekly_cost}}/week</b> </h2>
+                                                    {% endif %}
+                                                        {% comment %} <h2><b>$199</b> <span>$250 (20% off)</span></h2> {% endcomment %}
+                                                    <ul class="payment-under-lists">
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Personality Test & Analysis" %}</li>
+                                                        {% comment %} <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Self Assessment & Gap Analysis" %}</li> {% endcomment %}
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "CV Building Guide" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Group Call with Peers & Mentor" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Informative Short Videos" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Career Experience Talk" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "x - Informative Webinars" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Fast-track path is available" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Plan for Study in Abroad" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "1:1 Connect with Professionals" %}</li>
+                                                        <li><img src="{% static 'images/check-circle-icon.svg' %}">{% trans "Shortlisting Tool for Universities/ITS" %}</li>
+                                                        <li></li>
+                                                    </ul>
+                                                    <div class="payment-buttons-increase">
+                                                        <div class="primary-button-link">
+                                                            <a href="{% url 'futurely-plans' %}"><span>{% trans "Choose other plan" %}</span></a>
+                                                        </div>
+                                                        <div class="secondary-button-link">
+                                                            <a href="{% url 'buy-plan' plan_id=elite_plan.id %}?payment_type=Weekly"><span>{% trans "Unlock Elite" %}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+    </div>
+    <!-- End of Main Content -->
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function () {
+        $('.payment-custom-tabs li a').click(function () {
+            var tabId = $(this).attr('data-tab');
+
+            $('.payment-custom-tabs li a').removeClass('active');
+            $('.Tabcondent').removeClass('active');
+
+            $(this).addClass('active');
+            $('#' + tabId).addClass('active');
+        });
+
+    });
+
+    {% comment %} $("#take_tour").css("display","block"); {% endcomment %}
+    $("#contactTutorDash").css("display","block");
+    $(".calender-slider").trigger("to.owl.carousel",[12,1]);
+    function reserve_seat_for_webinar(webinar_id)
+    {
+        
+        $.ajax({
+            url: "{% url 'reserve_my_webinar_seat' %}",
+            type: "POST",
+            data: {
+                'webinar_id': webinar_id,
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                msg = response['msg'];
+                {% comment %} alert(msg); {% endcomment %}
+                if(msg == "success"){
+                location.reload();}
+            },
+            error: function (response) {
+                {% comment %} alert("{% trans 'Something went wrong' %}"); {% endcomment %}
+                console.log(response);
+            }
+        });
+    };
+    function mark_attendance_for_webinar(webinar_id, dev){
+        code = ""
+        if(dev == "mob")
+        {
+            code = $("#attendance_code"+webinar_id).val();
+        }
+        else
+        {
+            code = $("#attendance_code_web"+webinar_id).val();
+        }
+        $.ajax({
+            url: "{% url 'mark_attendance_for_webinar' %}",
+            type: "POST",
+            data: {
+                'webinar_id': webinar_id,
+                'attendance_code' : code,
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                msg = response['msg'];
+                if(msg == "success"){
+                    location.reload();
+                }else{
+                    if(dev == "mob"){
+                        $("#attendance_code"+webinar_id).val("");
+                        $("#id_error_msg_mob"+webinar_id +" p").text(msg);
+                        $("#id_error_msg_mob"+webinar_id).removeClass("d-none");
+                        setTimeout(function(){$("#id_error_msg_mob"+webinar_id).addClass("d-none");},10000);
+                    }else{
+                        $("#attendance_code_web"+webinar_id).val("");
+                        $("#id_error_msg_web"+webinar_id +" p").text(msg);
+                        $("#id_error_msg_web"+webinar_id).removeClass("d-none");
+                        setTimeout(function(){$("#id_error_msg_web"+webinar_id).addClass("d-none");},10000);
+                    }
+                }
+            },
+            error: function (response) {
+                if(dev == "mob"){
+                    $("#attendance_code"+webinar_id).val("");
+                    $("#id_error_msg_mob"+webinar_id +" p").text("{% trans 'Something went wrong' %}");
+                    $("#id_error_msg_mob"+webinar_id).removeClass("d-none");
+                    setTimeout(function(){$("#id_error_msg_mob"+webinar_id).addClass("d-none");},10000);
+                }else{
+                    $("#attendance_code_web"+webinar_id).val("");
+                    $("#id_error_msg_web"+webinar_id +" p").text("{% trans 'Something went wrong' %}");
+                    $("#id_error_msg_web"+webinar_id).removeClass("d-none");
+                    setTimeout(function(){$("#id_error_msg_web"+webinar_id).addClass("d-none");},10000);
+                }
+            }
+        });
+    };
+
+    function funTodo(date,active_class){
+        //<input id="selected_date_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+        //<input id="selected_date_loop_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+        $("#selected_date_id").val(date);
+        $("#selected_date_loop_id").val(active_class);
+        $(".calender-dates").removeClass("dateSelected");
+        $("."+active_class).addClass("dateSelected");
+        update_to_do_texts(date);
+        };
+    function editTodo(todoID){
+        $("#span"+todoID).addClass("d-none");
+        $("#textarea"+todoID).removeClass("d-none");
+        $("#btn"+todoID).removeClass("d-none");
+        $("#btnCancel"+todoID).removeClass("d-none");
+        $(".data-box"+todoID).addClass("todo-text-area-min-height");
+    }
+    function submitEditTodo(todoID){
+        var todo_msg = $('#textarea'+todoID).val();
+        var date = $("#selected_date_id").val();
+        var active_class = $("#selected_date_loop_id").val();
+        $.ajax({
+            url: "{% url 'update_todo' %}",
+            type: "POST",
+            data: {
+                'id': todoID,
+                'msg': todo_msg
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                update_to_do_texts(date);
+            },
+            error: function (response) {
+                display_notifymsg("{% trans 'Something went wrong' %}");
+            }
+        });
+        $("#span"+todoID).html($("#textarea"+todoID).html());
+        $("#span"+todoID).removeClass("d-none");
+        $("#textarea"+todoID).addClass("d-none");
+        $("#btn"+todoID).addClass("d-none");
+        $("#btnCancel"+todoID).addClass("d-none");
+        $(".data-box"+todoID).removeClass("todo-text-area-min-height");
+    }
+    function confirmDeleteTodo(todoID){
+        $(".confirm"+todoID).show();
+    }
+    function noEditTodo(todoID){
+        $(".confirm"+todoID).hide();
+    }
+    function yesEditTodo(todoID){
+        var todo_msg = $('#textarea'+todoID).val();
+        var date = $("#selected_date_id").val();
+        var active_class = $("#selected_date_loop_id").val();
+        $.ajax({
+            url: "{% url 'delete_todo' %}",
+            type: "POST",
+            data: {
+                'id': todoID,
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                update_to_do_texts(date);
+                display_notifymsg("{% trans 'Todo deleted'%} : " + response['todo_title']);
+            },
+            error: function (response) {
+                display_notifymsg("{% trans 'Something went wrong' %}");
+            }
+        });
+        $(".confirm"+todoID).hide();
+
+    }
+    function cancelEditTodo(todoID){
+        $("#span"+todoID).html($("#textarea"+todoID).html());
+        $("#span"+todoID).removeClass("d-none");
+        $("#textarea"+todoID).addClass("d-none");
+        $("#btn"+todoID).addClass("d-none");
+        $("#btnCancel"+todoID).addClass("d-none");
+        $(".data-box"+todoID).removeClass("todo-text-area-min-height");
+    }
+    function Current_date(){
+        $('.currentdate_selected').click();
+    }
+    jQuery(document).ready(function () {
+        {% if current_plan_type == "Premium" %}
+            $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+        {% elif current_plan_type == "Elite" %}
+        $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+        $("#selected_cohort2").val($('.calfstid2').first().attr('cohort_atr'));
+        $("#selected_cohort3").val($('.calfstid3').first().attr('cohort_atr'));
+        {% endif %}
+        jQuery(".calender-box-dates").click(function () {
+            jQuery(".calender-box-dates").removeClass("active");
+            $(this).addClass('active');
+        });
+    });
+    function select_cohort_fun(cohort_id,outer_counter)
+    {
+        $("#selected_cohort"+outer_counter).val(cohort_id);
+    };
+
+
+
+    $('#future_lab_form_link').on("click", function (e) {
+        $.ajax({
+            url: "{% url 'update_futurelab_form_status' %}",
+            type: 'POST',
+            headers: {
+                "X-CSRFTOKEN": "{{ csrf_token }}"
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: {},
+            success: function (response) {
+                var data = JSON.parse(JSON.stringify(response));
+                if (data['message'] == 'SUCCESS') {
+                    $('#future_lab_form_link_div').hide();
+                }
+            },
+            error: function (response) {
+        
+            }
+        });
+    });
+
+    $('.courses-mobile-availble-slider').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: false,
+            dots: true,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                
+                1200: {
+                    items: 2
+                }
+
+            }
+        });
+
+        $('.todo_msg_slider').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: false,
+            dots: true,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                
+                1200: {
+                    items: 2
+                }
+
+            }
+        });
+        
+        $(function() {
+            width = $( window ).width();
+            if ($(window).width()<767) {
+	//BEGIN
+	$(".courses-block .accordion-coursest").on("click", function(e) {
+        $(".accodion-contentt").toggleClass();
+		e.preventDefault();
+		var $this = $(this);
+
+		if (!$this.hasClass("accordion-active")) {
+			$(".accodion-contentt").slideUp(400);
+			
+		}
+
+		$this.toggleClass("accordion-active");
+		$this.next().slideToggle();
+		$('.accordion__arrow',this).toggleClass('accordion__rotate');
+	});
+	//END	
+};
+});
+function closePop(){
+    $('.new-cong-popup').addClass('new-cong-popup-dnone');
+    $('.new-cong-popup').removeClass('new-cong-popup');
+}
+function loaderonclick(cohort_id){
+    
+    $('.start-loading').html('<i class="fa fa-spinner fa-spin"></i>');
+    $(".start-loading").css("cursor", "default");
+    window.location='/module-steps/'+cohort_id+'/';
+    $('.start-loading').removeAttr('onclick');
+    
+}
+</script>
+{% endblock %}

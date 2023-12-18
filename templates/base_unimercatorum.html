@@ -1,0 +1,75 @@
+<!doctype html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="{% if request.LANGUAGE_CODE == 'it' %}it{% else %}en{% endif %}">
+  <head>
+    {% phrase_javascript %}
+	{% block title %}
+	{% endblock %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{% static 'unipegaso/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'unipegaso/css/unimercatorum.css' %}" rel="stylesheet">
+    <link href="{% static 'unipegaso/css/slick.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="{% static 'unipegaso/js/jquery.min.js' %}"></script>
+    <script src="{% static 'unipegaso/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'unipegaso/js/slick.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    {% comment %} <script src="{% static 'unipegaso/js/jquery.fireworks.js' %}"></script> {% endcomment %}
+    {% block style_sheet %}
+	  {% endblock %}
+  <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "h16opvbc4p");	
+	</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GBQFMEFR9D"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-GBQFMEFR9D');
+  </script>
+  </head>
+  <body>
+	<main>
+	<div class="star-field">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+    <div class="custom-hero-bannner text-center" style="background-image: url('{% static 'unipegaso/images/Mercatorum-sfondo_background.jpg' %}')";>
+		    {% block content %}
+        {% endblock %}
+	</div>
+    <!-- js -->
+    {% block script %}
+    <script>
+      window.addEventListener( "pageshow", function ( event ) {
+      var historyTraversal = event.persisted || 
+                            ( typeof window.performance != "undefined" && 
+                                  window.performance.navigation.type === 2 );
+      if ( historyTraversal ) {
+        // Handle page restore.
+        window.location.reload();
+      }
+    });
+    </script>
+    {% endblock %}
+    </main>
+  </body>
+</html>

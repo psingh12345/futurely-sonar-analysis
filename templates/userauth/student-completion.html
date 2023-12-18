@@ -1,0 +1,24 @@
+<form method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    {{student_completion_form.as_p}}
+    <input type="submit" value="Sign up">
+</form>
+
+{% if student_completion_form.errors %}
+{% for field in student_completion_form %}
+{% for error in field.errors %}
+<div class="alert alert-danger">
+    <strong>{{ field.label }}</strong><span>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endfor %}
+{% for error in student_completion_form.non_field_errors %}
+<div class="alert alert-danger">
+    <strong>{{ error|escape }}</strong>
+</div>
+{% endfor %}
+{% endif %}
+
+
+<!-- {{student_completion_form.errors}} - 
+{{student_completion_form}} -->

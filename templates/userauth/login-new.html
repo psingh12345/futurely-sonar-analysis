@@ -1,0 +1,118 @@
+{% extends 'base_auth2.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Login</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+<div class="row align-items-center">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-7">
+        <div class="form-intro row">
+            <div class="col-sm-12 p-t-20 ">
+                <div class="float-start">
+                    <img src="{% static 'images/signin_icon.png' %}" alt="">
+                </div>
+                <span class="login-title-prop login-title-padding">{% trans 'Sign in to Futurely' %}</span>
+            </div>
+            <div class="col-sm-12 p-t-20">
+                <p>{% trans 'Login to continue' %}</p>
+            </div>
+            <form class="row form-setup" method="post" action="" autocomplete="off">
+                {% csrf_token %}
+                <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num" >
+                                    
+                {% if message %}
+                <div class="error-msg">
+                    <p>{{message}}</p>
+                </div>
+                {% endif %}
+                <div class="col-md-12 ">
+
+                    <div class="border-grad">  
+                        <input type="text" class="text-box form-control email_validation" name="username"
+                            placeholder="{% trans 'Email address' %}" autocomplete="off" required>
+                    </div>
+
+                </div>
+                <div class="error-msg">
+                    <p id="error-message"></p>
+                </div>
+                <div class="col-md-12 ">
+                    <div class="border-grad">
+                        <input type="password" class="text-box form-control" id="loginPassInput" value="" name="password" placeholder="Password" autocomplete="off" required>
+                        <p id="pass_show_id" class="pass-show" onclick="passview()" >
+                            <i class="bi bi-eye-slash"></i>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <a class="a-forgot-pass" href="{% url 'password_reset' %}">{% trans 'Forgot your password?' %}</a>
+                </div>
+                <div class="col-md-12">
+                    <div class="border-grad">
+                        <button class=" form-control sign-btn sign-btn-next" type="submit">{% trans 'Login' %}</button>
+                    </div>
+                </div>
+                {% if request.session.is_from_ios_app %}
+				{% else %}
+                <div class="col-md-12">
+                    <div class="border-grad">
+                        {% if request.session.ctype == "future_lab" or request.session.is_from_mobile_app %}
+                        <a class="extraHref" href="{% url 'index' %}?validate_discount_code=true">
+                            <button class="form-control text-box"
+                                type="button">{% trans "Don't have an account? Sign up" %}</button>
+                        </a>
+                        {% else %}
+                        <!-- <a class="extraHref" href="{% url 'register'%}{% if request.session.ctype %}{% if request.session.ctype != 'general' and request.session.ctype != '' %}?ctype={{request.session.ctype}}{% endif %}{% endif %}"> -->
+                            {% if request.LANGUAGE_CODE == "it" %}
+                            <a class="extraHref" href="{% url 'index' %}?validate_discount_code=true">
+                                <button class="form-control text-box"
+                                    type="button">{% trans "Don't have an account? Sign up" %}</button>
+                            </a>
+                            {% else %}
+                                <a class="extraHref" href="{% url 'register' %}">
+                                    <button class="form-control text-box"
+                                        type="button">{% trans "Don't have an account? Sign up" %}</button>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    function passview() {
+        var x = document.getElementById("loginPassInput");
+        if (x.type === "password") {
+            x.type = "text";
+            $("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+        } else {
+            x.type = "password";
+            $("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+        }
+    }
+</script>
+{% endblock %}

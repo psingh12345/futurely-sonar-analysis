@@ -1,0 +1,227 @@
+{% extends 'base_landing_website.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% block title %}
+<title>Faq</title>
+{% endblock %}
+{% block content %}
+	<div class="main-content-block">
+	<section class="faq-section">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-md-12">
+				<div class="acc">
+				<h2 class="h2 mb-3 section-title faq-title">Domande frequenti</h2>
+				{% for faq in landing_website_faq %}
+					<div class="acc__card">
+						<div class="acc__title">{{faq.title | safe}}</div>
+						<div class="acc__panel">
+							<p class="mb-0">{{faq.content | safe}}</p>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	{% endblock %}
+	{% block script %}
+	<script>	
+		$('.testimonial-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '200px',
+		  rows: 2,
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			}
+		  ]
+		});
+		
+		$('.article-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '0px',
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			}
+		  ]
+		});
+		$('.mentor-testimonial-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '150px',
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			}
+		  ]
+		});
+		var $carousel = $('.friends-slider');
+			var settings = {
+			  dots: false,
+			  arrows: false,
+			  slide: '.slick-slideshow__slide',
+			  slidesToShow: 3,
+			  centerMode: true,
+			  centerPadding: '0px',
+			};
+
+			function setSlideVisibility() {
+			  //Find the visible slides i.e. where aria-hidden="false"
+			  var visibleSlides = $carousel.find('.slick-slideshow__slide[aria-hidden="false"]');
+			  //Make sure all of the visible slides have an opacity of 1
+			  $(visibleSlides).each(function() {
+				$(this).css('opacity', 1);
+			  });
+
+			  //Set the opacity of the first and last partial slides.
+			  $(visibleSlides).first().prev().css('opacity', 0);
+			}
+
+			$carousel.slick(settings);
+			$carousel.slick('slickGoTo', 1);
+			setSlideVisibility();
+
+			$carousel.on('afterChange', function() {
+			  setSlideVisibility();
+			});
+	
+	$(".friends-prev-btn").click(function () {
+		$(".friends-slider").slick("slickPrev");
+	});
+
+	$(".friends-next-btn").click(function () {
+		$(".friends-slider").slick("slickNext");
+	});
+	$(".prev-btn").addClass("slick-disabled");
+	$(".friends-slider").on("afterChange", function () {
+		if ($(".slick-prev").hasClass("slick-disabled")) {
+			$(".friends-prev-btn").addClass("slick-disabled");
+		} else {
+			$(".friends-prev-btn").removeClass("slick-disabled");
+		}
+		if ($(".slick-next").hasClass("slick-disabled")) {
+			$(".friends-next-btn").addClass("slick-disabled");
+		} else {
+			$(".friends-next-btn").removeClass("slick-disabled");
+		}
+	});
+	
+	/* faq jQuery
+	================================================== */
+	$(function () {
+		$('.acc__title').click(function (j) {
+
+			var dropDown = $(this).closest('.acc__card').find('.acc__panel');
+			$(this).closest('.acc').find('.acc__panel').not(dropDown).slideUp();
+
+			if ($(this).hasClass('active')) {
+				$(this).removeClass('active');
+			} else {
+				$(this).closest('.acc').find('.acc__title.active').removeClass('active');
+				$(this).addClass('active');
+			}
+
+			dropDown.stop(false, true).slideToggle();
+			j.preventDefault();
+		});
+	});
+	/* faq js */
+	</script>
+	{% endblock %}

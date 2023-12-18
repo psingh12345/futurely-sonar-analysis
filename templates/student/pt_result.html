@@ -1,0 +1,199 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Personality Test" %}</title>
+{% endblock %}
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-quiz.css' %}">
+{% endblock%}
+
+{% block content %}
+<style>
+ .sucsess-blocker {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+</style>
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        
+        <div class="row courses-block">
+            
+           
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre">
+                    <a href="{% url 'home' %}">{% trans "Home" %} ></a>
+                    {% trans "Personality Test"%}
+                </span>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="watch-video-card">
+                    <div class="personality-quiz-card-after-submit sucsess-blocker"></div>
+                    <div class="card-video-watch row m-0">
+                        <div class="col-md-12">
+                            <div class="card-video-content ">
+                                <div class="mb-3" style="display: flex; justify-content: center;">
+                                    <img id="star" src="{% static 'images/star.png' %}" alt="">
+
+                                </div>
+                                <h3 align="center">{% trans "Congratulations!" %}</h3>
+                                <p class="text-justify-now text-center">{% trans "These are the results from the IIP RIASEC Markers. Your scores for each of the 6 basic interest areas are below."%}</p>
+                            
+                                    <div class="mt-3">
+                                        <div class="canves-block-graph row">
+                                            <div class="col-lg-7">
+                                            <div class="canves-graph">
+                                            <canvas id="chart">
+                                            </canvas>
+                                            </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="card-graph-infoo row">
+                                                   <p> <span class="realistic-big">R</span> <span>=</span> Realistic </p>
+                                                   <p><span class="investigative-big">I</span> <span>=</span> Investigative</p>
+                                                   <p><span class="artistic-big">A</span> <span>=</span> Artistic</p>
+                                                   <p><span class="social-big">S</span> <span>=</span> Social </p>
+                                                   <p> <span class="enterprising-big">E</span> <span>=</span> Enterprising</p>
+                                                   <p> <span class="conventional-big">C</span> <span>=</span> Conventional</p>
+                                                </div>
+                                                <div class="card-graph-infoo">
+                                                    <h2>{% trans "INTEREST CODE"%}</h2>
+                                                    <div class="card-graph-infoo-under row">
+                                                        <div class="col-sm-4">
+                                                            <div class="under-cardd-graph">
+                                                            {{sorted_my_score.0.0.0}}    
+                                                            </div>    
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="under-cardd-graph">
+                                                                {{sorted_my_score.1.0.0}}  
+                                                            </div>    
+                                                        </div> 
+                                                        <div class="col-sm-4">
+                                                            <div class="under-cardd-graph">
+                                                                {{sorted_my_score.2.0.0}}  
+                                                            </div>    
+                                                        </div>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="canves-graph-textt">
+                                                    
+                                                    <h3>{% trans "Type"%}</h3>
+                                                    {% if request.LANGUAGE_CODE == "it" %}
+                                                    <p>Il tuo punteggio più alto è per il tratto {{sorted_my_score.0.0.1}}</p>
+                                                    {% else %}
+                                                    <p>Your highest score was for the {{sorted_my_score.0.0.1}} occupational interest.</p>
+                                                    {% endif %}
+                                                        {% comment %} <h3>{% trans "Suitable Careers"%}</h3>
+                                                        {% if request.LANGUAGE_CODE == "it" %}
+                                                        <p>Le tre principali aree di interesse di una persona sono chiamate il suo "Holland Code". Questo sarebbe il tuo codice {{sorted_my_score.0.0.0}}{{sorted_my_score.1.0.0}}{{sorted_my_score.2.0.0}}. L'elenco delle occupazioni per il {{sorted_my_score.0.0.0}}{{sorted_my_score.1.0.0}}{{sorted_my_score.2.0.0}} può essere trovato su</p>
+                                                        {% else %}
+                                                        <p>A persons top three interests areas are sometimes called their "Holland Code". This would make your code {{sorted_my_score.0.0.0}}{{sorted_my_score.1.0.0}}{{sorted_my_score.2.0.0}}. The list of occupations for the {{sorted_my_score.0.0.0}}{{sorted_my_score.1.0.0}}{{sorted_my_score.2.0.0}} can be found at</p>
+                                                        {% endif %}
+                                                            <a href="http://www.onetonline.org/explore/interests/" target="blank">http://www.onetonline.org/explore/interests/</a> {% endcomment %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+<script>
+Chart.defaults.global.legend.display = false;
+let ctx = document.getElementById("chart").getContext("2d");
+var a = [];
+"{% for key, value in my_score.items %}"
+    a.push("{{value}}");
+"{% endfor %}"
+let chart = new Chart(ctx, {
+  type: "bar",
+  data: {
+     labels: ["R", "I", "A", "S", "E", "C"],
+     datasets: [
+        {
+          backgroundColor: ['orange','green','#c438ef','#9254DC','rgba(255,64,154,1)','#00f590'],
+          borderColor: "#417690",
+          data: a,
+        },
+     ]
+  },
+  options: {
+    plugins: {
+            legend: {
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 50,
+                    }
+                }
+            }
+        },
+    scales: {
+        yAxes: [{
+            scaleLabel: {
+                display: true,
+                labelString: '{% trans "Score"%}',
+                fontSize: 15,
+                fontColor:'white'
+            },
+            ticks: {
+                fontSize: 15,
+                fontColor:'white',
+            }
+        }],
+        xAxes: [{
+            barPercentage: 0.4,
+            scaleLabel: {
+                display: true,
+                labelString: '{% trans "INTEREST CODE"%}',
+                fontSize: 15,
+                fontColor:'white'
+            },
+            ticks: {
+                fontSize: 15,
+                fontColor:'white'
+            }
+        }]
+    },
+     title: {
+        text: "{% trans 'Analysis Report'%}",
+        display: true,
+        fontSize: 20,
+        fontColor:'white'
+     }
+  }
+});
+</script>
+<script src="{% static 'css/new_css/jquery.fireworks.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    setTimeout(function() {
+        $('.personality-quiz-card-after-submit').fireworks();
+    });
+});
+</script>
+{% endblock %}

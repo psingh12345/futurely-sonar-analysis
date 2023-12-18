@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scopri i risultati del percorso di orientamento!</title>
+  </head>
+<body>
+<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422bodyTable" style="background:#ffffff none no-repeat center/cover;border-collapse:collapse;height:100%;margin:0;padding:0;width:100%;background-color:#ffffff;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422bodyCell" style="height:100%;margin:0;padding:10px;width:100%;border-top:0">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;border:0;max-width:650px!important">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateHeader" style="border-top:0;border-bottom:0">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding:9px">
+                                                        <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="min-width:100%;border-collapse:collapse">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0">
+                                                                        <img align="center" alt="" src="{{logo_url}}" width="180" style="max-width:1280px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="CToWUd" data-bit="iit" jslog="138226; u014N:xr6bB; 53:W2ZhbHNlLDJd">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateBody" style="border-top:0;border-bottom:0">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding-top:9px">
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <div style="text-align:left">
+                                                                            <span style="font-size:16px">Ciao {{user}}</span>
+                                                                        </div>
+                                                                        <div style="text-align:left">
+                                                                            <p style="margin:6px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                    grazie per aver completato la prima parte del  percorso di orientamento!
+
+                                                                                </span>
+                                                                                </p><div dir="ltr" style="opacity:0.01">
+                                                                                    <div id="m_6885153722321876664m_8471385712077653221:qh" role="button" aria-label="Download attachment ">
+                                                                                        <div><div></div></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <p></p>
+
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">Hai approfondito le tue inclinazioni ed è emerso che il tuo tratto dominante è {{ mapper_obj.test_result|upper }}.</span>
+                                                                            </p>
+
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">Di seguito trovi alcuni consigli utili di aree professionali che potrebbero fare al caso tuo sulla base di ciò che è emerso dal tuo percorso:</span>
+                                                                            </p>
+                                                                            {% for answer in ans_dict %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - {{answer.0|title}}
+                                                                                </span>
+                                                                            </p>
+                                                                            {% endfor %}
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <p style="color: black;font-size: 16px;margin-top: 14px;">Sarai contattato nei prossimi giorni da un professionista IFOA: il confronto con l’esperto è fondamentale per assicurarti la scelta migliore per il tuo futuro!</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <p style="color: black;font-size: 16px;margin-top: 14px;">Per ulteriori informazioni contattaci al seguente indirizzo e-mail orientamentonline@ifoa.it.</p>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <p style="color: black;font-size: 16px;margin-top: 14px;">Visita il sito IFOA e scopri i corsi più adatti a te:<br> https://www.ifoa.it/servizi/corsi-di-formazione/corsi-post-diploma.</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        {% comment %} <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding:9px">
+                                                        <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" style="min-width:100%;border-collapse:collapse">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
+																	<p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:center">
+                                                                        Per ulteriori informazioni contattaci al seguente indirizzo e-mail orientamentonline@ifoa.it.
+                                                                     </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> {% endcomment %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateFooter" style="border-top:0;border-bottom:0">
+                                        {% comment %} <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" valign="top" style="padding-top:9px">
+                                                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left">
+                                                                        <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
+                                                                            <span style="font-size:16px">Visita il sito IFOA e scopri i corsi più adatti a te:<br> https://www.ifoa.it/servizi/corsi-di-formazione/corsi-post-diploma.</span>
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> {% endcomment %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+	</body>
+
+</html>

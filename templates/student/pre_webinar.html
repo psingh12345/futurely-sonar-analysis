@@ -1,0 +1,466 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Pre Webinar" %}</title>
+{% endblock %}
+
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}">
+<style>
+    .card_right_sidebar {
+        background-color: #26272b;
+        border-radius: 10px;
+        position: relative;
+        margin-bottom: 20px;
+        border: 1px solid #26272B;
+        box-shadow: -8px 12px 18px 0 #020203;
+        padding: 20px;
+    }
+
+    .quiz_right_block label {
+        color: #fff;
+        font-size: 14px;
+        margin: 0 0 12px;
+    }
+
+    .quiz_right_block textarea::placeholder {
+        color: #fff;
+    }
+
+    .quiz_right_block textarea {
+        border-radius: 10px;
+        padding: 10px 15px;
+        color: #fff;
+        width: 100%;
+        resize: none;
+        outline: none;
+        background: #46474b;
+        border-color: #47484E;
+        font-size: 14px;
+        min-height: 60px;
+    }
+
+    .quiz_right_block {
+        display: block;
+        margin: 0 0 15px;
+        width: 100%;
+    }
+
+    .quiz_right_block label>span {
+        position: relative;
+        background: #336df3;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .quiz_right_block label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .quiz_right_block .count {
+        position: absolute;
+        top: 49%;
+        left: 50%;
+        transform: translateX(-50%)translateY(-50%);
+        font-size: 12px;
+    }
+
+    .card_right_sidebar_inner {
+        background: #333333;
+        border-radius: 10px;
+        margin-bottom: 18px;
+        border: 1px solid #26272B;
+        padding: 15px 15px 0;
+    }
+
+    .comment-button {
+        background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+        border: 1px solid transparent;
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 15px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        opacity: 0.9;
+        padding: 0.75rem 1.25rem;
+        margin: 10px 0 0;
+    }
+
+    .form-items-comment {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-items-comment .comment-label {
+        color: #fff;
+        font-size: 15px;
+        flex: none;
+        margin: 0;
+        background: #336df3;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-weight: 600;
+    }
+
+    .form-items-comment .form-control::placeholder,
+    .submit-comment-button::placeholder {
+        color: #fff;
+    }
+
+    .form-items-comment .form-control {
+        background-color: #46474b;
+        border-radius: 10px;
+        padding: 10px 15px;
+        color: #fff;
+        width: 65%;
+        outline: none;
+        border-color: #47484E;
+        font-size: 14px;
+        box-shadow: none;
+    }
+
+    .form-items-comment+.form-items-comment {
+        margin-top: 10px;
+    }
+
+    .submit-comment-button {
+        background: #46474b;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        opacity: 0.9;
+        padding: 0.75rem 1.25rem;
+        width: 100%;
+        outline: none;
+    }
+
+    .submit-comment {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        position: absolute;
+        right: 10px;
+        top: 25px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .form-submit-comment {
+        position: relative;
+    }
+
+    .arrow-right {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-top: 2px solid #fff;
+        border-left: 2px solid #fff;
+        transform: rotate(135deg);
+    }
+
+    .form-items-comment.user-comments {
+        justify-content: end;
+    }
+
+    .form-group-comment {
+        max-height: 100px;
+        overflow-y: scroll;
+    }
+
+    .form-group-comment::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        background-color: #545454;
+    }
+
+    .form-group-comment::-webkit-scrollbar {
+        width: 8px;
+        background-color: #232326d9;
+    }
+
+    .form-group-comment:-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #363739;
+        -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+        border-radius: 10px;
+        background-color: #232326d9;
+    }
+
+    .total-comment {
+        color: white;
+        margin-top: 10px;
+    }
+
+    textarea.form-control.text-white.text-justify-now.comment-box {
+        margin-top: 20px;
+        min-height: 30px !important;
+        background-color: #e6f7ee00 !important;
+        font-size: 17px !important;
+    }
+
+
+    div#admin-comments {
+        margin-top: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: 1px solid #47484E;
+        border-radius: 15px;
+        padding: 20px;
+    }
+
+    .comment-icon-box {
+        font-size: 30px;
+        color: #fff;
+        margin-right: 15px;
+    }
+
+    #admin-comments .comment-label {
+        font-size: 12px;
+        color: #fff;
+        margin: 0;
+    }
+
+    .video-card-bottom-box #admin-comments .form-control {
+        background: #ffffff00 !important;
+        font-size: 16px;
+        min-height: inherit;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .col-md-6.mb-5.question-blog {
+        margin: 5px -30px 0px 15px;
+        border: 3px solid;
+        border-radius: 20px;
+    }
+
+    .quiz_seprate_block {
+        border: 1px solid #47484e;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    .quiz-main-card {
+        background-color: #26272B;
+        border-radius: 20px;
+        padding: 25px;
+        display: block;
+        width: 100%;
+    }
+
+    .quiz-header-content h3 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+    }
+
+    .quiz-header-content h3 .webinar-test-box {
+        background: rgba(170, 170, 170, 0.1);
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: -0.03em;
+        padding: 10px 12px;
+        margin-left: 16px;
+        display: inline-block;
+        line-height: 19px;
+    }
+
+    .quiz-header-content h3 .webinar-test-box.danny-color-text {
+        color: #F6C05B;
+    }
+
+    .quiz-block h3 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        margin-bottom: 16px;
+    }
+
+    .quiz-ans-block {
+        background: rgba(65, 67, 71, 0.7);
+        border: 1px solid #47484E;
+        border-radius: 5px;
+        padding: 16px 11px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: -0.03em;
+        color: #D9D9D9;
+        width: 100%;
+        display: block;
+        min-height: 100px;
+    }
+
+    .quiz-block-section {
+        margin-top: 48px;
+        width: 100%;
+        display: block;
+    }
+
+    .quiz-block {
+        width: 100%;
+        display: block;
+        margin-bottom: 24px;
+    }
+
+    .submit-button-quiz .button-quiz {
+        font-weight: 600;
+        font-size: 16px;
+        letter-spacing: -0.03em;
+        color: #FFFFFF;
+        background: linear-gradient(96.52deg, #0068FF 38.83%, #FE45C2 101.43%);
+        border-radius: 10px;
+        padding: 15px;
+        width: 100%;
+        display: block;
+        text-align: center;
+        border: none;
+    }
+
+    @media (min-width:1200px) {
+        .quiz-block-section {
+            padding: 0 48px;
+        }
+    }
+
+    @media (max-width:767px) {
+        .quiz-block h3 {
+            font-size: 16px;
+        }
+
+        .quiz-header-content h3 {
+            font-size: 16px;
+        }
+
+        .quiz-header-content h3 .webinar-test-box {
+            margin-left: 0;
+        }
+
+        .quiz-header-content h3 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .quiz-header-content h3 .webinar-test-box {
+            font-size: 14px;
+        }
+
+        .quiz-block-section {
+            margin-top: 28px;
+        }
+    }
+
+    textarea.id_answer {
+        background: transparent;
+        border: none;
+    }
+</style>
+{% endblock%}
+
+{% block content %}
+
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        <div class="row courses-block">
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre">
+                    <a href="{% url 'home' %}">{% trans "Home" %} ></a>
+                    Pre Webinar
+                </span>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="quiz-main-card">
+                    <div class="quiz-header-content ">
+                        <h3>{% trans "Pre-Webinar Questions" %} <span class="webinar-test-box">Webinar</span><span class="webinar-test-box danny-color-text">Answer all the required
+                                questions to reserve your spot in the webinar</span></h3>
+                    </div>
+                    <div class="quiz-block-section">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="webinar_questionnaire_id" value="{{ webinar_questionnaire_id }}">
+                            <input type="hidden" name="student_webinar_mapper_id" value="{{ student_webinar_mapper_id }}">
+                            <div class="row">
+                                {% for stu_question in stu_web_mapper.stu_webinar_test.all %}
+                                <div class="col-md-6">
+                                    <div class="quiz-block">
+                                        <h3>Question {{ forloop.counter }}: {{ stu_question.webinar_question.question }}?</h3>
+                                        <div class="quiz-ans-block">
+                                            <!-- <span>{% trans 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla integer donec porta eget facilisi.'%}</span> -->
+                                            {% if stu_question.is_completed %}
+                                            <textarea name="{{ stu_question.pk }}" class="id_answer" cols="48" rows="3" required
+                                                placeholder="">{{ stu_question.webinar_answer}}</textarea>
+                                            {% else %}
+                                            <textarea name="{{ stu_question.pk }}" class="id_answer" cols="48" rows="3" required
+                                                placeholder=""></textarea>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- <div class="quiz-block">	
+                                <h3>Question 1: What are your academic achievements and grades last year?</h3>
+                                <div class="quiz-ans-block">
+                                        <span>{% trans 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla integer donec porta eget facilisi.'%}</span>
+                                </div>
+                            </div>
+                            <div class="quiz-block">	
+                                <h3>Question 1: What are your academic achievements and grades last year?</h3>
+                                <div class="quiz-ans-block">
+                                        <span>{% trans 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla integer donec porta eget facilisi.'%}</span>
+                                </div>
+                            </div> -->
+                                <div class="col-md-6">
+                                    <!-- <div class="quiz-block">	
+                                <h3>Question 1: What are your academic achievements and grades last year?</h3>
+                                <div class="quiz-ans-block">
+                                        <span>{% trans 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla integer donec porta eget facilisi.'%}</span>
+                                </div>
+                            </div> -->
+                                    <div class="submit-button-quiz">
+                                        <!-- <a class="button-quiz">Reserve your seat</a> -->
+                                        <input type="submit" class="button-quiz" value="{% trans 'Reserve your seat' %}">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

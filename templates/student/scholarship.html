@@ -1,0 +1,855 @@
+
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Scholarship Test" %}</title>
+{% endblock %}
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-quiz.css' %}">
+<link rel="stylesheet" href="{% static 'css/new_css/slick.css' %}">
+<link rel="stylesheet" href="{% static 'css/new_css/jquerysctipttop.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    .personality-quiz-header h2 i {
+        font-size: 15px;
+        margin: 0 6px;
+    }
+    .error-msg p {
+        margin: 17px 0 0;
+        border: 1px solid #d44f4f;
+        color: #d44f4f !important;
+        padding: 6px;
+        background: #ff00000d;
+    }
+    .personality-quiz-card {
+    background: #26272b9c;
+    border-radius: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 22px 15px;
+    position: relative;
+}
+.personality-quiz-header {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+}
+.personality-quiz-item h1 {
+    font-size: 24px;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 18px;
+}
+.personality-quiz-item p {
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    /* text-transform: capitalize; */
+}
+.personality-quiz-footer {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;    
+    margin: 18px 0 0;
+
+}
+.quiz-button:hover {
+    color: #fff;
+    background: #0068FF;
+}
+
+.quiz-button {
+    padding: 10px 30px;
+    font-size: 15px;
+    text-transform: capitalize;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    transition: all .5s;
+    cursor: pointer;
+    position: relative;
+    z-index: 999;
+}
+.personality-quiz-lists {
+    width: 100%;
+    padding: 22px 15px;
+    background: #26272b9c;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all .7s;
+    flex-wrap: wrap;
+    
+}
+.quiz-slider.slick-slider {
+    width: 100%;
+}
+.quiz-slider .slick-arrow {
+    display: none !important;
+}
+.personality-quiz-lists.show {
+    opacity: 1;
+    transform: translateY(0%);
+
+}
+.selector-item_label:hover {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+}
+.personality-quiz-header h2 {
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.personality-selecotr-item .selector-item_label span {
+    background: #33333352;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 13px;
+    margin-right: 10px;
+}
+.selector-item_radio:checked + .selector-item_label {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    box-shadow: 0 0 8px #0068ffe0;
+}
+.personality-quiz-option {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+}
+.selector-item_label {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #333;
+    color: rgb(255 255 255);
+    max-width: 100%;
+    outline: 0px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition-duration: 0.1s;
+    transition-property: background-color, color, border-color, opacity, box-shadow;
+    transition-timing-function: ease-out;
+    width: 100%;
+    animation: 0.25s ease 0s 2 normal none running jBPXGM;
+}
+.personality-selecotr-item .selector-item_radio {
+    appearance: none;
+    display: none;
+}
+.button-next-quiz {
+    position: relative;
+    padding: 12px 40px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-block;
+    margin: 28px 0 0;
+    cursor: pointer;
+}
+.personality-selecotr-item + .personality-selecotr-item {
+    margin-top: 12px;
+}
+
+.quiz-slider .slick-arrow.slick-prev {
+    right: 100px;
+    border-radius: 6px 0px 0px 6px;
+}
+
+.quiz-slider .slick-arrow:after {
+    content: "\f282";
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+}
+.quiz-slider .slick-arrow.slick-disabled:after {
+    opacity: 0.5;
+}
+.quiz-slider .slick-arrow.slick-disabled {
+    pointer-events: none;
+}
+.quiz-slider .slick-arrow {
+    padding: 8px 15px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 0 6px 6px 0px;
+    color: #fff;
+    display: inline-block;
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    border: none;
+    z-index: 11;
+    font-size: 0;
+}
+.quiz-slider .slick-arrow.slick-prev:after {
+    content: "\f286";
+}
+.progresss {
+    overflow: visible;
+    margin-bottom: 26px;
+    height: 7px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 98%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.progress-barr {
+    background-color: #6c2db1;
+    position: relative;
+    border-radius: 4px;
+    height: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    -webkit-box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+.progress-barr span {
+    background-color: #5c4084;
+    position: absolute;
+    bottom: -38px;
+    font-size: 15px;
+    line-height: 10px;
+    padding: 10px 12px 10px 12px;
+    right: -1.4em;
+    border-radius: 2px;
+}
+    .progress-barr span:after {
+      bottom: 100%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(255, 255, 255, 0);
+      border-bottom-color: #5c4084;
+      border-width: 5px;
+      margin-left: -5px;
+    }
+    .progress-barr span.flag-icon-progress:after {
+    display: none;
+}
+.progress-barr span.flag-icon-progress {
+    bottom: auto;
+    top: -30px;
+    background: transparent;
+    font-size: 20px;
+}
+.hidden{
+    display: none !important;
+}
+.new-design-personality-item h1 {
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.new-design-personality-item .personality-quiz-header {
+    text-align: left;
+    justify-content: center;
+}
+.new-design-personality-item .form-control::placeholder {
+    color: #D9D9D9;
+}
+.new-design-personality-item h2 {
+    justify-content: flex-start;
+}
+.new-design-personality-item .form-control {
+    background: rgba(65, 67, 71, 0.7);
+    border: 1px solid #47484E;
+    border-radius: 5px;
+    border-color: rgba(65, 67, 71, 0.7);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.03em;
+    color: #D9D9D9;
+    padding: 10px;
+}
+.personality-new-button .button-next-quiz {
+    background: linear-gradient(146deg, #00E6F9 7.68%, #0068FF 38.83%, #FE45C2 101.43%);
+   
+
+}
+.personality-new-button .button-quz-custom {
+    border-radius: 10px;
+    letter-spacing: -0.03em;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 14px;
+    position: relative !important;
+    transform: none !important;
+    left: auto !important;
+    right: auto !important;
+    padding: 12px 40px;
+    margin: 0 !important;
+    bottom: auto !important;
+    cursor: pointer;
+}
+
+.progress-barr.new span.flag-icon-progress svg {
+    width: 28px;
+}
+.personality-new-button {
+margin-top: 18px;
+}
+.gredient-border-button {
+    background: linear-gradient(96.52deg, #00E6F9 7.68%, #0068FF 38.83%, #FE45C2 101.43%) !important;
+    padding: 1px;
+    border-radius: 10px;
+    width: 100%;
+    display: inline-block;
+}
+.personality-new-button .button-quz-custom.transparent-btn {
+    background: #333333;
+    border-radius: 10px;
+}
+.progress-barr.new {
+    background: #70F099;
+    border-radius: 9px 0px 0px 9px;
+    height: 15px;
+}
+.progresss.new {
+    height: 15px;
+    width: 100%;
+    background: #363739;
+    border-radius: 10px;
+}
+.progress-barr.new span.flag-icon-progress {
+    top: -48px;
+}
+.personality-quiz-header-totel-quz {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.personality-quiz-header-totel-quz span {
+    background: rgba(170, 170, 170, 0.1);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    padding: 5px 12px;
+}
+.personality-quiz-header-totel-quz h3 {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin: 0;
+}
+.personality-new-button .button-next-quiz:hover {
+    color: #fff;
+}
+.personality-quiz-lists.new-personality-quiz-lists {
+    align-items: flex-start;
+}
+.personality-submit-thanku h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin: 0px 0 6px;
+    justify-content: center;
+}
+.personality-submit-thanku p {
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.personality-submit-thanku svg {
+    width: 90px;
+}
+.personality-submit-thanku {
+    min-height: calc(100vh - 350px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.personality-new-button .button-quz-custom:after {
+    display: none;
+}
+@media (min-width:992px) {
+.personality-quiz-card {
+    min-height: calc(100vh - 200px);
+}
+.personality-quiz-lists {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;  
+}
+.personality-quiz-header-totel-quz {
+    margin: 15px 15px;
+}
+}
+@media (max-width:767px) {
+    .new-design-personality-item .personality-quiz-header {
+    min-height: calc(100vh - 310px);
+}
+.personality-submit-thanku {
+    min-height: calc(100vh - 310px);
+}
+    .personality-quiz-card {
+    min-height: 70vh;
+}
+    .personality-button.personality-new-button.row {
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+.selecotr-item-new {
+    flex: 20%;
+}
+.selector-item__new_label {
+    font-size: 15px !important;
+    width: 100% !important;
+    border-bottom: 1px solid #0B0B0B;
+}
+}
+.item__new_radio-item_radio + .selector-item__new_label
+.selector-item__new_label {
+    position: relative;
+    border-left: 1px solid #0B0B0B;
+    width: 50px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #0B0B0B;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+}
+.quz-radio-buttons {
+    background: linear-gradient(96.52deg, #00E6F9 7.68%, #0068FF 38.83%, #FE45C2 101.43%);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    display: table;
+    margin: 0 auto;
+}
+.item__new_radio-item_radio:checked  + .selector-item__new_label, .selector-item__new_label:hover {
+    background: #4169e1;
+    color:#fff;
+}
+.selecotr-item-new:first-child .selector-item__new_label {
+    border: none;
+}
+.personality-new-button {
+    background: transparent;
+    border: none;
+}
+.quz-radio-buttons-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 5px;
+}
+.selector-item__new_label {
+    position: relative;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #0B0B0B;
+    background: #fff;
+    padding: 10px;
+    border-left: 1px solid #0B0B0B;
+    width: 45px;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .5s;
+}
+.item__new_radio-item_radio {
+    appearance: none;
+    display: none;
+}
+</style>
+{% endblock%}
+{% block content %}
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 d-flex mt-lg-5">
+                <div class="personality-quiz-card">
+                    {% comment %} <div class="d-none personality-quiz-header hide-after-clickk">
+                        <div class="personality-quiz-item">
+                            <h1><strong>{% trans "Personality Quiz"%}</strong></h1>
+                            <p>{% trans "Take the personality quiz and identify more about yourself"%}!</p>
+                        </div>
+                    </div> {% endcomment %}
+                    {% comment %} <div class="d-none personality-quiz-footer hide-after-clickk">
+                        {% if tot_answered is 0  %}
+                        <a class="quiz-button">{% trans "Start"%}</a>
+                        {% else %}
+                        <a class="quiz-button">{% trans "Continue"%}</a>
+                        {% endif %}
+                        <input type="hidden" name="" value="{{last_answered}}" id="flag_val">
+                    </div> {% endcomment %}
+                    <div class="personality-quiz-lists show new-personality-quiz-lists">
+                        <div class="progresss new">
+                            <div class="progress-barr new" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{completed_per}}%;">
+                            
+                              <span class="flag-icon-progress"><svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_107_606)">
+                                <path d="M6.83077 6.66666H14.8308C16.3028 6.66666 17.3334 6.52799 17.3334 7.99999V5.33332C17.3334 3.86132 16.3028 2.66666 14.8308 2.66666H4.1641C1.49744 2.66666 -0.613231 5.49999 0.164102 9.33332C0.164102 9.33332 2.5521 21.8333 2.7201 22.6107C3.1641 24.6667 5.5521 26.6667 8.1081 26.6667H17.3854C18.8588 26.6667 17.3334 24.1387 17.3334 22.6667V20C17.3334 21.472 16.3028 22.6667 14.8308 22.6667H9.49744C8.02544 22.6667 7.05344 21.2773 6.83077 20C6.6081 18.7227 4.71877 10.2227 4.71877 10.2227C4.27477 7.66666 5.35744 6.66666 6.83077 6.66666ZM41.2468 6.66666H33.2468C31.7748 6.66666 29.3334 6.52799 29.3334 7.99999V5.33332C29.3334 3.86132 31.7748 2.66666 33.2468 2.66666H43.9134C46.5801 2.66666 48.6921 5.49999 47.9134 9.33332C47.9134 9.33332 45.7361 21.892 45.5521 22.6667C45.0801 24.6667 42.8294 26.6667 40.2188 26.6667H30.6908C29.2188 26.6667 29.3334 24.1387 29.3334 22.6667V20C29.3334 21.472 31.7748 22.6667 33.2468 22.6667H38.5801C40.0521 22.6667 41.0254 21.2773 41.2468 20C41.4681 18.7227 43.3588 10.2227 43.3588 10.2227C43.8014 7.66666 42.7201 6.66666 41.2468 6.66666ZM27.7761 29.3333C27.7761 20.056 24.1641 29.3333 24.1641 29.3333C24.1641 29.3333 20.1641 20.056 20.1641 29.3333C20.1641 38.6107 15.7761 42.6667 15.7761 42.6667H32.1654C32.1641 42.6667 27.7761 38.6107 27.7761 29.3333Z" fill="#FFAC33"/>
+                                <path d="M38.8306 8.76934C38.8306 17.8027 29.804 33.0253 24.164 33.0253C18.5226 33.0253 9.49731 17.8027 9.49731 8.76934C9.49731 1.84267 10.8306 0.344006 13.4973 0.344006C15.3293 0.344006 21.5306 0.308006 24.164 0.308006L33.4973 0.306673C37.3866 0.305339 38.8306 1.21867 38.8306 8.76934Z" fill="#FFCC4D"/>
+                                <path d="M36 44C36 45.472 36.3027 46.6667 34.8307 46.6667H13.4973C12.024 46.6667 12 45.472 12 44V42.6667C12 41.1947 13.552 40 14.9413 40H33.4973C34.8867 40 36 41.1947 36 42.6667V44Z" fill="#C1694F"/>
+                                <path d="M38.6666 46.1667C38.6666 47.18 38.8866 48 36.9972 48H11.3306C9.60792 48 9.33325 47.18 9.33325 46.1667V45.8333C9.33325 44.82 10.3173 44 11.3306 44H36.9972C38.0092 44 38.6666 44.82 38.6666 45.8333V46.1667Z" fill="#C1694F"/>
+                                </g>
+                                <defs>
+                                <clipPath id="clip0_107_606">
+                                <rect width="48" height="48" fill="white"/>
+                                </clipPath>
+                                </defs>
+                                </svg>
+                                </span>
+                            </div>
+                          </div>
+                        <div class="quiz-slider slick-slider">
+                            {% if stu_scholarship_test.is_applied == False %}
+                            {% for stu_question in stu_scholarship_test_ques %}
+                            <form method="post" id="id_form" action="{% url 'scholarship_submit_answer' %}">
+                                {% csrf_token %}
+                                <div class="personality-quiz-item new-design-personality-item">
+                                    <div class="personality-quiz-header-totel-quz">
+                                        <h3>{% trans "Futurely’s Scholarship Test" %}</h3><span>{{stu_question.scholarshipTest_question.sno}}/{{tot_question}} {% trans "questions" %}</span>
+                                    </div>
+                                    <div class="personality-quiz-header">
+                                        <p>{% trans "Question" %} {{stu_question.scholarshipTest_question.sno}}</p>
+                                        <h2>{{ stu_question.scholarshipTest_question.question }}</h2>
+                                        <input type="hidden" name="" value="{{last_answered}}" id="flag_val">
+                                        {% comment %} <textarea class="form-control" name="ans_{{stu_question.pk}}" id="id_ans_{{stu_question.pk}}" placeholder="{% trans "Enter your answer" %}" rows="6" required>{{stu_question.scholarshipTest_answer}}</textarea> {% endcomment %}
+                                        {% if stu_question.scholarshipTest_question.question_type == "MCQ" %}
+                                            <div class="quz-radio-buttons">
+                                                <div class="quz-radio-buttons-inner">
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio0" onclick="click_option(0, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="0" class="item__new_radio-item_radio" checked>
+                                                    <label for="radio0" class="selector-item__new_label">0</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio1" onclick="click_option(1, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="1" class="item__new_radio-item_radio">
+                                                    <label for="radio1" class="selector-item__new_label"> 1</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio2" onclick="click_option(2, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="2" class="item__new_radio-item_radio">
+                                                    <label for="radio2" class="selector-item__new_label">2</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio3" onclick="click_option(3, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="3" class="item__new_radio-item_radio">
+                                                    <label for="radio3" class="selector-item__new_label">3</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio4" onclick="click_option(4, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="4" class="item__new_radio-item_radio">
+                                                    <label for="radio4" class="selector-item__new_label">4</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio5" onclick="click_option(5, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="5" class="item__new_radio-item_radio">
+                                                    <label for="radio5" class="selector-item__new_label">5</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio6" onclick="click_option(6, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="6" class="item__new_radio-item_radio">
+                                                    <label for="radio6" class="selector-item__new_label">6</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio7" onclick="click_option(7, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="7" class="item__new_radio-item_radio">
+                                                    <label for="radio7" class="selector-item__new_label">7</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio8" onclick="click_option(8, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="8" class="item__new_radio-item_radio">
+                                                    <label for="radio8" class="selector-item__new_label">8</label>
+                                                </div>
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio9" onclick="click_option(9, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="9" class="item__new_radio-item_radio">
+                                                    <label for="radio9" class="selector-item__new_label"> 9</label>
+                                                </div>
+                                                {% comment %} id="radio{{stu_question.scholarshipTest_question.sno}}" {% endcomment %}
+                                                <div class="selecotr-item-new">
+                                                    <input type="radio" id="radio10" onclick="click_option(10, '{{stu_question.scholarshipTest_question.sno}}')" name="selector" value="10" class="item__new_radio-item_radio">
+                                                    <label for="radio10" class="selector-item__new_label">10</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                            <textarea class="form-control" name="ans_{{stu_question.pk}}" id="id_ans_{{stu_question.pk}}" placeholder="{% trans "Enter your answer" %}" rows="6" required>{{stu_question.scholarshipTest_answer}}</textarea>
+                                        {% endif %}
+                                        {% if stu_question.scholarshipTest_question.sno == 1 %}
+                                            <div class="personality-button personality-new-button">
+                                                <a class="button-quz-custom button-next-quiz w-100 text-center" onclick="submit_scholarship_answer('{{stu_question.pk}}','{{stu_question.scholarshipTest_question.sno}}', '{{ stu_question.scholarshipTest_question.question_type }}')">{% trans "Next question" %} 
+                                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M8.83296 12.9992L8.83286 12.9993C8.68697 13.1658 8.48772 13.2559 8.28016 13.2497C8.07291 13.2436 7.87929 13.1423 7.74199 12.9693L8.83296 12.9992ZM8.83296 12.9992L13.195 8.01323L13.195 8.01328M8.83296 12.9992L13.195 8.01328M13.195 8.01328L13.199 8.00854M13.195 8.01328L13.199 8.00854M13.199 8.00854C13.4283 7.73298 13.5498 7.37384 13.5498 6.99993C13.5498 6.62496 13.4275 6.26577 13.19 5.98117L13.1901 5.98113M13.199 8.00854L13.1901 5.98113M13.1901 5.98113L13.1862 5.97672M13.1901 5.98113L13.1862 5.97672M13.1862 5.97672L8.83279 1.00108C8.69185 0.839816 8.50078 0.750002 8.2998 0.750002C8.08569 0.750002 7.88367 0.851952 7.74174 1.03087C7.47716 1.3642 7.48616 1.8784 7.76665 2.19901L7.76699 2.1994M13.1862 5.97672L7.76699 2.1994M7.76699 2.1994L11.2379 6.14994L1.7998 6.14994C1.34499 6.14994 1.0498 6.57527 1.0498 6.99993C1.0498 7.42458 1.34499 7.84992 1.7998 7.84992L11.2236 7.84992M7.76699 2.1994L11.2236 7.84992M11.2236 7.84992L7.7669 11.8008L7.95505 11.9655L7.7669 11.8009C7.48641 12.1215 7.47742 12.636 7.74199 12.9693L11.2236 7.84992Z" fill="white" stroke="white" stroke-width="0.5"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        {% elif stu_question.scholarshipTest_question.sno == tot_question %}
+                                            <span style="color: red;" class="d-none error-message">{% trans "All fields are required" %}</span>
+                                            
+                                            <button class="personality-button personality-new-button submit-button" type="button" onclick="submit_scholarship_answer('{{stu_question.pk}}','{{stu_question.scholarshipTest_question.sno}}', '{{ stu_question.scholarshipTest_question.question_type }}')">
+                                                <a class="button-quz-custom button-next-quiz w-100 text-center answer_submit" id="id_scholarship_submit_button">{% trans "Submit" %} 
+                                                </a>
+                                            </button>
+                                        {% else %}
+                                        <div class="personality-button personality-new-button row">
+                                            <div class="col-md-6">
+                                                <span class="gredient-border-button">
+                                                    <a class="button-quz-custom button-prev-quiz text-center transparent-btn" tabindex="0" >
+                                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5.46635 1.00092L5.46646 1.0008C5.61235 0.834266 5.8116 0.74424 6.01916 0.750385C6.22641 0.75652 6.42003 0.857829 6.55733 1.03081M5.46635 1.00092L6.55733 1.03081M5.46635 1.00092L1.10435 5.98686L1.1043 5.98681L1.10035 5.99155C0.871024 6.26711 0.749512 6.62625 0.749512 7.00016C0.749512 7.37512 0.871836 7.73432 1.10931 8.01892L1.10925 8.01896L1.11311 8.02337L5.46652 12.999M5.46635 1.00092L5.46652 12.999M6.55733 1.03081L6.36158 1.18618L6.55732 1.03081C6.55732 1.03081 6.55732 1.03081 6.55733 1.03081ZM5.46652 12.999C5.46655 12.999 5.46658 12.9991 5.46661 12.9991C5.60755 13.1603 5.79857 13.2501 5.99951 13.2501C6.21363 13.2501 6.41565 13.1481 6.55757 12.9692M5.46652 12.999L6.55757 12.9692M6.55757 12.9692C6.82215 12.6359 6.81316 12.1217 6.53266 11.8011L6.53232 11.8007L3.06144 7.85015L12.4995 7.85015C12.9543 7.85015 13.2495 7.42482 13.2495 7.00016C13.2495 6.57551 12.9543 6.15017 12.4995 6.15017L3.07567 6.15017L6.53241 2.19924L6.34426 2.03462L6.55757 12.9692Z" fill="white" stroke="white" stroke-width="0.5"/>
+                                                        </svg>
+                                                        {% trans "Previous question" %}
+                                                    </a>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a class="button-quz-custom button-next-quiz text-center" onclick="submit_scholarship_answer('{{stu_question.pk}}','{{stu_question.scholarshipTest_question.sno}}', '{{ stu_question.scholarshipTest_question.question_type }}')" >{% trans "Next question" %} 
+                                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M8.83296 12.9992L8.83286 12.9993C8.68697 13.1658 8.48772 13.2559 8.28016 13.2497C8.07291 13.2436 7.87929 13.1423 7.74199 12.9693L8.83296 12.9992ZM8.83296 12.9992L13.195 8.01323L13.195 8.01328M8.83296 12.9992L13.195 8.01328M13.195 8.01328L13.199 8.00854M13.195 8.01328L13.199 8.00854M13.199 8.00854C13.4283 7.73298 13.5498 7.37384 13.5498 6.99993C13.5498 6.62496 13.4275 6.26577 13.19 5.98117L13.1901 5.98113M13.199 8.00854L13.1901 5.98113M13.1901 5.98113L13.1862 5.97672M13.1901 5.98113L13.1862 5.97672M13.1862 5.97672L8.83279 1.00108C8.69185 0.839816 8.50078 0.750002 8.2998 0.750002C8.08569 0.750002 7.88367 0.851952 7.74174 1.03087C7.47716 1.3642 7.48616 1.8784 7.76665 2.19901L7.76699 2.1994M13.1862 5.97672L7.76699 2.1994M7.76699 2.1994L11.2379 6.14994L1.7998 6.14994C1.34499 6.14994 1.0498 6.57527 1.0498 6.99993C1.0498 7.42458 1.34499 7.84992 1.7998 7.84992L11.2236 7.84992M7.76699 2.1994L11.2236 7.84992M11.2236 7.84992L7.7669 11.8008L7.95505 11.9655L7.7669 11.8009C7.48641 12.1215 7.47742 12.636 7.74199 12.9693L11.2236 7.84992Z" fill="white" stroke="white" stroke-width="0.5"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="personality-quiz-option">
+                                        <div class="personality-selecotr-item">
+                                            <input type="text" id="radio1" name="selector" class="selector-item_radio" value="Enter your answer">
+                                        </div>
+                                        <div class="error-msg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            {% endfor %}
+                            {% else %}
+                            <div class="personality-quiz-item new-design-personality-item">
+                                <div class="personality-quiz-header-totel-quz">
+                                    <h3>{% trans "Futurely’s Scholarship Test" %}</h3><span>{% trans "Submitted" %}</span>
+                                </div>
+                                <div class="personality-submit-thanku text-center">
+                                    <svg width="133" height="133" viewBox="0 0 133 133" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M66.5 132.956C103.227 132.956 133 103.203 133 66.5001C133 29.7972 103.227 0.0437012 66.5 0.0437012C29.7731 0.0437012 0 29.7972 0 66.5001C0 103.203 29.7731 132.956 66.5 132.956Z" fill="#32BEA6"/>
+                                        <path d="M61.1677 101.849L29.7257 77.354L38.6658 65.8807L57.9737 80.9221L89.8396 34.9395L101.797 43.2229L61.1677 101.849Z" fill="white"/>
+                                    </svg>  
+                                    <h2>{% trans "Successfully Applied for the Futurely’s  Scholarship" %}</h2>
+                                    <p>{% trans "You’ll recieve further communications on your mail soon" %}!</p>                                      
+                                </div>
+                            </div>
+                            {% endif %}
+                         </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'css/new_css/slick.min.js' %}"></script>
+<script>
+    var option_val = ""
+    function click_option(id_no, sno){
+        option_val = $("#radio"+id_no).val();
+    }
+
+// function form_submit(){
+//     var count_values = "{{ total_question }}"
+//     var values = [];
+//     for(i=1; i<=count_values; i++){
+//         values.push({
+//             name: [i],
+//             value: $(`textarea[name=ans_${[i]}]`).val(),
+//             question: $(`input[name=question_${[i]}`).val()
+//         });
+//     }
+//     $.ajax({
+//         type: "POST",
+//         headers: {
+//             "X-CSRFToken": "{{ csrf_token }}",
+//         },
+//         url: "{% url 'scholarship_submit_answer' %}",
+//         data: values,
+//         success: function(response){
+//             console.log("Answer sumited successfully")
+//             document.getElementById("progress_bar_id").style.width= response['completed_per']+'%';
+//             location.reload();
+//         },
+//         error: function(error){
+//             console.log("Error in submit answer!")
+//             alert("NO")
+//         }
+//     });
+// }
+function last_ans(id){
+    var ans = document.getElementById("id_ans_"+id).value;
+    var count_values = "{{ total_question }}";
+    if (ans.length == 0){
+        for(i=1; i<=count_values; i++){
+            var val_ans = $(`textarea[name=ans_${[i]}]`).val();
+            if (val_ans.length == 0){
+                $('.error-message').removeClass('d-none');
+                return;
+            } 
+        }
+    }else{
+        for(i=1; i<=count_values; i++){
+            var val_ans = $(`textarea[name=ans_${[i]}]`).val();
+            if (val_ans.length == 0){
+                $('.error-message').removeClass('d-none');
+                return;
+            } 
+        }
+        submit_ans(ans, id, "Yes");
+    };
+}
+
+function submit_scholarship_answer(id,last_ans, question_type){
+    if(question_type == "MCQ"){
+        $(".submit-button").prop('disabled', true);
+        $("#id_scholarship_submit_button").html(`<i class="fa fa-refresh fa-spin"></i>Loading`);
+        submit_ans(option_val, id, last_ans);
+    }else{
+        var ans = document.getElementById("id_ans_"+id).value;
+        if (ans.length == 0){
+            return false;
+        }
+        else{
+            submit_ans(ans, id, last_ans);
+        };
+    }
+};
+
+function submit_ans(ans, id, last_ans){
+    $.ajax({
+        type: "POST",
+        headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+        },
+        url: "{% url 'scholarship_submit_answer' %}",
+        data: {
+            "answer": ans,
+            "ques_id": id,
+            "last_ans": last_ans,
+        },
+        success: function(response){
+            document.getElementById("progress_bar_id").style.width= response['completed_per']+'%';
+            if(response['is_completed'] == true){
+                location.reload();
+            }
+        },
+        error: function(error){
+            console.log("Something went wrong")
+        }
+    });
+}
+
+$(document).ready(function() {
+    $('.quiz-slider').slick({
+    infinite:false,
+    draggable: false,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: $('.button-prev-quiz'),
+    nextArrow: $('.button-next-quiz')
+});
+
+$(".quiz-button").click(function(){
+    $(".personality-quiz-lists").addClass("show");
+    $(".hide-after-clickk").hide();
+    $(".hide-after-clickk").hide();
+    var str = $("#flag_val").val();
+    $('.quiz-slider').slick('slickGoTo', str);
+
+  });
+  $(".submit-quizz").click(function(){
+    $(".sucsess-blocker").show();
+    $(".submit-quizz").addClass('hidden');
+    $(".rediectMeToHome").removeClass('hidden');
+    
+  });
+  
+//   $(".button-next-quiz").click(function(){
+//     $(".slick-next").click();
+//   });
+});
+
+  
+    </script>
+{% endblock %}

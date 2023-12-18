@@ -1,0 +1,167 @@
+{% extends 'base_unipegaso.html' %}
+{% load stu_tags %}
+{% load static %}
+{% block title%}
+{% load i18n %}
+{% load phrase_i18n %}
+<title>Quiz - Test</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 d-flex">
+            <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" />
+            <div class="personality-quiz-card">
+                <div class="personality-quiz-header hide-after-clickk">
+                    <div class="personality-quiz-item">
+                        <h1><strong>Test della personalità</strong></h1>
+                        <p>Fai il test della personalità e scopri di più su te stesso/a!</p>
+                    </div>
+                </div>
+                <div class="personality-quiz-footer hide-after-clickk">
+                    <a class="button-custom-hero quiz-button">Inizia</a>
+                </div>
+                <div class="personality-quiz-lists">
+                    <div class="progresss">
+                        <div class="progress-barr" role="progressbar" id="progress_bar_id"
+                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            <span id="progress_status_id">0/{{questions.count}}</span>
+                            <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                        </div>
+                    </div>
+                    <form class="quiz-slider slick-slider" method="post" id="QuizFormID" action="{% url 'quiz' %}">
+                        {% csrf_token %}
+                        {% for question in questions %}
+                        <div class="personality-quiz-item">
+                            <div class="personality-quiz-header">
+                                <h2><span>{{ forloop.counter }}.<i class="fa fa-arrow-right"></i></span>
+                                    {{ question.question }}</h2>
+                            </div>
+
+                            <div class="personality-quiz-option">
+                                <input type="hidden" name="selectedoption{{question.id}}" id="radio_{{question.id}}{{forloop.counter}}">
+                                {% if questions.count == forloop.counter %}
+                                    {% for option in question.unipegaso_qus_option.all %}
+                                    <div class="personality-selecotr-item">
+                                            <input type="radio" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{forloop.counter}}" hdnname="radio{{question.id}}{{forloop.counter}}" onclick="submit_pt_answer(this, '{{question.pk}}', '{{questions.count}}')">
+                                        <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{ option.option }}</label>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for option in question.unipegaso_qus_option.all %}
+                                        <div class="personality-selecotr-item">
+                                                <input type="radio" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{forloop.counter}}" hdnname="radio{{question.id}}{{forloop.counter}}" onclick="submit_pt_answer(this, '{{question.pk}}', '{{forloop.counter}}')">
+                                            <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{ option.option }}</label>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <div class="error-msg">
+                                </div>
+                                {% if questions.count is forloop.counter %}
+                                <div class="personality-button">
+                                    <button class="button-next-quiz start-loading"
+                                        type="submit" style="border: none;" id="submit_btn_id">{% trans "Submit" %} -></a>
+                                </div>
+                                {% else %}
+                                <div class="personality-button">
+                                    <a class="button-next-quiz start-loading"
+                                        onclick="form_submit(this, '{{question.pk}}', '{{forloop.counter}}')">Prosegui -></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    var num = 0;
+    var jsonObj = [];
+    function form_submit(current_button, question_id,loopcount) {
+        $(".error-msg").html('');
+        var taskArray = {};
+        if($('input[name="selector'+question_id+'"]:checked').length)
+        {
+            var val = $('input[name="selector'+question_id+'"]:checked').val();
+            if(val == "1"){
+                option_val = "Agree"
+            }else{
+                option_val = "Disagree"
+            }
+            num = num + 1 
+            $('input[name="selectedoption'+question_id+'"]').val(option_val);
+            var bar_count = parseInt(num)*100/parseInt('{{questions.count}}')
+            $("#progress_status_id").html(num+"/{{questions.count}}")
+            $("div.progress-barr").css("width", bar_count+"%");
+            var last_question = parseInt('{{questions.count}}');
+            var loopcount = parseInt(loopcount);
+            if (loopcount == last_question){
+                $("#QuizFormID").submit();
+            }else{
+                $(".slick-next").click();
+            }
+        }else{
+            $(".error-msg").html('<p>{% trans "You must select an option before proceed"%}</p>');
+        }
+    }
+
+    function submit_pt_answer(current_button, question_id,loopcount){
+        $("form").submit(function() {
+            $(".error-msg").html('');
+            var taskArray = {};
+            if($('input[name="selector'+question_id+'"]:checked').length)
+            {
+                var val = $('input[name="selector'+question_id+'"]:checked').val();
+                taskArray[question_id] = val;
+                $('input[name="selectedoption'+question_id+'"]').val(option_val);
+                jsonObj.push(taskArray);
+                console.log(jsonObj)
+                return true;
+            }else{
+                $(".error-msg").html('<p>{% trans "You must select an option before proceed"%}</p>');
+                return false;
+            }
+        });
+    };
+    $(document).ready(function () {
+        $('.quiz-slider').slick({
+            infinite:false,
+            draggable: false,
+            slidesToShow: 1,
+            swipe:false,
+            swipeToSlide:false,
+            touchMove:false,
+            slidesToScroll: 1,
+        });
+
+        $(".quiz-button").click(function () {
+            $(".personality-quiz-lists").addClass("show");
+            $(".hide-after-clickk").hide();
+            $(".hide-after-clickk").hide();
+            var str = $("#flag_val").val();
+            $('.quiz-slider').slick('slickGoTo', str);
+
+        });
+        $(".submit-quizz").click(function () {
+            $(".sucsess-blocker").show();
+            $(".submit-quizz").addClass('hidden');
+            $(".rediectMeToHome").removeClass('hidden');
+
+        });
+
+    });
+</script>
+{% endblock %}

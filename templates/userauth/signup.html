@@ -1,0 +1,620 @@
+{% extends 'base_auth2.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+    <title>The Futurely: Signup</title>
+{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% block style_sheet %}
+{% phrase_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+  html, body {
+    overflow-x: hidden;
+}
+@media (max-width:767px) {
+  .banner-futurelab {
+    padding: 0 30px;
+}
+}
+.top-register-info-text {
+		margin-top: 22px;
+	}
+	.top-register-info-text img {
+		margin-top: 3px;
+		margin-right: 8px;
+	}
+	.top-register-info-text {
+		display: flex;
+		align-items: flex-start;
+	}
+	.top-register-info-text p {
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 1.2;
+		color: #FFFFFF;
+	}
+	.top-register-info-text p a {
+    text-decoration: underline;
+    color: #fff;
+}
+.notification-bars{
+  margin-right: 3px !important ;
+
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center" >
+  <div class="col-sm-3">
+  </div>
+  <div class="col-sm-7">
+     
+      <div class="form-intro row">
+        {% if request.session.ctype == 'future_lab' %}
+         <div class="banner-futurelab">
+          <div class="banner-top-sign-new notification-bars text-center">
+            <span class="notify_text">{% trans 'Welcome to Future labs onboarding!' %}</span>
+          </div>
+          </div>
+        {% endif %}
+        {% if request.session.ctype == 'company' or request.session.ctype == 'company/'  %}
+            <!-- <div class="banner-futurelab">
+              <div class="banner-top-sign-new notification-bars text-center">
+                <span class="notify_text">{% trans 'Welcome to Company Welfare onboarding!' %}</span>
+              </div>
+            </div> -->
+            <div class="banner-futurelab new">
+              <div class="notification-bars text-center">
+                <span class="notify_text">{% trans 'Welcome to FutureLab' %}</span>
+              </div>
+            </div>
+        {% endif %}
+          <div class="col-sm-12 p-t-20">
+            <div class="float-start" >
+              <img src="{% static 'images/signin_icon.png' %}" alt="">
+              </div>
+              <span class="login-title-prop login-title-padding">{% trans "Sign up for Futurely" %}</span>
+          </div>
+          <div class="col-sm-12 p-t-20">
+              <p>{% trans "Create an account to get started" %}</p>
+          </div>
+          <form class="row form-setup" enctype="multipart/form-data" method="post" id = "id_first_form_submit">
+            {% csrf_token %}
+            <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                        <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+            {% if message %}
+            <div class="incorect">
+              {% for msg in message %}
+                <p style="color: red;">{{msg}}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="col-md-6 ">
+              <div class="border-grad-inner">
+                <div class="border-grad">
+                {% render_field person_register_form.first_name class="text-box form-control" placeholder=placeholder_first_name %}
+                <!-- <input type="text" class="text-box form-control"  placeholder="First Name">-->
+                </div>
+              </div>  
+            </div>
+            <div class="col-md-6">
+              <div class="border-grad-inner">
+                <div class="border-grad">
+                {% render_field person_register_form.last_name class="text-box form-control" placeholder=placeholder_last_name %}
+                <!-- <input type="text" class="text-box form-control"  placeholder="Last Name"> -->
+              </div>
+              </div>
+            </div>
+            <div id="id_div_gender" class="col-md-12">
+              <div class="border-grad-inner">
+              <div class="border-grad">
+                
+                <input type="hidden" id="hdn_gender" name="hdn_gender" value="">
+                <select name="gender" class="select-box form-select" id="id_gender" required>
+                  {% for x, y in person_register_form.fields.gender.choices %}
+                      {% if forloop.counter == 1 %}
+                          <option value="" selected >{% trans "Gender"%}</option>
+                      {% else %}
+                          <option value="{{ x }}">{{ y }}</option>
+                      {% endif %}
+                    {% endfor %}
+                </select>
+              </div>
+            </div>
+            </div>
+            <div id="id_div_other_gender" class="col-md-6" >
+              <div class="border-grad-inner">
+                <div class="border-grad">
+                  {% render_field person_register_form.gender_other class="text-box form-control" placeholder=placeholder_gender_other%}
+              </div>
+              </div>
+            </div>
+            {% if person_gender_error %}
+            <div class="error-msg">
+                <p>{{person_gender_error}}</p>
+            </div>
+            {% endif %}
+            <div class="col-md-12">
+              <div class="border-grad-inner">
+              <div class="border-grad">
+                <select name="are_you_fourteen_plus" class="select-box form-select" id="id_are_you_fourteen_plus" required>
+                  <option value="">{% trans "Are you 14+?" %}</option>
+                  <option value="Yes" {% if are_you_fourteen_plus == 'Yes'%} selected {% endif %}>{% trans "Yes" %}</option>
+                  <option value="No">{% trans "No" %}</option>
+                </select>
+              </div>
+            </div>
+            </div>
+            <div class="col-md-12">
+              <div class="border-grad-inner">
+              <div class="border-grad">
+                {% render_field person_register_form.email class="text-box form-control" placeholder=placeholder_email %}
+                <!-- <input type="text" class="text-box form-control"  placeholder="Email">-->
+              </div>
+            </div>
+            </div>
+            {% if person_register_form.email.errors %}
+            <div class="error-msg">
+                {{ person_register_form.email.errors }}
+            </div>
+            {% endif %}
+            {% if email_error %}
+            <div class="error-msg">
+                <p>{{email_error}}</p>
+            </div>
+          {% endif %}
+            <div class="col-md-12">
+              <div class="border-grad-inner">
+              <div class="border-grad">
+                {% render_field person_register_form.password class="text-box form-control" type="password" placeholder=placeholder_password value="" %}
+                <!-- <input type="password" class="text-box form-control" id="forgotPassInput" placeholder="Password">-->
+                <p id="pass_show_id" class="pass-show" onclick="passview()">
+                  <i class="bi bi-eye-slash"></i>
+                </p>
+              </div>
+                  <div class="error-msg" id="id_password_error">
+                    <p></p>
+                  </div>
+             </div>
+            </div>
+
+            <!-- {% if password_validation_errors %}
+            <div class="error-msg">
+                <p>{{password_validation_errors}}</p>
+            </div>
+            {% endif %} -->
+            
+            {% if request.LANGUAGE_CODE == "it" %}
+                  <div class="col-md-12">
+                    <div class="border-grad-inner">
+                    <div class="border-grad">
+                      {% render_field person_register_form.confirm_password class="text-box form-control" type="password" placeholder=placeholder_confirm_password value=""  %}
+                      <!-- <input type="password" class="text-box form-control" id="forgotPassInput" placeholder="Password">-->
+                      <p id="pass_show_id" class="pass-show" onclick="passviewc()">
+                        <i class="bi bi-eye-slash"></i>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="error-msg-confirm" id="id_confirm_password_error" style="color:red;">
+                    <p></p>
+                  </div>
+                  </div>     
+						{% else %}
+              <div class="col-md-12">
+                <div class="border-grad-inner">
+                <div class="border-grad">
+                  {% render_field person_register_form.confirm_password class="text-box form-control" type="password" placeholder="Confirm password" value="" id="id_confirm_password_english" %}
+                  <!-- <input type="password" class="text-box form-control" id="forgotPassInput" placeholder="Password">-->
+                  <p id="pass_show_id" class="pass-show" onclick="passviewc()">
+                    <i class="bi bi-eye-slash"></i>
+                  </p>
+                </div>
+              </div>
+              <div class="error-msg-confirm-english" id="id_confirm_password_error_english" style="color:red;display:none;">
+                <p></p>
+              </div>
+              </div>  
+            {% endif %} 
+
+            <script>
+              $("#id_confirm_password").keyup(function(){
+								check_password();
+							});
+
+							function check_password(){
+							var password = document.getElementById("id_password").value;
+							var confirm_password = document.getElementById("id_confirm_password").value;
+							if(password != confirm_password) {
+								$('#id_confirm_password_error').removeClass();
+								$('#id_confirm_password_error').addClass('error-msg-confirm');
+								$("#id_confirm_password_error p").text("La password non corrisponde");
+								return "La password non corrisponde"
+							}
+							else{
+								$('#id_confirm_password_error').removeClass('error-msg-confirm');
+								$('#id_confirm_password_error').addClass('strong-msg');
+								$("#id_confirm_password_error p").text("");
+								return "";
+							}
+							}
+              $('#id_password').keyup(function() {
+              $("#id_password_error p").text(checkStrength($('#id_password').val()));
+              {% if request.LANGUAGE_CODE == "it" %}
+                check_password();
+              {% else %}
+                check_password_english();
+              {% endif %}
+              
+            });
+
+            function checkStrength(password) {  
+                  var strength = 0
+                  if (password.length < 6) {  
+                is_password_valid = false;
+            $('#id_password_error').removeClass();
+            $('#id_password_error').addClass('error-msg');
+            $("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+                  return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"
+              }  
+              if (password.length > 5) strength += 1  
+              // If password contains both lower and uppercase characters, increase strength value.  
+              if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1  
+              // If it has numbers and characters, increase strength value.  
+              if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1  
+              // If it has one special character, increase strength value.  
+              // If value is less than 2  
+              if (strength < 3) {
+            is_password_valid = false;
+                  $('#id_password_error').removeClass();
+                  $('#id_password_error').addClass('error-msg');
+            $("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+                  return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"  
+              } else {  
+                  $('#id_password_error').removeClass();  
+                  $('#id_password_error').addClass('strong-msg');
+            $("#id_password_error p").text("");  
+            $("#id_password").attr("style", "border:#2E2F32!important");
+            is_password_valid = true;
+                  return ''  
+              }  
+          }
+            </script>
+
+
+
+
+            <div class="col-md-12">
+              <div class="border-grad-inner">
+                <div class="border-grad">
+
+                {% render_field person_register_form.contact_number class="text-box form-control" placeholder=placeholder_contact_number %}
+              </div>
+              </div>
+            </div>
+            
+            {% if request.session.ctype == 'general' %}
+              <div id="id_div_how_know_us" class="col-md-12">
+                <div class="border-grad">
+                  {% if how_know_us_other_error %}
+                  <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="Other">
+                  <select id="id_how_know_us"  class="select-box form-select select2" required>
+                      {% for x, y in person_register_form.fields.how_know_us.choices %}
+                        {% if forloop.counter == 1 %}
+                            <option value="Other" selected >{% trans "How did you get to know us?"%} - {% trans 'Other' %}</option>
+                        {% else %}
+                            <option value="{{ x }}">{{ y }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  {% else %}
+                  <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="">
+                  <select id="id_how_know_us"  class="select-box form-select select2" required>
+                      {% for x, y in person_register_form.fields.how_know_us.choices %}
+                        {% if forloop.counter == 1 %}
+                            <option value="" selected >{% trans "How did you get to know us?"%}</option>
+                        {% else %}
+                            <option value="{{ x }}">{{ y }}</option>
+                        {% endif %}
+                      {% endfor %}
+                    </select>
+                  {% endif %}
+                </div>
+              </div>
+              <div id="id_div_other" class="col-md-6" >
+                <div class="border-grad-inner">
+                  <div class="border-grad">
+                  {% render_field person_register_form.how_know_us_other class="text-box form-control" placeholder=placeholder_how_know_other%}
+                </div>
+                </div>
+              </div>
+              {% if how_know_us_error %}
+              <div class="error-msg">
+                  <p>{{how_know_us_error}}</p>
+              </div>
+              {% endif %}
+              {% if how_know_us_other_error %}
+              <div class="error-msg">
+                  <p>{{how_know_us_other_error}}</p>
+              </div>
+              {% endif %}
+            {% else %}
+            {% if request.session.ctype == 'future_lab' %}
+              <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="School">
+            {% else %}
+              <input type="hidden" id="hdn_how_know_us" name="how_know_us" value="Other">
+              <input type="hidden" id="how_know_us_other" name="how_know_us_other" value="Company">
+            {% endif %}
+            {% endif %}
+            <div class="col-md-12">
+              <div class="border-grad-inner">
+              <div class="border-grad" id="id_div_btn_next">
+                <button class=" form-control sign-btn sign-btn-next" id='btn_next' type="submit">{% trans "Next" %}</button>
+              </div>
+              </div> 
+            </div>
+            <div class="col-md-12">
+              <div class="border-grad">
+                <a href="{% url 'login' %}" class="extraHref">
+                    <button class="form-control text-box" type="button">{% trans "Already have an account? Login" %}</button>
+                  </a>
+              </div>
+            </div>
+          </form>
+      </div>
+  </div>
+  <div class="col-sm-2">
+  </div>
+</div>
+
+
+
+
+    <!-- Fourteen Plus Modal -->
+    <div class="modal fade" id="fourteenPlusModal" tabindex="-1" role="dialog" aria-labelledby="fourteenPlusModal" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content six-p">
+            <div class="modal-header">
+              <h5 class="modal-title">{% trans 'Are you 14+? - No' %}</h5>
+              <!-- <button type="button" class="cross-m" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                  </svg>
+              </button> -->
+            </div>
+            <div class="modal-body six-p-p">
+              <p style="color: red;">{% trans 'Our program is intended only for high school students who are 14 and above. Soon, we will add our experience for everyone. Please check back in some time.' %}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="six-p-conti" data-bs-dismiss="modal" data-dismiss="modal">{% trans 'I understand' %}</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+
+$("#id_confirm_password_english").keyup(function(){
+		check_password_english();
+	});
+
+	function check_password_english(){
+		var password = document.getElementById("id_password").value;
+		var confirm_password = document.getElementById("id_confirm_password_english").value;
+		if(password != confirm_password) {
+			$('#id_confirm_password_error_english').removeClass();
+			$('#id_confirm_password_error_english').addClass('error-msg-confirm-english');
+			$("#id_confirm_password_error_english p").text("Passwords do not match");
+			$('#id_confirm_password_error_english').show();
+			return "La password non corrisponde"
+		}
+		else{
+			$('#id_confirm_password_error_english').removeClass('error-msg-confirm-english');
+			$('#id_confirm_password_error_english').addClass('strong-msg');
+			$("#id_confirm_password_error_english p").text("");
+			$('#id_confirm_password_error_english').hide();
+			return "";
+		}
+		}
+
+
+
+
+
+  $( document ).ready(function() {
+$("#id_are_you_fourteen_plus").change();
+"{% if gender_other_error %}"
+   $("#id_div_other_gender").show();
+   $('#id_div_gender').removeClass('col-md-12');
+   $('#id_div_gender').addClass('col-md-6');
+   $('#id_gender_other').attr('required','true');
+"{% else %}"
+$("#id_div_other_gender").hide();
+"{% endif %}"
+
+$.validator.addMethod("valueEquals", function(value, element, arg){
+   return value == 'Yes'; 
+ }, "Our program is intended only for high school students who are 14 and above.");
+
+$("form").validate({
+   rules: {
+     are_you_fourteen_plus: { valueEquals: "Yes" }
+   },
+   // messages: {
+   //   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+   // }  
+});
+
+});
+
+$("#id_gender").change(function() {
+ var selected_text = $(this).find("option:selected").text();
+ var selected_val = $(this).find("option:selected").val()
+ $("#hdn_gender").val(selected_val);
+
+ $("#id_gender option:first").text("{% trans 'Gender'%} - "+selected_text);
+ $("#id_gender option:first").val(selected_val);
+ $("#id_gender")[0].selectedIndex = 0;
+ if(selected_val == "Other")
+ {
+   $("#id_div_other_gender").show();
+   $('#id_div_gender').removeClass('col-md-12');
+   $('#id_div_gender').addClass('col-md-6');
+   $('#id_gender_other').attr('required','true');
+ }
+ else{
+  $("#id_gender_other").val('');
+   $("#id_div_other_gender").hide();
+   $('#id_div_gender').removeClass('col-md-6');
+   $('#id_div_gender').addClass('col-md-12');
+   $('#id_gender_other').removeAttr('required');
+   
+ }
+
+});
+$( document ).ready(function() {
+
+ $("#id_are_you_fourteen_plus").change();
+ "{% if request.session.ctype == 'general' %}"
+  "{% if how_know_us_other_error %}"
+      $("#id_div_other").show();
+      $('#id_div_how_know_us').removeClass('col-md-12');
+      $('#id_div_how_know_us').addClass('col-md-6');
+      $('#id_how_know_us_other').attr('required','true');
+  "{% else %}"
+      $("#id_div_other").hide();
+  "{% endif %}"
+"{% endif %}"
+ 
+ $.validator.addMethod("valueEquals", function(value, element, arg){
+    return value == 'Yes'; 
+  }, "Our program is intended only for high school students who are 14 and above.");
+
+$("form").validate({
+    rules: {
+      are_you_fourteen_plus: { valueEquals: "Yes" }
+    },
+    // messages: {
+    //   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+    // }  
+});
+
+});
+"{% if request.session.ctype == 'general' %}"
+$("#id_how_know_us").change(function() {
+  var selected_text = $(this).find("option:selected").text();
+  var selected_val = $(this).find("option:selected").val()
+  $("#hdn_how_know_us").val(selected_val);
+
+  $("#id_how_know_us option:first").text("{% trans 'How did you get to know us?'%} - "+selected_text);
+  $("#id_how_know_us option:first").val(selected_text);
+  $("#id_how_know_us")[0].selectedIndex = 0;
+  if(selected_val == "Other")
+  {
+    $("#id_div_other").show();
+    $('#id_div_how_know_us').removeClass('col-md-12');
+    $('#id_div_how_know_us').addClass('col-md-6');
+    $('#id_how_know_us_other').attr('required','true');
+  }
+  else{
+    $("#id_how_know_us_other").val('');
+    $("#id_div_other").hide();
+    $('#id_div_how_know_us').removeClass('col-md-6');
+    $('#id_div_how_know_us').addClass('col-md-12');
+    $('#id_how_know_us_other').removeAttr('required');
+    
+  }
+
+});
+"{% endif %}"
+
+$("#id_are_you_fourteen_plus" ).change(function() {
+    if ($(this).val() == 'No') {
+      $('#fourteenPlusModal').modal('show');
+      $('#btn_next').attr('disabled', true);
+      $('#id_div_btn_next').attr('style','background: none !important');
+      $('#btn_next').attr('style','border: none !important');
+      $('#btn_next').attr('title',`{% trans "Select correct option for 'Are you 14+?'" %}`);
+    }
+
+    else if ($(this).val() == 'Yes') {
+      $('#btn_next').removeAttr('disabled');
+      $('#id_div_btn_next').removeAttr('style');
+      $('#btn_next').removeAttr('style');
+    }
+
+    if ($(this).val() == 'Yes' || $(this).val() == 'No') {
+      var selected_text = $(this).find("option:selected").text();
+      var selected_value = $(this).find("option:selected").val();
+      $(this).empty();
+      $(this).append(`<option value="${selected_value}" selected>{% trans 'Are you 14+?' %} - ${selected_text}</option>`);
+      $(this).append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+      $(this).append(`<option value="No">{% trans 'No' %}</option>`);
+    }
+  });
+
+
+
+  function passview()
+  {
+    var x = document.getElementById("id_password");
+    if (x.type === "password") {
+      x.type = "text";
+      $("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+    } 
+    else 
+    {
+      x.type = "password";
+      $("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+    }
+  }
+
+  function passviewc() {
+  var x = document.getElementById("id_confirm_password");
+  if (x.type === "password") {
+    x.type = "text";
+    $("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+  } else {
+    x.type = "password";
+    $("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+  }
+}
+
+$("#id_first_form_submit").submit(function(e) {
+		contact_number = $('#id_contact_number').val();
+		password = $('#id_password').val();
+    {% if request.LANGUAGE_CODE == "it" %}
+    confirm_password = $('#id_confirm_password').val();
+    {% else%}
+		confirm_password = $('#id_confirm_password_english').val();
+    {% endif %}
+		if(password != confirm_password){
+    		return false;
+		}
+    //if(contact_number != ""){
+    // return true;
+    //}
+    //else{
+    //  return true;
+    //}
+  });
+// $(document).ready(function() {
+//   $('#register-modal-link').click(function(e) {
+//     e.preventDefault();
+//     $('#registerModal').modal('show');
+//   });
+// });
+$(document).ready(function() {
+$('#id_how_know_us').select2();
+});
+</script>
+{% endblock %}

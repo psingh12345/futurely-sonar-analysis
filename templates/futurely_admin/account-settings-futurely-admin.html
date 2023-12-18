@@ -1,0 +1,185 @@
+{% extends 'base_admin.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Account Settings" %}</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    .delete-acc{
+        /* color: white; */
+            float: left;
+            /* font-size: 12px; */
+            padding-top: 10px;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 17px;
+        /* identical to box height */
+            letter-spacing: -0.03em;
+            color: #FFFFFF;
+            opacity: 0.8;
+    }
+    .del-acc-div{
+        background: #212529;
+        color: white;
+        padding: 14px;
+        text-align: left !important;
+        font-size: 18px;
+    }
+    .btn-delete-acc{
+        float: right;
+            color: white;
+            border: 1px solid;
+            /* border-color: red; */
+            background: #26272B;
+        /* Elements */
+            box-shadow: 9px 9px 16px rgba(0, 0, 0, 0.4), -6px -9px 29px rgba(65, 68, 74, 0.32);
+            border-radius: 5px;
+            font-size: 13px;
+            /* right: 0 !important; */
+            background: rgba(234, 69, 75, 0.1);
+            border: 1px solid #EA454B;
+            border-radius: 5px;
+    }
+    @media (max-width:767px) {
+    .delete-acc,.btn-delete-acc{
+        font-size: 10px !important;
+    }
+    }
+    </style>
+    
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content py-4">
+
+    <div class="row mx-4">
+        <div class="col-lg-12 col-md-12 page-route-margin">
+            <span class="pages-route-pre">
+                <a href="{% url 'admin_dashboard' %}">{% trans "Home" %} ></a>
+                {% trans "Account Settings" %}
+            </span>
+        </div>
+    </div>
+    <div class="wrapper mx-4">
+        <div class="row">
+            <div class="col-12 col-5 col-md-4 my-3 pt-4">
+                <h4 class="account_setting text-white ps-3 mb-md-4">{% trans "Account Settings" %}</h4>
+                <div class="account_inner_content mt-xs-5 mt-sm-2 mx-4">
+                    <div class="account_stats p-3">
+                        <div class="account_stats_left">
+                            <h5>{% trans "Account Statistics" %}</h5>
+                            <p>{% trans "With each step you successfully complete, you improve your statistics" %}</p>
+                        </div>
+                        <div class="account_stats_right">
+                            <div class="progress blue">
+                                <span class="progress-left">
+                                    <span class="progress-bar"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar"></span>
+                                </span>
+                                <div class="progress-value">50%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'account-settings-counselor' %}" class="account_links p-3 mt-4 mb-2 d-inline-block w-100">
+                        <i class="fas fa-user account_links_left_icon mr-1"></i>{% trans "Personal Information" %}<i
+                            class="fas fa-chevron-right float-right account_links_right_icon"></i>
+                    </a>
+                    <a href="{% url 'account-change-password-counselor' %}"
+                        class="account_links p-3 mt-2 mb-4 d-inline-block w-100">
+                        <i class="fas fa-lock account_links_left_icon mr-1"></i>{% trans "Security" %}<i
+                            class="fas fa-chevron-right float-right account_links_right_icon"></i>
+                    </a>
+                    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+                    <div>
+                        <p class="delete-acc">{% trans "Want to delete your account?" %}</p><a type="button" class="px-3 py-2 btn ms-2 btn-delete-acc" data-bs-toggle="modal" data-bs-target="#delete-account" >{% trans "Delete account" %}</a>
+                                           
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal fade" id="delete-account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="new-courses-box popup modal-content">
+                    <div class="card-pricing text-center card-radius2 del-acc-div">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p class="color-white">{% trans "Send an email to rohit@myfuturely.com to start a thread for deleting all your data and activities from www.myfuturely.com account" %}</p>
+                              </div>
+                       
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-12 col-7 col-md-8 personal_info my-3 pt-4">
+                <h4 class="account_setting text-white pl-3">{% trans "Personal Information" %}</h4>
+                <div class="account_inner_content mt-5 mx-4">
+                    <div class="top_info pb-3 mb-3">
+                        <div class="row mx-0">
+                            <div class="col-12 col-sm-6 px-0 d-flex align-items-center">
+                                <p class="mb-0 text-white"><img class="mr-3" src="{% static 'images/Memoji.png' %}">
+                                    {{user}}</p>
+                            </div>
+                            <div class="col-12 col-sm-6 px-0">
+                                <div class="personal_info_btn d-flex justify-content-end">
+                                    <!-- <a href="#" class="px-3 py-2">Edit Profile</a> -->
+                                    <a href="#" class="px-3 py-2 ms-2"
+                                        id="save_personal_info">{% trans "Save all changes" %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info_form">
+                        <form action="{% url 'account-settings-futurely-admin' %}" class="settingform" method="POST"
+                            id="personal_information_form">
+                            {% csrf_token %}
+                            <div class="row my-3">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="mb-2" for="email">{% trans "First Name" %}</label>
+                                        <input type="text" class="form-control" placeholder="{% trans 'Last Name' %}"
+                                            id="first_name" name="first_name" value="{{first_name}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="mb-2" for="email">{% trans "Last Name" %}</label>
+                                        <input type="text" class="form-control" placeholder="{% trans 'First Name' %}"
+                                            id="last_name" name="last_name" value="{{last_name}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-3">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                        <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                        <label class="mb-2" for="email">{% trans 'Email' %}</label>
+                                        <input type="email" class="form-control" placeholder="{% trans 'Email' %}"
+                                            id="email" name="email" value="{{email}}" required readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $("#save_personal_info").on('click', function (e) {
+        $('#personal_information_form').submit();
+    });
+</script>
+{% endblock %}

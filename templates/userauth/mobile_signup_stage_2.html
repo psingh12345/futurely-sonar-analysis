@@ -1,0 +1,441 @@
+{% extends 'base_mobile_inner_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Signup</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<style>
+	.main {
+		padding: 0;
+	}
+	.recaptcha{
+		display: flex;
+    	justify-content: center;
+	}
+
+	div#id_div_other {
+		margin-top: 15px;
+	}
+	.start-loading {
+		background-color: #04AA6D; /* Green background */
+		border: none; /* Remove borders */
+		color: white; /* White text */
+		padding: 12px 16px; /* Some padding */
+		font-size: 16px /* Set a font size */
+	}
+	.width-text-with-label{
+		width: 90% !important;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+	<div class="col-sm-3">
+	</div>
+	<div class="col-sm-12">
+		<div class="form-intro row">
+			<div class="mobile-login-header">
+				{% comment %} <a href="{% url 'futurelab_signup_new' %}"
+					class="btnBack">
+					<svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10.2401 0.641831L10.24 0.641876L1.51602 9.1892L1.51599 9.18918L1.51425 9.19097C1.11842 9.59865 0.9 10.1401 0.9 10.7155C0.9 11.2911 1.11884 11.8329 1.53184 12.2571L1.53182 12.2572L1.53352 12.2588L10.2405 20.7886C10.2405 20.7886 10.2405 20.7887 10.2405 20.7887C10.4532 20.9972 10.7265 21.1011 11 21.1011C11.2911 21.1011 11.582 20.983 11.7979 20.7497C12.2156 20.2986 12.1987 19.5863 11.76 19.1564L11.7598 19.1563L4.2647 11.8441L24 11.8441C24.6099 11.8441 25.1 11.3358 25.1 10.7155C25.1 10.0952 24.6099 9.58697 24 9.58697L4.29547 9.58697L11.7595 2.27461C12.1982 1.84477 12.2151 1.13191 11.7974 0.680846C11.3787 0.228727 10.6809 0.210473 10.2401 0.641831Z"
+							fill="white" stroke="white" stroke-width="0.2" />
+					</svg>
+				</a> {% endcomment %}
+				<form action="{% url 'futurelab_signup_new' %}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="email" value="{{email}}">
+					<input type="hidden" name="username" value="{{email}}">
+					<input type="hidden" name="first_name" value="{{first_name}}">
+					<input type="hidden" name="last_name" value="{{last_name}}">
+					<input type="hidden" name="gender" value="{{gender}}">
+					<input type="hidden" name="password" value="{{password}}">
+					<input type="hidden" name="contact_number" value="{{contact_number}}">
+					<input type="hidden" name="countryCode" value="{{countryCode}}">
+					<input type="hidden" name="backbtn" value="Yes">
+					<!-- <a class="btnBack" type="submit"><i class="bi bi-arrow-left"></i></a> -->
+					<button type="submit" class="btnBack"><i class="bi bi-arrow-left"></i></button>
+				</form>
+				<h1>{% trans "Sign Up" %}</h1>
+				<img src="{% static '/website/new/images/icon-mobile-auth.png' %}" />
+
+			</div>
+
+
+			<form class="row form-setup" enctype="multipart/form-data" method="post" id="idForm">
+				{% csrf_token %}
+				<input type="hidden" name="email" value="{{email}}">
+                <input type="hidden" name="username" value="{{email}}">
+                <input type="hidden" name="first_name" value="{{first_name}}">
+                <input type="hidden" name="last_name" value="{{last_name}}">
+                <input type="hidden" name="gender" value="{{gender}}">
+                <input type="hidden" name="password" value="{{password}}">
+                <input type="hidden" name="contact_number" value="{{contact_number}}">
+                {{student_completion_form.are_you_a_student}}
+			<div id="signup-third-step" class="mobile-form-login-up row">
+				<div class="col-md-12">
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "FutureLab Code" %}</label>
+							<div class="border-grad">
+								<input type="text" class="hidden" id="id_future_lab_code" name="future_lab_code" value="{{request.session.coupon_code}}">
+								<!-- {% render_field student_completion_form.discount_coupon_code class="mobile-text-input text-box form-control" placeholder=" "%} -->
+								<input type="text" class="field-input text-box form-control" placeholder=" " required="required" disabled="true" >
+								<label class="form-label-text width-text-with-label">
+									{{request.session.coupon_code}}
+									<span class="pull-right">
+										<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+												fill="#70F099" />
+										</svg>
+										<b style="color:green;">{% trans "Code applied" %}</b>
+									</span>
+								</label>
+								<span class="d-none error-message invaild" id="id_invalid_code">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Not registered" %}
+								</span>
+								<span class="d-none error-message success" id="id_applied_code">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Code applied" %}
+								</span>
+							</div>
+						</div>
+						{% if student_completion_form.discount_coupon_code.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ student_completion_form.discount_coupon_code.errors }}</p>
+							</div>
+						{% endif %}
+						{% if discount_error_msg %}
+						<div class="error-msg">
+							<p style="color: red;">{{ discount_error_msg }}</p>
+						</div>
+						{% endif %}
+					</div>
+
+					{% if request.LANGUAGE_CODE == "it" %}
+					<div class="col-md-12 d-flex justify-content-between">
+						<div class="half-flex">
+							<div class="border-grad-inner">
+								<label class="mobile-label-text">{% trans "Your Grade" %}</label>
+								<div class="border-grad mobile-grad-border">
+									<select  class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-year" name="class-year" required>
+										<option value="" selected="">{% trans "Select" %}</option>
+										{% for class_year in class_years %}
+										<option value="{{class_year.pk}}">{{class_year.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="half-flex">
+							<div class="border-grad-inner">
+								<label class="mobile-label-text">{% trans "Your Section" %}</label>
+								<div class="border-grad mobile-grad-border">
+									<select  class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-name" name="class-name" required>
+										<option value="" selected="">{% trans "Select" %}</option>
+										{% for class_name in class_names %}
+										<option value="{{class_name.pk}}">{{class_name.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Stream" %}</label>
+							<div class="border-grad mobile-grad-border">
+								<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-specialization"
+								name="class-specialization" required="">
+									<option value="" selected="">{% trans "Select your Stream" %}</option>
+									{% for specialization in specilizations %}
+									<option value="{{specialization.pk}}">{{specialization.name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+					{% else %}
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Grade" %}</label>
+							<div class="border-grad mobile-grad-border">
+								<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-year" name="class-year" required="">
+									<option value="" selected="">{% trans "Select" %}</option>
+									{% for class_year in class_years %}
+									<option value="{{class_year.pk}}">{{class_year.name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Parent’s Mobile Number" %}</label>
+							<div class="border-grad">
+								{% render_field second_stage_form.parents_mobile_number class="fmobile-text-input text-box form-control" placeholder=par_mobile_placeholder %}
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Already exist" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+						{% if second_stage_form.parents_mobile_number.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ second_stage_form.parents_mobile_number.errors }}</p>
+							</div>
+						{% endif %}
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Parent’s E-mail ID" %}</label>
+							<div class="border-grad">
+								{% render_field second_stage_form.parents_email class="mobile-text-input text-box form-control" placeholder=par_email_placeholder %}
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Already exist" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+						{% if second_stage_form.parents_email.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ second_stage_form.parents_email.errors }}</p>
+							</div>
+						{% endif %}
+					</div>
+					<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="School">
+					<!-- <div class="col-md-12" id="id_div_how_know_us">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "How did you get to know us?"%}</label>
+							{% if how_know_us_other_error %}
+							<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="Other">
+							<select id="id_how_know_us"  class="select-box form-select" required>
+								{% for x, y in second_stage_form.fields.how_know_us.choices %}
+								{% if forloop.counter == 1 %}
+									<option value="Other" selected >{% trans "Select"%} - {% trans 'Other' %}</option>
+								{% else %}
+									<option value="{{ x }}">{{ y }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+							{% else %}
+							<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="">
+							<select id="id_how_know_us"  class="select-box form-select" required>
+								{% for x, y in second_stage_form.fields.how_know_us.choices %}
+								{% if forloop.counter == 1 %}
+									<option value="" selected >{% trans "How did you get to know us?"%}</option>
+								{% else %}
+									<option value="{{ x }}">{{ y }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+							{% endif %}
+						</div>
+					</div> -->
+
+					<!-- <div id="id_div_other" class="col-md-6">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "If other, enter the source here" %}</label>
+							<div class="border-grad">
+								{% render_field second_stage_form.how_know_us_other class="field-input text-box form-control" placeholder=" " %}
+							</div>
+						</div>
+						{% if second_stage_form.how_know_us_other.errors %}
+							<div class="error-msg">
+								<p style="color: red;">{{ second_stage_form.how_know_us_other.errors }}</p>
+							</div>
+						{% endif %}
+					</div> -->
+
+				</div>
+				<div class="col-md-12" style="margin-top: 25px;">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad" id="id_div_btn_next">
+								<button class="mobile-sign-button form-control sign-btn sign-btn-next start-loading" id='btn_next'
+									type="submit">{% trans "Finish!" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong type="button" data-bs-toggle="modal"
+								data-bs-target="#privcy-policy-modal">{% trans "Privacy Policy" %}</strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+	function loaderonclick(currenttab){
+	
+    $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+    $(currenttab).css("cursor", "default");
+    $(currenttab).removeAttr('onclick');
+	$(currenttab).prop('disabled', true);
+    return true;
+    
+}
+	setTimeout(function() {
+		$('.errorlist').fadeOut();
+		$('errorlist li').val('')
+	}, 10000 );
+
+	setTimeout(function() {
+		$('.error-msg').fadeOut();
+		$('.error-msg').val('');
+	}, 10000);
+
+	// $("#id_div_other").hide();
+
+    // $("#id_how_know_us").change(function () {
+    //     var selected_text = $(this).find("option:selected").text();
+    //     var selected_val = $(this).find("option:selected").val()
+    //     $("#hdn_how_know_us").val(selected_val);
+    //     $("#id_how_know_us option:first").text("{% trans 'How did you get to know us?'%} - " + selected_text);
+    //     $("#id_how_know_us option:first").val(selected_text);
+    //     $("#id_how_know_us")[0].selectedIndex = 0;
+    //     if (selected_val == "Other") {
+    //         $("#id_div_other").show();
+    //         $('#id_div_how_know_us').removeClass('col-md-12');
+    //         $('#id_div_how_know_us').addClass('col-md-6');
+    //         $('#id_how_know_us_other').attr('required', 'true');
+    //     }
+    //     else {
+    //         $("#id_how_know_us_other").val('');
+    //         $("#id_div_other").hide();
+    //         $('#id_div_how_know_us').removeClass('col-md-6');
+    //         $('#id_div_how_know_us').addClass('col-md-12');
+    //         $('#id_how_know_us_other').removeAttr('required');
+    //     }
+    // });
+
+	function apply_discount_code(is_from_onblur) {
+        var is_applied_discount_code = false;
+        var coupon_code = $('#id_discount_coupon_code').val();
+        if (coupon_code) {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'coupon-code-exists' %}",
+                headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                data: {
+                'coupon_code': coupon_code,
+                },
+                success: function (response) {
+                var data = JSON.parse(JSON.stringify(response));
+                    if (data['message'] == 'success') {
+                        $('#id_future_lab_code').val(coupon_code);
+                        $("#id_applied_code").removeClass("d-none");
+                        $("#id_invalid_code").addClass("d-none");
+                        is_applied_discount_code = true;
+                        // $("#idForm").append(`
+                        //     <input type="hidden" id="id-school-region" name="school-region" value="${data["data"]["state"]}">
+                        //     <input type="hidden" id="id-school-city" name="school-city" value="${data["data"]["city"]}">
+                        //     <input type="hidden" id="id-school-name" name="school-name" value="${data["data"]["name"]}">
+                        // `);
+                    } else {
+                        $('#id_future_lab_code').val('');
+                        $("#id_invalid_code").removeClass("d-none");
+                        $("#id_applied_code").addClass("d-none");
+                        is_applied_discount_code = false;
+                    }
+                },
+                error: function (response) {
+                    $('#id_future_lab_code').val('');
+					$("#id_invalid_code").removeClass("d-none");
+					$("#id_applied_code").addClass("d-none");
+					is_applied_discount_code = false;
+                },
+                async: is_from_onblur
+            });
+        }
+    };
+    $('#id_discount_coupon_code').on('blur', function (e) {
+        apply_discount_code(true);
+    });
+
+	$("#idForm").submit(function () {
+		if ($('#id_future_lab_code').val() == '') {
+			apply_discount_code(false);
+		}
+		if ($('#id_future_lab_code').val() == '') {
+			"{% if request.session.ctype != 'general' %}"
+				$("#id_invalid_code").removeClass("d-none");
+				$("#id_applied_code").addClass("d-none");
+			return false;
+			"{% endif %}"
+		}
+			loaderonclick('.start-loading');
+
+	});
+	$(document).ready(function() {
+		$('#id-class-year').select2();
+		{% if request.LANGUAGE_CODE == "it" %}
+		$('#id-class-specialization').select2();
+		$('#id-class-name').select2();
+		{% endif %}
+	});
+	
+</script>
+{% endblock %}

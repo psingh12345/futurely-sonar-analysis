@@ -1,0 +1,1680 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load payment_tags %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Plans" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+	
+	.new-card-pricing ul li svg{
+		margin-top: 3px;
+	}
+	.pricing-title-block p {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 26px;
+		color: #FFFFFF;
+	}
+
+	.pricing-title-block h3,
+	.pricing-title-block .h3 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 34px;
+		color: #FFFFFF;
+	}
+
+	.new-card-pricing .h2 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 30px;
+		color: #FFFFFF;
+	}
+
+	.most-popular-btn {
+		background: #ED8147;
+		border-radius: 50px;
+		font-weight: 600;
+		font-size: 12px;
+		text-align: center;
+		letter-spacing: 0.833333px;
+		color: #FFFFFF;
+		padding: 8px 15px;
+		margin-left: auto;
+		float: right;
+		margin-top: -15px;
+		transition: all .5s;
+		text-transform: uppercase;
+	}
+
+	.new-card-pricing-discount {
+		display: flex;
+		align-items: self-end;
+		gap: 10px;
+	}
+
+	.new-card-pricing-discount h4 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 17px;
+		color: #4F4F4F;
+		opacity: 0.7;
+		text-decoration: line-through;
+	}
+
+	.new-card-pricing.active .h2,
+	.new-card-pricing.active h3,
+	.new-card-pricing.active .h3,
+	.new-card-pricing.active ul li,
+	.new-card-pricing.active p {
+		color: #000000;
+	}
+
+	@media (min-width:992px) {
+
+		#premium-plan,
+		#diamond-plan {
+			margin-top: 22px;
+		}
+
+		.mobile-plans-tabs {
+			display: none;
+		}
+	}
+
+	@media (max-width:992px) {
+
+		.pricing-title-block h3,
+		.pricing-title-block .h3 {
+			font-size: 22px;
+		}
+
+		.pricing-title-block p {
+			font-size: 16px;
+		}
+
+		.mobile-plans-tabs ul li {
+			list-style: none;
+		}
+	}
+
+	.new-card-pricing h3,
+	.new-card-pricing .h3 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 24px;
+		color: #FFFFFF;
+	}
+
+	.new-card-pricing p {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		color: #FFFFFF;
+	}
+
+	.new-card-pricing ul li {
+		list-style: none;
+		padding: 5px 0;
+		font-style: normal;
+		font-weight: 500;
+		font-size: 16px;
+		color: #FFFFFF;
+		display: flex;
+		gap: 12px;
+	}
+	
+
+	.new-card-pricing ul {
+		padding: 0;
+		margin: 0;
+	}
+
+	.new-card-pricing {
+		background-color: #11141F;
+		border-radius: 24px;
+		padding: 30px 15px;
+		width: 100%;
+		display: block;
+		background-image: url({% static '/website/images/blue-bubbles.png' %});
+		background-position: top right;
+		background-repeat: no-repeat;
+	}
+	.cursor-Icon {
+   		cursor: url({% static '/website/images/cursor-icon.png' %}), auto;
+	}
+	.pricing-btn-btm {
+		margin: 14px auto 0;
+		border-radius: 50px;
+		background: linear-gradient(96.52deg, #0068FF 17.48%, #FE45C2 95.36%);
+		padding: 2px;
+		border: none;
+		display: table;
+		width: 100%;
+		max-width: 200px;
+	}
+
+	.new-card-pricing h5 {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		color: #414347;
+		text-align: center;
+		display: block;
+		margin: 12px 0 0;
+	}
+
+	.pricing-btn-btm.active .btn.payment-buttons.chooose-active-btn {
+		background: transparent;
+		color: #fff;
+	}
+
+	.btn.payment-buttons:hover {
+		border: none !important;
+	}
+
+	.new-card-pricing ul li.disabled {
+		color: #414347 !important;
+	}
+
+	.btn.payment-buttons {
+		border-radius: 50px;
+		background: #121220;
+		border: none;
+		padding: 11px 25px;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		text-align: center;
+		display: block;
+		width: 100%;
+	}
+
+	.btn.payment-buttons span {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 16px;
+		text-align: center;
+		background: linear-gradient(96.52deg, #0068FF 17.48%, #FE45C2 95.36%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color: transparent;
+	}
+
+	.pricing-btn-btm.active .btn.payment-buttons {
+		background: #fff;
+	}
+
+	pricing-btn-btm.active .btn.payment-buttons.chooose-active-btn {
+		background: transparent;
+		color: #fff;
+	}
+
+	.price-timing-block {
+		background: #F6C05B;
+		border-radius: 13.5px 13.5px 0 0;
+		width: 100%;
+		max-width: 300px;
+		margin: 0 auto -10px;
+		display: table;
+		text-align: center;
+		padding: 12px;
+	}
+
+	.price-timing-block p {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		text-align: center;
+		letter-spacing: 0.833333px;
+		color: #000000;
+		margin-bottom: 2px;
+	}
+
+	.price-timing-block h3 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 17px;
+		text-align: center;
+		letter-spacing: 0.833333px;
+		color: #000000;
+	}
+
+	.new-card-pricing.active {
+		background: #67E3F6;
+	}
+
+	.most-popular-btn:hover {
+		background: #f7722a;
+		color: #fff;
+	}
+
+	.most-popular-btn {
+		background: #ED8147;
+		border-radius: 50px;
+		font-weight: 600;
+		font-size: 12px;
+		text-align: center;
+		letter-spacing: 0.833333px;
+		color: #FFFFFF;
+		padding: 8px 15px;
+		margin-left: auto;
+		float: right;
+		margin-top: -15px;
+		transition: all .5s;
+	}
+
+	.new-card-pricing-discount {
+		display: flex;
+		align-items: self-end;
+		gap: 10px;
+	}
+
+	.new-card-pricing-discount h4 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 17px;
+		color: #4F4F4F;
+		opacity: 0.7;
+		text-decoration: line-through;
+	}
+
+	.new-card-pricing.active .h2,
+	.new-card-pricing.active h3,
+	.new-card-pricing.active .h3,
+	.new-card-pricing.active ul li,
+	.new-card-pricing.active p {
+		color: #000000;
+	}
+
+	@media (min-width:992px) {
+
+		#premium-plan,
+		#diamond-plan {
+			margin-top: 22px;
+		}
+
+		.mobile-plans-tabs {
+			display: none;
+		}
+	}
+
+	@media (max-width:992px) {
+
+		.pricing-title-block h3,
+		.pricing-title-block .h3 {
+			font-size: 22px;
+		}
+
+		.pricing-title-block p {
+			font-size: 16px;
+		}
+
+		.mobile-plans-tabs ul li {
+			list-style: none;
+		}
+
+		.mobile-plans-tabs ul {
+			margin: 0;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.mobile-plans-tabs ul li a {
+			font-style: normal;
+			font-weight: 600;
+			font-size: 16px;
+			color: #FFFFFF;
+			border-radius: 50px;
+			padding: 7px 15px;
+			display: block;
+			min-width: 80px;
+			text-align: center;
+		}
+
+		.mobile-plans-tabs {
+			background: #03153E;
+			box-shadow: 0px 4px 29px 16px rgb(0 0 0 / 25%);
+			border-radius: 8px;
+			width: 100%;
+			padding: 10px;
+			margin: 0 0 28px;
+		}
+
+		.tab-box {
+			display: none;
+		}
+
+		.mobile-plans-tabs ul li a.active {
+			background: #67E3F6;
+			box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+			color: #000000;
+		}
+	}
+
+	.payment-custom-tabs {
+		padding: 0;
+		margin: 0 auto 38px;
+		background: #D0D4E2;
+		box-shadow: inset 0px 4px 35px 2px rgb(0 0 0 / 25%);
+		border-radius: 8px;
+		display: table;
+	}
+
+	.payment-custom-tabs li a span {
+		background: #1368F7;
+		border-radius: 110px;
+		font-weight: 400;
+		font-size: 15px;
+		text-align: center;
+		color: #FFFFFF;
+		padding: 5px 8px;
+		margin-left: 4px;
+	}
+
+	.payment-custom-tabs li {
+		list-style: none;
+		display: inline-block;
+		margin: 0 -2px;
+	}
+
+	.payment-custom-tabs li a {
+		font-style: normal;
+		font-weight: 700;
+		font-size: 14px;
+		text-align: center;
+		color: #000000;
+		padding: 12px 20px;
+		display: inline-block;
+	}
+
+	.payment-custom-tabs li a.active {
+		background: #7E74F5;
+		border-radius: 8px;
+		color: white !important;
+	}
+
+	#contact-us-plan-popup.show {
+		display: flex !important;
+		align-items: center;
+		z-index: 9999;
+	}
+
+	.contact-plan-popup {
+		background: #1A1A1A;
+		border-radius: 8px;
+		filter: drop-shadow(0px 4px 31px rgba(118, 122, 130, 0.49));
+		padding: 30px;
+		display: block;
+		width: 100%;
+	}
+
+	#contact-us-plan-popup .modal-dialog {
+		pointer-events: auto;
+		max-width: 520px;
+		width: 100%;
+	}
+
+	.contact-plan-popup .btn-close {
+		background: transparent;
+		border: none;
+		color: #fff;
+		float: right;
+		font-size: 20px;
+		margin: -4px 0 0;
+		cursor: pointer;
+		outline: none;
+	}
+
+	.form-field-plan .form-control {
+		background: #2E2F32 !important;
+		border-radius: 10px;
+		border: none !important;
+		font-weight: 400;
+		font-size: 16px !important;
+		letter-spacing: -0.03em;
+		color: #9B9FA6 !important;
+		padding: 15px !important;
+	}
+
+	.form-field-plan {
+		margin-bottom: 18px;
+	}
+
+	.form-field-plan .form-control.sign-btn {
+		background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%) !important;
+		box-shadow: 0px 100px 80px rgba(0, 0, 0, 0.02), 0px 64.8148px 46.8519px rgba(0, 0, 0, 0.0151852), 0px 38.5185px 25.4815px rgba(0, 0, 0, 0.0121481), 0px 20px 13px rgba(0, 0, 0, 0.01), 0px 8.14815px 6.51852px rgba(0, 0, 0, 0.00785185), 0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+		border-radius: 10px;
+		color: #fff !important;
+		font-weight: 600;
+		cursor: pointer;
+		border: 1px solid transparent !important;
+		transition: all .5s;
+	}
+
+	.form-field-plan .form-control:placeholder-shown {
+		font-size: 16px !important;
+	}
+
+	.contact-plan-popup-content h3 {
+		font-style: normal;
+		font-weight: 600;
+		font-size: 18px;
+		line-height: 1.3;
+		color: #FFFFFF;
+		margin-bottom: 22px;
+	}
+
+	.form-field-plan .form-control.sign-btn:hover {
+		border-color: #fff !important;
+	}
+
+	.form-field-plan .form-control::placeholder {
+		color: #9B9FA6 !important;
+	}
+	.modal.show .modal-dialog {
+    transform: none !important;
+    top: auto !important;
+	}
+.thankyou-pop-img{
+	display: flex;
+    align-content: center;
+    margin: auto;
+    margin-bottom: 14px;
+}
+.thankyou-popup-font{
+		font-size: 18px;
+	}
+	.image-pop-size {
+		height: 85px;
+		width: 85px !important;
+		margin-top: 30px !important;
+	}
+	.modal-dialog {
+    max-width: 450px !important;
+    margin: 30px auto;
+}
+.new-card-pricing.active .h2 span, .h2 span {
+    font-size: 19px;
+}
+.color-black{
+	color: black !important;
+}
+#premium-plan .new-card-pricing ul li.disabled {
+    color: #747474 !important;
+}
+#btn_diamod_plan {
+	border : none !important;
+}
+
+
+.update-top-pricing-bar {
+    background: #1368F7;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    padding: 10px 15px;
+}	
+.update-title-bar .h3 {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    color: #FFFFFF;
+    display: block;
+    text-align: center;
+    margin: 0;
+}
+.update-title-bar .h3 span {
+    font-size: 28px;
+    color: #FFFFFF;
+}
+.update-pricing-title-block .h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 38px;
+    text-align: center;
+    color: #FFFFFF;
+    line-height: 1;
+	margin-bottom: 28px;
+}
+.pricing-section-new {
+    padding: 32px 0;
+}
+.update-pricing-title-block p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+}
+.update-pricing-title-block .h4 {
+    color: #fff;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 100%;
+    text-align: center;
+}
+.update-pricing-title-block .h4 a {
+    text-decoration-line: underline;
+    background: linear-gradient(95.99deg, #0068FF -17.33%, #FE45C2 54.46%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+.new-card-pricing .h3 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.new-card-pricing ul li svg {
+    flex: none;
+}
+.new-card-pricing .h3 span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.015em;
+    color: #FFFFFF;
+	margin: 5px 0 0;
+}
+.new-card-pricing-discount .h2.reduced span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: rgba(79, 79, 79, 0.8);
+    text-decoration: line-through;
+}
+.new-card-pricing.active .h3 span {
+    color: #000000;
+}
+.update-bottom-bar .h3 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    color: #FFFFFF;
+}
+.update-bottom-bar {
+    margin: 32px 0 0;
+}
+#premium-plan .new-card-pricing p {
+    margin-top: 20px;
+}
+#elite-plan .new-card-pricing p {
+    margin-bottom: 28px;
+}
+#diamond-plan .new-card-pricing p {
+    margin-bottom: 4px;
+}
+#diamond-plan .new-card-pricing {
+    padding-top: 12px;
+}
+@media (min-width:1400px) {
+.update-bottom-bar .h3 {
+    font-size: 32px;
+}
+.update-pricing-title-block .h2 {
+    font-size: 44px;
+}
+.update-title-bar .h3 span {
+    font-size: 32px;
+}
+.update-title-bar .h3 {
+    font-size: 24px;
+}
+.update-pricing-title-block .h4 {
+    font-size: 32px;
+}
+.update-pricing-title-block p {
+    font-size: 18px;
+}
+.payment-custom-tabs li a {
+    font-size: 18px;
+    padding: 15px 30px;
+}
+}
+@media (max-width:767px) {
+#elite-plan {
+    order: 1;
+}
+#premium-plan {
+    order: 2;
+	margin: 28px 0;
+}
+#diamond-plan {
+    order: 3;
+}
+.update-title-bar .h3 {
+    font-size: 15px;
+}
+.update-title-bar .h3 span {
+    font-size: 15px;
+}
+.update-pricing-title-block .h2 {
+    font-size: 22px;
+    line-height: 1.2;
+}
+.update-pricing-title-block .h4 {
+    font-size: 18px;
+}
+.update-bottom-bar .h3 {
+    font-size: 22px;
+    margin-bottom: 22px;
+}
+.update-bottom-bar {
+    margin: 0;
+}
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="main-content">
+	<div class="bg-img-sec">
+		<div class="star-field">
+			<div class="layer"></div>
+			<div class="layer"></div>
+			<div class="layer"></div>
+		</div>
+		{% if premium_days_left %}
+        <div class="update-top-pricing-bar">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="update-title-bar">
+						<div class="h3">La prossima Cohort inizia tra <span>{{ premium_days_left }} giorni</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<section class="pricing-section-new">
+			<div class="container">
+				<div class="row">
+                    <div class="col-lg-12 text-center mb-lg-3">
+						<div class="update-pricing-title-block text-center">
+							<div class="h2">Per capire chi sei, e quello che vuoi diventare.<br>Devi solo scegliere l’opzione che fa al caso tuo.</div>
+                            <div class="h4"><a href="{% url 'register'%}?plan=trial2022" class="cursor-Icon">Registrati</a> per la prova gratuita</div>
+							<p>(Non servono metodi di pagamento)</p>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<ul class="payment-custom-tabs">
+							<li><a href="javascript:void(0);" data-tab="one-type" id="onetimeTab" class="active">{%trans "Pagamento Unico"%}</a></li>
+							<li><a href="javascript:void(0);" data-tab="pay-weekly" id="weeklyTab">{% trans "Settimanale" %}</a></li>
+						</ul>
+
+					</div>
+					{% for plan in all_plans %}
+					{% if plan.plan_name == "Premium" %}
+					<div class="col-lg-4 tab-box d-flex" id="premium-plan">
+						<div class="new-card-pricing">
+							<div class="new-card-pricing-header">
+								{% if coupon_details.discount_type == "Percentage" %}
+                                {% if coupon_details.plan_type == "Premium" or coupon_details.plan_type == "Master" %}
+									{% calculate_discount_amount_req_coupon_code_weekly request plan.id as discount_amount_weekly %}
+									{% calculate_discount_amount_req_coupon_code_onetime request plan.id as discount_amount_onetime %}
+									{% to_float plan.weekly_cost as weekly_cost %}
+									<div class="new-card-pricing-discount onetimeTabClass">
+										<div class="h2">{% trans '$'%}{{discount_amount_onetime}}</div>
+										<h4 class="discount-price color-white">{% trans '$'%}{{plan.cost}}</h4>
+											<h4 style=" text-decoration: none; " class="color-white">(-{{coupon_details.discount_value}}%)</h4>
+									</div>
+									<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+										<div class="h2">{% trans '$'%}{{discount_amount_weekly}}/<span class="color-white">{% trans 'week' %}</span></div>
+										<h4 class="discount-price color-white">{% trans '$'%}{{plan.weekly_cost}}</h4><span>
+										<h4 style=" text-decoration: none; " class="color-white">(-{{coupon_details.discount_value}}%)</h4>
+									</div>
+								{% else %}
+								<div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{plan.cost}}</div>
+									
+								</div>
+								<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+									<div class="h2">{% trans '$'%}{{plan.weekly_cost}}/<span class="color-white">{% trans 'week' %}</span></div>
+								</div>
+								{% endif %}
+								{% else %}
+								<div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{plan.cost}}</div>
+								</div>
+								<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+									<div class="h2">{% trans '$'%}{{plan.weekly_cost}}/<span class="color-white">{% trans 'week' %}</span></div>
+								</div>
+								{% endif %}
+								<div class="h3">{{plan.title}} <span>
+									{% if premium_days_left <= 5 %}
+									5 posti rimasti
+									{% elif premium_days_left > 5 and premium_days_left <= 15 %}
+									14 posti rimasti
+									{% elif premium_days_left > 15 and premium_days_left <= 25 %}
+									29 posti rimasti
+									{% elif premium_days_left > 25 %}
+									48 posti rimasti
+									{% endif %}
+								</span></div>
+								<p>{% trans "Se stai cercando di capire meglio te stesso, le tue inclinazioni e i tuoi interessi, e vuoi avere un’idea chiara di chi puoi diventare, allora questo è il percorso che fa per te." %}</p>
+								<ul>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Affronta un percorso di 10 settimane" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Ottieni 10 ore di PCTO" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Comprendi meglio te stesso e trova cosa ti rende unico" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Impara come mettere in gioco le tue competenze e abilità" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Confrontati i con professionisti di ogni settore e chiarisci ogni dubbio" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Fatti un’idea completa e chiara di quali possono essere le tue prospettive" %}
+									</li class="disabled">
+									{% comment %} <li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li> {% endcomment %}
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li>
+                                    <li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Affidati ai nostri esperti per la scelta dei tuoi studis" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Conosci e valuta tutte le opzioni di studio all’estero" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Lavora a stretto contatto con la nostra psicologa dell’orientamento" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Prendi in considerazione ogni singola opportunità e valutala insieme a noi" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Ottieni un piano di studi personalizzato" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Rivedi e analizza il tuo intero percorso con i nostri esperti" %}
+									</li>
+								</ul>
+
+								<div class="pricing-btn-btm">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+										{% if request.LANGUAGE_CODE == "it" %}
+										<a class="btn payment-buttons onetimeTabClass" href="/checkout/{{plan.id}}/{{request.session.free_coupon_code}}/?lang=it&payment_type=One Time"><span>{% trans "Scegli Premium" %}</span></a>
+										<a class="btn payment-buttons weeklyTabClass" style="display: none" href="/checkout/{{plan.id}}/{{request.session.free_coupon_code}}/?lang=it&payment_type=Weekly"><span>{% trans "Scegli Premium" %}</span></a>
+										{% else %}
+										<a class="btn payment-buttons" href="{% url 'register'%}?plan=Premium"><span>{% trans "Scegli Premium" %}</span></a>
+										{% endif %}
+									{% endif %}
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{% elif plan.plan_name == "Elite" %}
+					<div class="col-lg-4 tab-box d-flex" id="elite-plan" style="display:block;">
+						<!-- <div class="price-timing-block">
+						<p>
+							<svg width="24" height="19" viewBox="0 0 24 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M22.2353 8.15085V8.10535L22.2356 8.15085C22.3852 8.14991 22.5042 8.04761 22.5833 7.9184C22.6638 7.78682 22.7155 7.60975 22.7286 7.41403L22.7286 7.41399L23.0993 1.818L23.0994 1.818L23.0995 1.8134C23.1002 1.77859 23.1002 1.74437 23.0995 1.71013L23.0995 1.69559L23.0995 1.69392C23.0988 1.65331 23.0962 1.61282 23.0921 1.57344C23.0924 1.56602 23.092 1.55817 23.0907 1.55008C23.0856 1.50656 23.0781 1.46387 23.0689 1.42315C23.0671 1.41343 23.065 1.40482 23.0635 1.39877L23.0633 1.39811L23.0632 1.39746C23.0541 1.3618 23.044 1.32706 23.033 1.29365V1.28184L23.027 1.26536C23.0109 1.22095 22.9919 1.17992 22.9701 1.1425C22.9509 1.10852 22.9291 1.07682 22.9044 1.0487L22.8996 1.04169L22.8955 1.03555L22.8904 1.03009C22.8679 1.0056 22.844 0.983491 22.8187 0.964046L22.819 0.963686L22.8109 0.95862L22.7959 0.949214C22.7702 0.931502 22.742 0.916624 22.7116 0.906517L22.6962 0.901408H22.68H22.6714C22.6496 0.899531 22.6276 0.899531 22.6058 0.901408H22.5962C22.5671 0.901408 22.5389 0.906483 22.513 0.914861C22.5127 0.914934 22.5125 0.915006 22.5123 0.915079L19.4984 1.85236L19.4982 1.85242C19.347 1.89975 19.2407 2.04596 19.1777 2.20952C19.1128 2.37771 19.084 2.58713 19.1032 2.8L19.1033 2.80062C19.1237 3.01194 19.1887 3.19748 19.2857 3.32482C19.3828 3.45218 19.5267 3.53585 19.6894 3.48783L19.691 3.48734L21.2923 2.98585L14.5517 15.9594L8.5578 4.75693L8.5575 4.75701C8.47258 4.59862 8.34638 4.49086 8.19554 4.48663C8.0434 4.48237 7.91374 4.58455 7.8256 4.73969L7.82559 4.73969L1.06453 16.6419C0.965213 16.7899 0.908819 16.9992 0.900951 17.2155L1.00089 17.2192L0.900951 17.2155C0.892997 17.4349 0.935152 17.6543 1.02213 17.8211C1.10744 17.9853 1.24417 18.1081 1.41296 18.0996C1.57797 18.0913 1.70707 17.9602 1.78695 17.7924L8.17607 6.54547L14.1847 17.7764C14.1848 17.7766 14.1849 17.7769 14.1851 17.7771C14.2667 17.9355 14.3956 18.0557 14.5572 18.0566L14.6391 18.0571L14.6417 18.0445C14.7642 18.0103 14.8634 17.9065 14.9315 17.777L14.9317 17.7766L21.9356 4.29115L21.7473 7.13398H21.7468L21.7407 7.22748C21.7268 7.44177 21.7608 7.64914 21.8302 7.81289C21.8977 7.97202 22.0091 8.11211 22.1641 8.14824L22.1753 8.15085H22.1868H22.235H22.2353Z" fill="black" stroke="black" stroke-width="0.2"/>
+							</svg>
+							Price increases in 
+						</p>
+						<div class="h3">13 hr 25 min 44 sec</div>
+					</div> -->
+						<div class="new-card-pricing active">
+							<a class="most-popular-btn" href="">{% trans "il più venduto" %}</a>
+							<div class="new-card-pricing-header">
+								{% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                                {% if coupon_details.plan_type == "Elite" or coupon_details.plan_type == "Master"%}
+								{% calculate_discount_amount_req_coupon_code_weekly request plan.id as discount_amount_weekly %}
+									{% calculate_discount_amount_req_coupon_code_onetime request plan.id as discount_amount_onetime %}
+                                {% to_float plan.weekly_cost as weekly_cost %}
+								<div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{discount_amount_onetime}}</div>
+									<h4 class="discount-price">{% trans '$'%}{{plan.cost}}</h4>
+									{% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                                    <h4 style=" text-decoration: none; " >(-{{coupon_details.discount_value}}%)</h4>
+                                    {% endif %}
+								</div>
+								<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+									<div class="h2">{% trans '$'%}{{discount_amount_weekly}}/<span class="color-black">{% trans 'week' %}</div>
+									<h4 class="discount-price">{% trans '$'%}{{weekly_cost}}</span></h4>
+									{% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                                    <h4 style=" text-decoration: none; " >(-{{coupon_details.discount_value}}%)</h4>
+                                    {% endif %}
+								</div>
+								{% else %}
+                                <div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{plan.cost}}</div>
+									<!-- <h4 class="discount-price">{% trans '$'%}{{plan.cost}}</h4> -->
+								</div>
+								<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+									<div class="h2">{% trans '$'%}{{plan.weekly_cost}}/<span class="color-black">{% trans 'week' %}</span></div>
+									<!-- <h4 class="discount-price">{% trans '$'%}{{weekly_cost}}</h4> -->
+								</div>
+								{% endif %}
+                                {% else %}
+                                <div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{plan.cost}}</div>
+									{% if request.LANGUAGE_CODE == "it" %}
+									<h4 class="discount-price">{% trans '$'%}270</h4>
+									{% endif %}
+								</div>
+								<div class="new-card-pricing-discount weeklyTabClass" style="display: none">
+									<div class="h2">{% trans '$'%}{{plan.weekly_cost}}/<span class="color-black">{% trans 'week' %}</span></div>
+									<!-- <h4 class="discount-price">{% trans '$'%}{{weekly_cost}}</h4> -->
+								</div>
+                                {% endif %}
+								
+								<div class="h3">{{plan.title}}<span>
+									{% if elite_days_left <= 5 %}
+									5 posti rimasti
+									{% elif elite_days_left > 5 and elite_days_left <= 15 %}
+									14 posti rimasti
+									{% elif elite_days_left > 15 and elite_days_left <= 25 %}
+									29 posti rimasti
+									{% elif elite_days_left > 25 %}
+									48 posti rimasti
+									{% endif %}
+								</span></div>
+								<p>{% trans "Se, oltre a comprendere meglio chi sei, vuoi avere un’idea chiara di cosa c’è dietro le quinte del mondo del lavoro e scoprire tutti i corsi di laurea/ITS che possono fare al caso tuo, allora questo percorso può fare la differenza."%}</p>
+								<ul>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Affronta un percorso di 20 settimane" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Ottieni 20 ore di PCTO" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Comprendi meglio te stesso e trova cosa ti rende unico" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Impara come mettere in gioco le tue competenze e abilità" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Confrontati i con professionisti di ogni settore e chiarisci ogni dubbio" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Fatti un’idea completa e chiara di quali possono essere le tue prospettive" %}
+									</li>
+									{% comment %} <li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li> {% endcomment %}
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li>
+                                    <li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Affidati ai nostri esperti per la scelta dei tuoi studis" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#5243C2" />
+										</svg>
+										{% trans "Conosci e valuta tutte le opzioni di studio all’estero" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Lavora a stretto contatto con la nostra psicologa dell’orientamento" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Prendi in considerazione ogni singola opportunità e valutala insieme a noi" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Ottieni un piano di studi personalizzato" %}
+									</li>
+									<li class="disabled">
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M5 15.1145L9.35114 9.46565L9.33206 10.4008L5.19084 5H7.23282L10.4008 9.1603H9.61832L12.7863 5H14.7901L10.5916 10.4389L10.6107 9.46565L15 15.1145H12.9198L9.58015 10.687L10.3244 10.8015L7.04198 15.1145H5Z"
+												fill="#EA454B" stroke="#FF0000" stroke-width="0.2" />
+										</svg>
+										{% trans "Rivedi e analizza il tuo intero percorso con i nostri esperti" %}
+									</li>
+								</ul>
+								<div class="pricing-btn-btm active">
+									{% if request.session.is_from_ios_app %}
+									{% else %}
+										{% if request.LANGUAGE_CODE == "it" %}
+										<a class="btn payment-buttons onetimeTabClass" href="/checkout/{{plan.id}}/{{request.session.free_coupon_code}}/?lang=it&payment_type=One Time"><span>{% trans "Scegli Elite" %}</span></a>
+										<a class="btn payment-buttons weeklyTabClass" style="display: none" href="/checkout/{{plan.id}}/{{request.session.free_coupon_code}}/?lang=it&payment_type=Weekly"><span>{% trans "Scegli Elite" %}</span></a>
+										{% else %}
+										<a class="btn payment-buttons" href="{% url 'register'%}?plan=Elite"><span>{% trans "Scegli Elite" %}</span></a>
+										{% endif %}
+									{% endif %}
+									
+								</div>
+								
+
+
+							</div>
+						</div>
+					</div>
+					{% elif plan.plan_name == "Diamond" %}
+					<div class="col-lg-4 tab-box d-flex" id="diamond-plan">
+						<div class="new-card-pricing">
+							<div class="new-card-pricing-header">
+								<div class="new-card-pricing-discount onetimeTabClass">
+									<div class="h2">{% trans '$'%}{{plan.cost}}</div>
+									{% comment %} <h4 class="discount-price color-white">{% trans '$'%}{{plan.cost}}</h4>
+									<h4 class="color-white" style=" text-decoration: none; " >(-20%)</h4> {% endcomment %}
+								</div>
+								<div class="h3 ">{{plan.title}} </div>
+								<p>{% trans "Il percorso su misura che ti porterà a riflettere su chi sei oggi, chi vorresti diventare e quali sono le strade che puoi seguire per crescere nel migliore dei modi. Nulla è lasciato al caso: verrai seguito lungo l’intero percorso da un tutor personale." %}</p>
+								<ul>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Affronta un percorso di 30 settimane" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Ottieni 30 ore di PCTO" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Comprendi meglio te stesso e trova cosa ti rende unico" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Impara come mettere in gioco le tue competenze e abilità" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Confrontati i con professionisti di ogni settore e chiarisci ogni dubbio" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Fatti un’idea completa e chiara di quali possono essere le tue prospettive" %}
+									</li>
+									{% comment %} <li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li> {% endcomment %}
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Scopri tutti i percorsi di studio più adatti a te" %}
+									</li>
+                                    <li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Affidati ai nostri esperti per la scelta dei tuoi studis" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Conosci e valuta tutte le opzioni di studio all’estero" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Lavora a stretto contatto con la nostra psicologa dell’orientamento" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Prendi in considerazione ogni singola opportunità e valutala insieme a noi" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Ottieni un piano di studi personalizzato" %}
+									</li>
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+											xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20C15.5228 20 20 15.5228 20 10C19.9936 4.47982 15.5202 0.00642897 10 0Z"
+												fill="#5243C2" fill-opacity="0.103693" />
+											<path
+												d="M15.7725 6.83331L10.0683 14.5741C9.93228 14.7546 9.72942 14.8729 9.50533 14.9024C9.28124 14.9318 9.05472 14.87 8.87665 14.7308L4.80331 11.4741C4.44387 11.1865 4.38567 10.6619 4.67331 10.3025C4.96096 9.94303 5.48554 9.88483 5.84498 10.1725L9.24165 12.89L14.4308 5.84748C14.601 5.59214 14.8977 5.45096 15.2032 5.48001C15.5086 5.50906 15.7734 5.70362 15.8924 5.98646C16.0114 6.26929 15.9653 6.59463 15.7725 6.83331Z"
+												fill="#04ED4F" />
+										</svg>
+										{% trans "Rivedi e analizza il tuo intero percorso con i nostri esperti" %}
+									</li>
+								</ul>
+
+								<div class="pricing-btn-btm">
+									<a type="button" data-bs-toggle="modal" data-bs-target="#contact-us-plan-popup"
+										class="btn payment-buttons"><span>{% trans "Contattaci" %}</span></a>
+								</div>
+
+							</div>
+						</div>
+					</div>
+                    <div class="col-md-12 text-center">
+						<div class="update-bottom-bar">
+						<div class="h3">E se qualcosa non ti convince, hai 14 giorni per chiedere il rimborso</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	<section class="contact-section">
+		<div class="container">
+			<div class="contact-us-section"
+				style="background: url({% static '/website/new/images/contact-img.png' %}) no-repeat;">
+				<div class="row">
+					<div class="col-lg-5  col-md-8   fadeInUp d">
+						<div class="contact-forme" id="lets-talk-f">
+							<div class="showing-message-forme" id="showing-message">
+								<div style="text-align: right; display: none; cursor: pointer;" id="cross-contact">
+									<a style="color: white;">X</a>
+								</div>
+								<img src="{% static '/website/images/send-icon.png' %}" />
+								<h1>{% trans "Thank’s for your request" %}</h1>
+								<p>{% trans "We’ll send you a reply as soon as posible" %}</p>
+							</div>
+							<form id="contct-form">
+								<div class="h2">{% trans "Let’s talk" %}</div>
+								<div class="mb-3">
+									<label class="form-label">{% trans "Your name" %}</label>
+									<input type="text" id="lets-talk-name" class="form-control">
+									<label id="error-contact-landing-name" class="form-label error-color"></label>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">{% trans "Your email" %}</label>
+									<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+										https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+									<input name="cc-num" class="hidden" required=""
+										value="HubspotCollectedFormsWorkaround" id="cc-num">
+									<input type="email" id="lets-talk-email" class="form-control">
+									<label id="error-contact-landing-email" class="form-label error-color"></label>
+								</div>
+								<div class="mb-3">
+									<label class="form-label">{% trans "Your message" %}</label>
+									<textarea class="form-control" id="lets-talk-message-body" rows="4"></textarea>
+									<input type="hidden" id="lets-talk-subject" value="Student Page query">
+								</div>
+								<div class=" mt-2">
+									<label id="error-contact-landing" class="form-label error-color"></label>
+								</div>
+								<div class="mb-3 contact-btn-pos">
+									<a id="lets-talk-send-btn" class="btn btn-sign-up">
+										<span id="spinner" class="color-white fontclass16" style="display: none;">
+											{% trans "Please wait" %}..</span>
+										<span id="btn-txt" class="color-white fontclass16"> {% trans "Send message"%}</span>
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="col-md-12  fadeInUp d">
+						<div class="row justify-content-center">
+							<div class="col-lg-8">
+								<div class="row">
+									<div class="col-md-12 text-center">
+										<div class="icon-cardd justify-content-center">
+											<div class="icon-contact">
+												<img src="{% static '/website/images/mail.png' %}" />
+											</div>
+											<div class="icon-contact-content">
+												{% if request.LANGUAGE_CODE == "it" %}
+												<div class="h2"><a
+														href="mailto: segreteria@myfuturely.com">segreteria@myfuturely.com</a>
+												</div>
+												{% else %}
+												<div class="h2"><a
+														href="mailto: counselors@myfuturely.com">counselors@myfuturely.com</a>
+												</div>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12 ">
+										<div class="icon-cardd icon-cardd-p">
+											<div class="icon-contact">
+												<img src="{% static '/website/images/map-pin.png' %}" />
+											</div>
+											<div class="icon-contact-content">
+												{% if request.LANGUAGE_CODE == "it" %}
+												<div class="h2">Sede</div>
+												<p>Piazzale Maciachini, 11 20159<br>Milano MI, Italy. </p>
+												{% else %}
+												<div class="h2">{% trans "Headquarters" %}</div>
+												<p>405 Howard Street,<br>San Francisco,<br>California, 94105 United
+													States. </p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<div class="modal fade" id="contact-us-plan-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="contact-plan-popup">
+			<button id="btn_close_diamond" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">✕</button>
+			<div class="contact-plan-popup-content">
+				<h3>
+					{% trans "Drop your email and we will contact you soon" %}
+				</h3>
+				<div class="form-field-plan">
+					<input id="diamod_user_email" type="text" class="text-box form-control email_validation" name="username"
+						placeholder='{% trans "Email address" %}' required="">
+				</div>
+				<div class="form-field-plan">
+					<input id="diamod_user_phone" type="text" class="text-box form-control" name="phone" placeholder='{% trans "Phone Number" %}'
+						required="">
+				</div>
+				<div class="form-field-plan">
+					<button id="btn_diamod_plan" class=" form-control sign-btn sign-btn-next" data-bs-toggle="modal">{% trans "Submit" %}</button>
+					
+				</div>
+				<span id="diamond-error" style="display:none; color:red">{% trans "You must enter before proceeding" %}</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="thankyou-popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="transform: translateY(-50%) !important; top: 50% !important;">
+		<div class="contact-plan-popup">
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+			<div class="contact-plan-popup-content">
+				<img class="image-pop-size thankyou-pop-img" src="{% static 'images/check (1) 1.png'%}">
+				<h2 class="color-white thankyou-popup-font d-flex justify-content-center">
+					{% trans "Thank you! We will contact you soon" %}
+				</h2>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% block script %}
+
+<script>
+	jQuery(document).ready(function () {
+		jQuery("#first-popup-btn").click(function () {
+			jQuery(".popup-showw-second").hide();
+			jQuery(".popup-showw-third").hide();
+			jQuery(".popup-showw-first").show();
+			jQuery("#first-price").removeClass("small");
+			jQuery("#second-price").removeClass("small");
+			jQuery("#third-price").removeClass("small");
+			jQuery("#first-price").removeClass("large");
+			jQuery("#second-price").removeClass("large");
+			jQuery("#third-price").removeClass("large");
+			jQuery("#first-price.col-lg-4").addClass("large");
+			jQuery("#second-price").addClass("small");
+			jQuery("#third-price").addClass("small");
+		});
+
+		jQuery(".popup-hide-first").click(function () {
+			jQuery(".popup-showw-first").hide();
+			jQuery("#first-price.col-lg-4").removeClass("large");
+			jQuery("#second-price").removeClass("small");
+			jQuery("#third-price").removeClass("small");
+		});
+		jQuery("#second-popup-btn").click(function () {
+			jQuery(".popup-showw-third").hide();
+			jQuery(".popup-showw-first").hide();
+			jQuery(".popup-showw-second").show();
+			jQuery("#first-price").removeClass("small");
+			jQuery("#second-price").removeClass("small");
+			jQuery("#third-price").removeClass("small");
+			jQuery("#first-price").removeClass("large");
+			jQuery("#second-price").removeClass("large");
+			jQuery("#third-price").removeClass("large");
+			jQuery("#first-price").addClass("small");
+			jQuery("#second-price").addClass("large");
+			jQuery("#third-price").addClass("small");
+		});
+
+		jQuery(".popup-hide-second").click(function () {
+			jQuery(".popup-showw-second").hide();
+			jQuery("#first-price").removeClass("small");
+			jQuery("#second-price").removeClass("large");
+			jQuery("#third-price").removeClass("small");
+		});
+		jQuery("#third-popup-btn").click(function () {
+			jQuery(".popup-showw-first").hide();
+			jQuery(".popup-showw-second").hide();
+			jQuery(".popup-showw-third").show();
+			jQuery("#first-price").removeClass("small");
+			jQuery("#second-price").removeClass("small");
+			jQuery("#third-price").removeClass("small");
+			jQuery("#first-price").removeClass("large");
+			jQuery("#second-price").removeClass("large");
+			jQuery("#third-price").removeClass("large");
+			jQuery("#first-price").addClass("small");
+			jQuery("#second-price").addClass("small");
+			jQuery("#third-price").addClass("large");
+		});
+
+		jQuery(".popup-hide-third").click(function () {
+			jQuery(".popup-showw-third").hide();
+			jQuery("#first-price").removeClass("small");
+			jQuery("#second-price").removeClass("small");
+			jQuery("#third-price").removeClass("large");
+		});
+
+		$('.mobile-plans-tabs li a').on('click', function () {
+			var target = $(this).attr('data-rel');
+			$('.mobile-plans-tabs li a').removeClass('active');
+			$(this).addClass('active');
+			$("#" + target).fadeIn('slow').siblings(".tab-box").hide();
+			return false;
+		});
+	
+		jQuery("#onetimeTab").click(function() {
+		$('#onetimeTab').addClass('active');
+		$('#weeklyTab').removeClass('active');
+		$('.weeklyTabClass').hide();
+		$('.onetimeTabClass').show();
+		});
+		jQuery("#weeklyTab").click(function(){
+		$('#onetimeTab').removeClass('active');
+		$('#weeklyTab').addClass('active');
+		$('.onetimeTabClass').hide();
+		$('.weeklyTabClass').show();
+		});
+		'{% if selected_payment_type == "Weekly"%}'
+		$("#weeklyTab").trigger("click");
+		'{% else %}'
+		$("#onetimeTab").trigger("click");
+		'{% endif %}'
+		$('#btn_diamod_plan').on("click", function () {
+			var phone = $("#diamod_user_phone").val();
+			var email = $("#diamod_user_email").val();
+			var subject = "Query for diamond plan";
+			if(phone.trim() == "" || email.trim() == "")
+			{
+				$("#diamond-error").show();
+				return false;
+			}
+			$.ajax({
+				url: "/contact-for-diamond-plan/",
+				type: 'POST',
+				headers: {
+					"X-CSRFTOKEN": "{{ csrf_token }}"
+				},
+				contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+				data: {
+					"phone": phone,
+					"email": email,
+					"subject":subject,
+				},
+				success: function (response) {
+					
+					$('#contact-us-plan-popup').modal('hide');
+					$('#thankyou-popup').modal('show');	
+					
+				},
+				error: function (response) {
+					alert("Something went wrong");
+					
+				}
+			});
+		});
+	});
+
+	
+</script>
+
+{% endblock%}
+{% endblock %}

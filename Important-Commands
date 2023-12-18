@@ -1,0 +1,12 @@
+pgrep -f gunicorn
+pkill -f gunicorn
+
+
+gunicorn thefuturely.wsgi 0.0.0.0:8000 --daemon --reload --workers=8 --timeout=6000
+
+***********************************************************************************
+
+
+
+source /var/www/futurely/futurely_env/bin/activate
+cd /var/www/futurely/futurely_dev

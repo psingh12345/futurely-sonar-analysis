@@ -1,0 +1,968 @@
+{% extends 'base_payment.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load payment_tags %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Plans" %}</title>
+<link rel="stylesheet" href="{% static '/website/css/style.css' %}">
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+{% block content %}
+<style>
+  tables-details-usere button {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+    .tables-details-usere h2 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-deatils-in-tables {
+        text-align: right;
+    }
+    .tables-details-usere table tbody {
+        display: block;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.tables-details-usere table tbody::-webkit-scrollbar {
+    width: 8px;
+    background-color: #363739;
+}
+.tables-details-usere table tbody:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #26272b;
+}
+    .tables-details-usere table tbody tr, .tables-details-usere table thead {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .progress-bar-block .user {
+        display: flex;
+        align-items: center;
+    }
+    
+    .bottom-popup-details-user-content h3 {
+        color: #fff;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-style: italic;
+        margin: 0;
+        padding: 20px 0 0;
+    }
+    .user-right-box-details h3 {
+        font-size: 15px;
+        color: #fff;
+        margin: 0;
+    }
+    .user-right-box-details h1 {
+        font-size: 26px;
+        color: #fff;
+        font-weight: 900;
+        margin: 0;
+    }
+    .user-right-box-details {
+    float: right;
+    position: relative;
+    /* top: -55px; */
+    /* right: -12px; */
+    /* border: 1px solid #545454; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    /* background: #26272b9c; */
+    margin-left: auto;
+}
+
+.user-right-box-details:hover {
+    border-color: #622BFF;
+}
+.user-right-box-details .succsess-color {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.user-right-box-details .warning-color {
+    background: linear-gradient(to right, #9d853f , #ffc107) !important;
+    /* background: transparent; */
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.user-right-box-details .danger-color {
+    background: linear-gradient(45deg,#ff2247,#ff869a);
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.progress-bar-block .user img {
+    width: 34px;
+    height: 34px;
+    object-fit: scale-down;
+}
+
+    .progress-bars.border-none {
+        border: none;
+    }
+    .progress-bars .progress-perent.Bittersweet.seprate-colorr .progress-bar {
+        background: linear-gradient( 116.59deg , #6C2DB1 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4) !important;
+      }
+    .tables-details-usere table thead {
+        background: #737373;
+    }
+    .succsess-table-results {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+}
+.warning-table-results {
+    padding: 10px;
+    background: linear-gradient(to right, #9d853f , #ffc107);
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+}
+.danger-table-results {
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+    background: linear-gradient(45deg,#ff2247,#ff869a);
+}
+    .user-card-info-block {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+      }
+      .user-card-info-block .detail-popup-cus {
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .user-card-info-block .detail-popup-cus:hover {
+        color: #2c6cfb;
+     }
+    .card-details-new-ir {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+      }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -80px;
+        z-index: 11;
+    }
+    .hover-popup-inn::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-bottom: solid 15px #26272b;
+        border-left: solid 15px transparent;
+        border-right: solid 15px transparent;
+        position: absolute;
+        top: -15px;
+        right: 40px;
+        transform: rotate( 0deg );
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        z-index: 1111;
+    }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -70px;
+        z-index: 11;
+        display: none;
+    }
+    .courses-block .hover-popup-inn h4 {
+        margin: 0;
+    }
+    .card-details-new:hover .hover-popup-inn {
+        display: flex;
+    }
+    .card-details-new {
+        border-bottom: 1px solid #6f6767;
+        position: relative;
+    }
+    .card-details-inner h3 {
+        color: #fff;
+        font-size: 16px;
+        margin: 0;
+    }
+    .courses-block .card .card-details-inner h4 {
+        margin: 10px 0 0;
+      }
+      .card-details-new-ir .progress-bars {
+        margin: 12px 0;
+    }
+    .card-details-new-ir .progress-bars .progress-perent {
+        margin: 12px 0;
+      }
+      .tables-details-usere button {
+        float: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        outline: none !important;
+        box-shadow: none !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-size: 24px;
+    }
+    .card-details-inner .link-popup-btnn {
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        margin: -4px 0 0 8px;
+    }
+    .tables-details-usere {
+        background: #23293C;
+        padding: 20px 15px;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        pointer-events: auto;
+        position: relative;
+      }
+      .tables-details-usere table {
+        margin: 0;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+      .tables-details-usere table tbody, .tables-details-usere table td, .tables-details-usere table tfoot, .tables-details-usere table th, .tables-details-usere table thead, .tables-details-usere table tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0;
+    }
+    
+      .tables-details-usere table thead tr th {
+        padding: 15px 8px;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+    }
+    .tables-details-usere table td {
+        padding: 15px 8px;
+        vertical-align: middle;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .tables-details-usere .arrow-card-backk.btn-close {
+        float: right;
+        margin: 0 0 12px;
+      }
+      #detail-popup-user.modal.fade.show {
+        display: flex !important;
+        align-content: center;
+      }
+      @media (max-width:767px) {
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+          .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+      }
+      @media (min-width:768px) {
+      #detail-popup-user .modal-dialog {
+        max-width: 800px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)translatey(-50%);
+        top: 50%;
+    }
+}
+</style>
+{% if messages %}
+{% for message in messages %}
+<script>
+  alert('{{message}}');
+</script>
+{% endfor %}
+{% endif %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/welcome-page.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/welcome-page.css' %}">
+
+<div class="logout-btnn ml-auto">
+  <a class="btn-login" href="{% url 'logout' %}">
+      Logout
+  </a>
+</div>
+<div class="main-content py-3 px-md-3">
+  <div class="container-fluid">
+    <div class="top-welcome-content text-center">
+      <h2><img src="{% static 'images/waving-hand 1.png'%}" />{% trans "Welcome" %} {{user}}</h2>
+      <p style="color: white;">
+        {% trans "With Futurely, you will feel excited, empowered, with ownership of your life, and ready to tackle the future in just 2 modules and 20 exercises!" %}
+      </p>
+      {% if request.user.student.src == "future_lab" %}
+      {% if future_lab_form_filled == False %}
+      <div class="banner-text-with" id='future_lab_form_link_div'>
+        <a href="https://forms.gle/VouUxELLckjmmPEfA" style="text-decoration: underline;" target="_blank" id='future_lab_form_link'>{% trans "Please complete this form" %}</a> 
+      </div>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    <section class="pricing-section bg-image-pricingeffect">
+      <div class="container container-card-paddingtop">
+        <div class="row justify-content-center">
+          {% for plan in all_plans %}
+          {% if plan.plan_name == "Community" %}
+          
+          {% elif plan.plan_name == "Premium" %}
+          <div class="col-lg-4 px-0" id="second-price">
+            <div class="card-pricing text-center card-radius2">
+              <div class="card-pricing-header text-center">
+                <h1 class=" h1-text-size">{{plan.title}}</h1>
+                {% if request.LANGUAGE_CODE == "it" %}
+                <span class="it-plan-desc">10 steps + 6 webinar</span>
+                <p>Percorso <br>"{{plan.sub_title}}"
+                </p>
+                {% else %}
+                <p>"{{plan.sub_title}}"<br> 'Online class'
+                </p>
+                {% endif %}
+                {% comment%}
+                <!-- {% if request.LANGUAGE_CODE == "it" %}
+                  {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                  <h3>{% trans '$'%}9.99/settimana <span class="color-white weekly-font" >(per 10 settimane)</span></h3>
+                  {% else %}
+                  <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                  {% endif %}
+                {% else %}
+                  {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                  <h3>{% trans '$'%}9.99/week <span class="color-white weekly-font" >(for 10 weeks)</span></h3>
+                  {% else %}
+                  <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                  {% endif %}
+                {% endif %} --> 
+                {% endcomment %}
+                {% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                  <!-- <h5><del>{% trans '$'%}{{plan.weekly_cost}}</del>/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h5> -->
+                  {% calculate_amount_coupon_cod request plan.id as discount_amount %}
+                  {% to_float plan.weekly_cost as weekly_cost %}
+                    {% if request.user.student.display_discounted_price_only %}
+                      <h3>{% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% else %}
+                      <h3><del>{% trans '$'%}{{weekly_cost}}</del> {% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% endif %}
+                  {% else %}
+                {% to_float plan.weekly_cost as weekly_cost %}
+                <h3>{% trans '$'%}{{weekly_cost}}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                {% endif %}
+
+
+                <div class="btn-btm-pricing">
+                  {% if request.session.is_from_ios_app %}
+                    <a class="btn btn-buy-btn" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user" style="color: white;">{% trans "Request Access" %}</a>
+                  {% else %}
+                    <a href="{% url 'buy-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Buy" %}</a> 
+                  {% endif %}
+                  <a id="second-popup-btn" class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+                </div>
+                <img class="img-card-top" src="{% static '/website/images/new-images/pricing-1-img.png' %}">
+              </div>
+            </div>
+          </div>
+          {% elif plan.plan_name == "Elite" %}
+          <div class="col-lg-4 px-0" id="third-price">
+            <div class="card-pricing text-center card-radius2">
+              <div class="card-pricing-header text-center">
+                <h1 class=" h1-text-size">{{plan.title}}</h1>
+                {% if request.LANGUAGE_CODE == "it" %}
+                <span class="it-plan-desc">20 steps + 6 webinar</span>
+                <p>Premium  + Percorso <br> "{{plan.sub_title}}"</p>
+                {% else %}
+                <p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+                {% endif %}
+                {% comment %}
+                <!-- {% if request.LANGUAGE_CODE == "it" %}
+                  {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                  <h3>{% trans '$'%}9.99/settimana <span class="color-white weekly-font" >(per 20 settimane)</span></h3>
+                  {% else %}
+                  <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                  {% endif %}
+                {% else %}
+                  {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                  <h3>{% trans '$'%}9.99/week <span class="color-white weekly-font" >(for 20 weeks)</span></h3>
+                  {% else %}
+                  <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                  {% endif %}
+                {% endif %} -->
+                {% endcomment %}
+                {% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                  <!-- <h5><del>{% trans '$'%}{{plan.weekly_cost}}</del>/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h5> -->
+                  {% calculate_amount_coupon_cod request plan.id as discount_amount %}
+                  {% to_float plan.weekly_cost as weekly_cost %}
+                  {% if request.user.student.display_discounted_price_only %}
+                      <h3>{% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% else %}
+                      <h3><del>{% trans '$'%}{{weekly_cost}}</del> {% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% endif %}
+                {% else %}
+                {% to_float plan.weekly_cost as weekly_cost %}
+                <h3>{% trans '$'%}{{weekly_cost}}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                {% endif %}
+
+
+                <div class="btn-btm-pricing">
+                  {% if request.session.is_from_ios_app %}
+                    <a class="btn btn-buy-btn" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user" style="color: white;">{% trans "Request Access" %}</a>
+                  {% else %}
+                    <a href="{% url 'buy-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Buy" %}</a> 
+                  {% endif %}
+                  <a id="third-popup-btn" class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+                </div>
+                <img class="img-card-top" src="{% static '/website/images/new-images/pricing-3-img.png' %}">
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% for plan in all_plans %}
+          {% if plan.plan_name == "Community" %}
+          
+          {% elif plan.plan_name == "Premium" %}
+          <div class="col-lg-6 px-0 popup-showw-second" id="second-price">
+            <div class="card-pricing text-center card-radius2">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card-pricing-header text-center">
+                    <h1 class=" h1-text-size">{{plan.title}}</h1>
+                    {% if request.LANGUAGE_CODE == "it" %}
+                      <span class="it-plan-desc">10 steps + 6 webinar</span>
+                      <p>Percorso <br>"{{plan.sub_title}}"
+                      </p>
+                      {% else %}
+                      <p>"{{plan.sub_title}}"<br> Online class
+                      </p>
+                    {% endif %}
+                    {% comment %}
+                    <!-- {% if request.LANGUAGE_CODE == "it" %}
+                      {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                      <h3>{% trans '$'%}9.99/settimana <span class="color-white weekly-font" >(per 10 settimane)</span></h3>
+                      {% else %}
+                      <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                      {% endif %}
+                    {% else %}
+                      {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                      <h3>{% trans '$'%}9.99/week <span class="color-white weekly-font" >(for 10 weeks)</span></h3>
+                      {% else %}
+                      <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                      {% endif %}
+                    {% endif %} -->
+                    {% endcomment %}
+                    {% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                  <!-- <h5><del>{% trans '$'%}{{plan.weekly_cost}}</del>/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h5> -->
+                  {% calculate_amount_coupon_cod request plan.id as discount_amount %}
+                  {% to_float plan.weekly_cost as weekly_cost %}
+                  {% if request.user.student.display_discounted_price_only %}
+                      <h3>{% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% else %}
+                      <h3><del>{% trans '$'%}{{weekly_cost}}</del> {% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% endif %}
+                {% else %}
+                {% to_float plan.weekly_cost as weekly_cost %}
+                <h3>{% trans '$'%}{{weekly_cost}}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                {% endif %}
+                    <div class="btn-btm-pricing">
+                      {% if request.session.is_from_ios_app %}
+                    <a class="btn btn-buy-btn" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user" style="color: white;">{% trans "Request Access" %}</a>
+                    {% else %}
+                      <a href="{% url 'buy-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Buy" %}</a> 
+                    {% endif %}
+                      <a class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+                    </div>
+                    <img class="img-card-top" src="{% static '/website/images/new-images/pricing-2-img.png' %}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card-pricing-body">
+                    <img class="arrow-card-backk popup-hide-second"
+                      src="{% static '/website/images/arrow-sliderr.png' %}">
+                      {% if request.LANGUAGE_CODE == "it" %}
+                        <h3>Percorso</h3>
+                        <h3>"{{plan.sub_title}}"</h3>
+                        <h4>Video, esercizi interattivi, quiz e testimonianze (10 settimane, 1h/settimana) con:</h4>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Test della personalità e testimonianze a partire dai risultati</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Competenze richieste nel mondo del lavoro e consigli su come svilupparle</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Auto-valutazione delle competenze e analisi gap</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Esperienze di carriera condivise da giovani lavoratori</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guida per la costruzione del CV</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Elenco dei criteri per la scelta universitaria/ITS e metodo per prioritizzarli</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Metodo per la valutazione di diverse facoltà e i passi da fare</p>
+                        <p>+</p>
+                        <h3>Contenuti Extra</h3>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">1 Webinar / mese</p>
+                          
+                      {% else %}
+                      
+                      <h3>"{{plan.sub_title}}" Online class</h3>
+                      <h4>Videos, interactive exercises, quizzes and interviews with professionals (7 weeks, 1h/week) with:</h4>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Personality traits discovery</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">List of suitable careers</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Developing the right skills for the right job</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Skills self-assessment and areas for growth</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Shared career experiences</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Resume builder</p>
+                      {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% elif plan.plan_name == "Elite" %}
+          <div class="col-lg-6 px-0 popup-showw-third" id="third-price">
+            <div class="card-pricing text-center card-radius2">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card-pricing-header text-center">
+                    <h1 class=" h1-text-size">{{plan.title}}</h1>
+                    {% if request.LANGUAGE_CODE == "it" %}
+                      <span class="it-plan-desc">20 steps + 6 webinar</span>
+                      <p>Premium  + Percorso <br>"{{plan.sub_title}}"</p>
+                      {% else %}
+                      <p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+                      {% endif %}
+                      {% comment %}
+                      <!-- {% if request.LANGUAGE_CODE == "it" %}
+                        {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                        <h3>{% trans '$'%}9.99/settimana <span class="color-white weekly-font" >(per 20 settimane)</span></h3>
+                        {% else %}
+                        <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                        {% endif %}
+                      {% else %}
+                        {% if request.session.ctype == "future_lab" or student_type_from_coupon == "FutureLab" %}
+                        <h3>{% trans '$'%}9.99/week <span class="color-white weekly-font" >(for 20 weeks)</span></h3>
+                        {% else %}
+                        <h3>{% trans '$'%}{{plan.weekly_cost}}</h3>
+                        {% endif %}
+                      {% endif %} -->
+                      {% endcomment %}
+                      {% if coupon_code_exists != "None" and coupon_details.discount_type == "Percentage" %}
+                  <!-- <h5><del>{% trans '$'%}{{plan.weekly_cost}}</del>/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h5> -->
+                  {% calculate_amount_coupon_cod request plan.id as discount_amount %}
+                  {% to_float plan.weekly_cost as weekly_cost %}
+                  {% if request.user.student.display_discounted_price_only %}
+                      <h3>{% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% else %}
+                      <h3><del>{% trans '$'%}{{weekly_cost}}</del> {% trans '$'%}{{ discount_amount }}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                    {% endif %}
+                {% else %}
+                {% to_float plan.weekly_cost as weekly_cost %}
+                <h3>{% trans '$'%}{{weekly_cost}}/{% trans 'week' %}<span class="color-white weekly-font" >({% trans 'for' %} {{ plan.weekly_cost_duration }} {% trans 'weeks' %})</span></h3>
+                {% endif %}
+                    <div class="btn-btm-pricing">
+                      {% if request.session.is_from_ios_app %}
+                        <a class="btn btn-buy-btn" type="button" data-bs-toggle="modal" data-bs-target="#detail-popup-user" style="color: white;">{% trans "Request Access" %}</a>
+                      {% else %}
+                        <a href="{% url 'buy-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Buy" %}</a> 
+                      {% endif %}
+                      <a  class="btn btn-learn-more-popup">{% trans "Learn more"%}</a>
+                    </div>
+                    <img class="img-card-top" src="{% static '/website/images/pricing-3-img.png' %}">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="card-pricing-body">
+                    <img class="arrow-card-backk popup-hide-third"
+                      src="{% static '/website/images/arrow-sliderr.png' %}">
+                      {% if request.LANGUAGE_CODE == "it" %}
+                        <h3>Premium + Percorso</h3>
+                        <h3>"{{plan.sub_title}}"</h3>
+                        <h4>Video, esercizi interattivi, quiz e testimonianze (10settimane, 1h/settimana) con:</h4>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Catalogo universitario/ITS con informazioni e curiosità su facoltà e atenei</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Possibilità di contattare giovani lavoratori per fare domande su carriere</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Valutazione opzioni per studiare all’estero e passi da fare</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Tool per prioritizzare le opzioni universitarie/ITS e definire la short-list</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Presentazione finale (utilizzabile per la presentazione del PCTO alla maturità)</p>
+
+                      {% else %}
+                      <h3>Premium Plan</h3>
+                      <h3>+</h3>
+                      <h3>"{{plan.sub_title}}" Online class</h3>
+                      <h4>Videos, interactive exercises, quizzes and interviews with professionals (13 weeks, 1h/week) with:</h4>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Overview of options after high school</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Strategies for comparing & evaluating colleges & careers</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to create a short-list of preferred options</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to build a valuable network</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Access to young professionals for career advice & mentoring</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to get hands on experiences</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Scholarships and loans discovery</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Budget builder</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Essay builder</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Action plan to pursue preferred options successfully</p>
+                      {% endif %}
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% if request.LANGUAGE_CODE == "it" %}	
+				<div class="row mb-5">
+					<div class="col-md-12">
+						<div class="bottom-price-text-blocke text-center">
+							<!-- <h3>* Il 100% delle scuole con cui stiamo lavorando ha riconosciuto queste ore PCTO, per conferma sul riconoscimento chiedere al proprio referente PCTO; il riconoscimento è a discrezione della scuola.</h3> -->
+              <h3>Il riconoscimento delle ore PCTO è a discrezione della scuola: forniamo tutto il supporto necessario.</h3>
+						</div>
+					</div>
+				</div>
+			  {% endif %}
+      </div>
+
+      <div class="modal fade" id="detail-popup-user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="tables-details-usere">
+            <button type="button" class="btn-close color-white cross-btn-cls" data-bs-dismiss="modal" aria-label="Close">x</button>
+              <div class="bottom-popup-details-user-content">
+                <h3>
+                    {% trans "Hello" %} {{request.user.first_name}} {{request.user.last_name}}! 
+                </h3>
+                <h3>
+                  {% trans "We have sent the payment link on your mail id."%}
+                </h3>
+              </div>
+        </div>
+        </div>
+    </div>
+
+    </section>
+    <!-- /.container-fluid -->
+  </div>
+</div>
+
+{% endblock %}
+
+{% block learn_more %}
+{% if avail_courses.count > 1 %}
+{% for module in avail_courses %}
+{% if forloop.counter is 1 %}
+<div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-video">
+          <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+        </div>
+        <h3>{{module.title}}</h3>
+        <p>{% trans "Course description" %} : {{module.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static"
+  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-video">
+          <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+        </div>
+        <h3><b>{% trans 'Extensive Program' %}</b></h3>
+        <p>
+          {% trans 'Join us in the 20 week journey of 20 h+ content to know more about yourself, explore your passions, to identify what you want in future, meet with professionals and mentors and apply to your university' %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif%}
+{% endfor %}
+{% endif%}
+{% endblock %}
+
+{% block script %}
+<script>
+  jQuery('#detail-popup-user').click(function() {
+    $.ajax({
+      type: "POST",
+      url: "{% url 'send_email' %}",
+      data: {"email": "{{ request.user.email }}"},
+      headers: {"X-CSRFToken": "{{ csrf_token }}"},
+      success: function(response){
+        console.log(response);
+      },
+      error: function(error_msg){
+        console.log(error_msg);
+      }
+    });
+  });
+</script>
+<script>
+  $("#btn_buy_Module1").ready(function () {
+    cohort = $('#cohort_id').val();
+    new_href = "/buy-course/" + cohort + "/";
+    $("#btn_buy_Module1").attr('href', new_href);
+  });
+  $("#btn_buy_Module2").ready(function () {
+    cohort = $('#cohort_id_m2').val();
+    new_href = "/buy-course/" + cohort + "/";
+    $("#btn_buy_Module2").attr('href', new_href);
+  });
+  $("#id_cost2").ready(function () {
+    price1 = $("#id_price1").val();
+    price2 = $("#id_price2").val();
+    tot = parseInt(price1) + parseInt(price2);
+    $("#id_cost2").text(tot);
+  });
+  $("#btn2course").ready(function () {
+    // call the function after the element has been loaded here
+    cost1 = $('#id_cost1').text();
+    cost2 = $('#id_cost2').text();
+    var discount = parseInt("{{discount}}");
+    tot = parseInt(cost1) + parseInt(cost2);
+    var final_discount = tot * discount / 100;
+    tot = tot - final_discount;
+    $('#btn2course').text(tot);
+  });
+
+  function fun1(val1, Courseclass, cost) {
+    $(".cdate1").removeClass("cdateselected");
+    $('.' + Courseclass).addClass("cdateselected");
+    $('#id_cost1').text(cost);
+    tot = parseInt(cost);
+    var discount = parseInt("{{discount}}"); 
+    {% if is_discount_percent == True %}
+    var final_discount = tot * discount / 100; 
+    {% else %}
+    var final_discount = discount; 
+    {% endif %}
+    tot = tot - final_discount;
+    //$('#btn2course').text(tot);
+    new_href = "/buy-course/" + val1 + "/";
+    $("#btn_buy_Module1").attr('href', new_href);
+    $('#cohort_id').val(val1);
+    //alert($("#btn_buy_Module2").attr('href'));
+  }
+
+  function fun2(val1, Courseclass, cost) {
+    $(".cdate2").removeClass("cdateselected");
+    $('.' + Courseclass).addClass("cdateselected");
+    price2 = $("#id_price2").val();
+    tot = parseInt(cost) + parseInt(price2);
+    $('#id_cost2').text(tot);
+    //cost1 = $('#id_cost1').text();
+    //tot = parseInt(cost) + parseInt(cost1);
+    var discount = parseInt("{{discount}}"); 
+    {% if is_discount_percent == True %}
+    var final_discount = tot * discount / 100; 
+    {% else %}
+    var final_discount = discount; 
+    {% endif %}
+    tot = tot - final_discount;
+    //$('#btn2course').text(tot);
+    //new_href = "/buy-course/" + val1 + "/";
+    //$("#btn_buy_Module2").attr('href', new_href);
+    $('#cohort_id_m2').val(val1);
+    //alert($("#btn_buy_Module2").attr('href'));
+
+  }
+
+  $('.course-realtive').click(function () {
+    if ($('.course-realtive').children().first().hasClass("nex-cousers") == false) {
+      $('.course-realtive').children().first().addClass("nex-cousers");
+      $('.course-realtive').children().last().removeClass("nex-cousers");
+    } else {
+      $('.course-realtive').children().last().addClass("nex-cousers");
+      $('.course-realtive').children().first().removeClass("nex-cousers");
+    }
+  });
+
+  $(".col-lg-6").click(function (event) {
+    event.stopPropagation();
+  });
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  jQuery(document).ready(function () {
+    jQuery("#first-popup-btn").click(function () {
+      jQuery(".popup-showw-second").hide();
+      jQuery(".popup-showw-third").hide();
+      jQuery(".popup-showw-first").show();
+      jQuery("#first-price").removeClass("small");
+      jQuery("#second-price").removeClass("small");
+      jQuery("#third-price").removeClass("small");
+      jQuery("#first-price").removeClass("large");
+      jQuery("#second-price").removeClass("large");
+      jQuery("#third-price").removeClass("large");
+      jQuery("#first-price.col-lg-4").addClass("large");
+      jQuery("#second-price").addClass("small");
+      jQuery("#third-price").addClass("small");
+    });
+
+    jQuery(".popup-hide-first").click(function () {
+      jQuery(".popup-showw-first").hide();
+      jQuery("#first-price.col-lg-4").removeClass("large");
+      jQuery("#second-price").removeClass("small");
+      jQuery("#third-price").removeClass("small");
+    });
+    jQuery("#second-popup-btn").click(function () {
+      jQuery(".popup-showw-third").hide();
+      jQuery(".popup-showw-first").hide();
+      jQuery(".popup-showw-second").show();
+      jQuery("#first-price").removeClass("small");
+      jQuery("#second-price").removeClass("small");
+      jQuery("#third-price").removeClass("small");
+      jQuery("#first-price").removeClass("large");
+      jQuery("#second-price").removeClass("large");
+      jQuery("#third-price").removeClass("large");
+      jQuery("#first-price").addClass("small");
+      jQuery("#second-price").addClass("large");
+      jQuery("#third-price").addClass("small");
+    });
+
+    jQuery(".popup-hide-second").click(function () {
+      jQuery(".popup-showw-second").hide();
+      jQuery("#first-price").removeClass("small");
+      jQuery("#second-price").removeClass("large");
+      jQuery("#third-price").removeClass("small");
+    });
+    jQuery("#third-popup-btn").click(function () {
+      jQuery(".popup-showw-first").hide();
+      jQuery(".popup-showw-second").hide();
+      jQuery(".popup-showw-third").show();
+      jQuery("#first-price").removeClass("small");
+      jQuery("#second-price").removeClass("small");
+      jQuery("#third-price").removeClass("small");
+      jQuery("#first-price").removeClass("large");
+      jQuery("#second-price").removeClass("large");
+      jQuery("#third-price").removeClass("large");
+      jQuery("#first-price").addClass("small");
+      jQuery("#second-price").addClass("small");
+      jQuery("#third-price").addClass("large");
+    });
+
+    jQuery(".popup-hide-third").click(function () {
+      jQuery(".popup-showw-third").hide();
+      jQuery("#first-price").removeClass("small");
+      jQuery("#second-price").removeClass("small");
+      jQuery("#third-price").removeClass("large");
+    });
+  });
+
+  $('#future_lab_form_link').on("click", function (e) {
+    $.ajax({
+        url: "{% url 'update_futurelab_form_status' %}",
+        type: 'POST',
+        headers: {
+            "X-CSRFTOKEN": "{{ csrf_token }}"
+        },
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+        data: {},
+        success: function (response) {
+            var data = JSON.parse(JSON.stringify(response));
+            if (data['message'] == 'SUCCESS') {
+                $('#future_lab_form_link_div').hide();
+            }
+        },
+        error: function (response) {
+        }
+    });
+});
+</script>
+{% endblock%}

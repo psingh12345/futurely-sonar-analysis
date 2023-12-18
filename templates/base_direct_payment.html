@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="en">
+
+<head>
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+    <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/template-css/base-payment.css' %}">
+    {% block title %}
+    {% endblock %}
+    <style>
+        body#page-top {
+            background: black;
+            background-image: url("{% static '/website/images/bg-half.png'%}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+        .font25{
+            font-size: 25px;
+        }
+        .checkout-blocke {
+    width: 100%;
+    display: flex;
+    padding: 30px 0;
+    align-items: center;
+    min-height: 100vh;
+}
+        .card-checkout {
+            bbackground: #26272b36;
+            border-radius: 20px;
+            padding: 0;
+            position: relative;
+            align-items: center;
+            max-width: 850px;
+            justify-content: center;
+            margin: 0 auto !important;
+        }
+    
+        .product-checkout-details h2 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 1rem;
+        }
+    
+        .logo-checkout img {
+            width: 150px;
+        }
+    
+        .checkout-forms .form-label {
+            color: #D9D9D9;
+            font-size: 14px;
+        }
+        .checkout-forms .form-check-input {
+            display: block;
+        }
+        .checkout-forms .form-check-label:before, .checkout-forms .form-check-label:after {
+            display: none !important;
+        }
+        .checkout-forms .form-select,
+        .checkout-forms .form-control {
+            border-radius: 10px;
+            padding: 7px 10px;
+            background: #333;
+            border: 1px solid #333;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #fff;
+            height: 45px;
+        }
+        .checkout-forms .cred-card {
+            border-radius: 10px !important;
+            padding: 7px 10px !important;
+            background: #333 !important;
+            border: 1px solid #333 !important;
+            box-sizing: border-box !important;
+            font-size: 15px !important;
+            color: #999 !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 45px !important;;
+        }
+        
+        .checkout-forms .form-select {
+            background-image: url(https://www.myfuturely.com/static/images/dropdown.svg) !important;
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+    
+        .purchase-btnn:hover {
+            background-image: linear-gradient(to right bottom, #0068ff, #4e6afe, #6e6dfc, #8670fb, #9a74f9, #b272ec, #c472e0, #d173d4, #db74bc, #dc79a8, #d7819a, #ce8991);
+            color: #fff;
+            border-color: #0d6efd !important;
+        }
+    
+        .purchase-btnn {
+            background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+            box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            padding: 10px 20px;
+            width: 100%;
+            margin: 0px 0 12px;
+            text-transform: uppercase;
+            transition: all .7s;
+            position: relative;
+            height: 43px;
+        }
+        .checkout-forms .form-control:focus {
+    box-shadow: none;
+}
+        .purchase-btnn .spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%)translateY(-50%);
+     }
+
+    
+        .title-product-checkout {
+            color: #fff;
+            font-size: 18px;
+            margin: 0 0 6px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+    
+        .product-checkout-contentt {
+            position: absolute;
+            top: 0;
+            left: auto;
+            right: 0;
+            padding: 10px;
+            z-index: 11;
+            bottom: 0;
+        }
+    
+        .description-product-checkout {
+            color: #fff;
+            font-size: 14px;
+        }
+    
+        .price-blocke {
+    font-size: 28px;
+    color: #fff;
+    font-weight: 800;
+    margin-bottom: 2px;
+    display: inline-flex;
+}
+    
+        .product-checkout-image img.productt-img-checkoutt {
+            width: 100%;
+            height: 650px;
+            object-fit: cover;
+        }
+        .small-text-price {
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+}
+    
+.checkout-forms .border-grad {
+    margin: 0 !important;
+}
+.product-checkout-image {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+    
+        .arrow-flip-contentt.hide-content-ovalay {
+            transform: rotate(-45deg);
+        }
+    
+        .arrow-flip-contentt {
+            display: block;
+            width: 18px;
+            height: 18px;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            transform: rotate(135deg);
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            cursor: pointer;
+        }
+    
+        .arrow-flip-contentt:after {
+            content: "";
+            display: block;
+            width: 2px;
+            height: 28px;
+            background-color: white;
+            transform: rotate(-45deg) translate(9px, 4px);
+            left: 0;
+            top: 0;
+        }
+    
+        .product-checkout-image:after {
+            background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+            content: "";
+            opacity: 0.7;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+    
+        .product-checkout-overlay-contentt {
+            padding: 22px;
+            width: 100%;
+            /* position: absolute; */
+            /* left: 0; */
+            /* right: 0; */
+            /* bottom: 0; */
+            /* top: 0; */
+            border-radius: 15px;
+            transition: all .5s;
+            z-index: 1;
+        }
+    
+        .product-checkout-overlay-contentt.show {
+            opacity: 1;
+            z-index: 1;
+        }
+    
+        .product-checkout-overlay-contentt h3 {
+            color: #fff;
+            text-align: left;
+            line-height: 1.4;
+            font-weight: bold;
+            font-size: 15px;
+        }
+    
+        .product-checkout-overlay-contentt p {
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            color: #fff;
+            column-gap: 10px;
+            margin-bottom: 6px;
+            text-align: left;
+            font-style: normal;
+            font-weight: 400;
+        }
+    
+        .product-checkout-overlay-contentt p img {
+            width: 16px;
+        }
+    
+        .product-checkout-contentt-deatls {
+            margin: 15px 0 0;
+            border-top: 1px solid #ffffff36;
+            padding: 22px 0 0;
+        }
+
+        .gutter-spaceing {
+    background: #26272B;
+    padding: 30px 30px 70px;
+}
+            div#thankYouModal .modal-dialog {
+    max-width: 400px;
+    width: 100%;
+}
+        @media (max-width:992px) {
+             
+             .gutter-spaceing {
+                margin-top: 18px;
+        }
+            }
+        @media (min-width:992px) {
+            .gutter-spaceing {
+                border-radius: 0px 20px 20px 0px;
+            }
+    
+            .row.card-checkout {
+                margin-left: -30px;
+                margin-right: -30px;
+            }
+        }
+    
+        @media (max-width:767px) {
+            .logo-checkout img {
+                width: 150px;
+            }
+    
+            .card-checkout {
+                padding: 15px;
+            }
+    
+            .product-checkout-image .productt-img-checkoutt {
+                height: auto;
+            }
+    
+            .price-blocke {
+                font-size: 22px;
+            }
+    
+            .product-checkout-details h2 {
+                font-size: 22px;
+                margin-bottom: 1rem;
+                margin-top: 10px;
+            }
+    
+            .mbb-sm-3 {
+                margin: 10px 0;
+            }
+        }
+    </style>
+    <style>
+        .hidden{
+            display: none !important;
+        }
+    </style>
+    {% block style_sheet %}
+    {% endblock %}
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body id="page-top">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <script>(function (v, i, s, a, t) { v[t] = v[t] || function () { (v[t].v = v[t].v || []).push(arguments) }; if (!v._visaSettings) { v._visaSettings = {} } v._visaSettings[a] = { v: '1.0', s: a, a: '1', t: t }; var b = i.getElementsByTagName('body')[0]; var p = i.createElement('script'); p.defer = 1; p.async = 1; p.src = s + '?s=' + a; b.appendChild(p) })(window, document, '//app-worker.visitor-analytics.io/main.js', '7388998c-4d85-11ec-b589-901b0edac50a', 'va')</script>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+        {% block content %}
+        
+        {% endblock%}
+        {% block learn_more %}
+        {% endblock %}
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    {% block script %}
+
+    {% endblock %}
+
+</body>
+
+</html>

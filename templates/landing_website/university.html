@@ -1,0 +1,667 @@
+{% extends 'base_landing_website.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>University</title>
+{% endblock %}
+
+{% block content %}
+<div class="main-content-block">
+	<section class="corporate-section">
+		<div class="container">
+			<div class="row mobilerev">
+				<div class="col-md-6">
+					<div class="corporate-title-content">
+						<h1 class="h1 mb-lg-4">Lo strumento che porta gli studenti verso enti di formazione post-diploma</h1>
+						<p>Percorsi <b>personalizzati, flessibili </b>e <b>brandizzati </b>per la tua <br>università: per <b>ingaggiare gli studenti </b>e <b>aumentare gli iscritti.</b></p>
+						<a href="#contactform" class="mt-3 mt-lg-3 btn-filed bg-color-pool text-color-black mobAutoWidth">Richiedi una demo</a>
+					</div>
+				</div>
+				<div class="col-md-6 mobMargin">
+					<img class="w-100" src="{% static 'landing_website/images/pexels-julia-m-cameron.png' %}" alt="pexels-karolina-img">
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="states-section bg-color-gray">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-md-4">
+					<div class="states-content">
+						<h3 class="h2 text-color-black">-15%</h3>
+						<h4 class="h3 text-color-black">La riduzione degli <br class="d-none d-lg-block"> iscritti</h4>
+						<p class="text-color-black"><b>Il numero degli iscritti </b>annuali presso istituti accademici <b>è in forte diminuzione </b>e ogni anno aumenta di alcuni punti percentuali.<br>
+							Gli enti di formazione hanno bisogno <b> di nuovi strumenti per attrarre i potenziali studenti.</b>
+							</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="states-content">
+						<h3 class="h2 text-color-black">90%</h3>
+						<h4 class="h3 text-color-black">Dati degli studenti non tracciati</h4>
+						<p class="text-color-black">Gli enti di formazione incontrano <b>moltissimi studenti </b>tramite eventi, open-day, webinar e visite al sito web, ma la gran parte di questi non <b>hanno modo di lasciare i propri recapiti</b> e inserire le proprie preferenze <b>in un modo che sia tracciato.</b>	</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="states-content">
+						<h3 class="h2 text-color-black">21%</h3>
+						<h4 class="h3 text-color-black">L’altissima dispersione universitaria</h4>
+						<p class="text-color-black">Studenti che per motivi individuali, spesso legati ad una mancanza di orientamento iniziale, <b>non portano a compimento il loro percorso accademico </b>e perdono gli anni di studio.</p>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+	<section class="benefit-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="benefit-image">
+						<img class="w-100" src="{% static 'landing_website/images/pexels-fauxels.png' %}" alt="pexels-karolina-img">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="benefit-content">
+						<h5 class="h5">STUDENTI PIù SODDISFATTI, MENO TEMPO PER INGAGGIARLI</h5>
+						<h2 class="h2">Percorso di orientamento <br class="d-none d-lg-block">post-diploma</h2>
+						<p class="mb-0">Mettiamo a tua disposizione un percorso di orientamento <b>brandizzato, flessibile, formativo, personalizzato </b>con loghi stile e colori dell'istituzione. <br>Dopo una fase di consulenza e co-design, <b>definiamo insieme i contenuti e le interazioni. </b>
+						</p>
+						<p>Il percorso co-progettato, da un lato ingaggia gli studenti, dall'altro ti permette di ottenere <b>dati dettagliati </b>su di loro e <b>massimizzare il numero di iscritti.</b></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="corporate-section funziona-section bg-color-gray">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 mb-4">
+					<div class="corporate-title-content">
+						<h1 class="h1 text-color-black">Le caratteristiche del percorso</h1>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 d-flex">
+					<div class="corporate-card">
+						<h5 class="h5 mb-2">PERSONALIZZATO</h5>
+						<h3 class="h3 mb-2">Brandizzato e flessibile</h3>
+						<p>Il percorso è interamente brandizzato con i riferimenti dell’ente di formazione e può essere strutturato in base ad ogni esigenza.</p>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 d-flex">
+					<div class="corporate-card">
+						<h5 class="h5 mb-2">INDIRIZZA GLI STUDENTI</h5>
+						<h3 class="h3 mb-2">Orientamento ad hoc</h3>
+						<p>Pensato per indirizzare i ragazzi verso i corsi di studio dell’ente di formazione, consigliando i percorsi più adatti al singolo.</p>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 d-flex">
+					<div class="corporate-card">
+						<h5 class="h5 mb-2">ATTESTATO DEDICATO</h5>
+						<h3 class="h3 mb-2">Formativo e certificato</h3>
+						<p>Ogni studente, dopo aver seguito un percorso sulla conoscenza di sé, riceve anche un attestato che certifica il completamento.</p>
+					</div>
+				</div>
+				<div class="col-sm-6 col-lg-3 d-flex">
+					<div class="corporate-card">
+						<h5 class="h5 mb-2">COLLEGATO ALL’ENTE</h5>
+						<h3 class="h3 mb-2">Completamente integrato</h3>
+						<p>Al termine dell’esperienza, ogni ragazzo viene indirizzato verso una chiamata con l’ente o un sito dedicato per incentivare l’iscrizione.</p>
+					</div>
+				</div>
+				<div class="col-md-12 text-center">
+					<a href="#contactform" class="mt-3 mt-lg-5 btn-filed">Richiedi una demo</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="benefit-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="benefit-content">
+						<h5 class="h5">un servizio che non c’era</h5>
+						<h2 class="h2">Dati e informazioni fondamentali sugli studenti</h2>
+						<p class="mb-0">Il bisogno di orientamento verso gli studi università è sempre più frequente, ma gli strumenti per portarlo avanti sono pochi. Per questo abbiamo ideato un modo che permette alle università di: 
+							 </p>
+						<ul>
+							<li><b>Raccogliere i dati degli studenti </b>e <b>conoscere le loro preferenze di studi</b></li>
+							<li><b>Ingaggiare gli studenti</b> e avvicinarli alla propria università <b>proponendo</b> i corsi <b>più adatti a loro</b></li>
+							<li><b>Aumentare le iscrizioni</b> presso le tue facoltà</li>
+
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="benefit-image">
+						<img class="w-100" src="{% static 'landing_website/images/pexels-fauxels-3184407 2.png' %}" alt="pexels-karolina-img">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 mt-4 mt-lg-5 mb-3 mb-lg-5">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="benefit-image">
+						<img class="w-100" src="{% static 'landing_website/images/marvin-meyer-img.png' %}" alt="pexels-karolina-img">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="benefit-content">
+						<h5 class="h5">guida ogni studente con contenuti di valore</h5>
+						<h2 class="h2">Contenuti pratici e testimonianze dirette</h2>
+						<p><b>I contenuti all’interno del percorso: i dettagli</b></p>
+						<ul>
+							<li></b>Inclinazioni e competenze: <b>test RIASEC per individuare scientificamente i tratti dello studente e approfondimento su <b>hard e soft skills</b> con video dedicati</li>
+							<li><b>Offerte formative dell’ente:</b> in modo dinamico e interattivo guidiamo lo studente alla scoperta di tutte le opportunità</li>
+							<li><b>Testimonianze di giovani lavoratori </b>che raccontano il loro percorso di studio e il lavoro che svolgono</li>
+						</ul>
+						<p><b>Ogni contenuto viene personalizzato </b>assieme in una fase consulenziale iniziale.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="benefit-section Webinar-section  bg-color-gray">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="benefit-content">
+						<h5 class="h5">webinar e integrazione contenuti</h5>
+						<h2 class="h2">Entra in contatto con i nostri <br class="d-none d-lg-block">studenti</h2>
+						<p>Organizziamo <b>webinar dedicati</b> per permettere agli enti di formazione di <b>entrare in contatto con tutti i nostri studenti</b>. Potrai organizzare un webinar con noi per presentare i tuoi corsi di studio e parlare faccia a faccia con ogni ragazzo.</p>
+						<p>Hai anche la possibilità di <b>integrare i tuoi contenuti di orientamento all’interno del nostro percorso,</b> presentando ai ragazzi i corsi da te offerti.</p>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="benefit-card">
+						<h2 class="h2">+20 000 studenti attivi</h2>
+						<p>Che partecipano ai nostri webinar sull’orientamento</p>
+					</div>
+					<div class="benefit-card benefit-second-card">
+						<h2 class="h2">+10 università</h2>
+						<p>Istituzioni che ci hanno scelto per supporto nell’orientamento</p>
+					</div>
+					<div class="benefit-card benefit-third-card">
+						<h2 class="h2">Massima visibilità</h2>
+						<p>I tuoi contenuti di orientamento sono visualizzati da tutti gli studenti che utilizzano la nostra piattaforma</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="newsletter-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="newsletter-content">
+						<h5 class="h5">NON PERDERTI  UNA NOVITÀ SUL MONDO DELL’ORIENTAMENTO!</h5>
+						<h3 class="h3">Una e-mail al mese per dirti cosa sta <br>succedendo in Futurely.</h3>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="newsletter-form" id="newletterForm">
+						<form class="d-flex flex-wrap" method="POST">
+							<input class="newsletter-input-filed" type="email" name="email" id="email"
+								placeholder="Scrivi la tua e-mail" required>
+							<button class="newsletter-button" type="submit">Iscriviti alla newletter</button>
+							<div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="fflexCheckChecked" required="">
+                                <label class="form-check-label" for="fflexCheckChecked">
+									Accetto la <a style="color: #fff;" href="{% url 'news_letter_policy' %}"><u>privacy policy</u></a>
+                                </label>
+                            </div>
+						</form>
+						<span id="newsletteridforerror" class="error-label"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% comment %}
+	<section class="support-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2 class="h2 mb-3 section-title">Offriamo soluzioni di orientamento per ogni esigenza</h2>
+					<p class="section-discription mb-lg-40">Con il nostro lavoro puntiamo a raggiungere e rispettare 4
+						obiettivi dell'Agenda 2030 ONU:</p>
+				</div>
+				<div class="col-lg-6">
+					<div class="supports-content mb-2 mb-lg-40 d-flex">
+						<div class="supports-image">
+							<img src="{% static 'landing_website/images/support-img.png' %}" alt="support-img">
+						</div>
+						<div class="support-inner-content">
+							<h5 class="h5">Perché sentirsi bene è fondamentale</h5>
+							<p>Pensiamo che il benessere di ogni persona sia una responsabilità di tutti. E ci prendiamo
+								l’impegno di fare la nostra parte.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 mb-2 mb-lg-40">
+					<div class="supports-content d-flex">
+						<div class="supports-image">
+							<img src="{% static 'landing_website/images/support-img2.png' %}" alt="support-img">
+						</div>
+						<div class="support-inner-content">
+							<h5 class="h5">Perché ognuno ha diritto a formazione e lavoro</h5>
+							<p>Lavoriamo per ridurre la quota di giovani disoccupati e al di fuori di ogni ciclo di
+								studio o formazione.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 mb-2 mb-lg-0">
+					<div class="supports-content d-flex">
+						<div class="supports-image">
+							<img src="{% static 'landing_website/images/support-img3.png' %}" alt="support-img">
+						</div>
+						<div class="support-inner-content">
+							<h5 class="h5">Perché solo studiando si cresce</h5>
+							<p>Facciamo in modo che i nostri corsi siano concreti, accessibili e curati in ogni piccolo
+								dettaglio.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="supports-content d-flex">
+						<div class="supports-image">
+							<img src="{% static 'landing_website/images/support-img4.png' %}" alt="support-img">
+						</div>
+						<div class="support-inner-content">
+							<h5 class="h5">Perché tutti devono avere gli stessi diritti</h5>
+							<p>Se tutti hanno le stesse opportunità, ognuno può essere padrone del proprio destino e non
+								essere mai discriminato.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="testimonial-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 d-flex justify-content-between">
+					<h2 class="h2 mb-3 mb-lg-40 section-title text-white">Cosa ne pensa chi ha scelto Futurely?</h2>
+					<div class="btn-wrap">
+						<button class="slider-arrow prev-btn"><img src="{% static 'landing_website/images/prev-arrow.svg' %}"
+								alt="prev-arrow"></button>
+						<button class="slider-arrow next-btn"><img src="{% static 'landing_website/images/next-arrow.svg' %}"
+								alt="next-arrow"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="testimonial-slider slider">
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img3.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img2.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img4.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img6.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img5.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img8.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img7.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img8.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial-item">
+				<div class="testimonial-row">
+					<div class="testimonial-image">
+						<img src="{% static 'landing_website/images/testimonial-img7.png' %}" alt="testimonial-img">
+					</div>
+					<div class="testimonial-content">
+						<p>“Mi ero convinta che i percorsi di orientamento online fossero poco affidabili. Ma Futurely
+							mi ha fatto ricredere grazie al supporto continuo che ho ricevuto”.</p>
+						<p><b>Elisa</b>, Studentessa</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</section>
+	{% endcomment %}
+<section class="client-logos-section" id="contactform">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-4">
+				<div class="client-logo">
+					<img src="{% static 'landing_website/images/client-logo.png' %}" alt="client-logo" />
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="client-logo">
+					<img src="{% static 'landing_website/images/client-logo2.png' %}" alt="client-logo" />
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="client-logo">
+					<img src="{% static 'landing_website/images/client-logo3.png' %}" alt="client-logo" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="contact-section" >
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-6">
+				<div class="contact-info">
+					<h5 class="h5">Prenota una demo assieme a noi!</h5>
+					<h3 class="h3">Sei un HR o ti occupi di orientamento?Vuoi vedere da vicino la nostra piattaforma?
+					</h3>
+					<p>Compila il form con tutti i tuoi dati e ti risponderemo entro 24 ore!</p>
+					<div class="contact-info-inner-card">
+						<h4 class="h4">Sei uno studente e vuoi ottenere Futurely gratis?</h4>
+						<p><b>Diventa Ambassador</b>! Presentaci una scuola o un’azienda e affronta gratuitamente i nostri percorsi.</p>
+						<a class="outline-button-link mt-3" href="https://info.myfuturely.com/futurely-ambassador" target="_blank">Come funziona?</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<form class="contact-form" method="POST">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-item">
+								<label class="form-label">Nome</label>
+								{% render_field contact_us_form.first_name class="form-input" placeholder="Come ti chiami?" %} 
+								{% comment %} <input type="text" class="form-input" placeholder="Come ti chiami?"> {% endcomment %}
+								<span style="color: red;" class="error-label">{{ contact_us_form.first_name.errors }}</span>
+							</div>
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-item">
+								<label class="form-label">Cognome</label>
+								{% comment %} <input type="text" class="form-input" placeholder="Qual è il tuo cognome?"> {% endcomment %}
+								{% render_field contact_us_form.last_name class="form-input" placeholder="Qual è il tuo cognome?" %} 
+								<span style="color: red;" class="error-label">{{ contact_us_form.last_name.errors }}</span>
+							</div>
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-item">
+								<label class="form-label">E-mail</label>
+								{% comment %} <input type="text" class="form-input" placeholder="Scrivi la tua e-mail"> {% endcomment %}
+								{% render_field contact_us_form.email class="form-input" placeholder="Scrivi la tua e-mail" %} 
+								<span style="color: red;" class="error-label">{{ contact_us_form.email.errors }}</span>
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+                            <div class="form-item">
+                                <label class="form-label">Cellulare (facoltativo)</label>
+                                {% render_field contact_us_form.phone_number class="form-input" placeholder="Scrivi il tuo numero" %} 
+                                <span style="color: red;" class="error-label">{{ contact_us_form.phone_number.errors }}</span>
+                            </div>
+                        </div>
+
+						<div class="col-md-6">
+							<div class="form-item">
+								<label class="form-label">Organizzazione</label>
+								<select class="form-select form-input select-color" aria-label="Che organizzazione sei?" name="organization" required onchange="showHideOrganizationNameField(this)">
+									<option value="" selected disabled>Che organizzazione sei?</option>
+									
+									{% for choice in contact_us_form.organization.field.choices %}
+										{% if forloop.counter == 1 %}
+										{% else %}
+										<option value="{{ choice.1 }}" {% if contact_us_form.organization.value == choice.1 %}selected{% endif %}>{{ choice.1 }}</option>
+										{% endif %}
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-6" id="organizationNameField">
+							<div class="form-item">
+								<label class="form-label">Nome dell’organizzazione</label>
+								{% comment %} <input type="text" class="form-input" placeholder="Scrivi chi rappresenti"> {% endcomment %}
+								{% render_field contact_us_form.company_name class="form-input" placeholder="Scrivi chi rappresenti" required="required" %} 
+								<span style="color: red;" class="error-label">{{ contact_us_form.company_name.errors }}</span>
+
+							</div>
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-item">
+								<label class="form-label">Ruolo </label>
+								{% comment %} <input type="text" class="form-input" placeholder="Quale ruolo ricopri?"> {% endcomment %}
+								{% render_field contact_us_form.role class="form-input" placeholder="Quale ruolo ricopri?" %} 
+								<span style="color: red;" class="error-label">{{ contact_us_form.role.errors }}</span>
+
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<div class="form-item">
+								<label class="form-label">La tua richiesta </label>
+								{% comment %} <textarea class="form-input" rows="4"
+									placeholder="Scrivi qui il tuo messaggio..."></textarea> {% endcomment %}
+									 {% render_field contact_us_form.concern class="form-input" rows="5"  placeholder="Scrivi qui il tuo messaggio..." %}
+								<span style="color: red;" class="error-label">{{ contact_us_form.concern.errors }}</span>
+
+							</div>
+						</div>
+						<div class="col-md-12 mt-3">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value="true" name="subscribe_newsletter" id="flexCheckDefault">
+								<label class="form-check-label" for="flexCheckDefault">
+									Vuoi iscriverti alla nostra Newsletter? (facoltativo)
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" required>
+								<label class="form-check-label" for="flexCheckChecked">
+									Accetto la <a href="{% url 'privacy_policy' %}"><u>privacy policy</u></a>
+								</label>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<button type="submit" class="btn-filed mt-4">Invia</button>
+						</div>
+						{% if messages %}
+							{% for message in messages %}
+								<span class="submited-after-message" style="color: green;" id="req_submit">Request submitted</span>
+							{% endfor %}
+						{% endif %}
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+
+
+{% endblock %}
+{% block script %}
+<script>
+
+	$('.testimonial-slider').slick({
+		slidesToShow: 2,
+		slidesToScroll: 1,
+		infinite: true,
+		centerMode: true,
+		dots: false,
+		arrows: false,
+		centerPadding: '200px',
+		rows: 2,
+		focusOnSelect: true,
+		responsive: [
+			{
+				breakpoint: 992,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+					rows: 1,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+					rows: 1,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+					rows: 1,
+				}
+			}
+		]
+	});
+
+	$('.article-slider').slick({
+		slidesToShow: 2,
+		slidesToScroll: 1,
+		infinite: true,
+		centerMode: true,
+		dots: false,
+		arrows: false,
+		centerPadding: '260px',
+		focusOnSelect: true,
+		responsive: [
+			{
+				breakpoint: 992,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+				}
+			},
+			{
+				breakpoint: 768,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+				}
+			},
+			{
+				breakpoint: 480,
+				settings: {
+					arrows: false,
+					centerPadding: '0px',
+					centerMode: true,
+					slidesToShow: 1,
+				}
+			}
+		]
+	});
+
+</script>
+{% endblock %}

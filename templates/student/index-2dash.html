@@ -1,0 +1,2560 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% load tz %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+<style>
+.dateSelected{
+    background: linear-gradient(96.52deg, #622BFF 7.68%, #0068FF 56.15%, #24BAFB 89.92%, #05D8EA 112.25%) !important;
+}
+.blog-img img.play-btnn {
+    width: 44px;
+    height: 44px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    background: transparent;
+}
+.blog-img {
+    position: relative;
+}
+.blog-content.video span {
+    font-size: 14px;
+    color: #B5B5B5;
+}
+.des-span {
+    font-size: 14px;
+    color: #B5B5B5 !important;
+}
+.blog-content.video p {
+    margin-bottom: 4px;
+}
+.card.webinars.resoures-block::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.card.webinars.resoures-block::-webkit-scrollbar {
+    width: 8px;
+    background-color: #26272B;
+}
+.web-height{
+    height: 302px;
+}
+.web-padding-imp{
+    padding: 1rem .5rem !important;
+}
+.alignment-prop{
+    margin-bottom: 10px;
+    margin-top: 7px;
+    padding-left: 27px;
+    padding-right: 19px;
+}
+.resourse-height-scroll{
+    height: 200px;
+}
+.group-icon-whatsapp{
+    height: 45px;
+    width: 45px;
+    background: linear-gradient(180deg, #61FD7D 0%, #2BB826 100%);
+    margin-right: 1rem;
+    border-radius: 10px;
+}
+.whatsapp-icon-prop{
+    color: white;
+    font-size: 29px;
+    padding-left: 9px;
+}
+.whatsapp-icon-prop:hover{
+    color: white;
+}
+.btn-del-todo{
+    border: none;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    right: 28px;
+    transform: translateY(-50%);
+    background: url(../images/close-icon.png)center/1em auto no-repeat;
+    padding: 0.5rem 0.5rem;
+}
+.welcome-top-bar {
+            padding: 35px 7px;
+        }
+        .top-welcome-content h2 {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 1.4rem;
+            line-height: normal;
+        }
+        .top-welcome-content p {
+            font-size: 15px;
+            color: #d9d9d96b;
+            line-height: 1.5;
+        }
+        .top-welcome-content h2 img {
+            margin-right: 20px;
+            margin-top: -7px;
+        }
+        .card-box {
+            position: relative;
+            width: 100%;
+            display: block;
+            /* background: #000; */
+        }
+        .card-boximg img {
+            width: 100%;
+            height: 275px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .card-boximg {
+            position: relative;
+            width: 100%;
+            display: block;
+            border-radius: 15px;
+        }
+        .card-boximg:after {
+            content: "";
+            background-image: linear-gradient(to right, #00e6f9, #00d4ff, #00c0ff, #00aaff, #0091ff, #3c84ff, #6273fe, #835ff6, #ad57ec, #ce50e0, #e849d1, #fe45c2);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            opacity: 0.8;
+            border-radius: 15px;
+        }
+        .welcome-data {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 18px;
+        }
+        
+        .welcome-data-header .welcome-data-left h3 {
+            font-size: 14px;
+            color: #fff;
+        }
+        .welcome-data-header .welcome-data-right p {
+            font-size: 14px;
+            color: #fff;
+        }
+        .welcome-data ul.dates-box li a {
+            color: #fff;
+            font-size: 12px;
+            display: grid;
+            line-height: normal;
+        }
+        .welcome-data ul.dates-box li {
+            border: 1px solid #ffffff;
+            text-align: center;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+        .welcome-data ul.dates-box {
+            padding: 0;
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            list-style: none;
+        }
+        .welcome-data ul.dates-box li a span {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .welcome-data-body h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 0.4rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+}
+.welcome-data-left {
+    min-height: 68px;
+}
+        .welcome-data-body p {
+        font-size: 14px;
+        color: #fff;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 61px;
+        letter-spacing: -0.03em;
+    }
+    welcome-data-left .cdateselected br {
+    display: none;
+}
+
+.welcome-data-left .cdateselected {
+    font-size: 11px;
+    padding: 4px;
+    margin: 0 !important;
+    font-weight: 700;
+}
+        .welcome-course-btn a.btn.buy-now:hover {
+            background: #333333;
+            color: #fff;
+        }
+        
+        .welcome-course-btn a.btn.buy-now {
+            color: #0068FF;
+            background: #fff;
+            border-radius: 10px;
+            padding:7px 12px;
+            transition: all .7s;
+            font-size: 13px;
+        }
+        .welcome-course-btn a.btn.learn-more:hover {
+            background: #0068FF;
+            color: #fff;
+        }
+        
+        .welcome-course-btn a.btn.learn-more {
+            color: #fff;
+            background: #333333;
+            border-radius: 10px;
+            padding: 7px 12px;
+            transition: all .7s;
+            font-size: 13px;
+        }
+        .welcome-course-btn a + a {
+            margin-left: 8px;
+        }
+        .welcome-data-body {
+            display: block;
+            margin: 18px 0;
+        }
+        .welcome-course-price {
+        font-size: 20px;
+        color: #fff;
+        font-weight: 600;
+        padding-right: 0;
+        margin: 3px 0 0;
+        }
+        .welcome-bottom-btn a {
+            display: block;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        
+        .welcome-bottom-btn {
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .welcome-bottom-btn a.btn.buy-now {
+            background: linear-gradient(96.52deg, #00E6F9 7.68%, #0068FF 39.27%, #FE45C2 112.25%);
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all .7s;
+            color: #fff;
+            font-size: 15px;
+              transition: all .5s;
+              margin-bottom: 18px;
+            border: none;
+        }
+        .welcome-bottom-btn a.learn-more {
+            background: #333333;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all .7s;
+            color: #fff;
+            font-size: 15px;
+            transition: all .5s;
+        }
+        .modal-video img {
+            width: 100%;
+            border-radius: 12px;
+            height: 200px;
+            object-fit: cover;
+        }
+        div.learn-popup .modal-content {
+            background: #343437;
+            border-radius: 12px;
+        }
+        .modal-video {
+            position: relative;
+        }
+        .modal-video {
+            position: relative;
+            margin: 0 0 18px;
+        }
+        div.learn-popup .modal-body p {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 200;
+        }
+        div.learn-popup .modal-body h3 {
+            color: #fff;
+            font-size: 15px;
+        }
+        div.learn-popup .modal-header {
+            border: none;
+            padding-bottom: 0;
+        }
+        request.session.ctype
+        .welcome-data-header .welcome-data-right p {
+            font-size: 12px;
+        }request.session.ctype
+        .welcome-data-header .welcome-data-left h3 {
+            font-size: 12px;
+        }
+        .welcome-data ul.dates-box li {
+            padding: 2px 6px;
+        }
+        .welcome-data ul.dates-box li a span {
+            font-size: 14px;
+        }
+        .welcome-data {
+            padding: 22px 15px;
+        }
+        .welcome-course-btn a.btn.buy-now {request.session.ctype
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+        .welcome-course-btn a.btn.learn-more {
+            padding: 6px 10px;
+            font-size: 14px;
+        }
+        .welcome-course-price {
+            font-size: 18px;
+        }
+        }
+        @media (min-width:567px) and (max-width:767px) {
+        .welcome-data {
+            padding: 25px;
+        }
+        }
+        @media (min-width:992px) and (max-width:1200px) {
+        .welcome-course-price {
+            font-size: 26px;
+            padding-right: 0;
+        }
+        }
+        @media (max-width:992px) {
+        .card-box {
+            margin-bottom: 22px;
+        }
+        }
+        @media (max-width:767px) {
+            .calender-box-popup {
+                min-width: 100%;
+            }
+        .welcome-data-body h3 {
+            font-size: 18px;
+        }
+        .arrow-card-backk {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .welcome-data-body p {
+            font-size: 14px;
+        }
+        .welcome-course-price {
+            padding-right: 0;
+        }
+        
+        }
+        .buy-now:hover{
+            background: #333333 !important;
+            color: #fff !important;
+        }
+
+
+        .new-courses-box-img img {
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    height: 231px;
+    object-fit: revert;
+    object-position: center;
+}
+
+
+.new-courses-box-body {
+    width: 100%;
+    padding: 20px 20px;
+    min-height: 116px;
+}
+.new-courses-box-footer {
+    width: 100%;
+    padding: 0px;
+    padding-left: 25px;
+  
+}
+</style>
+<style>
+    div.cohort-dates-popup.modal.fade.show {
+        display: flex !important;
+        align-items: center;
+    }
+
+    .buy-now:hover {
+        background: #333333 !important;
+        color: #fff !important;
+    }
+
+    .courses-availble .courses-box.left:after {
+    background: linear-gradient(
+116.59deg
+, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+}
+
+.step-content-blox {
+    position: absolute;
+    bottom: 60px;
+    left: 15px;
+}
+.overlay-upgrade-block h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 0 0 22px;
+}
+.btn.upgrade-btn-cource {
+    background: linear-gradient(
+116.59deg
+, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    border: none;
+    padding: 12px 15px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    max-width: 200px;
+    width: 100%;
+    margin: 0 auto;
+    display: table;
+}
+.overlay-upgrade-block {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%) translatex(-50%);
+	padding: 0 30px;
+	z-index: 111;
+	width: 100%;
+	left: 50%;
+}
+.courses-availble > div {
+    position: relative;
+}
+.upgrade-cource-buy {
+    opacity: .4;
+}
+.calender-box-popup {
+    background: #26272B;
+    box-shadow: 9px 9px 16px rgb(0 0 0 / 40%), -6px -9px 29px rgb(65 68 74 / 32%);
+    border-radius: 25px;
+    width: 100%;
+    padding: 40px;
+    justify-content: center;
+    min-width: 500px;
+}
+.calender-card-body h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin: 0 0 28px;
+}
+.calender-card-body {
+    text-align: center;
+}
+.calender-box-dates {
+    border: 1px solid #333333;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: block;
+    width: 100%;
+    padding: 19px;
+}
+.calender-box-dates span {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.03em;
+    color: #D9D9D9;
+}
+.calender-box-dates h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    margin: 8px 0 0;
+}
+.calender-card-body .btn.upgrade-btn-cource {
+    padding: 15px;
+
+}
+.calender-box-dates.active {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid #FFFFFF;
+}
+div#buy-cource-upgrade-popup button.btn-close {
+    background: url({% static 'images/close.png'%})center/1em auto no-repeat;
+    opacity: 1;
+    color: white;
+    float: right;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+.upgrade-cource-buy a.btn.buy-now {
+    pointer-events: none;
+}
+div#upgrade-cources-popupp-second.fade.show, div#upgrade-cources-popupp.fade.show {
+    display: flex !important;
+    
+}
+div#upgrade-cources-popupp-second
+.new-courses-box-img img {
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    height: 231px;
+    object-fit: revert;
+    object-position: center;
+}
+.new-courses-box-body h2 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.new-courses-box-body span {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+}
+.new-courses-box {
+    background: linear-gradient(
+116.59deg
+, rgba(0, 104, 255, 0.3) 10.15%, rgba(177, 121, 240, 0.3) 56.38%, rgba(184, 147, 186, 0.3) 77.61%, rgba(206, 137, 145, 0.3) 100.73%);
+    border-radius: 10px;
+    width: 100%;
+    display: block;
+}
+.new-courses-box.padding40{
+    padding-bottom: 40px;
+}
+.new-courses-box-body {
+    width: 100%;
+    padding: 20px 20px;
+}
+
+.new-courses-box-footer a.btn {
+    background: linear-gradient(
+116.59deg
+, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+}
+.new-courses-box-footer a.btn.learn-now {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.new-courses-box .card-pricing-body {
+    text-align: right;
+}
+img.arrow-card-backk {
+    transform: rotate( 
+180deg
+ );
+    cursor: pointer;
+    width: 18px;
+    background: transparent;
+}
+.card-pricing-body h4 {
+    color: #D5D8F4;
+    font-size: 16px;
+    text-align: left;
+    margin: 20px 0 20px;
+}
+.card-pricing-body p {
+    font-size: 15px;
+    display: flex;
+    align-items: flex-start;
+    font-style: normal;
+    font-weight: 400;
+    color: #D5D8F4;
+    column-gap: 10px;
+    margin-bottom: 18px;
+    text-align: left;
+    line-height: 1.5;
+}
+.card-pricing-body p img {
+    margin-right: 10px;
+    width: 18px;
+}
+.card-pricing-header h1 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: center;
+    color: #FFFFFF;
+}
+.card-pricing-header p {
+    color: #D5D8F4;
+    font-weight: bold;
+    font-size: 15px;
+    min-height: 60px;
+}
+.card-pricing-header h3 {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.5;
+    color: #FFFFFF;
+    margin-top: 2rem;
+}
+.btn-btm-pricing {
+    padding: 10px 15px 27px;
+}
+.btn.btn-buy-btn {
+    background: linear-gradient( 
+116.59deg
+ , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    border-radius: 10px;
+    color: #fff;
+    margin: 0px 0 18px;
+    font-size: 15px;
+    width: 100%;
+    padding: 0.75rem 1.75rem;
+    border: none !important;
+}
+a.btn.btn-learn-more-popup {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    border-radius: 10px;
+    width: 100%;
+    font-size: 15px;
+    width: 100%;
+    padding: 0.75rem 1.75rem;
+    color: #fff;
+    border: none !important;
+}
+.new-courses-box.popup {
+    background: #23293C;
+    padding: 20px 15px;
+}
+.card-img-pricee {
+    width: 100%;
+    height: 230px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.cources-roww {
+    position: relative;
+}
+div#firrst-courses-box-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 11;
+}
+.new-courses-box .card-pricing-body h3 {
+    color: #D5D8F4;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+}
+.card .rating-data-title h3.elitile-title-third {
+    font-size: 12px;
+}
+.courses-rating > span.elitile-rating-title-third {
+    font-size: 12px;
+}
+.rating-data-title p.elitile-subtitle-third {
+    font-size: 12px;
+}
+.star-rating.elitile-rating-third .star-font-size {
+    font-size: 9px;
+}
+.rating-data-title a.elitile-btn-third.btn.buy-now {
+    font-size: 12px;
+    min-width: 100px;
+    max-width: 140px;
+}
+.rating-lock-start-courses.elitile-start-courses-third .courses-day {
+    font-size: 12px;
+}
+@media (min-width:768px) {
+div#upgrade-cources-popupp .modal-dialog, div#upgrade-cources-popupp-second .modal-dialog {
+    max-width: 750px;
+}
+}
+@media (min-width:992px) {
+.mxlt-3 {
+    margin-top: 1rem!important;
+}
+}
+@media (min-width: 576px) and (max-width: 767px) {
+.new-courses-box-footer a.btn.learn-now {
+    margin-top: 0;
+}
+}
+@media (max-width:576px) {
+.rating-data .col-sm-4 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+}
+.rating-data .col-sm-8 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+}
+}
+
+
+
+</style>
+
+{% endblock%}
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="main-content py-4 px-md-3" id="courses-box-f">
+    <div class="container-fluid">
+        <div class="row courses-block" >
+            <div class="col-lg-8 col-md-12">
+                {% if current_plan_type == "Premium" %}
+                {% for course_a in avail_courses %}
+                    {% if forloop.counter == 1 %}
+                        {% if mycourses %}
+                        {% else %}
+                        <div class="notification-bars text-center">
+                            <span class="notify_text">{% trans "You must have to select date for course 1 before to start"%}</span>
+                        </div>
+                        <script>
+                            $(document).ready(function()
+                            {
+                                $(function(){
+                                    $('#autopopup')[0].click();
+                                });
+                                
+                            });
+                        </script>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% elif current_plan_type == "Elite" %}
+                {% for course_a in avail_courses %}
+                    {% if forloop.counter == 1 %}
+                        {% if mycourses %}
+                        {% else %}
+                        <div class="notification-bars text-center">
+                            <span class="notify_text">{% trans "You must have to select date for course 1 before to start"%}</span>
+                        </div>
+                        <script>
+                            $(document).ready(function()
+                            {
+                                $(function(){
+                                    $('#autopopup')[0].click();
+                                });
+                                
+                            });
+                        </script>
+                        {% endif %}
+                   
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="notification-bars text-center">
+                        <span class="notify_text">
+                            {{message}}</span><button class="close"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% if dashboard_announcements.count > 0 %}
+                    {% for dash_notify in dashboard_announcements %}
+                    <div class="notification-bars text-center" >
+                        <span class="notify_text">
+                            {{dash_notify.title}}
+                        </span>
+                        <button class="close" onclick="fun_notify_update('{{dash_notify.id}}')"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% if future_lab_form_filled == False %}
+                    <div class="notification-bars text-center" id='future_lab_form_link_div'>
+                        <span class="notify_text">
+                           <a href="https://forms.gle/VouUxELLckjmmPEfA" target="_blank" id='future_lab_form_link'>{% trans "Please complete this form" %}</a> 
+                        </span>
+                    </div>
+                {% endif %}
+
+                {% if request.session.notifymsg is 1 %}
+                    <div class="notification-bars text-center">
+                        <span class="notify_text">
+                            {% trans "Hey" %}, {{user}}! {% trans "Your course was updated!" %}</span><button class="close"></button>
+                            {% update_notifymsg request as update_notifymsg %}
+                    </div>
+                {% else %}
+                    <div class="notification-bars text-center pop-msg-none" >
+                        <span class="notify_text">
+                        {% trans "Hey" %}, {{user}}! {% trans "Your course was updated!" %}"
+                        </span>
+                        <button class="close"></button>
+                    </div>
+                {% endif %}
+                {% if is_trial_active %}
+                <div class="notification-bars text-center" >
+                    <span class="notify_text">
+                    {% if request.LANGUAGE_CODE == "it" %}
+                        Rimangono {{plan_days_left}} giorni di prova gratuita. 
+                        Assicurati di 
+                        {% if request.session.is_from_ios_app %}
+                            <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">aggiornare il tuo piano</a>
+                        {% else %}
+                            <a href = "{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">aggiornare il tuo piano</a> 
+                        {% endif %}
+                        entro il {{trial_end_date | date:'M d, Y'}} per continuare il corso "{{avail_courses.0.title}}" e usufruire di altri vantaggi del piano {{trial_plan_name}}
+                    {% else %}
+                        {{plan_days_left}} days left in your free trial. 
+                        Make sure to 
+                        {% if request.session.is_from_ios_app %}
+                        <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">Request access</a> 
+                        {% else %}
+                        <a href = "{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">upgrade your plan</a> 
+                        {% endif %}
+                        by {{trial_end_date | date:'M d, Y'}} to continue the "{{avail_courses.0.title}}" course, and enjoy the other {{trial_plan_name}} benefits
+                    {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% if current_plan_type == "Community" %}
+                {% if is_trial_expired %}
+                <div class="notification-bars text-center" >
+                    <span class="notify_text">
+                        {% if request.LANGUAGE_CODE == "it" %}
+                            Il periodo di prova gratuita del piano {{trial_expired_plan_name}} è terminato.
+                            {% if request.session.is_from_ios_app %}
+                                <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">Fai l'upgrade del tuo piano</a>
+                            {% else %}
+                            <a href ="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">
+                                Fai l'upgrade del tuo piano</a>  
+                            {% endif %}
+                            
+                            per continuare il corso "{{avail_courses.0.title}}" e usufruire di altri vantaggi {{trial_expired_plan_name}}
+                        {% else %}
+                            Your free trial period for the {{trial_expired_plan_name}} plan ended. 
+                            {% if request.session.is_from_ios_app %}
+                                <a href ="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">Request access</a> 
+                            {% else %}
+                                <a href ="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">Upgrade your plan</a>
+                            {% endif %} 
+                            to continue the "{{avail_courses.0.title}}" course and to enjoy other {{trial_expired_plan_name}} benefits
+                        {% endif %}
+                    </span>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <!--Add here -->
+                {% comment %} {% genarate_notification_bar request as noti_bar %}
+                {% if noti_bar.count > 0 %}
+                    {% for notification in noti_bar %}
+                        {% check_read_notification notification.pk request as is_read %}
+                        {% if is_read == False %}
+                        <div class="notification-bars text-center" >
+                            <span class="notify_text">
+                                {{ notification.notification }}
+                            </span><button class="close" onclick="read_generate_notification('{{notification.id}}')"></button>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %} {% endcomment %}
+
+
+                <div class="card skiptd div1 ">
+                    <div class="row justify-content-between">
+                        <div class="col-md-7">
+                            <div class="left-content-block">
+                                {% if current_plan_type == "Community" %}
+                                <h2 class="title mb-3">{% trans "Plans" %}</h2>
+                                {% else %}
+                                <h2 class="title mb-3">{% trans "Courses" %}</h2>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if request.LANGUAGE_CODE == "it" %}
+                        <div class="col-md-5 pctodivli call-buttons">
+                            <a class="btn btn-gredient col" data-bs-toggle="modal"
+                            data-bs-target="#PCTO">
+                                PCTO
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row justify-content-between courses-availble">
+                        {% if current_plan_type == "Community" %}
+                            {% for plan in all_plans %}
+                            {% if plan.plan_name == "Premium" %}
+                            <div class="col-md-6 mt-3">
+                                <div class="new-courses-box padding40">
+                                    <div class="new-courses-box-img">
+                                        <img src="{% static 'images/dashboard-p1.png'%}"/>
+                                    </div>
+                                    <div class="new-courses-box-body"> 
+                                    <h2>{{plan.title}}</h2>
+                                    {% if request.LANGUAGE_CODE == "it" %}
+                                        <span>Community + Percorso "{{plan.sub_title}}"
+                                        </span>
+                                        {% else %}
+                                        <span>Community plan + "{{plan.sub_title}}" Online class
+                                        </span>
+                                    {% endif %}
+                                    </div>
+                                    <div class="new-courses-box-footer row justify-content-between">
+                                        <div class="col-sm-6">
+                                            {% if request.session.is_from_ios_app %}
+                                            <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                            {% else %}
+                                            <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade now"%}</a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <a class="btn learn-now" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp">{% trans "Learn more"%}</a>
+                                        </div>
+                                        {% if is_trial_expired is False %}
+                                        {% if trial_cohorts_info.0 %}
+                                        <div class="col-sm-12">
+                                            <a class="btn upgrade-now mt-3" href="{% url 'trail-plan-activate' plan_type='Community_to_Premium' %}" >{% trans "Free Trial" %}</a>
+                                        </div>
+                                        {% endif %}
+                                        {% else %}
+                                        <div class="col-sm-12">
+                                            <div class="message-box-oper" >{% trans "Your free trial period ended" %}</div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif plan.plan_name == "Elite" %}
+                            <div class="col-md-6 mt-3">
+                                <div class="new-courses-box padding40">
+                                    <div class="new-courses-box-img">
+                                        <img src="{% static 'images/dashboard-p2.png'%}"/>
+                                    </div>
+                                    <div class="new-courses-box-body">
+                                        <h2>{{plan.title}}</h2>
+                                        {% if request.LANGUAGE_CODE == "it" %}
+                                        <span>Premium  + Percorso "{{plan.sub_title}}"
+                                        </span>
+                                        {% else %}
+                                        <span>Premium plan + "{{plan.sub_title}}" Online class
+                                        </span>
+                                    {% endif %}
+                                    
+                                    </div>
+                                    <div class="new-courses-box-footer row justify-content-between">
+                                        <div class="col-sm-6">
+                                            {% if request.session.is_from_ios_app %}
+                                            <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                            {% else %}
+                                            <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade now"%}</a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <a class="btn learn-now" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp-second">{% trans "Learn more"%}</a>
+                                        </div>
+                                        
+                                         
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        {% elif current_plan_type == "Premium"%}
+                        {% for course_a in avail_courses %}
+                            {% if course_a.is_active %}
+                                {% if active_courses <= 2 %}
+                                <div class="spl-trial-main-block col-xl-6 col-lg-6 mt-3">
+                                {% else %}
+                                <div class="col-xl-4 col-lg-4 mt-3">
+                                {% endif %}
+                                    {% if forloop.counter is 1 %}
+                                        <div class="courses-box left" id="courses-box-f">
+                                            <img class="overlay" src="{% static 'images/pexels-jay-yoo.png'%}" />
+                                    {% else %}
+                                        <div class="overlay-upgrade-block">
+                                            <div class="row">
+                                            <h2>
+                                                {% trans "Upgrade to elite plan" %}
+                                            </h2>
+                                            </div>
+                                            {% for plan in all_plans %}
+                                            
+                                            {% if plan.plan_name == "Elite" %}
+                                            <div class="new-courses-box-footer row justify-content-between">
+                                                {% if active_courses <= 2 %}
+                                                    <div class="col-lg-6 col-sm-6">
+                                                {% else %}
+                                                    <div class="col-lg-12 col-sm-6">
+                                                {% endif %}
+                                                {% if request.session.is_from_ios_app %}
+                                                <a class="btn upgrade-now" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                                {% else %}
+                                                <a class="btn upgrade-now" href="{% url 'upgrade-plan' plan_id=plan.id %}">{% trans "Upgrade now"%}</a>
+                                                {% endif %}
+                                                </div>
+                                                {% if active_courses <= 2 %}
+                                                    <div class="col-lg-6 col-sm-6">
+                                                {% else %}
+                                                    <div class="col-lg-12 col-sm-6 mxlt-3">
+                                                {% endif %}
+                                                
+                                                    <a class="btn learn-now" type="button" data-bs-toggle="modal" data-bs-target="#upgrade-cources-popupp-second">{% trans "Learn more"%}</a>
+                                                </div>
+                                            </div>
+                                                
+                                                
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="courses-box left upgrade-cource-buy right" id="courses-box-f">
+                                            <img class="overlay" src="{% static 'images/image-beautiful-woman.png'%}" />
+                                    {% endif %}
+                                            <div class="rating-data row justify-content-between">
+                                                <div class="col-md-7">
+                                                    <div class="rating-data-title">
+                                                        <h3>{{course_a.title}}</h3>
+                                                        <p>{{course_a.tot_steps}} {% trans "steps" %}</p>
+                                                        {% if forloop.counter is 1 %}
+                                                            {% if is_trial_active %}
+                                                                {% if mycourses %}
+                                                                    <a class="btn buy-now spl-btn-trial" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Explore the free trial content" %}<span > ({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                                {% endif %}
+                                                                <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                            {% else %}
+                                                                {% if mycourses %}
+                                                                    {% if course_tot_steps.0 > 0 %}
+                                                                    <a class="btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Resume" %}</a>
+                                                                    {% else %}
+                                                                    <a class="btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Start" %}</a>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <a class="btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% endif %}
+                                                            
+                                                            
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="courses-rating">
+                                                        <span>{% trans "Course rating" %}</span>
+                                                        <div class="star-rating">
+                                                            <div class="star-rating star-font-size">
+                                                                <i class="fa fa-star star-color"></i>
+                                                                <i class="fa fa-star star-color"></i>
+                                                                <i class="fa fa-star star-color"></i>
+                                                                <i class="fa fa-star star-color"></i>
+                                                                <i class="fa fa-star star-color"></i>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="rating-user">
+                                                            <a>
+                                                                <img class="img-profile rounded-circle"
+                                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                                            </a>
+                                                            <a>
+                                                                <img class="img-profile rounded-circle"
+                                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                                            </a>
+                                                            <a>
+                                                                <span class="img-profile rounded-circle">+5</span>
+                                                            </a>
+                                                        </div> -->
+                                                        {% if forloop.counter is 1 %}
+                                                        {% if is_trial_active %}
+                                                        {% else %}
+                                                            {% if mycourses %}
+                                                            {% if mycourses.0.cohort.is_active == "Yes" %}
+                                                            <div class="rating-lock-start-courses">
+                                                                <p class="courses-month">
+                                                                    {{mycourses.0.cohort.starting_date | date:'M'}}</p>
+                                                                <p class="courses-day">
+                                                                    {{mycourses.0.cohort.starting_date | date:'d'}}</p>
+                                                            </div>
+                                                            {% endif %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% else %}
+                                                        <div class="rating-lock">
+                                                            <img src="{% static 'images/lock-icon.png'%}">
+                                                        </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            {% endif %}
+                        {%endfor%}
+                        {% elif current_plan_type == "Elite"%}
+                        {% for course_a in avail_courses %}
+                            {% if course_a.is_active %}
+                                {% if active_courses <= 2 %}
+                                <div class="spl-trial-main-block col-xl-6 col-lg-6 mt-3">
+                                {% else %}
+                                <div class="col-xl-4 col-lg-4 mt-3">
+                                {% endif %}
+                                    {% if forloop.counter is 1 %}
+                                    <div class="courses-box left" id="courses-box-f">
+                                        <img class="overlay" src="{% static 'images/pexels-jay-yoo.png'%}" />
+                                    {% else %}
+                                    <div class="courses-box left right" id="courses-box-f">
+                                        <img class="overlay" src="{% static 'images/image-beautiful-woman.png'%}" />
+                                    {% endif %}
+                                        <div class="rating-data row justify-content-between">
+                                            <div class="col-md-7 col-sm-8">
+                                                <div class="rating-data-title">
+                                                    <h3 class="elitile-title-third">{{course_a.title}}</h3>
+                                                    <p class="elitile-subtitle-third">{{course_a.tot_steps}} {% trans "steps" %}</p>
+                                                    {% if forloop.counter is 1 %}
+                                                        {% if is_trial_active %}
+                                                            {% if mycourses %}
+                                                           
+                                                                <a class="btn buy-now spl-btn-trial" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Explore the free trial content" %}<span > ({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                            {% endif %}
+                                                            <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                        {% else %}
+                                                            {% if mycourses %}
+                                                                {% if course_tot_steps.0 > 0 %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Resume"%}</a>
+                                                                {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button"
+                                                                    href="{% url 'module-steps' cohort_id=mycourses.0.cohort.cohort_id %}">{% trans "Start"%}</a>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" id="autopopup" type="button" data-bs-toggle="modal"
+                                                                    data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                            {% endif %}
+                                                            
+                                                        {% endif %}
+                                                    {% elif forloop.counter == 2 %}
+                                                        {% if is_trial_active %}
+                                                            {% if mycourses.count >= 2 %}
+                                                            <a class="btn buy-now spl-btn-trial" type="button"
+                                                            href="{% url 'module-steps' cohort_id=mycourses.1.cohort.cohort_id %}">{% trans "Explore the free trial content" %}<span > ({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                                
+                                                            {% endif %}
+                                                            <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                        {% else %}
+                                                            {% if mycourses.count >= 2 %}
+                                                                {% if course_tot_steps.1 > 0 %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.1.cohort.cohort_id %}">{% trans "Resume"%}</a>
+                                                                {% else %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.1.cohort.cohort_id %}">{% trans "Start"%}</a>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if module_cohorts_info.1 %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% else %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="bi bi-lock-fill"></i>{% trans "Locked"%}</a>
+                                                                    <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {% if is_trial_active %}
+                                                            {% if mycourses.count >= 3 %}
+                                                            <a class="btn buy-now spl-btn-trial" type="button"
+                                                                href="{% url 'module-steps' cohort_id=mycourses.2.cohort.cohort_id %}">{% trans "Explore the free trial content" %}<span > ({{plan_days_left}} {% trans "days left" %})</span></a>
+                                                            {% endif %}
+                                                            <!-- <a class="btn buy-now-trial" href="{% url 'upgrade-plan' plan_id=request.session.plan_id_to_upgrade %}">{% trans "Upgrade now"%}</a> -->
+                                                        {% else %}
+                                                            {% if mycourses.count >= 3 %}
+                                                                {% if course_tot_steps.2 > 0 %}
+                                                                    <a class="elitile-btn-third btn buy-now" type="button"
+                                                                        href="{% url 'module-steps' cohort_id=mycourses.2.cohort.cohort_id %}">{% trans "Resume"%}</a>
+                                                                {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button"
+                                                                    href="{% url 'module-steps' cohort_id=mycourses.2.cohort.cohort_id %}">{% trans "Start"%}</a>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if module_cohorts_info.2 %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a>
+                                                                {% else %}
+                                                                <a class="elitile-btn-third btn buy-now" type="button" title="{% trans 'Available soon'%}" ><i class="bi bi-lock-fill"></i>{% trans "Locked"%}</a>
+                                                                    <!-- <a class="btn buy-now" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#buy-cource-upgrade-popup{{forloop.counter}}">{% trans "Select start date"%}</a> -->
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-5">
+                                                <div class="courses-rating">
+                                                    <span class="elitile-rating-title-third">{% trans "Course rating" %}</span>
+                                                    <div class="star-rating elitile-rating-third"">
+                                                        <div class="star-rating star-font-size">
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                            <i class="fa fa-star star-color"></i>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="rating-user">
+                                                        <a>
+                                                            <img class="img-profile rounded-circle"
+                                                                src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                            <img class="img-profile rounded-circle"
+                                                                src="{% static 'images/undraw_profile.svg'%}">
+                                                        </a>
+                                                        <a>
+                                                            <span class="img-profile rounded-circle">+5</span>
+                                                        </a>
+                                                    </div> -->
+                                                    {% if is_trial_active %}
+                                                    {% else %}
+                                                        {% if forloop.counter is 1 %}
+                                                            {% if mycourses %}
+                                                                {% if mycourses.0.cohort.is_active == "Yes" %}
+                                                                    <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                        <p class="courses-month">
+                                                                            {{mycourses.0.cohort.starting_date | date:'M'}}</p>
+                                                                        <p class="courses-day">
+                                                                            {{mycourses.0.cohort.starting_date | date:'d'}}</p>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% elif forloop.counter == 2 %}
+                                                            {% if mycourses.count >= 2 %}
+                                                                {% if mycourses.1.cohort.is_active == "Yes" %}
+                                                                    <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                        <p class="courses-month">
+                                                                            {{mycourses.1.cohort.starting_date | date:'M'}}</p>
+                                                                        <p class="courses-day">
+                                                                            {{mycourses.1.cohort.starting_date | date:'d'}}</p>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            {% if mycourses.count >= 3 %}
+                                                                {% if mycourses.2.cohort.is_active == "Yes" %}
+                                                                    <div class="rating-lock-start-courses elitile-start-courses-third">
+                                                                        <p class="courses-month">
+                                                                            {{mycourses.2.cohort.starting_date | date:'M'}}</p>
+                                                                        <p class="courses-day">
+                                                                            {{mycourses.2.cohort.starting_date | date:'d'}}</p>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {%endfor%}
+                        {% endif %}
+                    </div>
+                    {% if request.LANGUAGE_CODE == "it" and current_plan_type == "Community"%}	
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="bottom-price-text-blocke">
+                                <h3>* Il 100% delle scuole con cui stiamo lavorando ha riconosciuto queste ore PCTO, per avere conferma del riconoscimento chiedere al proprio referente PCTO; il riconoscimento è a discrezione della scuola.</h3>
+                            </div>
+                        </div>
+                    </div>
+                  {% endif %}
+                    <div class="tooltip-popup skiptp pop1 bottom inner-div-blk d-none">
+                        <div class="tooltip-steps">
+                            <ul>
+                                <li class="dots-nav active"><a href="#courses-box-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divweb','popweb')"href="#div-web"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divgroup','popgroup')" href="##divgroup"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divresource','popresource')" href="#dres"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('pop1','div1','divarticle','poparticle')" href="#darti"></a></li>
+
+                            </ul>
+                            <h3>{% trans "Check out and purchase our personalized career guidance courses." %}</h3>
+                            <div class="tooltip-buttons">
+                                <a class="btn light-gray" onclick="tourSkip()" href="#wrapper">{% trans "Skip" %}</a>
+                                <a class="btn gredient" onclick="tourNext('pop1','div1','divtodo','poptodo')" href="#calender-block-f">{% trans "Next" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-4 skiptd divtodo">
+                    <div class="calender-block" id="calender-block-f">
+                        <h4 class="redirect_cdate" onclick="Current_date();"><img src="{% static 'images/icon-ca;ender.png'%}">{% now "F d, Y" %}</h4>
+                        <div class="carousel-wrap">
+                            <div class="calender-slider owl-carousel">
+                                {% for dt in dates %}
+                                {% if forloop.counter is 16 %}
+                                
+                                <div class="item item-cursor" onclick="funTodo('{{dt| date:'d-m-Y'}}','dt{{forloop.counter}}')">
+                                    <div class="calender-dates dt{{forloop.counter}} dateSelected currentdate_selected">
+                                        <a >{{dt | date:"M"}}<span>{{dt | date:"d"}}</span></a>
+                                        <input style="display: none;" id="selected_date_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+                                <input style="display: none;" id="selected_date_loop_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+                                    </div>
+                                </div>
+                                
+                                {% else %}
+                                <div class="item item-cursor" onclick="funTodo('{{dt| date:'d-m-Y'}}','dt{{forloop.counter}}')">
+                                    <div class="calender-dates dt{{forloop.counter}}">
+                                        <a >{{dt | date:"M"}}<span>{{dt | date:"d"}}</span></a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="calender-data row justify-content-between mt-4">
+                                <div class="col-md-12 p-0">
+                                    <!-- <div class="calender-data-title">
+                                        <h4 class="sideh1-prop-todo">{% trans "Pick up where you left of" %}</h4>
+                                    </div> -->
+                                    <div class="btn-create">
+                                        <a href="" class="btn btn-create float-sm-end todo-back" data-bs-toggle="modal" data-bs-target="#create-to-do" data-bs-whatever="@mdo">
+                                            <span>  +{% trans "Create to do" %}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <span id="todo_msg">
+                                    {% if current_plan_type == "Community" %}
+                                        {% for meetup in my_meetups %}
+                                        <div class="col-md-12 p-0 mt-3">
+                                            <div class="data-box">
+                                                {% date_for_weekday meetup.meet_day meetup.meet_time as date_for_weekday1 %}
+                                                <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                                <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                                    <u>
+                                                        <span>{{meetup.title}} -
+                                                            <i ><span>Date: {{date_for_weekday1 |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}}</span></i>
+                                                        </span>
+                                                    </u>
+                                                </a>
+                                                    
+                                            </div>
+                                        </div>
+                                        {% endfor%}
+                                    {% else %}
+                                        {% for lst_meetups in my_meetups %}
+                                            {% for meetup in lst_meetups %}
+                                                <div class="col-md-12 p-0 mt-3">
+                                                    <div class="data-box">
+                                                        <img style="height: 40px; " src="{% static 'images/ZoomLogo1.png'%}">
+                                                        <a class="color-white " style="font-weight: 600;" href="{{meetup.meet_link}}">
+                                                            <u>
+                                                                <span>{{meetup.title}} -
+                                                                <i ><span>Date: {{meetup.meet_date_time |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}} </span></i>
+                                                                </span>
+                                                            </u>
+                                                            </a>
+                                                        
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor%}
+                                    {% endif %}
+                                    {% if lst_todos %}
+                                        {% for todo in lst_todos %}
+                                            <div class="col-md-12 mt-3 data-box data-box{{todo.id}}">
+                                                <div class="edits-iconss">
+                                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('{{todo.id}}');"></i>
+                                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('{{todo.id}}');"></i>
+                                                </div>
+                                                <div class="hover-tooltip-popup top step-scr confirm{{todo.id}}">
+                                                    <div class="tooltip-steps">
+                                                        <h3 class="todo-pop-des">{% trans "Are you sure you want to delete this task?" %}</h3>
+                                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('{{todo.id}}');">
+                                                            <span>  {% trans "No" %}</span>
+                                                        </a>
+                                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('{{todo.id}}');">
+                                                            <span>  {% trans "Yes" %}</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="to-do-rows">
+                                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                                            <img src="{% static 'images/Journal.png'%}">
+                                                        </div>
+                                                        <div class="col-md-11 todo-des-textt">
+                                                            <span id="span{{todo.id}}">{{todo.msg}}</span>
+                                                            <textarea class=" todo-text-area d-none" id="textarea{{todo.id}}">{{todo.msg}}</textarea>
+                                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel{{todo.id}}" data-bs-toggle="modal"  onclick="cancelEditTodo('{{todo.id}}');">
+                                                                <span>  {% trans "Cancel" %}</span>
+                                                            </a>
+                                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn{{todo.id}}" data-bs-toggle="modal"  onclick="submitEditTodo('{{todo.id}}');">
+                                                                <span>  {% trans "Save changes" %}</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        {% for stp in lst_steps %}
+                                            <div class="col-md-12 p-0 mt-3">
+                                                <div class="data-box">
+                                                    <img src="{% static 'images/Journal.png'%}">
+                                                    <span>{% trans "Complete the step"%} -
+                                                        <a class="color-white " style="font-weight: 600;" href="{% url 'action-items' step_track_id=stp.id sno=0 %}">
+                                                            <i ><span><u>{{stp.stp_msg}}</u> </span></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% elif lst_steps %}
+                                        {% for todo in lst_todos %}
+                                            <div class="col-md-12 mt-3 data-box data-box{{todo.id}}">
+                                                <div class="edits-iconss">
+                                                    <i class="bi bi-pencil-square top-0 end-0 delete-dash-todo" onclick="editTodo('{{todo.id}}');"></i>
+                                                    <i class="bi bi-trash top-0 end-0 delete-dash-todo btn-todo-delete" onclick="confirmDeleteTodo('{{todo.id}}');"></i>
+                                                </div>
+                                                <div class="hover-tooltip-popup top step-scr confirm{{todo.id}}">
+                                                    <div class="tooltip-steps">
+                                                        <h3 class="todo-pop-des">{% trans "Are you sure you want to delete this task?" %}</h3>
+                                                        <a href="" class="btn btn-create p-0 btn-todo-pop-no" data-bs-toggle="modal"  onclick="noEditTodo('{{todo.id}}');">
+                                                            <span>  {% trans "No" %}</span>
+                                                        </a>
+                                                        <a href="" class="btn btn-create p-0 btn-todo-pop" data-bs-toggle="modal"  onclick="yesEditTodo('{{todo.id}}');">
+                                                            <span>  {% trans "Yes" %}</span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="to-do-rows">
+                                                        <div class="col-md-1 todo-des-prop" style="margin-right: 20px;">
+                                                            <img src="{% static 'images/Journal.png'%}">
+                                                        </div>
+                                                        <div class="col-md-11 todo-des-textt">
+                                                            <span id="span{{todo.id}}">{{todo.msg}}</span>
+                                                            <textarea class=" todo-text-area d-none" id="textarea{{todo.id}}">{{todo.msg}}</textarea>
+                                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btnCancel{{todo.id}}" data-bs-toggle="modal"  onclick="cancelEditTodo('{{todo.id}}');">
+                                                                <span>  {% trans "Cancel" %}</span>
+                                                            </a>
+                                                            <a href="" class="btn btn-create float-sm-end p-0 btn-todo-prop d-none" id="btn{{todo.id}}" data-bs-toggle="modal"  onclick="submitEditTodo('{{todo.id}}');">
+                                                                <span>  {% trans "Save changes" %}</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        {% for stp in lst_steps %}
+                                            <div class="col-md-12 p-0 mt-3">
+                                                <div class="data-box">
+                                                    <img src="{% static 'images/Journal.png'%}">
+                                                    <span>{% trans "Complete the step"%} -
+                                                    <a class="color-white " style="text-decoration: underline;" href="{% url 'action-items' step_track_id=stp.id sno=0 %}">
+                                                        <i><span><u>  {{stp.stp_msg}}</u> </span></i>
+                                                    </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                    <div class="col-md-12 p-0 mt-3">
+                                        <!-- <i class="bi bi-trash top-0 end-0 float-right delete-dash-todo"></i> -->
+                                        <div class="data-box">
+                                            <img src="{% static 'images/Journal.png'%}">
+                                            <span>{% trans "You have no pending task" %}</span>
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tooltip-popup skiptp poptodo pop2 bottom-right inner-div-blk d-none">
+                        <div class="tooltip-steps">
+                            <ul>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','div1','pop1')" href="#courses-box-f"></a></li>
+                                <li class="dots-nav active"><a href="#calender-block-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divweb','popweb')"href="#div-web"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divgroup','popgroup')" href="#divgroup"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divresource','popresource')" href="#dres"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('poptodo','divtodo','divarticle','poparticle')" href="#darti"></a></li>
+                            </ul>
+                            <h3>{% trans "Add tasks and reminders in order not to miss important events" %}</h3>
+                            <div class="tooltip-buttons" id="poptodo">
+                                <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                                <a class="btn gredient" onclick="tourNext('poptodo','divtodo','divkpi','popkpi')" href="#progress-bar-block-f" >{% trans "Next" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 dasktop-view-hide card mb-4 webinars resoures-block  skiptd web-height web-padding-imp divweb skiptd" >
+                    <div class="row justify-content-between alignment-prop">
+                        <div class="col-md-9">
+                            <div class="left-content-block">
+                                <h5><i class='fas fa-chalkboard-teacher'></i><span>Webinars</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="right-btn-block float-sm-end">
+                                <!-- <a class="btn" href="">See all</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card webinars resoures-block card-scroll web-padding-imp">
+                        {% for webinar in webinars %}
+                            <div class="inner-card">
+                                <div class="row" style="cursor: pointer;" onclick="location.href='{{webinar.link}}';">
+                                    <div class="col-md-5">
+                                        <div class="blog-img-webinar">
+                                        <img src="{{webinar.icon.url}}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                       
+                                            <div class="blog-content">
+                                                <div class="blog-header-content d-flex justify-content-between">
+                                                <span>{{webinar.publish_date | date:'d/m/Y'}}</span>
+                                                
+                                                    <img class="edit-icons"src="{% static 'images/external-link.png'%}"/>
+                                            
+                                                <!-- <a href="{{webinar.link}}" target="_blank" class="btn read-btn"><img src="{% static 'images/heart.png'%}"></a> -->
+                                                </div>
+                                                <div class="blog-header-footer mt-1">
+                                                <p>{{webinar.title}}</p>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                    </div>
+                    <div class="tooltip-popup right popweb skiptp d-none">
+                        <div class="tooltip-steps">
+                            <ul>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','div1','pop1')" href="#courses-box-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divkpi','popkpi')" href="#calender-block-f"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divweb','popweb')" href="#progress-bar-block-f"></a></li>
+                                <li class="dots-nav active"><a href="#div-web"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divgroup','popgroup')" href="#divgroup"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divresource','popresource')" href="#dres"></a></li>
+                                <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divarticle','poparticle')" href="#darti"></a></li>
+                            </ul>
+                            <h3>{% trans "Register for webinars from professionals and mentors to improve your skills" %}</h3>
+                            <div class="tooltip-buttons">
+                                <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                                <a class="btn gredient" onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet ">{% trans "Next" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-section mt-4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card skiptd divarticle" id="darti">
+                                <div class="row justify-content-between alignment-prop">
+                                    <div class="col-md-7">
+                                        <div class="left-content-block">
+                                            <h5 class="text-white" ><i class="fas fa-video"></i> <span>{% trans "Articles and videos" %}</span></h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="right-btn-block float-sm-end">
+                                            <!-- <a class="btn" href="">See all</a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card card-scroll-auto">
+                                    {% for my_blog_video in my_blog_videos %}
+                                    {% if my_blog_video.type == "blogs" %}
+                                    <div class="inner-card">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="blog-img">
+                                                <img src="{{my_blog_video.icon.url}}"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="blog-content">
+                                                    <div class="blog-header-content d-flex justify-content-between">
+                                                    <span>{{my_blog_video.publish_date | date:'d/m/Y'}}</span>
+                                                    </div>
+                                                    <div class="blog-header-footer mt-1">
+                                                    <p>{{my_blog_video.title}}</p>
+                                                    <span class="des-span">{{my_blog_video.description | truncatechars:150}}</span>
+                                                    </div>
+                                                    <a href="{{my_blog_video.link}}" target="_blank" class="btn read-btn video-blog-read position-absolute bottom-0 end-0">{% trans "Read " %}<img src="{% static 'images/arrow-right.png'%}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="inner-card">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <a href="{{my_blog_video.link}}" target="_blank">
+                                                    <div class="blog-img">
+                                                        <img src="{{my_blog_video.icon.url}}"/>
+                                                        <img class="play-btnn" src="{% static 'images/play-btn.png'%}"/>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="blog-content video">
+                                                    <div class="blog-header-content d-flex justify-content-between">
+                                                        <span>{{my_blog_video.publish_date | date:'d/m/Y'}}</span>
+                                                        </div>
+                                                    <div class="blog-header-footer mt-1">
+                                                    <p>{{my_blog_video.title}}</p>
+                                                    <span class="des-span">{{my_blog_video.description | truncatechars:150}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="tooltip-popup top popblog poparticle skiptp d-none">
+                                    <div class="tooltip-steps">
+                                    <ul>
+                                    <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divweb','popweb')" href="#div-web"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divgroup','popgroup')" href="#divgroup"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('poparticle','divarticle','divresource','popresource')" href="#dres"></a></li>
+                            <li class="dots-nav active"><a  href="#darti"></a></li>
+
+                                    </ul>
+                                    <h3>{% trans "Check out our recent articles and videos on tips and tricks for universities, job postings" %}</h3>
+                                    <div class="tooltip-buttons">
+                                        <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                                        <a class="btn gredient" onclick="tourNext('poparticle','divarticle','0','0')" href="#wrapper">{% trans "Next" %}</a>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 ">
+                <div class="card mb-4 skiptd divkpi ">
+                    <div class="progress-bar-block" id="progress-bar-block-f">
+                        <a class="user" style="cursor: default;">
+                            <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.png' %}">
+                            <span class="me-2 d-none d-lg-inline small text-white">{{user}}</span>
+                        </a>
+                        <a href="{% url 'account-settings' %}">
+                        <img class="img-setting" src="{% static 'images/settings -1.png'%}"></a>
+                        <div class="progress-bars">
+                            <div class="progress-perent Bittersweet">
+                            <h5>{% trans "Confidence" %} {{kpis.confidence}}%</h5>
+                            <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{kpis.confidence}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="hover-tooltip-popup bottom">
+                                <div class="tooltip-steps">
+                                <h3>{% trans "Indicator to track your confidence" %}</h3>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="progress-perent pink">
+                            <h5>{% trans "Awareness" %} {{kpis.awareness}}%</h5>
+                            <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{kpis.awareness}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="hover-tooltip-popup bottom tooltip-popup-pink">
+                                <div class="tooltip-steps">
+                                <h3>{% trans "Indicator to track awareness about your future" %}</h3>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="progress-perent">
+                            <h5>{% trans "Curiosity" %} {{kpis.curiosity}}%</h5>
+                            <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: {{kpis.curiosity}}%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="hover-tooltip-popup bottom ">
+                                <div class="tooltip-steps">
+                                <h3>{% trans "Indicator to track your curiosity" %}</h3>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tooltip-popup popkpi skiptp right d-none">
+                        <div class="tooltip-steps">
+                        <ul>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav active"><a  href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divweb','popweb')"href="#div-web"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divgroup','popgroup')" href="#divgroup"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divresource','popresource')" href="#dres"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popkpi','divkpi','divarticle','poparticle')" href="#darti"></a></li>
+                         </ul>
+                        <h3>{% trans "See your awareness, curiosity, courage increase as you progress on our career guidance courses." %}</h3>
+                        <div class="tooltip-buttons" id="kpi">
+                            <a class="btn light-gray"  onclick="tourSkip()"  href="#wrapper">{% trans "Skip" %}</a>
+                            <a class="btn gredient"  onclick="tourNext('popkpi','divkpi','divweb','popweb')" href="#div-web" >{% trans "Next" %}</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mobile-view-hide card mb-4 webinars resoures-block  skiptd web-height web-padding-imp divweb skiptd" id="div-web">
+                    <div class="row justify-content-between alignment-prop">
+                        <div class="col-md-9">
+                            <div class="left-content-block">
+                                <h5><i class='fas fa-chalkboard-teacher'></i><span>Webinars</span></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="right-btn-block float-sm-end">
+                                <!-- <a class="btn" href="">See all</a> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card webinars resoures-block card-scroll web-padding-imp">
+                        {% for webinar in webinars %}
+                            <div class="inner-card">
+                                <div class="row" style="cursor: pointer;" onclick="location.href='{{webinar.link}}';">
+                                    <div class="col-md-5">
+                                        <div class="blog-img-webinar">
+                                        <img src="{{webinar.icon.url}}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                       
+                                            <div class="blog-content">
+                                                <div class="blog-header-content d-flex justify-content-between">
+                                                <span>{{webinar.publish_date | date:'d/m/Y'}}</span>
+                                                
+                                                    <img class="edit-icons"src="{% static 'images/external-link.png'%}"/>
+                                            
+                                                <!-- <a href="{{webinar.link}}" target="_blank" class="btn read-btn"><img src="{% static 'images/heart.png'%}"></a> -->
+                                                </div>
+                                                <div class="blog-header-footer mt-1">
+                                                <p>{{webinar.title}}</p>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                    </div>
+                    <div class="tooltip-popup right popweb skiptp d-none">
+                        <div class="tooltip-steps">
+                            <ul>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav active"><a  href="#div-web"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divgroup','popgroup')" href="#divgroup"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divresource','popresource')" href="#dres"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popweb','divweb','divarticle','poparticle')" href="#darti"></a></li>
+                        
+                            </ul>
+                            <h3>{% trans "Register for webinars from professionals and mentors to improve your skills" %}</h3>
+                            <div class="tooltip-buttons">
+                                <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                                <a class="btn gredient" onclick="tourNext('popweb','divweb','divmeetup','popmeetup')" href="#divmeet">{% trans "Next" %}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 div5 divmeetup skiptd web-padding-imp ">
+                    <div class="resoures-block " id="divmeet">
+                        <div class="row justify-content-between alignment-prop">
+                            <div class="col-md-12">
+                                <div class="left-content-block">
+                                    <h5><i class="fas fa-handshake"></i><span>{% trans "Meetup" %}</span>
+                                    
+                                    </h5>
+                                    <p class="color-white meetup-p">{% trans "Hello! Meet us in the group call with Mariachiara (tutor) and the other students in your Futurely class!" %}</p>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4">
+                                <div class="right-btn-block float-sm-end">
+                                    
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="card webinars resoures-block card-scroll web-padding-imp resourse-height-scroll">
+                            {% if current_plan_type == "Community" %}
+                            {% for meetup in my_meetups %}
+                            <div class="card card-mitigates-boxs web-padding-imp ">
+                               
+                                    <div class="row g-0" style="cursor: pointer;" onclick="location.href='{{meetup.meet_link}}';">
+                                        
+                                        <div class="icon-col">
+                                            <div >
+                                                <a> <img style="height: 50px;" src="{% static 'images/zoomlogo.png' %}" /></a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col">
+                                            <!-- <a href="{{meetup.meet_link}}" target="_blank"> -->
+                                            <div class="card-body">
+                                                <p>{{meetup.title}}</p>
+                                                
+                                                    <img class="edit-icons"src="{% static 'images/external-link.png'%}"/>
+                                                
+                                                {% date_for_weekday meetup.meet_day meetup.meet_time as date_for_weekday1 %}
+                                                <p>Date: {{date_for_weekday1 |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}} </p>
+                                                <!-- <p>Day : {% get_day_name meetup.meet_day%} </p> -->
+                                            </div>
+                                            <!-- </a> -->
+                                        </div>
+                                       
+                                    </div>
+                                
+                            </div>
+                           
+                            {% endfor%}
+                            {% else %}
+                            {% for lst_meetups in my_meetups %}
+                                {% for meetup in lst_meetups %}
+                                <div class="card card-mitigates-boxs web-padding-imp ">
+                                   
+                                        <div class="row g-0" style="cursor: pointer;" onclick="location.href='{{meetup.meet_link}}';">
+                                            <div class="icon-col">
+                                                <div >
+                                                    <a> <img style="height: 50px;" src="{% static 'images/zoomlogo.png' %}" /></a>
+                                                </div>
+                                            </div>
+                                            <div class="col ">
+                                                <div class="card-body">
+                                                    <p>{{meetup.title}}</p>
+                                                    
+                                                        <img class="edit-icons"src="{% static 'images/external-link.png'%}"/>
+                                                    
+                                                    <p>Date: {{meetup.meet_date_time |timezone:request.TIME_ZONE | date:'d/m/Y h:i A'}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                                {% endfor %}
+                            
+                            {% endfor%}
+                            {% endif %}
+                        </div>
+                        
+                    <div class="tooltip-popup pop5 popmeetup right skiptp d-none">
+                        <div class="tooltip-steps">
+                        <ul>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divweb','popweb')" href="#div-web"></a></li>
+                            <li class="dots-nav active"><a href="#divmeet" ></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divgroup','popgroup')" href="#divgroup"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divresource','popresource')" href="#dres"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popmeetup','divmeetup','divarticle','poparticle')" href="#darti"></a></li>
+                        </ul>
+                        <h3>{% trans "Attend the regular meet ups with your tutor by joining the zoom meetings" %}</h3>
+                        <div class="tooltip-buttons" id="popmeetup">
+                            <a class="btn light-gray"  onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                            <a class="btn gredient" onclick="tourNext('popmeetup','divmeetup','divgroup','popgroup')" href="#divgroup"  >{% trans "Next" %}</a>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="card mb-4 div6 divgroup skiptd">
+                    <div class="resoures-block" id="divgroup">
+                        <div class="row justify-content-between">
+                                <div class="col-md-9">
+                                    <div class="left-content-block">
+                                        <h5><i class="bi bi-people"></i> <span>{% trans "My Groups" %}</span></h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="right-btn-block float-sm-end">
+                                        <!-- <a class="btn" href="">{% trans "See all" %}</a> -->
+                                    </div>
+                                </div>
+                        </div>
+                        {% for groups in my_groups %}
+                            {% for group in groups %}
+                                <div class="my-groups">
+                                    
+                                        <div class="whatsap-icon-with-textt" style="cursor: pointer;" onclick="location.href='{{group.group_link}}';">
+                                            <div class="md-2 float-sm-start group-icon-whatsapp">
+                                            <a class="whatsapp-icon-prop"  href="{{group.group_link}}" target="_blank"> <i class="bi bi-whatsapp"></i></a> 
+                                            </div>
+                                            <div class="md-10">
+                                            <h4>{{group.group_title}}</h4>
+                                            
+                                                <p>{{group.group_link}}</p>
+                                        
+                                            </div>
+                                        </div>
+                                    
+                                    <!-- <div class="my-groups-users d-flex m-t2 mb-3">
+                                        <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                                        <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                                        <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                                        <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                                        <img class="img-profile rounded-circle me-3" src="{% static 'images/undraw_profile.svg'%}">
+                                    </div> -->
+                                </div>
+                            {% endfor %}
+                        {% empty %}
+                        <div>
+                            <div class="md-2 float-sm-start group-icon-whatsapp">
+                                <a class="whatsapp-icon-prop" target="_blank"> <i class="bi bi-whatsapp"></i></a> 
+                            </div>
+                            <div class="md-10">
+                                <div class="my-groups">
+                                    <h4>{% trans "To access the WhatsApp group of Futurely, upgrade your offer to premium/elite" %}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="tooltip-popup pop6 popgroup right skiptp d-none">
+                        <div class="tooltip-steps">
+                        <ul>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divweb','popweb')" href="#div-web"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                            <li class="dots-nav active"><a href="#divgroup"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divresource','popresource')" href="#dres"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popgroup','divgroup','divarticle','poparticle')" href="#darti"></a></li>
+                       
+                        </ul>
+                        <h3>{% trans "Access to our whatsapp group with our professionals and tutors once you purchase our program." %}</h3>
+                        <div class="tooltip-buttons">
+                            <a class="btn light-gray" onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                            <a class="btn gredient" onclick="tourNext('popgroup','divgroup','divresource','popresource')" href="#dres" >{% trans "Next" %}</a>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4 div5 divresource skiptd web-padding-imp ">
+                    <div class="resoures-block " id="dres">
+                        <div class="row justify-content-between alignment-prop">
+                            <div class="col-md-9">
+                                <div class="left-content-block">
+                                    <h5><i class="bi bi-book"></i> <span>{% trans "My Resources" %}</span></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="right-btn-block float-sm-end">
+                                    <!-- <a class="btn" href="">See all</a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card webinars resoures-block card-scroll web-padding-imp resourse-height-scroll">
+                            {% for resource in my_resources %}
+                            <div class="card card-mitigates-boxs web-padding-imp ">
+                                
+                                    <div class="row g-0" style="cursor: pointer;" onclick="location.href='{{resource.resource_link}}';">
+                                        <div class="icon-col">
+                                            <div class="box-icon">
+                                                <a> <i class="fas fa-link"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="col vertical-align-mid">
+                                            <div class="card-body">
+                                                <p>{{resource.resource_title}}</p>
+                                                <a href="{{resource.resource_link}}" target="_blank">
+                                                    <img class="edit-icons"src="{% static 'images/external-link.png'%}"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                            {% empty %}
+                            <img src="{% static 'images/resourss.png'%}">
+                            <p>{% trans "You have no resources yet" %}</p>
+                            {% endfor%}
+                        </div>
+                        
+                    <div class="tooltip-popup pop5 popresource right skiptp d-none">
+                        <div class="tooltip-steps">
+                        <ul>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','div1','pop1')" href="#courses-box-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divtodo','poptodo')" href="#calender-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divkpi','popkpi')" href="#progress-bar-block-f"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divweb','popweb')" href="#div-web"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divmeetup','popmeetup')" href="#divmeet" ></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divgroup','popgroup')" href="#divgroup"></a></li>
+                            <li class="dots-nav active"><a href="#dres"></a></li>
+                            <li class="dots-nav"><a onclick="tourNext('popresource','divresource','divarticle','poparticle')" href="#darti"></a></li>
+
+                        </ul>
+                        <h3>{% trans "Learning resources about universities and jobs." %}</h3>
+                        <div class="tooltip-buttons" id="popresource">
+                            <a class="btn light-gray"  onclick="tourSkip()" href="#wrapper" >{% trans "Skip" %}</a>
+                            <a class="btn gredient" onclick="tourNext('popresource','divresource','divarticle','poparticle')" href="#darti"  >{% trans "Next" %}</a>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Main Content -->
+{% endblock %}
+
+{%block to_do_popup %}
+{% for plan in all_plans %}
+{% if plan.plan_name == "Elite" %}
+{% if current_plan_type == "Community" or current_plan_type == "Premium" %}
+<div class="modal fade" id="upgrade-cources-popupp-second" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="new-courses-box popup modal-content">
+        <div class="card-pricing text-center card-radius2">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card-pricing-header text-center">
+                        <h1 class=" h1-text-size mb-3">{{plan.title}}</h1>
+                            {% if request.LANGUAGE_CODE == "it" %}
+                            <p>Premium + Percorso <br>"{{plan.sub_title}}"</p>
+                            {% else %}
+                            <p>Premium plan + <br> "{{plan.sub_title}}"<br> Online class</p>
+                            {% endif %}
+                            {% if current_plan_type == "Community" %}
+                            <h3 class="mt-5">{% trans '$'%}{{plan.cost}}</h3>
+                            {% else %}
+                            <h3 class="mt-5">{% trans '$'%}{{plan.upgrade_cost}}</h3>
+                            {% endif %}
+                            <div class="btn-btm-pricing mt-3">
+                                {% if request.session.is_from_ios_app %}
+                                <a class="btn btn-buy-btn" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                                {% else %}
+                                <a href="{% url 'upgrade-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Upgrade now" %}</a>
+                                {% endif %}
+                            
+                            
+                            </div>
+                     
+                     <img class="card-img-pricee mt-3" src="{% static 'images/dashboard-p2.png'%}"/>
+                     <!-- <img class="img-card-top" src="{% static '/website/images/pricing-3-img.png' %}"> -->
+                   </div>
+                  </div>
+           <div class="col-lg-6">
+              <div class="card-pricing-body">
+                <img class="arrow-card-backk btn-close" type="button"  data-bs-dismiss="modal" aria-label="Close" src="{% static 'images/close.png'%}">
+                {% if request.LANGUAGE_CODE == "it" %}
+                        <h3>Premium + Percorso<br>"{{plan.sub_title}}"</h3>
+                        
+                        <h4>Video, esercizi interattivi, quiz e testimonianze (10settimane, 1h/settimana) con:</h4>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Catalogo universitario/ITS con informazioni e curiosità su facoltà e atenei</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Possibilità di contattare giovani lavoratori per fare domande su carriere</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Valutazione opzioni per studiare all’estero e passi da fare</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Tool per prioritizzare le opzioni universitarie/ITS e definire la short-list</p>
+                        <p><img src="{% static '/website/images/orientamiwhit.png' %}">Presentazione finale (utilizzabile per la presentazione del PCTO alla maturità)</p>
+
+                      {% else %}
+                      <h3>Premium Plan <br>+<br> "{{plan.sub_title}}" Online class</h3>
+                     
+                      <h4>Videos, interactive exercises, quizzes and interviews with professionals (13 weeks, 1h/week) with:</h4>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Overview of options after high school</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Strategies for comparing & evaluating colleges & careers</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to create a short-list of preferred options</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to build a valuable network</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Access to young professionals for career advice & mentoring</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guide to get hands on experiences</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Scholarships and loans discovery</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Budget builder</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Essay builder</p>
+                      <p><img src="{% static '/website/images/orientamiwhit.png' %}">Action plan to pursue preferred options successfully</p>
+                      {% endif %}
+				</div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% elif plan.plan_name == "Premium" %}
+{% if current_plan_type == "Community" %}
+<div class="modal fade" id="upgrade-cources-popupp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="new-courses-box popup modal-content">
+    
+        <div class="card-pricing text-center card-radius2">
+            <div class="row">
+            <div class="col-lg-6">
+             <div class="card-pricing-header text-center">
+                <h1 class=" h1-text-size">{{plan.title}}</h1>
+                    {% if request.LANGUAGE_CODE == "it" %}
+                      <p>Community +  Percorso <br> "{{plan.sub_title}}"
+                      </p>
+                      {% else %}
+                      <p>Community plan + <br>"{{plan.sub_title}}"<br> Online class
+                      </p>
+                    {% endif %}
+                    
+                    <h3>{% trans '$'%}{{plan.cost}}</h3>
+                    <div class="btn-btm-pricing">
+                        {% if request.session.is_from_ios_app %}
+                        <a class="btn btn-buy-btn" href="#" data-bs-toggle="modal" data-bs-target="#request-access-popup">{% trans "Request access"%}</a>
+                        {% else %}
+                        <a href="{% url 'upgrade-plan' plan_id=plan.id %}" class="btn btn-buy-btn">{% trans "Upgrade now" %}</a>
+                        {% endif %}
+                      
+                    </div>
+              <img class="card-img-pricee" src="{% static 'images/dashboard-p1.png'%}"/>
+            </div>
+           </div>
+           <div class="col-lg-6">
+              <div class="card-pricing-body">
+                <img class="arrow-card-backk btn-close" type="button"  data-bs-dismiss="modal" aria-label="Close" src="{% static 'images/close.png'%}">
+                {% if request.LANGUAGE_CODE == "it" %}
+                 <h3>Community + Percorso <br>"{{plan.sub_title}}"</h3>
+                
+                <h4>Video, esercizi interattivi, quiz e testimonianze (10 settimane, 1h/settimana) con:</h4>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Test della personalità 
+                  ed elenco delle facoltà adatte alla tua personalità</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Competenze richieste nel mondo del lavoro e consigli su come svilupparle</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Auto-valutazione delle competenze e analisi gap</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Esperienze di carriera condivise da giovani lavoratori</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Guida per la costruzione del CV</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Elenco dei criteri per la scelta universitaria/ITS e metodo per prioritizzarli</p>
+                <p><img src="{% static '/website/images/orientamiwhit.png' %}">Metodo per la valutazione di diverse facoltà e i passi da fare</p>
+              {% else %}
+               <h3>Community Plan <br>+<br>"{{plan.sub_title}}" Online class</h3>
+               
+              <h4>Videos, interactive exercises, quizzes and interviews with professionals (7 weeks, 1h/week) with:</h4>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">Personality traits discovery</p>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">List of suitable careers</p>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">Developing the right skills for the right job</p>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">Skills self-assessment and areas for growth</p>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">Shared career experiences</p>
+              <p><img src="{% static '/website/images/orientamiwhit.png' %}">Resume builder</p>
+              {% endif %}
+             </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endif %}
+{% endif %}
+{% endfor %}
+
+{% if current_plan_type == "Premium" %}
+    {% for module_cohorts in module_cohorts_info %}
+        {% if forloop.counter == 1 %}
+        {% with forloop.counter as outer_counter %}
+        <form method="POST" action="">
+        {% csrf_token %}
+        <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content calender-box-popup">
+                    <div class="calender-card-body">
+                        <h2>{% trans "Select the date you’d like to begin"%}</h2>
+                        <div class="row">
+                            <input id="selected_cohort{{forloop.counter}}" type="hidden" name="cohort_id" value="">
+                            {% for cohort_info in module_cohorts %}
+                                <div class="col-md-4">
+                                    <div cohort_atr="{{cohort_info.cohort_id}}" class="calfstid{{outer_counter}} calender-box-dates {% if forloop.counter == 1 %} active {% endif %}" onclick="select_cohort_fun('{{cohort_info.cohort_id}}','{{outer_counter}}')">
+                                        <span>{{cohort_info.starting_date | date:'M'}}</span>
+                                        <h2> {{cohort_info.starting_date | date:'d'}}</h2>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-12 mt-4">
+                                <button class="btn upgrade-btn-cource" type="submit"> {% trans "Choose Date"%}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        {% endwith %}
+        {% endif %}
+    {% endfor %}
+    {% elif current_plan_type == "Elite" %}
+    {% for module_cohorts in module_cohorts_info %}
+        {% with forloop.counter as outer_counter %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% if forloop.counter == 1 %}
+            <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+            {% else %}
+            <div class="modal fade cohort-dates-popup" id="buy-cource-upgrade-popup{{forloop.counter}}" role="dialog">
+            {% endif %}
+                <div class="modal-dialog">
+                    <div class="modal-content calender-box-popup">
+                        <div class="calender-card-body">
+                            <h2>{% trans "Select the date you’d like to begin"%}</h2>
+                            <div class="row justify-content-center">
+                                <input id="selected_cohort{{forloop.counter}}" type="hidden" name="cohort_id" value="">
+                                {% for cohort_info in module_cohorts %}
+                                    <div class="col-md-4">
+                                        <div cohort_atr="{{cohort_info.cohort_id}}" class="calfstid{{outer_counter}} calender-box-dates {% if forloop.counter == 1 %} active {% endif %}" onclick="select_cohort_fun('{{cohort_info.cohort_id}}','{{outer_counter}}')">
+                                            <span>{{cohort_info.starting_date | date:'M'}}</span>
+                                            <h2> {{cohort_info.starting_date | date:'d'}}</h2>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="col-md-12 mt-4">
+                                    <button class="btn upgrade-btn-cource" type="submit"> {% trans "Choose Date"%}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% endwith %}
+    {% endfor %}
+    {% endif %}
+    {% block contact_tutor %}
+    <div class="modal fade learn-popup" id="id-contact-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content contact-pop-back">
+                <div class="modal-header">
+                    <button type="button" id="btn-close-tutor" class="btn-close color-white cross-btn-cls"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="color-white">{% trans "Submit Query to your tutor" %}</h2>
+                    <hr class="color-white">
+                    <div class="modal-body info_form">
+                        <form id="post-contact-tutor" method="POST" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                        <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                        <input id="email" class="form-control text-white" type="text"
+                                            placeholder="your-email@futurely.com" value="{{user.email}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <input id="subject" class="form-control" type="text"
+                                            placeholder="{% trans 'Subject of discussion' %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-4">
+                                        <textarea id="questions" class="form-control" type="text"
+                                            placeholder="{% trans 'Enter your queries for the tutor' %}"
+                                            required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary con-tutor tutor-submit">{% trans "Submit" %}</button>
+                                    <button type="submit"  style="display: none" class="btn btn-primary con-tutor start-loading contact_tutor_loader"><i class="fa fa-spinner fa-spin"></i></button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+<!--- Bootstrap create to do popup-->
+<div class="modal fade learn-popup" id="create-to-do" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content px-3 py-3">
+        <div class="modal-header">
+          <h5 class="modal-title">{% trans "Create To do" %}</h5>
+          <button type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="post-todo"method="POST" action="">
+              {% csrf_token %}
+              
+            <div class="row">
+                 <div class="col-md-12">
+                     <div class="mb-4">
+                          <input id="title" class="form-control" type="text" placeholder="{% trans 'Give this to-do a name' %}">
+                     </div>
+                 </div>
+                 <!-- <div class="col-md-12">
+                     <div class="mb-4">
+                          <input id="desc" class="form-control" type="text" placeholder="Description">
+                     </div>
+                 </div> -->
+                  <div class="col-md-12">
+                      <div class="mb-4">
+                          <input id ="todo_date" type="date" class="form-control" value="{% now 'Y-m-d' %}" placeholder="Select Date">
+                     </div>
+                 </div>
+                 <div class="col-md-12">
+                   <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                </div>
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--- Bootstrap popup-->
+{% endblock %}
+
+
+{% block learn_more %}
+{% if avail_courses.count > 1 %}
+    {% for module in avail_courses %}
+        {% if forloop.counter is 1 %}
+            <div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <div class="modal-video">
+                    <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+                    </div>
+                    <h3>{{module.title}}</h3>
+                    <p>{% trans "Course description" %} : {{module.description}}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <div class="modal-video">
+                        <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+                    </div>
+                    <h3>{{module.title}}</h3>
+                    <p>{% trans "Course description" %} : {{module.description}}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endif%}
+    {% endfor %}
+{% endif%}
+{% endblock %}
+
+{% block script %}
+<script>
+    $("#take_tour").css("display","block");
+    $("#contactTutorDash").css("display","block");
+    $(".calender-slider").trigger("to.owl.carousel",[12,1]);
+    function funTodo(date,active_class){
+        //<input id="selected_date_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+        //<input id="selected_date_loop_id" type="hidden" value="{{dt| date:'d-m-Y'}}">
+        $("#selected_date_id").val(date);
+        $("#selected_date_loop_id").val(active_class);
+        $(".calender-dates").removeClass("dateSelected");
+        $("."+active_class).addClass("dateSelected");
+        update_to_do_texts(date);
+        };
+    function editTodo(todoID){
+        $("#span"+todoID).addClass("d-none");
+        $("#textarea"+todoID).removeClass("d-none");
+        $("#btn"+todoID).removeClass("d-none");
+        $("#btnCancel"+todoID).removeClass("d-none");
+        $(".data-box"+todoID).addClass("todo-text-area-min-height");
+    }
+    function submitEditTodo(todoID){
+        var todo_msg = $('#textarea'+todoID).val();
+        var date = $("#selected_date_id").val();
+        var active_class = $("#selected_date_loop_id").val();
+        $.ajax({
+            url: "{% url 'update_todo' %}",
+            type: "POST",
+            data: {
+                'id': todoID,
+                'msg': todo_msg
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                update_to_do_texts(date);
+            },
+            error: function (response) {
+                display_notifymsg("{% trans 'Something went wrong' %}");
+            }
+        });
+        $("#span"+todoID).html($("#textarea"+todoID).html());
+        $("#span"+todoID).removeClass("d-none");
+        $("#textarea"+todoID).addClass("d-none");
+        $("#btn"+todoID).addClass("d-none");
+        $("#btnCancel"+todoID).addClass("d-none");
+        $(".data-box"+todoID).removeClass("todo-text-area-min-height");
+    }
+    function confirmDeleteTodo(todoID){
+        $(".confirm"+todoID).show();
+    }
+    function noEditTodo(todoID){
+        $(".confirm"+todoID).hide();
+    }
+    function yesEditTodo(todoID){
+        var todo_msg = $('#textarea'+todoID).val();
+        var date = $("#selected_date_id").val();
+        var active_class = $("#selected_date_loop_id").val();
+        $.ajax({
+            url: "{% url 'delete_todo' %}",
+            type: "POST",
+            data: {
+                'id': todoID,
+            },
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function (response) {
+                update_to_do_texts(date);
+                display_notifymsg("{% trans 'Todo deleted'%} : " + response['todo_title']);
+            },
+            error: function (response) {
+                display_notifymsg("{% trans 'Something went wrong' %}");
+            }
+        });
+        $(".confirm"+todoID).hide();
+
+    }
+    function cancelEditTodo(todoID){
+        $("#span"+todoID).html($("#textarea"+todoID).html());
+        $("#span"+todoID).removeClass("d-none");
+        $("#textarea"+todoID).addClass("d-none");
+        $("#btn"+todoID).addClass("d-none");
+        $("#btnCancel"+todoID).addClass("d-none");
+        $(".data-box"+todoID).removeClass("todo-text-area-min-height");
+    }
+    function Current_date(){
+        $('.currentdate_selected').click();
+    }
+    jQuery(document).ready(function () {
+        {% if current_plan_type == "Premium" %}
+            $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+        {% elif current_plan_type == "Elite" %}
+        $("#selected_cohort1").val($('.calfstid1').first().attr('cohort_atr'));
+        $("#selected_cohort2").val($('.calfstid2').first().attr('cohort_atr'));
+        $("#selected_cohort3").val($('.calfstid3').first().attr('cohort_atr'));
+        {% endif %}
+        jQuery(".calender-box-dates").click(function () {
+            jQuery(".calender-box-dates").removeClass("active");
+            $(this).addClass('active');
+        });
+    });
+    function select_cohort_fun(cohort_id,outer_counter)
+    {
+        $("#selected_cohort"+outer_counter).val(cohort_id);
+    };
+
+
+
+    $('#future_lab_form_link').on("click", function (e) {
+        $.ajax({
+            url: "{% url 'update_futurelab_form_status' %}",
+            type: 'POST',
+            headers: {
+                "X-CSRFTOKEN": "{{ csrf_token }}"
+            },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: {},
+            success: function (response) {
+                var data = JSON.parse(JSON.stringify(response));
+                if (data['message'] == 'SUCCESS') {
+                    $('#future_lab_form_link_div').hide();
+                }
+            },
+            error: function (response) {
+        
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,913 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Steps" %}</title>
+{% endblock %}
+
+{% block style %}
+<style>
+    tables-details-usere button {
+    float: right;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+    .tables-details-usere h2 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+    }
+    .score-deatils-in-tables {
+        text-align: right;
+    }
+    .tables-details-usere table tbody {
+        display: block;
+        max-height: 375px;
+        overflow-y: scroll;
+    }
+    .tables-details-usere table tbody::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #545454;
+}
+.tables-details-usere table tbody::-webkit-scrollbar {
+    width: 8px;
+    background-color: #363739;
+}
+.tables-details-usere table tbody:-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #363739;
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+    background-color: #26272b;
+}
+    .tables-details-usere table tbody tr, .tables-details-usere table thead {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+    .progress-bar-block .user {
+        display: flex;
+        align-items: center;
+    }
+    
+    .bottom-popup-details-user-content h3 {
+        color: #fff;
+        font-size: 13px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-style: italic;
+        margin: 0;
+        padding: 20px 0 0;
+    }
+    .user-right-box-details h3 {
+        font-size: 15px;
+        color: #fff;
+        margin: 0;
+    }
+    .user-right-box-details h1 {
+        font-size: 26px;
+        color: #fff;
+        font-weight: 900;
+        margin: 0;
+    }
+    .user-right-box-details {
+    float: right;
+    position: relative;
+    /* top: -55px; */
+    /* right: -12px; */
+    /* border: 1px solid #545454; */
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-block;
+    /* background: #26272b9c; */
+    margin-left: auto;
+}
+
+.user-right-box-details:hover {
+    border-color: #622BFF;
+}
+.user-right-box-details .succsess-color {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.user-right-box-details .warning-color {
+    background: linear-gradient(to right, #9d853f , #ffc107) !important;
+    /* background: transparent; */
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.user-right-box-details .danger-color {
+    background: linear-gradient(45deg,#ff2247,#ff869a);
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 63px;
+}
+.progress-bar-block .user img {
+    width: 34px;
+    height: 34px;
+    object-fit: scale-down;
+}
+
+    .progress-bars.border-none {
+        border: none;
+    }
+    .progress-bars .progress-perent.Bittersweet.seprate-colorr .progress-bar {
+        background: linear-gradient( 116.59deg , #6C2DB1 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4) !important;
+      }
+    .tables-details-usere table thead {
+        background: #737373;
+    }
+    .succsess-table-results {
+    background: linear-gradient(45deg,#4bd39699,#4bd396);
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+}
+.warning-table-results {
+    padding: 10px;
+    background: linear-gradient(to right, #9d853f , #ffc107);
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+}
+.danger-table-results {
+    padding: 10px;
+    border-radius: 4px;
+    width: 55px;
+    height: 38px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 15px;
+    line-height: 1.3;
+    display: inline-block;
+    background: linear-gradient(45deg,#ff2247,#ff869a);
+}
+    .user-card-info-block {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+      }
+      .user-card-info-block .detail-popup-cus {
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .user-card-info-block .detail-popup-cus:hover {
+        color: #2c6cfb;
+     }
+    .card-details-new-ir {
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+      }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -80px;
+        z-index: 11;
+    }
+    .hover-popup-inn::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-bottom: solid 15px #26272b;
+        border-left: solid 15px transparent;
+        border-right: solid 15px transparent;
+        position: absolute;
+        top: -15px;
+        right: 40px;
+        transform: rotate( 0deg );
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        z-index: 1111;
+    }
+    .hover-popup-inn {
+        background: #26272b;
+        left: 0;
+        right: 0;
+        width: 100%;
+        position: absolute;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 200;
+        letter-spacing: 1px;
+        color: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        justify-content: center;
+        text-align: left;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        bottom: -70px;
+        z-index: 11;
+        display: none;
+    }
+    .courses-block .hover-popup-inn h4 {
+        margin: 0;
+    }
+    .card-details-new:hover .hover-popup-inn {
+        display: flex;
+    }
+    .card-details-new {
+        border-bottom: 1px solid #6f6767;
+        position: relative;
+    }
+    .card-details-inner h3 {
+        color: #fff;
+        font-size: 16px;
+        margin: 0;
+    }
+    .courses-block .card .card-details-inner h4 {
+        margin: 10px 0 0;
+      }
+      .card-details-new-ir .progress-bars {
+        margin: 12px 0;
+    }
+    .card-details-new-ir .progress-bars .progress-perent {
+        margin: 12px 0;
+      }
+      .tables-details-usere button {
+        float: right;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        outline: none !important;
+        box-shadow: none !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-size: 24px;
+    }
+    .card-details-inner .link-popup-btnn {
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        margin: -4px 0 0 8px;
+    }
+    .tables-details-usere {
+        background: #23293C;
+        padding: 20px 15px;
+        border-radius: 10px;
+        width: 100%;
+        display: block;
+        pointer-events: auto;
+        position: relative;
+      }
+      .tables-details-usere table {
+        margin: 0;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+      .tables-details-usere table tbody, .tables-details-usere table td, .tables-details-usere table tfoot, .tables-details-usere table th, .tables-details-usere table thead, .tables-details-usere table tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0;
+    }
+    
+      .tables-details-usere table thead tr th {
+        padding: 15px 8px;
+        vertical-align: middle;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+    }
+    .tables-details-usere table td {
+        padding: 15px 8px;
+        vertical-align: middle;
+        background-color: var(--bs-table-bg);
+        background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+        border-bottom-width: 1px;
+        color: #fff;
+        font-size: 14px;
+    }
+    .tables-details-usere .arrow-card-backk.btn-close {
+        float: right;
+        margin: 0 0 12px;
+      }
+      #detail-popup-user.modal.fade.show {
+        display: flex !important;
+        align-content: center;
+      }
+      .step-gredient-color-overlay .steups--proces-content:after
+      {
+            background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+            opacity: 0.8;
+            box-shadow: 0px 2px 4px rgb(0 0 0 / 9%);
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+            top: 0 !important;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+        }
+        .steups--proces-content {
+            z-index: 1;
+        }
+        .steups-icon-proces {
+            z-index: 11;
+        }
+      @media (max-width:767px) {
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+          .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+      }
+      @media (min-width:768px) {
+      #detail-popup-user .modal-dialog {
+        max-width: 800px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)translatey(-50%);
+        top: 50%;
+    }
+}
+.bg-color-dark-blue {
+    background: rgba(6, 21, 71, 0.9) !important;
+}
+</style>
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content py-4">
+    <div class="container-fluid">
+        {% if error_msg %}
+        <script>
+            alert('{{error_msg}}');
+            window.history.back();
+        </script>
+        {% endif %}
+        <div class="row courses-block">
+            <div class="col-lg-2 col-md-12"></div>
+            <div class="col-lg-8 col-md-12">
+                <div class="notification-bars text-center pop-msg-none">
+                    <span class="notify_text">
+                        {% trans "Hey" %}, {{user}}! {% trans "Your course was updated!" %}
+                    </span>
+                    <button class="close"></button>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12"></div>
+            {% comment %} {% if is_trial_active %}
+            <div class="col-lg-12 col-md-12">
+                <div class="notification-bars text-center ">
+                    <span class="notify_text">
+                        {% if request.LANGUAGE_CODE == "it" %}
+                        Questa pagina è accessibile solo con il piano {{trial_plan_name}}. 
+                        Assicurati di 
+                        {% if request.session.is_from_ios_app %}
+                        <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">aggiornare il tuo piano</a>
+                        {% else %}
+                        <a href = "{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">aggiornare il tuo piano</a>
+                        {% endif %}
+                        
+                        entro il {{trial_end_date | date:'M d, Y'}} per continuare ad avere accesso a questa pagina, svolgere il corso "{{module_title}}" e usufruire di altri vantaggi {{trial_plan_name}}
+                        {% else %}
+                        This page can only be accessed by {{trial_plan_name}}. 
+                        Make sure to 
+                        {% if request.session.is_from_ios_app %}
+                        <a href = "#" data-bs-toggle="modal" data-bs-target="#request-access-popup">upgrade your plan</a>
+                        {% else %}
+                        <a href = "{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">upgrade your plan</a>
+                        {% endif %}
+                        by {{trial_end_date | date:'M d, Y'}} to continue to have access to this page, do the "{{module_title}}" course, and enjoy the other {{trial_plan_name}} benefits
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            {% endif %} {% endcomment %}
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre">
+                    {% comment %} <a href="{% url 'home' %}">{% trans "Home" %} ></a>
+                    <a href="{% url 'courses-available' %}">{% trans "Courses" %} > </a>{% trans "Steps" %} {% endcomment %}
+                </span>
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <div class="left-block-content">
+                    <h2 class="mb-4">{{module_title}}</h2>
+                    <p>
+                    {% if request.LANGUAGE_CODE == "it" and course.cohort.module.module_id is 3 %}
+                        {{module_desc}}
+                    {% else %}
+                        {% if module_desc_length < 500 %}
+                            {{module_desc}}
+                        {% else%}
+                            {{module_desc | truncatechars:250}}
+                         <a class="underline-atag" data-bs-toggle="modal" data-bs-target="#id-learn-popup">{% trans "Read more" %}</a>
+                         {% endif %}
+                    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-12">
+                <div class="right-block-content row justify-content-between align-items-center">
+                    <div class="col-lg-12">
+                        <div class="div-float-right">
+                            <p class="counter-p-head">{{course.cohort.tot_students}}
+                                {% trans "people are also taking this exercise" %}</p>
+                            <div class="user-counte counter-round-padding">
+                                    <div class="col-md-5">
+                                        <div class="steups-user">
+                                            {% if course.cohort.tot_students < 3 %}
+                                            {% for i in course.cohort.tot_students|times %}
+                                            <a href="">
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            {% else %}
+                                            {% count_cohort_icon course.cohort.tot_students as count_cohort_icon%}
+                                            {% for i in 3|times %}
+                                            <a>
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            <a>
+                                                <span
+                                                    class="img-profile rounded-circle counter-round-padding">+{{count_cohort_icon}}</span>
+                                            </a>
+                                            {% endif%}
+
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="call-buttons mt-5 mb-5">
+                        {% comment %} <a class="btn btn-gredient col" data-bs-toggle="modal"
+                            data-bs-target="#id-contact-popup">{% trans "Сontact the tutor" %}</a> {% endcomment %}
+                        {% comment %} {% if request.user.student.is_from_middle_school  or request.user.student.is_from_fast_track_program %}
+                        {% else %}
+                        <a class="btn btn-border col" data-bs-toggle="modal" data-bs-target="#create-to-do"
+                            data-bs-whatever="@mdo">{% trans "Add to-do" %}</a>
+                        {% endif %} {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 mt-4" style="margin-top: 3.0rem !important;">
+                <div class="steup-slider owl-carousel">
+                    {%for step in all_steps %}
+                    {% if step.step_status_id.is_active %}
+                    {% if step.is_completed %}
+                    <div class="item">
+                        <div class="steups--proces">
+                            <img src="{% static 'images/pexels-jay.png'%}" />
+                            <div class="steups-icon-proces white-border-complete-prog">
+                                <a><img src="{% static 'images/tick.png'%}"></a>
+                            </div>
+                            <div class="steups--proces-content">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-6">
+                                        <div class="steups-count">
+                                            <h3>{% trans "STEP" %} {{forloop.counter}}/{{all_steps.count}}</h3>
+                                        </div>
+                                    </div>
+                                    {% if request.LANGUAGE_CODE == "it" and course.cohort.module.is_allowed_to_display_timings %}
+                                        <div class="col-md-6">
+                                            <div class="timmer-card-block">
+                                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9.30633 10.7229L6.79175 8.20832V4.66666H8.20842V7.62395L10.298 9.71353L9.30633 10.7229ZM6.79175 3.24999V1.83332H8.20842V3.24999H6.79175ZM11.7501 8.20832V6.79166H13.1667V8.20832H11.7501ZM6.79175 13.1667V11.75H8.20842V13.1667H6.79175ZM1.83341 8.20832V6.79166H3.25008V8.20832H1.83341ZM7.50008 14.5833C6.52022 14.5833 5.59939 14.3973 4.73758 14.0252C3.87578 13.6535 3.12612 13.1489 2.48862 12.5114C1.85112 11.8739 1.34655 11.1243 0.974915 10.2625C0.602804 9.40068 0.416748 8.47985 0.416748 7.49999C0.416748 6.52013 0.602804 5.5993 0.974915 4.73749C1.34655 3.87568 1.85112 3.12603 2.48862 2.48853C3.12612 1.85103 3.87578 1.34623 4.73758 0.974115C5.59939 0.602476 6.52022 0.416656 7.50008 0.416656C8.47994 0.416656 9.40078 0.602476 10.2626 0.974115C11.1244 1.34623 11.874 1.85103 12.5115 2.48853C13.149 3.12603 13.6536 3.87568 14.0252 4.73749C14.3974 5.5993 14.5834 6.52013 14.5834 7.49999C14.5834 8.47985 14.3974 9.40068 14.0252 10.2625C13.6536 11.1243 13.149 11.8739 12.5115 12.5114C11.874 13.1489 11.1244 13.6535 10.2626 14.0252C9.40078 14.3973 8.47994 14.5833 7.50008 14.5833ZM7.50008 13.1667C9.08203 13.1667 10.422 12.6177 11.5199 11.5198C12.6178 10.4219 13.1667 9.08193 13.1667 7.49999C13.1667 5.91805 12.6178 4.57811 11.5199 3.4802C10.422 2.38228 9.08203 1.83332 7.50008 1.83332C5.91814 1.83332 4.57821 2.38228 3.48029 3.4802C2.38237 4.57811 1.83341 5.91805 1.83341 7.49999C1.83341 9.08193 2.38237 10.4219 3.48029 11.5198C4.57821 12.6177 5.91814 13.1667 7.50008 13.1667Z" fill="white"/>
+                                                </svg>
+                                                {{step.step_status_id.step.step_completion_time}} minuti   
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-md-5">
+                                            <div class="steups-user float-end">
+                                                {% if course.cohort.tot_students < 3 %}
+                                                {% for i in course.cohort.tot_students|times %}
+                                                <a href="">
+                                                    <img class="img-profile rounded-circle"
+                                                        src="{% static 'images/undraw_profile.svg'%}">
+                                                </a>
+                                                {% endfor %}
+                                                {% else %}
+                                                {% count_cohort_icon course.cohort.tot_students as count_cohort_icon%}
+                                                {% for i in 3|times %}
+                                                <a>
+                                                    <img class="img-profile rounded-circle"
+                                                        src="{% static 'images/undraw_profile.svg'%}">
+                                                </a>
+                                                {% endfor %}
+                                                <a>
+                                                    <span
+                                                        class="img-profile rounded-circle counter-round-padding">+{{count_cohort_icon}}</span>
+                                                </a>
+                                                {% endif%}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    
+                                </div>
+                                <div class="steups-footer-content">
+                                    {% if is_trial_active %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    {% if step.step_status_id.step.step_sno == 1 %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    <span>{{step.step_status_id.starting_date | date:"F d"}}</span>
+                                    {% endif %}
+                                    {% endif %}
+                                    <h2>{{step.step_status_id.step.title}}</h2>
+                                    <a class="btn step-btn step-completed-btn"
+                                        href="{% url 'action-items' step_track_id=step.step_track_id sno=0%}?st={{ step.step_status_id.step.step_sno }}&ai={{step.step_status_id.step.action_items.first.action_sno}}">{% trans "Completed" %}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="item">
+                        <div class="steups--proces  continue steups--proces-continue step-gredient-color-overlay">
+                            <img src="{% static 'images/continue-step.png'%}" />
+                            <div class="steups-icon-proces">
+                                <div class="progress blue">
+                                    <span class="progress-left">
+                                        <span class="progress-bar progleft{{forloop.counter}}"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar progright{{forloop.counter}}"></span>
+                                    </span>
+                                    {% step_total_per step step.step_status_id.tot_action_items as total_per %}
+                                    <div class="progress-value">{{total_per}}%</div>
+                                </div>
+                            </div>
+                            <style>
+                                .progright{{forloop.counter}}{
+                                    animation: loading-1{{forloop.counter}} 1.8s linear forwards !important;
+                                }
+
+                                .progleft{{forloop.counter}}{
+                                    animation: loading-2{{forloop.counter}} 1.5s linear forwards 1.8s !important;
+                                }
+                                @keyframes loading-1{{forloop.counter}}{
+                                    0%{
+                                        -webkit-transform: rotate(0deg);
+                                        transform: rotate(0deg);
+                                    }
+                                    100%{
+                                        -webkit-transform: rotate({% left_bar total_per %}deg);
+                                        transform: rotate({% left_bar total_per %}deg);
+                                    }
+                                }
+                                @keyframes loading-2{{forloop.counter}}{
+                                    0%{
+                                        -webkit-transform: rotate(0deg);
+                                        transform: rotate(0deg);
+                                    }
+                                    100%{
+                                        -webkit-transform: rotate({% right_bar total_per %}deg);
+                                        transform: rotate({% right_bar total_per %}deg);
+                                    }
+                                }
+                            </style>
+                            <div class="steups--proces-content">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-7">
+                                        <div class="steups-count">
+                                            <h3>{% trans "STEP" %} {{forloop.counter}}/{{all_steps.count}}</h3>
+                                        </div>
+                                    </div>
+                                    {% if request.LANGUAGE_CODE == "it" and course.cohort.module.is_allowed_to_display_timings %}
+                                        <div class="col-md-6">
+                                            <div class="timmer-card-block" style="background:#978FEC;">
+                                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9.30633 10.7229L6.79175 8.20832V4.66666H8.20842V7.62395L10.298 9.71353L9.30633 10.7229ZM6.79175 3.24999V1.83332H8.20842V3.24999H6.79175ZM11.7501 8.20832V6.79166H13.1667V8.20832H11.7501ZM6.79175 13.1667V11.75H8.20842V13.1667H6.79175ZM1.83341 8.20832V6.79166H3.25008V8.20832H1.83341ZM7.50008 14.5833C6.52022 14.5833 5.59939 14.3973 4.73758 14.0252C3.87578 13.6535 3.12612 13.1489 2.48862 12.5114C1.85112 11.8739 1.34655 11.1243 0.974915 10.2625C0.602804 9.40068 0.416748 8.47985 0.416748 7.49999C0.416748 6.52013 0.602804 5.5993 0.974915 4.73749C1.34655 3.87568 1.85112 3.12603 2.48862 2.48853C3.12612 1.85103 3.87578 1.34623 4.73758 0.974115C5.59939 0.602476 6.52022 0.416656 7.50008 0.416656C8.47994 0.416656 9.40078 0.602476 10.2626 0.974115C11.1244 1.34623 11.874 1.85103 12.5115 2.48853C13.149 3.12603 13.6536 3.87568 14.0252 4.73749C14.3974 5.5993 14.5834 6.52013 14.5834 7.49999C14.5834 8.47985 14.3974 9.40068 14.0252 10.2625C13.6536 11.1243 13.149 11.8739 12.5115 12.5114C11.874 13.1489 11.1244 13.6535 10.2626 14.0252C9.40078 14.3973 8.47994 14.5833 7.50008 14.5833ZM7.50008 13.1667C9.08203 13.1667 10.422 12.6177 11.5199 11.5198C12.6178 10.4219 13.1667 9.08193 13.1667 7.49999C13.1667 5.91805 12.6178 4.57811 11.5199 3.4802C10.422 2.38228 9.08203 1.83332 7.50008 1.83332C5.91814 1.83332 4.57821 2.38228 3.48029 3.4802C2.38237 4.57811 1.83341 5.91805 1.83341 7.49999C1.83341 9.08193 2.38237 10.4219 3.48029 11.5198C4.57821 12.6177 5.91814 13.1667 7.50008 13.1667Z" fill="white"/>
+                                                </svg>
+                                                {{step.step_status_id.step.step_completion_time}} minuti   
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                    <div class="col-md-5">
+                                        <div class="steups-user float-end">
+                                            {% if course.cohort.tot_students < 3 %}
+                                            {% for i in course.cohort.tot_students|times %}
+                                            <a href="">
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            {% else %}
+                                            {% count_cohort_icon course.cohort.tot_students as count_cohort_icon%}
+                                            {% for i in 3|times %}
+                                            <a>
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            <a>
+                                                <span
+                                                    class="img-profile rounded-circle counter-round-padding">+{{count_cohort_icon}}</span>
+                                            </a>
+                                            {% endif%}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="steups-footer-content">
+                                    
+                                    {% if is_trial_active %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    {% if step.step_status_id.step.step_sno == 1 %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    <span>{{step.step_status_id.starting_date | date:"F d"}}</span>
+                                    {% endif %}
+                                    {% endif %}
+                                    <h2>{{step.step_status_id.step.title}}</h2>
+                                    {% if is_trial_active %}
+                                    <a class="btn step-btn step-continue-back bg-color-dark-blue"
+                                        href="{% url 'action-items' step_track_id=step.step_track_id sno=0 %}?st={{step.step_status_id.step.step_sno}}&ai={{step.step_status_id.step.action_items.first.action_sno}}">▶
+                                        ️{% trans "Continue your trial" %}</a>
+                                    {% else %}
+                                    {% if total_per > 0 %}
+                                    <a class="btn step-btn step-continue-back bg-color-dark-blue"
+                                        href="{% url 'action-items' step_track_id=step.step_track_id sno=0 %}?st={{step.step_status_id.step.step_sno}}&ai={{step.step_status_id.step.action_items.first.action_sno}}">▶
+                                        ️{% trans "Continue" %}</a>
+
+                                    {% else %}
+                                    <a class="btn step-btn step-continue-back bg-color-dark-blue"
+                                        href="{% url 'action-items' step_track_id=step.step_track_id sno=0 %}?st={{ step.step_status_id.step.step_sno }}&ai={{step.step_status_id.step.action_items.first.action_sno}}">▶
+                                        ️{% trans "Inizia" %}</a>
+    
+                                    {% endif %}
+                                    
+
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="item">
+                        <div class="steups--proces steups--proces2">
+                            <img src="{% static 'images/pexels-jay.png'%}" />
+                            <div class="steups-icon-proces">
+                                <a><img src="{% static 'images/lock-ico.png'%}"></a>
+                            </div>
+                            <div class="steups--proces-content">
+                                <div class="row justify-content-between">
+                                    <div class="col-md-7">
+                                        <div class="steups-count">
+                                            <h3>{% trans "STEP" %} {{forloop.counter}}/{{all_steps.count}}</h3>
+                                        </div>
+                                    </div>
+                                    {% if request.LANGUAGE_CODE == "it" and course.cohort.module.is_allowed_to_display_timings %}
+                                        <div class="col-md-6">
+                                            <div class="timmer-card-block">
+                                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9.30633 10.7229L6.79175 8.20832V4.66666H8.20842V7.62395L10.298 9.71353L9.30633 10.7229ZM6.79175 3.24999V1.83332H8.20842V3.24999H6.79175ZM11.7501 8.20832V6.79166H13.1667V8.20832H11.7501ZM6.79175 13.1667V11.75H8.20842V13.1667H6.79175ZM1.83341 8.20832V6.79166H3.25008V8.20832H1.83341ZM7.50008 14.5833C6.52022 14.5833 5.59939 14.3973 4.73758 14.0252C3.87578 13.6535 3.12612 13.1489 2.48862 12.5114C1.85112 11.8739 1.34655 11.1243 0.974915 10.2625C0.602804 9.40068 0.416748 8.47985 0.416748 7.49999C0.416748 6.52013 0.602804 5.5993 0.974915 4.73749C1.34655 3.87568 1.85112 3.12603 2.48862 2.48853C3.12612 1.85103 3.87578 1.34623 4.73758 0.974115C5.59939 0.602476 6.52022 0.416656 7.50008 0.416656C8.47994 0.416656 9.40078 0.602476 10.2626 0.974115C11.1244 1.34623 11.874 1.85103 12.5115 2.48853C13.149 3.12603 13.6536 3.87568 14.0252 4.73749C14.3974 5.5993 14.5834 6.52013 14.5834 7.49999C14.5834 8.47985 14.3974 9.40068 14.0252 10.2625C13.6536 11.1243 13.149 11.8739 12.5115 12.5114C11.874 13.1489 11.1244 13.6535 10.2626 14.0252C9.40078 14.3973 8.47994 14.5833 7.50008 14.5833ZM7.50008 13.1667C9.08203 13.1667 10.422 12.6177 11.5199 11.5198C12.6178 10.4219 13.1667 9.08193 13.1667 7.49999C13.1667 5.91805 12.6178 4.57811 11.5199 3.4802C10.422 2.38228 9.08203 1.83332 7.50008 1.83332C5.91814 1.83332 4.57821 2.38228 3.48029 3.4802C2.38237 4.57811 1.83341 5.91805 1.83341 7.49999C1.83341 9.08193 2.38237 10.4219 3.48029 11.5198C4.57821 12.6177 5.91814 13.1667 7.50008 13.1667Z" fill="white"/>
+                                                </svg>
+                                                {{step.step_status_id.step.step_completion_time}} minuti   
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                    <div class="col-md-5">
+                                        <div class="steups-user float-end">
+                                            {% if course.cohort.tot_students < 3 %}
+                                            {% for i in course.cohort.tot_students|times %}
+                                            <a href="">
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            {% else %}
+                                            {% count_cohort_icon course.cohort.tot_students as count_cohort_icon%}
+                                            {% for i in 3|times %}
+                                            <a>
+                                                <img class="img-profile rounded-circle"
+                                                    src="{% static 'images/undraw_profile.svg'%}">
+                                            </a>
+                                            {% endfor %}
+                                            <a>
+                                                <span
+                                                    class="img-profile rounded-circle counter-round-padding">+{{count_cohort_icon}}</span>
+                                            </a>
+                                            {% endif%}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="steups-footer-content">
+                                    {% if is_trial_active %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    {% if step.step_status_id.step.step_sno == 1 %}
+                                    <span></span>
+                                    <br>
+                                    {% else %}
+                                    <span>{{step.step_status_id.starting_date | date:"F d"}}</span>
+                                    {% endif %}
+                                    {% endif %}
+                                    <h2>{{step.step_status_id.step.title}}</h2>
+                                    {% if is_trial_active %}
+                                    {% if request.session.is_from_ios_app %}
+                                    <a class="btn step-btn" href="#">{% trans "Request access" %}</a>
+                                    {% else %}
+                                        <a class="btn step-btn" href="{% url 'upgrade-plan' plan_id=request.session.elite_plan_id_to_upgrade %}">{% trans "Upgrade now" %}</a>
+                                    {% endif %}
+                                    {% else %}
+                                    <a class="btn step-btn btn-locked-cursor">{% trans "locked" %}</a>
+                                    <div class="hover-tooltip-popup bottom step-scr">
+                                        <div class="tooltip-steps">
+                                            <h3>Unlock on {{step.step_status_id.starting_date | date:"F d"}}</h3>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.container-fluid -->
+
+</div>
+{% endblock %}
+
+{% block learn_more %}
+<div class="modal fade learn-popup" id="id-learn-popup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>{{module_title}}</h3>
+                <hr class="border-white-1">
+                <p>{{module_desc | linebreaks}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block contact_tutor %}
+<div class="modal fade learn-popup" id="id-contact-popup" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content contact-pop-back">
+            <div class="modal-header">
+                <button type="button" id="btn-close-tutor" class="btn-close color-white cross-btn-cls"
+                    data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h2 class="color-white">{% trans "Submit Query to your tutor" %}</h2>
+                <hr class="color-white">
+                <div class="modal-body info_form">
+                    <form id="post-contact-tutor" method="POST" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                    <input id="email" class="form-control text-white" type="text"
+                                        placeholder="your-email@futurely.com" value="{{user.email}}">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <input id="subject" class="form-control" type="text"
+                                        placeholder="{% trans 'Subject of discussion' %}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-4">
+                                    <textarea id="questions" class="form-control" type="text"
+                                        placeholder="{% trans 'Enter your queries for the tutor' %}" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary con-tutor tutor-submit">{% trans "Submit" %}</button>
+                                <button type="submit"  style="display: none" class="btn btn-primary con-tutor start-loading contact_tutor_loader"><i class="fa fa-spinner fa-spin"></i></button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{%block to_do_popup %}
+<!--- Bootstrap create to do popup-->
+    <div class="modal fade learn-popup" id="create-to-do" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content px-3 py-3">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Create To do" %}</h5>
+                <button type="button" id="btn-close" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="post-todo" method="POST" action="">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-4">
+                                <input id="title" class="form-control" type="text" placeholder="{% trans 'Give this to-do a name' %}">
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12">
+                            <div class="mb-4">
+                                <input id="desc" class="form-control" type="text" placeholder="Description">
+                            </div>
+                        </div> -->
+                        <div class="col-md-12">
+                            <div class="mb-4">
+                                <input id="todo_date" type="date" class="form-control" value="{% now 'Y-m-d' %}"
+                                    placeholder="{% trans 'Select date' %}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- Bootstrap popup-->
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

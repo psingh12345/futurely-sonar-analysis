@@ -1,0 +1,399 @@
+{% extends 'base_quiz.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Courses" %}</title>
+{% endblock %}
+<!-- google font new -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course.css' %}">
+{% endblock %}
+
+{% block content %}
+<style>
+    .video-new-webinars {
+        width: 100%;
+        border-radius: 20px;
+        margin: 0;
+        border: 1px dashed #212529;
+        background: #2F3132;
+        padding: 40px;
+        margin-bottom: 28px;
+    }
+
+    .video-webinars-card {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+        background: #444;
+        margin-bottom: 16px;
+        overflow: hidden;
+    }
+
+    .video-webinars-card img {
+        border-radius: 8px 8px 0px 0px;
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        transition: all .5s;
+    }
+
+    .video-webinars-image .video-webinars-popup {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        left: 50%;
+    }
+
+    .video-webinars-content .h4 {
+        color: #FFF;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+    }
+
+    .video-webinars-image:hover img {
+        transform: scale(1.1);
+    }
+
+    .video-webinars-content {
+        padding: 20px 12px 20px;
+        width: 100%;
+        display: block;
+    }
+
+    .video-webinars-content span {
+        color: #FFF;
+        text-align: right;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+    }
+
+    .video-webinars-image {
+        width: 100%;
+        position: relative;
+        height: 170px;
+        overflow: hidden;
+    }
+
+    .popup-video-webinar .modal-dialog {
+        width: 100%;
+    }
+
+    .popup-video-webinar .modal-content {
+        background: #26272B;
+        border: none;
+        padding: 40px;
+        border-radius: 20px;
+    }
+
+    .popup-video-webinar .new-modal-title {
+        color: #FFF;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.27px;
+        margin-bottom: 22px;
+    }
+
+    .popup-video-webinar .modal-body iframe {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .popup-video-webinar .modal-header {
+        padding: 0;
+        border: none;
+    }
+
+    .popup-video-webinar .modal-body {
+        padding: 0;
+    }
+
+    .video-modal-button {
+        border-radius: 8px;
+        border: 1px solid #FFF;
+        box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
+        padding: 10px;
+        width: 142px;
+        background: transparent;
+        color: #FFF;
+        text-align: center;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px;
+        letter-spacing: 0.24px;
+    }
+
+    .popup-video-webinar .modal-footer {
+        border: none;
+        padding: 0;
+        margin-top: 28px;
+    }
+
+    .popup-video-webinar {
+        align-items: center;
+    }
+
+    .popup-video-webinar.modal.show .modal-dialog {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        transform: none;
+    }
+
+    @media (min-width: 992px) {
+        .update-cource-card-right {
+            margin-left: 0;
+        }
+
+        .popup-video-webinar .modal-dialog {
+            max-width: 80%;
+        }
+
+        .courses-block .new-dg-cus.card.webinars {
+            height: 800px !important;
+        }
+
+        /* .card.webinars.resoures-block.card-scroll.web-padding-imp {
+            min-height: 714px !important;
+        } */
+    }
+
+    @media (max-width: 767px) {
+        .popup-video-webinar .modal-body iframe {
+            height: 340px !important;
+        }
+    }
+
+    .quiz-title-main {
+            font-size: 32px;
+            font-family: Rubik;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            font-feature-settings: 'clig' off, 'liga' off;
+        }
+
+    .quiz-sub-title {
+        color: #FFF;
+        font-family: Rubik;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        letter-spacing: -0.96px;
+        margin-bottom: 18px;
+        margin-top: 18px;
+        font-feature-settings: 'clig' off, 'liga' off;
+    }
+
+    .p-text {
+    font-size: 16px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-feature-settings: 'clig' off, 'liga' off;
+}
+@media (max-width: 767px) {
+    .quiz-title-main {
+    font-size: 22px;
+}
+.p-text {
+    font-size: 14px;
+}
+.prove-row-card {
+    padding: 20px;
+}
+.quiz-sub-title {
+    font-size: 18px;
+}
+.video-webinars-content .h4 {
+    font-size: 14px;
+    margin: 0;
+}
+.video-webinars-content span {
+    font-size: 12px;
+}
+.video-webinars-content {
+    padding: 15px 12px 15px;
+}
+.prove-card h3 {
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+.prove-card p {
+    font-size: 12px;
+}
+.prove-button {
+    padding: 8px 20px;
+    font-size: 14px;
+}
+}
+</style>
+<!-- Begin Page Content -->
+<div class="main-content">
+    <div class="container-fluid prove-container-fluid">
+        <div class="row prove-row-card">
+            <!-- <div class="col-md-12"> -->
+                <div class="top-back-block mb-2 mb-lg-4">
+                    <a class="back-button-icon" href="{% url 'home' %}">
+                        <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M11.95 23.9L0 11.95L11.95 0L14.1 2.15L5.8 10.45H36V13.45H5.8L14.1 21.75L11.95 23.9Z"
+                                fill="white" />
+                        </svg>
+                    </a>
+                    <div class="h3">Torna alla Dashboard</div>
+                </div>
+
+                <div class="col-md-12" style="color: #FFF; margin-top: 10px;">
+                    <h2 class="quiz-title-main">Prepararazione ai  test</h2>
+                    <p class="p-text">In questi video trovi strategie e tecniche di risoluzione che possono servirti per i test di ammissione. Prova le simulazioni interattive per verificare la tua preparazione.<br>Per andare più a fondo puoi usare i libri e le risorse digitali della collana <a href="https://online.scuola.zanichelli.it/unitutor/" target="_blank" style="color: white;"><u>Unitutor</u></a> di Zanichelli.</p>
+                </div>
+
+                <div class="quiz-sub-title">
+                    Video lezioni
+                </div>
+
+                {% for video in videos_objs %}
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="video-webinars-card"
+                        onclick="video_popup_open('{{video.pk}}', '{{ video.link }}', '{{ video.title }}', '{{ video.description }}')">
+                        <div class="video-webinars-image">
+                            <img class="video-webinars-img" src="{{ video.icon.url }}">
+                            <span type="button" class="video-webinars-popup"><svg width="65" height="64"
+                                    viewBox="0 0 65 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="32.4803" cy="31.7099" r="26.1811" fill="#F247C5" />
+                                    <path
+                                        d="M26.1098 42.8749L43.6451 31.7101L26.1098 20.5453V42.8749ZM32.4803 57.9802C28.89 57.9802 25.4968 57.2906 22.3006 55.9115C19.1044 54.5323 16.3132 52.6496 13.927 50.2634C11.5408 47.8772 9.6581 45.086 8.27892 41.8898C6.89974 38.6936 6.21014 35.3003 6.21014 31.7101C6.21014 28.076 6.89974 24.6609 8.27892 21.4647C9.6581 18.2685 11.5408 15.4883 13.927 13.124C16.3132 10.7596 19.1044 8.8879 22.3006 7.50872C25.4968 6.12953 28.89 5.43994 32.4803 5.43994C36.1143 5.43994 39.5294 6.12953 42.7256 7.50872C45.9218 8.8879 48.7021 10.7596 51.0664 13.124C53.4307 15.4883 55.3025 18.2685 56.6817 21.4647C58.0608 24.6609 58.7504 28.076 58.7504 31.7101C58.7504 35.3003 58.0608 38.6936 56.6817 41.8898C55.3025 45.086 53.4307 47.8772 51.0664 50.2634C48.7021 52.6496 45.9218 54.5323 42.7256 55.9115C39.5294 57.2906 36.1143 57.9802 32.4803 57.9802ZM32.4803 54.0397C38.6976 54.0397 43.9735 51.8615 48.308 47.505C52.6426 43.1485 54.8099 37.8836 54.8099 31.7101C54.8099 25.4928 52.6426 20.2169 48.308 15.8823C43.9735 11.5477 38.6976 9.38046 32.4803 9.38046C26.3068 9.38046 21.0418 11.5477 16.6854 15.8823C12.3289 20.2169 10.1507 25.4928 10.1507 31.7101C10.1507 37.8836 12.3289 43.1485 16.6854 47.505C21.0418 51.8615 26.3068 54.0397 32.4803 54.0397Z"
+                                        fill="white" />
+                                </svg></span>
+                        </div>
+                        <div class="video-webinars-content">
+                            <div class="h4">{{ video.title }}</div>
+                            <span>{{ video.duration }} min</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="quiz-sub-title">
+                    Simulazione dei test di ammissione     
+                </div>
+                {% for quiz in quiz_obj %}
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="prove-card">
+                        <div class="prove-image">
+                            <img src="{{ quiz.quiz_banner.url }}" />
+                            <div class="prove-card-inner">
+                                <h3>{{ quiz.title }} </h3>
+                                <p>{{ quiz.duration }} min</p>
+                                <a href="{% url 'start_quiz' quiz.pk %}" class="prove-button">
+                                    Inizia
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            <!-- </div> -->
+            <div class="col-md-12 mt-3">
+                <a href="{% url 'home' %}" class="prove-chiudi-button">
+                    Chiudi
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- video Modal -->
+<div class="modal fade popup-video-webinar" id="popup-video-webinar-below" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 type="button" data-bs-dismiss="modal" aria-label="Close" id="video-close-arrow-id"
+                    class="new-modal-title"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17.95 35.9L6 23.95L17.95 12L20.1 14.15L11.8 22.45H42V25.45H11.8L20.1 33.75L17.95 35.9Z"
+                            fill="white" />
+                    </svg>
+                    Torna alla Dashboard</h5>
+            </div>
+            <div class="modal-body">
+                <iframe id="id_quiz_videos" width="100%" height="480" src="" title="Dummy Video For Website"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+            <h5 class="new-modal-title" id="footer-title-id">CALCOLO RAPIDO 1</h5>
+            <p style="color: white;" id="footer-description-id">Non sempre serve usare carta e penna, e durante il test
+                non potrai usare la calcolatrice.Con questo video imparerai come fare alcuni calcoli a mente, a
+                risolvere quiz più in fretta usando la scomposizione in fattori primi e i quadrati perfetti.</p>
+            <div class="modal-footer">
+                <button type="button" class="video-modal-button" data-bs-dismiss="modal"
+                    id="video-modal-close-id">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Main Content -->
+
+
+</div>
+<!-- End of Main Content -->
+<!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+
+
+
+<!--End Cookies popup-->
+<!-- Bootstrap core JavaScript-->
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Core plugin JavaScript-->
+<script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+<!-- Custom scripts for all pages-->
+<script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
+{% block script %}
+<script>
+    function video_popup_open(video_id, video_link, video_title, video_description) {
+        $("#id_quiz_videos").attr("src", video_link);
+        $("#id_quiz_videos").attr("title", video_title);
+        $("#footer-title-id").text(video_title);
+        $("#footer-description-id").text(video_description);
+        $("#popup-video-webinar-below").modal('show');
+    };
+
+    $("#video-modal-close-id").click(function () {
+        $("#id_quiz_videos").attr("src", '');
+        $("#id_quiz_videos").attr("title", '');
+        $("#footer-title-id").text(video_title);
+        $("#footer-description-id").text(video_description);
+    });
+
+    $("#video-close-arrow-id").click(function () {
+        $("#id_quiz_videos").attr("src", '');
+        $("#id_quiz_videos").attr("title", '');
+        $("#footer-title-id").text('');
+        $("#footer-description-id").text('');
+    });
+</script>
+{% endblock %}

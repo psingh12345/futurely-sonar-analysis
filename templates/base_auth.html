@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="{% if request.LANGUAGE_CODE == 'it' %}it{% else %}en{% endif %}">
+
+<head>
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% include 'components/seo.html' %}
+    {% if request.session.is_from_ios_app or  request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+     <!-- favicon-->
+     <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'css/owl.carousel.min.css' %}" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    
+    {% block title%}
+
+    {% endblock %}
+    {% block style_sheet %}
+    {% endblock %}
+    <style>
+        .hidden{
+            display: none !important;
+        }
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "hte35rg50h");	
+	</script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+   <!-- VISA Tracking Code for https://www.myfuturely.com/ --><script>(function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'//app-worker.visitor-analytics.io/main.js','7388998c-4d85-11ec-b589-901b0edac50a','va')</script><!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+    
+    <div class="container-fluid">
+        <div class="row login-height">
+            <div class="col-xl-4 header" >
+                <div class="profile ">
+                    {% if request.session.is_from_mobile_app %}
+                    <a href="{% url 'login' %}"><img src="{% static 'images/logo_futurely_Tavola_disegno1-032.png'%}"
+                        alt="" class=""></a>
+                    {% else %}
+                    <a href="{% url 'index' %}"><img src="{% static 'images/logo_futurely_Tavola_disegno1-032.png'%}"
+                            alt="" class=""></a>
+                    {% endif %}
+                    <h4 class="text-light text-center">{% trans 'Your path, our mission' %}</h4>
+                    <div class="about-login-slider owl-carousel">
+                        <div class="item">
+                            <div class="about mt-3 text-center">
+                            <p>
+                                {% blocktrans %} Futurely is a digital career counseling <br>platform, guided and personalized, focused <br>on self-exploration and career discovery!{% endblocktrans %}
+                            </p>
+                            </div>
+                        </div>
+                        <!-- <div class="item">
+                            <div class="about mt-3 text-center">
+                            <p>{% trans 'Learn with other students in the same community as yourself, see groups, talk to tutors etc' %}
+                            </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="about mt-3 text-center">
+                            <p>{% trans 'Learn with other students in the same community as yourself, see groups, talk to tutors etc' %}
+                            </p>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 main">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/user_auth.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script>
+    jQuery(document).ready(function() {
+    jQuery(".about-login-slider").owlCarousel({
+        autoplay: false,
+        lazyLoad: true,
+        loop: false,
+        items:1,
+        autoHeight: true,
+        nav: false,
+        dotts:true,
+        
+      });
+    });
+    </script>
+    {% block script %}
+
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load tz %}
+{% load phrase_i18n %}
+<html lang="en">
+
+<head>
+    {% css_version as css_version %}
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+     <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    <!-- Custom fonts for this template-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <!-- <link href="{% static 'css/custom.css'%}?v={{css_version}}" rel="stylesheet"> -->
+    <link href="{% static 'css/new_custom.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}?v={{css_version}}"> -->
+    <link rel="stylesheet" href="{% static 'css/template-css/dashboard.css' %}">
+    
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+   
+    {% block title %}
+    {% endblock %}
+    {% block style%}
+    {% endblock%}
+    <style>
+        
+        .modal.show .modal-dialog {
+        transform: translateY(-50%);
+        top: 50%;
+        }
+        .hidden{
+            display: none !important;
+        }
+       
+        .notification-update span {
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .notification-update {
+            background: linear-gradient(to right, #c7a84c , #ffc107);
+            border: none !important;
+            color: #fff;
+            border-color: transparent;
+            padding: 0.7rem;
+            margin-bottom: 0 !important;
+            font-size: 14px;
+            width: 100%;
+            position: relative;
+            border-radius: 0.7rem;
+        }
+        body #wrapper #content-wrapper #content .main-content.notifi {
+            padding-top: 100px !important;
+        }
+        {% comment %} body #wrapper #content-wrapper #content .main-content {
+            padding-top: 0!important;
+        } {% endcomment %}
+        .topbar {
+            flex-wrap: wrap;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            height: auto;
+        }
+
+                .notification-update.top-noti {
+            padding: 0.5rem;
+            width: auto;
+            flex: 100%;
+            margin: 0 -20px;
+            border-radius: 0;
+            display: none;
+            margin-top: -12px;
+        }
+            
+            .close:before {
+            transform: rotate(45deg);
+        }
+        .close:after {
+            transform: rotate(-45deg);
+        }
+        .cookie-disclaimer {
+            background: #04060f;
+            color: #FFF;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+            position: fixed;
+            opacity: 0.9;
+        }
+        .cookie-disclaimer .container {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+        }
+    
+        .cookie-button {
+            color: #fff !important;
+            border-radius: 10px;
+            position: relative;
+            /* padding: 14px 40px; */
+            box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+            transition: 0.5s;
+            background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+            /* font-weight: 600; */
+            cursor: pointer;
+        }
+    
+        .cookies-setting:hover {
+            border: 0px solid white !important;
+        }
+        #request-access-popup.modal.fade.show {
+            display: flex !important;
+            align-content: center;
+        }
+        @media (min-width: 768px) {
+        .cookie-discription span {
+    display: none;
+}
+}
+        @media (max-width:767px) {
+            .btn.cookies-setting {
+    font-size: 12px;
+    text-decoration-line: underline;
+}
+.cookie-button {
+    font-weight: 700;
+    font-size: 12px;
+}
+#hubspot-messages-iframe-container {
+    z-index: 1 !important;
+}
+            .cookie-discription.sho {
+    display: block;
+}
+.cookie-discription.show span {
+    display: none;
+}
+
+.cookie-discription.show p {
+    white-space: normal;
+}
+.cookie-disclaimer {
+    border-radius: 8px 8px 0px 0px;
+    opacity: 1 !important;
+}
+            .cookie-discription p {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.cookie-discription span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration-line: underline;
+    color: #FFFFFF;
+    white-space: nowrap;
+    padding: 0 15px;
+}
+.cookie-discription {
+    display: flex;
+    align-items: baseline;
+}
+        .tables-details-usere table tbody {
+            max-height: 455px;
+        }
+            .tables-details-usere table {
+            margin-top: 28px !important;
+        }
+        .tables-details-usere table thead tr th {
+            font-size: 12px;
+        }
+        .tables-details-usere table td {
+            font-size: 12px;
+        }
+        }
+        @media (min-width:768px) {
+        #request-access-popup .modal-dialog {
+        max-width: 800px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%)translatey(-50%);
+        top: 50%;
+        }
+    }
+    #wrapper #content-wrapper {
+        padding-left: 0;
+    }
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body id="page-top">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="star-field">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ --><script>(function(v,i,s,a,t){v[t]=v[t]||function(){(v[t].v=v[t].v||[]).push(arguments)};if(!v._visaSettings){v._visaSettings={}}v._visaSettings[a]={v:'1.0',s:a,a:'1',t:t};var b=i.getElementsByTagName('body')[0];var p=i.createElement('script');p.defer=1;p.async=1;p.src=s+'?s='+a;b.appendChild(p)})(window,document,'//app-worker.visitor-analytics.io/main.js','7388998c-4d85-11ec-b589-901b0edac50a','va')</script><!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+    
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-gradient-primary  topbar mb-4 static-top shadow">
+                    <div class="logo me-auto">
+                        <a class="logo-block" href="{% url 'home' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                        </a>
+                    </div>
+                    
+                    
+                </nav>
+                
+                <!-- Begin Page Content -->
+                {% block content %}
+           
+                {% endblock %}
+               
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+   
+    
+	<!--End Cookies popup-->
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    
+   
+    
+    <script type="text/javascript">
+        $("#sidebarToggleTop").click();
+
+        $('.calender-slider').owlCarousel({
+            loop: false,
+            margin: 20,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                480: {
+                    items: 4
+                },
+                600: {
+                    items: 4
+                },
+                1000: {
+                    items: 6
+                },
+                1200: {
+                    items: 7
+                }
+
+            }
+        });
+        $('.steup-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            dots: false,
+            navText: ['<span class="slick-arrow arrow-left"></span>',
+                '<span class="slick-arrow arrow-right"></span>'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                }
+
+            }
+        });
+        $('.multi-question-slider').owlCarousel({
+            loop: false,
+            margin: 30,
+            nav: true,
+            rows: 2,
+            dots: true,
+            navText: ['<img class="slider-arrow left" src="img/slider-arrow-right.png">',
+                '<img class="slider-arrow right" src="img/slider-arrow-right.png">'
+            ],
+            autoplay: false,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 2
+                }
+
+            }
+        });
+        $(document).ready(function () {
+            var sync1 = $("#sync1");
+            var sync2 = $("#sync2");
+            var slidesPerPage = 4; //globaly define number of elements per page
+            var syncedSecondary = true;
+
+            sync1.owlCarousel({
+                items: 1,
+                slideSpeed: 2000,
+                nav: false,
+                autoplay: false,
+                dots: false,
+                loop: true,
+                responsiveRefreshRate: 200,
+                navText: ['<span class="slick-arrow arrow-left"></span>',
+                    '<span class="slick-arrow arrow-right"></span>'
+                ],
+            }).on('changed.owl.carousel', syncPosition);
+            sync2
+                .on('initialized.owl.carousel', function () {
+                    sync2.find(".owl-item").eq(0).addClass("current");
+                })
+                .owlCarousel({
+                    items: slidesPerPage,
+                    margin: 15,
+                    dots: false,
+                    nav: true,
+                    smartSpeed: 200,
+                    slideSpeed: 500,
+                    slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
+                    responsiveRefreshRate: 100,
+                    navText: ['<span class="slick-arrow arrow-left"></span>',
+                        '<span class="slick-arrow arrow-right"></span>'
+                    ],
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        480: {
+                            items: 2
+                        },
+                        600: {
+                            items: 2
+                        },
+                        1000: {
+                            items: 4
+                        },
+                        1200: {
+                            items: 4
+                        }
+
+                    }
+                }).on('changed.owl.carousel', syncPosition2);
+
+            function syncPosition(el) {
+                //if you set loop to false, you have to restore this next line
+                //var current = el.item.index;
+
+                //if you disable loop you have to comment this block
+                var count = el.item.count - 1;
+                var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+
+                if (current < 0) {
+                    current = count;
+                }
+                if (current > count) {
+                    current = 0;
+                }
+
+                //end block
+
+                sync2
+                    .find(".owl-item")
+                    .removeClass("current")
+                    .eq(current)
+                    .addClass("current");
+                var onscreen = sync2.find('.owl-item.active').length - 1;
+                var start = sync2.find('.owl-item.active').first().index();
+                var end = sync2.find('.owl-item.active').last().index();
+
+                if (current > end) {
+                    sync2.data('owl.carousel').to(current, 100, true);
+                }
+                if (current < start) {
+                    sync2.data('owl.carousel').to(current - onscreen, 100, true);
+                }
+            }
+
+            function syncPosition2(el) {
+                if (syncedSecondary) {
+                    var number = el.item.index;
+                    sync1.data('owl.carousel').to(number, 100, true);
+                }
+            }
+
+            sync2.on("click", ".owl-item", function (e) {
+                e.preventDefault();
+                var number = $(this).index();
+                sync1.data('owl.carousel').to(number, 300, true);
+            });
+        });
+
+        
+
+        $('.next').click(function () {
+            var activetabindex = $('.active').index() + 1;
+            var containers = $('.tab-content>div').length;
+            if (containers == activetabindex) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').first().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').next();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.prev').click(function () {
+            var activetabindex = $('.active').index();
+            if (activetabindex == 0) {
+                $('.tab-buttons>span').removeClass('active');
+                $('.tab-buttons>span').last().addClass('active');
+                var currentid = $('.active').attr('id');
+                $.FindId();
+                $.FindContainer();
+            } else {
+                var currentopen = $('.active').prev();
+                $('.active').removeClass('active');
+                currentopen.addClass('active');
+                $.FindId();
+                $.FindContainer();
+            }
+        });
+        $('.watch-video-slider').owlCarousel({
+            loop: false,
+            margin: 40,
+            nav: true,
+            dots: true,
+            autoplay: false,
+            items: 1,
+            roq: 1,
+            autoplayHoverPause: false,
+            navText: ['<span class="btn back-btn">{% trans "Back" %}</span>',
+                '<span class="btn next-btn gradient-border"><span>{% trans "Next step" %}</span></span>'
+            ],
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+
+            }
+        });
+    </script>
+    <script>
+        
+        $('.cookie-discription span').click(function() {
+        $('.cookie-discription').toggleClass('show');
+        });
+</script>
+
+
+    {% block script %}
+
+    {% endblock %}
+
+</body>
+
+</html>

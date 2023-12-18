@@ -1,0 +1,355 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<title>{% trans "Futurely: Courses Overview" %}</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/course-buy-multiple.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/course-buy-multiple.css' %}">
+
+{% endblock %}
+{% block content %}
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 page-route-margin">
+                <span class="pages-route-pre">
+                    <a href="{% url 'home' %}">Home ></a>
+                    <a href="{% url 'courses-available' %}">Courses > </a>
+                    Buy Extensive Program
+                </span>
+            </div>
+        </div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% if messages %}
+            {% for message in messages %}
+            <script>
+                alert('{{message}}');
+            </script>
+            {% endfor %}
+            {% endif %}
+            <div class="row justify-content-between mt-2 mb-5">
+                {% if avail_courses.count > 1 %}
+                {% for module in avail_courses %}
+                {% if forloop.counter is 1 %}
+                <div class="col-lg-4">
+                    <div class="card-box">
+                        <div class="card-boximg">
+                            <img src="{% static 'images/course-conti.png'%}">
+                        </div>
+                        <div class="welcome-data">
+                            <div class="welcome-data-header d-flex justify-content-between">
+                                <div class="position-absolute top-0 start-0 welcome-data-left top-date">
+                                    <h3>{% trans "Start date" %}</h3>
+                                </div>
+                                <div class="position-absolute top-0 end-0 welcome-data-right top-duration">
+                                    <p>{% trans "Duration" %} - {% if module.duration == "1" %} {{module.duration}}
+                                        {% trans "month" %} {% else %}{{module.duration}} {% trans "months" %} {%endif%}
+                                    </p>
+                                </div>
+                                <div class="row welcome-data-left eqqual-ht mt-4">
+                                    {% for cohort_obj in cohort_lst%}
+                                    {% for cohort in cohort_obj %}
+                                    {% if cohort.is_active == "Yes" %}
+                                    {% if cohort.module.module_id == module.module_id %}
+                                    {% if forloop.counter is 1 %}
+                                    <input id="cohort_id" type="hidden" name="cohort_ids" value="{{cohort.cohort_id}}">
+                                    <button
+                                        onclick="fun1('{{cohort.cohort_id}}','cdate1{{cohort.cohort_id}}','{{cohort.price}}')"
+                                        class="ms-2 cdate1 cdate1{{cohort.cohort_id}} cdateselected cdates-prop"
+                                        type="button"><span
+                                        class="month-span">{{cohort.starting_date | date:'M'}}</span> <span
+                                        class="date-span">{{cohort.starting_date | date:'d'}}</span></button>
+                                    {% else %}
+                                    <button
+                                        onclick="fun1('{{cohort.cohort_id}}','cdate1{{cohort.cohort_id}}','{{cohort.price}}')"
+                                        class="ms-2 cdate1 cdate1{{cohort.cohort_id}} cdates-prop" type="button"><span
+                                            class="month-span">{{cohort.starting_date | date:'M'}}</span> <span
+                                            class="date-span">{{cohort.starting_date | date:'d'}}</span></button>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% else %}
+                                    <button class="ms-2 mt-4 cdate cdatebtn" type="button"></button>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <div class="welcome-data-body">
+                                <h3 class="title-c">{{module.title}}</h3>
+                                <input type="hidden" id="id_module1_title" value="{{module.title}}">
+                                <p class="des-c">{{module.description | truncatechars:100}}</p>
+                            </div>
+                            <div class="welcome-data-footer d-flex justify-content-between">
+                                <div class="welcome-course-btn">
+                                    
+                                    <a type="button" class="btn learn-more position-absolute bottom-0 start-0 margin-button-bottom" data-bs-toggle="modal"
+                                        data-bs-target="#learn-popup{{module.module_id}}">{% trans "Learn more" %}</a>
+                                </div>
+                                <div class="welcome-course-price">
+                                    {% for cohort_obj in cohort_lst%}
+                                    {% for cohort in cohort_obj %}
+
+                                    {% if cohort.module.module_id == module.module_id %}
+                                    {% if forloop.counter is 1 %}
+                                    <p class="course-card-amount position-absolute bottom-0 end-0 margin-right-price">
+                                        {% trans '$' %}<label id="id_cost1">{{cohort.price}}</label>
+                                        <input type="hidden" id="id_module1_cost" value="{{cohort.price}}">
+                                    </p>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-lg-4">
+                    <div class="card-box">
+                        <div class="card-boximg">
+                            <img src="{% static 'images/pexels-jay-yoo-2855848.png'%}">
+                        </div>
+                        <div class="welcome-data">
+                            <div class="welcome-data-header d-flex justify-content-between">
+                                <div class="welcome-data-left text-white">
+                                    <div class="position-absolute top-0 start-0 welcome-data-left top-date">
+                                        <h3>{% trans "Start date" %}</h3>
+                                    </div>
+                                    <div class="position-absolute top-0 end-0 welcome-data-right top-duration">
+                                        <p>{% trans "Duration" %} - {% if module.duration == "1" %} {{module.duration}}
+                                            {% trans "month" %} {% else %}{{module.duration}} {% trans "months" %}
+                                            {%endif%}
+                                        </p>
+                                    </div>
+                                    {% for cohort_obj in cohort_lst%}
+                                    {% for cohort in cohort_obj %}
+                                    {% if cohort.module.module_id == module.module_id %}
+                                    {% if cohort.is_active == "Yes" %}
+                                    {% if forloop.counter is 1 %}
+                                    <input id="cohort_id_m2" type="hidden" name="cohort_ids"
+                                        value="{{cohort.cohort_id}}">
+                                    <p class="mt-4 eqqual-ht">{% trans "Coming Soon" %}....</p>
+                                    <button class="ms-2 btn-commingsoon" type="button"></button>
+                                    <!-- <button onclick="fun2('{{cohort.cohort_id}}','cdate2{{cohort.cohort_id}}','{{cohort.price}}')"  class="ms-2 cdate2 cdate2{{cohort.cohort_id}} cdateselected" style="background: transparent; border-radius: 10px; border: 1px solid white; width:60px;color: white;" type="button">{{cohort.starting_date | date:'M'}}<br>{{cohort.starting_date | date:'d'}}</button> -->
+                                    {% else %}
+                                    <!--  <button onclick="fun2('{{cohort.cohort_id}}','cdate2{{cohort.cohort_id}}','{{cohort.price}}')" class="ms-2 cdate2 cdate2{{cohort.cohort_id}}" style="background: transparent; border-radius: 10px; border: 1px solid white; width:60px;color: white;" type="button">{{cohort.starting_date | date:'M'}}<br>{{cohort.starting_date | date:'d'}}</button> -->
+                                    {% endif %}
+                                    {% else %}
+                                    {% if forloop.counter is 1 %}
+                                    <input id="cohort_id_m2" type="hidden" name="cohort_ids"
+                                        value="{{cohort.cohort_id}}">
+                                        <div class="eqqual-ht">
+                                    <p class="mt-4">{% trans "Coming Soon" %}....</p>
+                                    <button class="ms-2 btn-commingsoon" type="button"></button>
+                                    </div>
+                                    <!--<button onclick="fun2('{{cohort.cohort_id}}','cdate2{{cohort.cohort_id}}','{{cohort.price}}')" class="ms-2 cdate2 cdate2{{cohort.cohort_id}} cdateselected" style="background: transparent; border-radius: 10px; border: 1px solid white; width:70px;color: white;" type="button">Future <br>Dated</button>-->
+                                    {% else %}
+                                    <!--<button onclick="fun2('{{cohort.cohort_id}}','cdate2{{cohort.cohort_id}}','{{cohort.price}}')" class="ms-2 cdate2 cdate2{{cohort.cohort_id}}" style="background: transparent; border-radius: 10px; border: 1px solid white; width:70px;color: white;" type="button">Future <br>Dated</button>-->
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endif %}
+
+
+                                    {% endfor %}
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                            <div class="welcome-data-body">
+                                <h3 class="title-c">{{module.title}}</h3>
+                                <input type="hidden" id="id_module2_title" value="{{module.title}}">
+                                <p class="des-c">{{module.description | truncatechars:100}}</p>
+                            </div>
+                            <div class="welcome-data-footer d-flex justify-content-between">
+                                <div class="welcome-course-btn">
+                                    <!--
+                                                <a class="btn buy-now " href="">Buy course</a>
+                                                -->
+                                    <a type="button" class="btn learn-more position-absolute bottom-0 start-0 margin-button-bottom" data-bs-toggle="modal"
+                                        data-bs-target="#learn-popup{{module.module_id}}">{% trans "Learn more" %}</a>
+                                </div>
+                                <div class="welcome-course-price">
+                                    {% for cohort_obj in cohort_lst%}
+                                    {% for cohort in cohort_obj %}
+                                    {% if cohort.module.module_id == module.module_id %}
+                                    {% if forloop.counter is 1 %}
+                                    <p class="course-card-amount position-absolute bottom-0 end-0 margin-right-price">
+                                        {% trans '$' %}<label id="id_cost2">{{cohort.price}}</label>
+                                        <input type="hidden" id="id_module2_cost" value="{{cohort.price}}">
+                                    </p>
+                                    {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% endif %}
+                {% endfor %}
+                <div class="col-lg-4">
+                    <div class="payment-new-card">
+                        <div class="payment-header-card">
+                            <h2 class="card-title-payment">{% trans "Welcome to Futurely:" %} </h2>
+                        </div>
+                        <div class="payment-card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="product-title-card-payment">
+                                        <h3 id="side_title_m1"></h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="product-price-payment">
+                                        <span>{% trans '$' %} <span id="side_cost_m1"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="product-title-card-payment">
+                                        <h3 id="side_title_m2"></h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="product-price-payment">
+                                        <span>{% trans '$' %} <span id="side_cost_m2"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="total-price-tile">
+                                        💳 {% trans "Total amount" %}
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="product-price-payment big">
+                                        <span>{% trans '$' %} <span id="totle_cost"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-card-footer">
+                                <button type="submit" style="border: none; background: transparent; width: 100%;"> <a class="btn gredient-card-btn">Buy</a></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12 mt-4">
+                    <div class="payment-new-card">
+                        <div class="botton-payment-discription">
+                            <h2>{% trans "Extensive Program" %}</h2>
+                            <p>{% trans "Join us in the 20 week journey of 20 h+ content to know more about yourself, explore your passions, to identify what you want in future, meet with professionals and mentors and apply to your university." %}</p>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <h3 class="color-white">{% trans "You can check the courses from Courses Available Section.. " %} <a
+                        href="{% url 'courses-available' %}">{% trans "Click here to check" %}</a></h3>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block learn_more %}
+{% if avail_courses.count > 1 %}
+{% for module in avail_courses %}
+{% if forloop.counter is 1 %}
+<div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-video">
+                    <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+                </div>
+                <h3>{{module.title}}</h3>
+                <p>{% trans "Course description" %} : {{module.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="modal fade learn-popup" id="learn-popup{{module.module_id}}" data-bs-backdrop="static"
+    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-video">
+                    <iframe class="frame-width-100" src="{{module.introduction_video}}"></iframe>
+                </div>
+                <h3>{{module.title}}</h3>
+                <p>{% trans "Course description" %} : {{module.description}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif%}
+{% endfor %}
+{% endif%}
+{% endblock %}
+
+{% block script %}
+<script>
+    $("#side_title_m1").ready(function(){
+        title=$("#id_module1_title").val();
+        $("#side_title_m1").html(title);
+        cost=$("#id_module1_cost").val();
+        $("#side_cost_m1").html(cost);
+    });
+    $("#side_title_m2").ready(function(){
+        title=$("#id_module2_title").val();
+        $("#side_title_m2").html(title);
+        cost=$("#id_module2_cost").val();
+        $("#side_cost_m2").html(cost);
+    });
+    $("#totle_cost").ready(function(){
+        cost1=$("#id_module1_cost").val();
+        cost2=$("#id_module2_cost").val();
+        var tot= parseInt(cost1)+parseInt(cost2);
+        $("#totle_cost").html(tot);
+    });
+    function fun1(val1, Courseclass, cost) {
+        $(".cdate1").removeClass("cdateselected");
+        $('.' + Courseclass).addClass("cdateselected");
+        $('#id_cost1').text(cost);
+        $("#side_cost_m1").html(cost);
+        cost2 = $('#id_cost2').text();
+        tot = parseInt(cost) + parseInt(cost2);
+        $('#totle_cost').html(tot);
+        $('#cohort_id').val(val1);
+    }
+
+    function fun2(val1, Courseclass, cost) {
+        $(".cdate2").removeClass("cdateselected");
+        $('.' + Courseclass).addClass("cdateselected");
+        $('#id_cost2').text(cost);
+        $("#side_cost_m2").html(cost);
+        cost1 = $('#id_cost1').text();
+        tot = parseInt(cost) + parseInt(cost1);
+        $('#totle_cost').text(tot);
+        $('#cohort_id_m2').val(val1);
+    }
+</script>
+{% endblock %}

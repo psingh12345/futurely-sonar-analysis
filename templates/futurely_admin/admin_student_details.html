@@ -1,0 +1,372 @@
+{% extends 'base_admin.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Admin Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+        background-color: #26272ba6 !important;
+    }
+
+    .searchbox-table {
+        width: 181px !important;
+    }
+
+    table.dataTable td.sorting_1,
+    table.dataTable td.sorting_2,
+    table.dataTable td.sorting_3,
+    table.dataTable th.sorting_1,
+    table.dataTable th.sorting_2,
+    table.dataTable th.sorting_3 {
+        background: none !important;
+    }
+
+    .border-grad .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .border-grad .select2-container .select2-selection--single {
+        height: 45px;
+        border-radius: 10px !important;
+        padding: 10px;
+        border: 1px solid #2E2F32 !important;
+        color: #fff !important;
+        background-color: #333333 !important;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        width: 100%;
+        background-image: url({% static 'images/dropdown.svg' %}) !important;
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    .border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+        display: none;
+    }
+
+    .select2-dropdown {
+        background-color: #333333;
+        padding: 10px;
+        color: #fff !important;
+    }
+
+    .select2-results__options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    {% comment %} .dataTables_filter {
+        display: none;
+    } {% endcomment %}
+    {% comment %} .dataTables_length {
+        display: none;
+    }
+    .dt-buttons {
+        display: none;
+    }
+    .dataTables_info{
+        display: none;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    } {% endcomment %}
+    .pagination {
+        margin: 2px 0;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+    .pagination span:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+    .pagination span {
+        color: #fff;
+        background-color: #303030;
+        border-color: #303030;
+        border: 1px solid #303030;
+       
+        position: relative;
+    }
+    .pagination a {
+        padding: 0.375rem 0.75rem;
+        display: inline-block;
+    }
+    .pagination span:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+    .pagination span.current {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        padding: 0.375rem 0.75rem;
+    }
+    .nav-custom-pills li:hover a {
+        color: #fff;
+    }
+    li.course-pill.active,  .nav-custom-pills li:hover {
+        background: #272036 !important;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #ffffff63;
+        border-bottom: none;
+    }
+    .nav-custom-pills li:hover {
+        background: #666 !important;
+        border-color: #666 !important;
+    } 
+    .nav-custom-pills {
+    width: 100%;
+    border-bottom: 1px solid #ffffff36;
+}
+.nav-custom-pills li {
+    border-radius: 10px 10px 0px 0px !important;
+}
+.card-cus-table-boxx .table-scrollable {
+    border: none;
+}
+.nav-custom-pills li a {
+    padding: 12px 15px;
+    line-height: 1.6;
+}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+        <div class="notification-bars text-center">
+            <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under
+                verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                        {% if request.user.person_role == "Futurely_admin" %}
+                            <li class="nav-item"><a href="{% url 'admin_dashboard' %}" id="stuperformance"
+                                class="nav-link"><b>{% trans "Students Information" %}</b></a></li>
+                            <li class="nav-item"><a href="{% url 'admin_students_kpis' %}" class="nav-link active"
+                                id="studentreport"><b>{% trans "Student Progress Report" %}</b></a></li>
+                        {% endif %}
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                {% if request.user.person_role == "Futurely_admin" %}
+                                <div class="col-md-12">
+                                    <div class="card card-box card-cus-table-boxx">
+                                        <div class="card-head">
+                                            <header>{% trans "Student Progress Report" %}</header>
+                                            <div class="col-lg-12 counselor-card-select">
+                                                <div class="row">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div >
+                                                <div class="row">
+                                                    <div class="col-md-8 col-sm-8 col-8 color-white">
+                                                    {% if selected_school_name %}
+                                                        <p>{% trans "School Name" %}: {{selected_school_name}}</p>
+                                                        <p>{% trans "School City" %}: {{selected_school_city}}</p>
+                                                        <p>{% trans "School Region" %}: {{selected_school_region}}</p>
+                                                    {% elif request.session.discount_code != "" %}
+                                                        <p>{% trans "Discount Code" %}: {{ request.session.discount_code }}</p>
+                                                    {% elif request.session.stu_email != "" %}
+                                                        <p>{% trans "Student Email" %}: {{ request.session.stu_email }}</p>
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-4">
+                                                    <div class="col-md-12">
+                                                        <ul class="nav-custom-pills nav nav-pills nav-justified">
+                                                            {% for course in courses %}
+                                                                <li class="course-pill {% if module_id == course.module_id %}active{% endif %}"><a href="{% url 'admin_students_kpis' %}?module_id={{course.module_id}}">{{ course.title }}</a></li>
+                                                            {% endfor %}
+                                                          </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% for course_stu in all_courses_students %}
+                                            
+                                            <div class="table-scrollable" >
+                                                <div style="margin-left:20px; margin-top:30px;">
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-sm-12 col-12 color-white">
+                                                            <p>{% trans "Course Name" %}: {{course_stu.2.title}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+                                                id="exportTable{{ forloop.counter }}">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th>{% trans "Name" %} </th>
+                                                            <th>{% trans "Email" %} </th>
+                                                            <th>{% trans "Class" %} </th>
+                                                            {% comment %} <th>{% trans "Class Section" %} </th> {% endcomment %}
+                                                            <th>{% trans "Plan Type" %}</th>
+                                                            <th>{% trans "Endurance" %}</th>
+                                                            {% for step in course_stu.1 %}
+                                                            <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th>{% trans "Name" %} </th>
+                                                            <th>{% trans "Email" %} </th>
+                                                            <th>{% trans "Class" %} </th>
+                                                            {% comment %} <th>{% trans "Class Section" %} </th> {% endcomment %}
+                                                            <th>{% trans "Plan Type" %}</th>
+                                                            <th>{% trans "Endurance" %}</th>
+                                                            {% for step in course_stu.1 %}
+                                                            <th>{% trans "Step" %} {{ forloop.counter }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for stu in course_stu.0 %}
+                                                            <tr class="odd gradeX">
+                                                                <td> {{forloop.counter}}</td>
+                                                                <td>{{ stu.student.first_name }} {{ stu.student.last_name }}</td>
+                                                                <td>
+                                                                    <a href="{% url 'student-performance' %}?stu_id={{stu.student.id}}"
+                                                                        class="">
+                                                                        <u>
+                                                                            {{stu.student.username}}
+                                                                        </u>
+                                                                    </a>
+                                                                </td>
+                                                                {% comment %} <td>{{ stu.student.student.student_school_detail.class_year }}</td> {% endcomment %}
+                                                                {% if stu.student.student.student_school_detail.class_name and stu.student.student.student_school_detail.class_year %}
+                                                                    <td class="left">{{stu.student.student.student_school_detail.class_year }} - {{ stu.student.student.student_school_detail.class_name }}</td>
+                                                                {% elif stu.student.student.student_school_detail.class_year %}
+                                                                    <td class="left">{{stu.student.student.student_school_detail.class_year }}</td>
+                                                                {% elif stu.student.student.student_school_detail.class_name %}
+                                                                    <td class="left">{{ stu.student.student.student_school_detail.class_name }}</td>
+                                                                {% else %}
+                                                                    <td class="left">None</td>
+                                                                {% endif %}
+
+                                                                {% comment %} <td>{{ stu.student.student.student_school_detail.class_name }}</td> {% endcomment %}
+                                                                <td>{% current_plan request stu.student %}</td>
+                                                                {% if stu.student.student.student_endurance_score %}
+                                                                    <td >{{ stu.student.student.student_endurance_score.endurance_score }}%</td>
+                                                                {% else %}
+                                                                    <td>0%</td>
+                                                                {% endif %}
+                                                                {% for stu_cohort_map in stu.student.stuMapID.all %}
+                                                                    {% if stu_cohort_map.stu_cohort_map.count > 0 and stu_cohort_map.stu_cohort_map.count == course_stu.1.count%}
+                                                                        {% for cohort_step_trac in stu_cohort_map.stu_cohort_map.all %}
+                                                                            {% if cohort_step_trac.cohort_step_tracker_details %}
+                                                                                <td>{{ cohort_step_trac.cohort_step_tracker_details.step_completion }}%</td>
+                                                                            {% else %}
+                                                                                <td>0%</td>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    {% else %}
+                                                                        {% for step in course_stu.1 %}
+                                                                            <td>-</td>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                                   
+                                                            </tr>
+                                                        {% empty %}
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            {% for step in course_stu.1 %}
+                                                                <td></td>
+                                                            {% endfor %}
+
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $(document).ready(function () {
+        $('td').removeClass('sorting_1');
+    });
+</script>
+{% endblock %}

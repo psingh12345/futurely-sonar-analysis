@@ -1,0 +1,6 @@
+<form method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    {{person_register_form.as_p}}
+    <input type="submit" value="Next">
+
+</form>

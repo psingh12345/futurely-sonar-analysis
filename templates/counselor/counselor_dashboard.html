@@ -1,0 +1,355 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+    background-color: #26272ba6 !important;
+    }
+	.searchbox-table{
+		width: 181px !important;
+	}
+    table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.sorting_3, table.dataTable th.sorting_1, table.dataTable th.sorting_2, table.dataTable th.sorting_3 {
+    background: none !important;
+    }
+
+    .border-grad .select2-container {
+    width: 100% !important;
+}
+.select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+}
+.border-grad .select2-container .select2-selection--single {
+    height: 45px;
+    border-radius: 10px
+ !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.svg' %}) !important;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+.border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+    display: none;
+}
+.select2-dropdown {
+    background-color: #333333;
+    padding: 10px;
+    color: #fff !important;
+}
+.select2-results__options {
+	max-height: 200px;
+	overflow-y: auto;
+}
+{% comment %} .tabbable-line > .nav-tabs .nav-item .nav-link {
+    border: 1px solid #69696a;
+    color: #fff;
+    padding: 9px 20px;
+    text-transform: capitalize;
+    border-radius: 30px;
+    font-weight: 500;
+}
+.tabbable-line > .nav-tabs .nav-item:last-child .nav-link {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+}
+.tabbable-line > .nav-tabs .nav-item .nav-link.active {
+    background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%) !important;
+}
+
+.tabbable-line > .nav-tabs .nav-item:first-child .nav-link {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}  {% endcomment %}
+{% comment %} .dataTables_filter {
+    display: none;
+}
+.dataTables_length {
+    display: none;
+}
+.dt-buttons {
+    display: none;
+}
+.dataTables_info{
+    display: none;
+} {% endcomment %}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        <!-- <div class="page-bar">
+            <div class="page-title-breadcrumb">
+                <div class=" pull-left">
+                    <div class="page-title">All registered candidates</div>
+                </div>
+            </div>
+        </div> -->
+
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+        <div class="notification-bars text-center">
+            <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-line">
+                    <ul class="nav customtab nav-tabs" role="tablist">
+                        {% if request.user.counselor.company != None %}
+                        <li class="nav-item"><a href="{% url 'counselor-dashboard' %}" id="stuperformance" class="nav-link active"><b>
+                            {% trans "Students Information" %}</b></a></li>
+                        {% endif %}
+                        <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link" id="studentreport"><b>
+                            {% trans "Student Progress Report" %}</b></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fontawesome-demo" id="tab1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card card-box">
+                                        <div class="card-head">
+                                            <header>{% trans 'Students Information' %}</header>
+                                            <div class="col-lg-12 counselor-card-select">
+                                            <div class="row">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <h5 class="color-white">{% trans 'Total number of Students' %}: {{ all_students.count }}</h5>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body ">
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-6">
+                                                    {% if request.user.counselor.company != None %}
+                                                        <h5 class="color-white">{% trans 'Company Name' %}: {{ request.user.counselor.company }}</h5>
+                                                    {% else %}
+                                                        <h5 class="color-white">{% trans 'School Name' %}: {{request.user.counselor.school_name}}</h5>
+                                                        <h5 class="color-white">{% trans 'City Name' %}: {{request.user.counselor.school_city}}</h5>
+                                                        <h5 class="color-white">{% trans "State/Region Name" %}: {{request.user.counselor.school_region}}</h5>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="table-scrollable">
+                                                <table
+                                                    class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+                                                    id="exportTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th>{% trans "First Name" %}</th>
+                                                            <th>{% trans "Last Name" %}</th>
+                                                            {% comment %} <th> {% trans "Email" %} </th> {% endcomment %}
+                                                            <th>{% trans "Class" %}</th>
+                                                            {% comment %} <th>{% trans "Contact Number" %} </th> {% endcomment %}
+                                                            {% comment %} <th>{% trans "Plan Type" %}</th> {% endcomment %}
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>SNO</th>
+                                                            <th>{% trans "First Name" %}</th>
+                                                            <th>{% trans "Last Name" %}</th>
+                                                            {% comment %} <th> {% trans "Email" %} </th> {% endcomment %}
+                                                            <th>{% trans "Class" %}</th>
+                                                            {% comment %} <th>{% trans "Contact Number" %} </th> {% endcomment %}
+                                                            {% comment %} <th>{% trans "Plan Type" %}</th> {% endcomment %}
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        {% for stu in all_students %}
+                                                        {% if request.user.person_role == "Counselor" %}
+                                                            <tr class="odd gradeX">
+                                                                <td> {{forloop.counter}}</td>
+                                                                <td class="left">{{stu.person.first_name}}</td>
+                                                                <td class="left">{{stu.person.last_name}}</td>
+                                                                {% comment %} <td>{{stu.person.username}}</td> {% endcomment %}
+                                                                {% if stu.student_school_detail.class_name and stu.student_school_detail.class_year %}
+                                                                    <td class="left">{{stu.student_school_detail.class_year }} - {{ stu.student_school_detail.class_name }}</td>
+                                                                {% elif stu.student_school_detail.class_year %}
+                                                                    <td class="left">{{stu.student_school_detail.class_year }}</td>
+                                                                {% elif stu.student_school_detail.class_name %}
+                                                                    <td class="left">{{ stu.student_school_detail.class_name }}</td>
+                                                                {% else %}
+                                                                <td class="left">None</td>
+                                                                {% endif %}
+                                                                {% comment %} <td class="left">{{ stu.student_school_detail.class_name }} - {{stu.student_school_detail.class_year }}</td> {% endcomment %}
+                                                                {% comment %} <td class="left">{{stu.person.contact_number}}</td> {% endcomment %}
+                                                                {% comment %} <td>{% current_plan request stu.person %}</td> {% endcomment %}
+                                                            </tr>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://use.fontawesome.com/05a4a6d46a.js"></script>
+<script src="{% static 'css/new_css/apexcharts.min.js'%}"></script>
+<script src="{% static 'css/new_css/apexcharts.data.js'%}"></script>
+<script src="{% static 'css/new_css/popper.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.blockui.min.js'%}"></script>
+<script src="{% static 'css/new_css/jquery.slimscroll.js'%}"></script>
+<!-- bootstrap -->
+<script src="{% static 'css/new_css/bootstrap.min.js'%}"></script>
+<script src="{% static 'css/new_css/bootstrap-switch.min.js'%}"></script>
+<!-- data tables -->
+<script src="{% static 'css/new_css/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'css/new_css/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static 'css/new_css/table_data.js'%}"></script>
+<!-- Common js-->
+<script src="{% static 'css/new_css/app.js'%}"></script>
+<script src="{% static 'css/new_css/layout.js'%}"></script>
+<script src="{% static 'css/new_css/theme-color.js'%}"></script>
+<!-- Material -->
+<script src="{% static 'css/new_css/material.min.js'%}"></script>
+
+<!-- Export -->
+<script src="{% static 'css/export/dataTables.buttons.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.flash.min.js'%}"></script>
+<script src="{% static 'css/export/jszip.min.js'%}"></script>
+<script src="{% static 'css/export/pdfmake.min.js'%}"></script>
+<script src="{% static 'css/export/vfs_fonts.js'%}"></script>
+<script src="{% static 'css/export/buttons.html5.min.js'%}"></script>
+<script src="{% static 'css/export/buttons.print.min.js'%}"></script>
+<script>
+    $(document).ready(function() {
+        $('td').removeClass('sorting_1');
+    });
+    $(document).ready(function () {
+        $('#id-school-region').select2();
+        $('#id-school-region').val(null).trigger("change");
+        $('#id-school-city').select2();
+        $('#id-school-name').select2();
+      });
+      $('#id-school-region').on('change', function (e) {
+        var school_region = $(this).val();
+        $("#id-school-city").empty();
+        $("#id-school-city").append(`<option value="" disabled selected>{% trans "School city" %}</option>`);
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-cities-name' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+                var school_city = data['all_cities'];
+               
+                for(var i = 0; i<school_city.length; i++)
+                {
+                $("#id-school-city").append('<option value="'+school_city[i]+'">'+school_city[i]+'</option>');
+                }
+              } 
+            },
+            error: function (response) {
+            }
+          })
+        }
+      });
+    
+      $('#id-school-city').on('change', function (e) {
+        var school_region = $("#id-school-region").val();
+        var school_city = $(this).val();
+        $("#id-school-name").empty();
+        $("#id-school-name").append(`<option value="" disabled selected>{% trans "School name" %}</option>`);
+    
+        if (school_region && school_city) {
+          $.ajax({
+            type: 'POST',
+            url: "{% url 'get-school-name-by-city' %}",
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            data: {
+              'school_region': school_region,
+              'school_city':school_city,
+            },
+            success: function (response) {
+              var data = JSON.parse(JSON.stringify(response));
+              if (data['message'] == 'success') {
+                
+              var school_names = data['all_schools'];
+               
+               for(var i = 0; i<school_names.length; i++)
+               {
+               $("#id-school-name").append("<option value='"+school_names[i]+"'>"+school_names[i]+"</option>");
+               }
+              }
+              else{
+              
+              }
+            },
+            error: function (response) {
+    
+            }
+          })
+        }
+      });
+</script>
+<script>
+    $("#studentreport").click(function() {
+        $("#stuperformance").removeClass('active');
+        $("#studentreport").addClass('active');
+    });
+    $("#stuperformance").click(function() {
+        $("#stuperformance").addClass('active');
+        $("#studentreport").removeClass('active');
+    });
+</script>
+{% endblock %}

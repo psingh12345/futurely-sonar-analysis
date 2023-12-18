@@ -1,0 +1,55 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% block title%}
+<title>{% trans "Futurely: Email" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row main-container">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-7">
+        <div class="form-intro row">
+            {% if message %}
+            <div class="col-sm-12 p-t-20 ">
+                <p class="form-head-text"> 🌟 {% trans 'Error to send email' %} </p>
+            </div>
+            <div class="col-sm-12 p-t-20 error-msg">
+                <p>{{message}}</p>
+            </div>
+            {% else %}
+            <div class="col-sm-12 p-t-20 ">
+                <!-- <img src="{% static 'images/confirm your email.png' %}" alt=""> -->
+                <p class="login-title-prop">🌟 {% trans "Confirm your email address" %}</p>
+            </div>
+            <div class="col-sm-12 p-t-20">
+                <p>{% trans 'An email has been sent to you, please confirm your email address before login' %}</p>
+            </div>
+            {% endif %}
+            <form class="row form-setup" method="post" action="">
+                {% csrf_token %}
+                <div class="col-md-12">
+                    <div class="border-grad">
+                        <a class="extraHref" href="{% url 'futurely-plans' %}">
+                            <button class=" form-control sign-btn sign-btn-next"
+                                type="button">{% trans 'Continue to dashboard' %}</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-2">
+
+    </div>
+</div>
+{% endblock %}

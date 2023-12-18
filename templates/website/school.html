@@ -1,0 +1,542 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Schools" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+	.font-s{
+		font-size: 45px !important;
+		margin-bottom: 5px !important;
+	}
+	.text-white{
+		color: white;
+		margin-bottom: 22px;
+	}
+	.overlay-bg {
+    background: linear-gradient( 116.59deg , #000000 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.5;
+}
+.banner-img {
+    position: relative;
+}
+
+</style>
+
+<div class="main-content">
+    <section class="school-banner-section">
+      <div class="banner-img">
+	  <div class="overlay-bg"></div>
+	  <img src="{% static '/website/images/new-images/school-banner.jpg' %}"/>
+      </div>
+    </section>
+
+<div class="bg-img-sec">
+		<div class="star-field">
+			<div class="layer"></div>
+			<div class="layer"></div>
+			<div class="layer"></div>
+		</div>
+<section class="school-bottom-section">
+		  <div class="school-banner-bottom">
+	    <div class="container">
+          <div class="row justify-content-center">
+			<div class="col-lg-11 margin-btm-head">      
+				<div class="row">
+					<div class="col-md-12 text-center ">
+						<div class="banner-student-content">
+						 <h2 class="mb-3">{% blocktrans %} Are you a high school career counselor? {% endblocktrans %}</h2>
+						</div>
+					</div>
+				  </div>
+			  </div>
+			  <div class="col-lg-3 d-flex">
+				  <div class="card-school">
+				  <div class="h1">{% trans "Save time" %}</div>
+				  <p>{% trans "We streamline your counseling relationship with students, giving them weekly deliverables and deadlines. In your 1:1 with students you’ll have a focused starting point." %} </p>
+				  </div>
+			  </div>
+			  	
+				<div class="col-lg-3 d-flex">
+					<div class="card-school">
+					<div class="h1">{% trans "Guide more personally" %}</div>
+					<p>{% trans "We develop your students' self-discovery; they will fill out a personal journal and an action plan based on their discoveries which we’ll share with you." %} </p>
+					</div>
+				</div>
+			  
+			  <div class="col-lg-3 d-flex">
+				  <div class="card-school">
+					{% if request.LANGUAGE_CODE == "it" %}
+						<div class="h1">~400h/{% trans "year" %}</div>
+					{% else %}
+						<div class="h1">Get updated material</div>
+					{% endif %}
+				  <p>{% trans "We provide students the list of all the options available to them after high school with pros and cons,  making the job of the college counselor much easier." %} </p>
+				  </div>
+			  </div>
+		  </div>
+		</div>
+		</div>
+</section>
+	<section class="pctc-section">
+        <div class="container">
+          <div class="row">
+			  <div class="col-lg-6 ">
+				  <div class="pctc-content">
+				  <div class="h3">{% trans "Through the Futurely Program, we have empowered CAREER COUNSELORS and helped thousands of STUDENTS..." %}</div>
+				  <ul class=" line-height2 fontclass16 color-white">
+					<li>
+					   {% trans "Navigate pros and cons of all their postsecondary options" %}
+					</li>
+					<li>
+						{% trans "Build an action plan" %}
+					 </li>
+					<li>
+					   {% trans "Build their resumes and essays" %}
+					</li>
+					{% if request.LANGUAGE_CODE != "it" %}
+					<li>
+						{% trans "Find college scholarships and loans" %}
+					 </li>
+					 <li>
+						{% trans "Grow in awareness, self-advocacy, curiosity and courage" %}
+					 </li>
+					{% endif %}
+				</ul>
+				  <!-- <h2>+1700</h2>
+				  <p>{% trans "Excellent schools already chose us" %}</p> -->
+				  </div>
+			  </div>
+			  <div class="col-lg-6 ">
+				<div class="pctc-img-main">
+				  <div class="pctc-img">
+				  <img src="{% static '/website/images/glad-dark-skinned.png' %}">
+				  </div>
+				  <div class="our-meet-us-content our-meet-us-content-schools">
+					<div class="row justify-content-center m-0">
+						<div class="col-lg-8">
+							<div class="card-meet">
+								<div class="row align-items-center">
+									
+									<div class="col-md-6">
+										<div class="meet-us-btn">
+										<a class="btn btn-meet-us fontclass16"  href="#lets-talk-f">{% trans "Meet Us" %}</a>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="h3">{% trans "Request a demo" %} </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+        </div>
+    </section>
+	{% if request.LANGUAGE_CODE == "it" %}
+	<!-- <section class="our-meet-us">
+		<div class="container">
+			<div class="team-video">
+				<div class="video">
+					<iframe width="100%" height="500" src="https://www.youtube.com/embed/eL9NeEMZGHI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+				</div>
+			</div>
+		</div>
+	</section> -->
+	<!-- <section class="client-logo-seetion">
+		<div class="customer-logos-sliderr owl-carousel">
+			<div data-name="Einstein, Milano" class="item "><img  title="Einstein, Milano" src="{% static '/website/images/our-logo-1.png' %}" /></div>
+				<div class="item "><img data-name="Istituto Massimo, Roma"  title="Istituto Massimo, Roma" src="{% static '/website/images/our-logo-2.png' %}" />
+				</div>
+				<div class="item " data-name="Leonardo da Vinci, Milano" ><img title="Leonardo da Vinci, Milano" src="{% static '/website/images/our-logo-3.png' %}" /></div>
+				<div class="item " data-name="Malpighi, Bologna"><img title="Malpighi, Bologna" src="{% static '/website/images/our-logo-4.png' %}" /></div>
+				<div class="item " data-name="Sacro Cuore, Milano"><img title="Sacro Cuore, Milano" src="{% static '/website/images/our-logo-5.png' %}" /></div>
+				<div class="item " data-name="Salesiani, Milano"><img title="Salesiani, Milano"  src="{% static '/website/images/our-logo-6.png' %}" /></div>
+				<div class="item " data-name="San Carlo, Milano"><img title="San Carlo, Milano"  src="{% static '/website/images/our-logo-7.png' %}" /></div>
+				<div class="item " data-name="Volta, Milanos"><img title="Volta, Milanos"  src="{% static '/website/images/our-logo-8.png' %}" /></div>
+		</div>
+	</section> -->
+	{% endif %}
+	<!-- <section class="testimonial-seetion ">
+		<div class="col-lg-12 text-center ">
+		<h2 class="testimonial-title">{% trans "What schools say about us" %} </h2>
+		</div>
+			<div class="testimonial-slider school-testimonial owl-carousel">
+					<div class="item">
+							<div class="testimonial-main-card mb-4">
+							<div class="testimonial-main-card-header">
+								<img src="{% static 'website/images/Ellipse 108.png' %}">
+								<h3>Michael L<br><span class="designation-span" >{% trans "Teacher" %}</span></h3>
+							</div>
+							<div class="testimonial-main-card-body">
+								<p>{% blocktrans %}
+									Thanks to Futurely I understood how much understanding yourself and your own inclinations is
+									fundamental to make the decision about my future: if I can be guided by these criteria, I will not
+									take the risk of wrong and I will be surely happy 
+									{% endblocktrans %}
+								</p>
+							</div>
+							<div class="testimonial-main-card-footer">
+							<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+							</div>
+							</div>
+							<div class="testimonial-main-card">
+							<div class="testimonial-main-card-header">
+								<img src="{% static 'website/images/Ellipse 106.png' %}">
+								<h3>Lucy<br><span class="designation-span" >{% trans "Principal" %}</span></h3>
+								
+							</div>
+							<div class="testimonial-main-card-body">
+								<p>{% blocktrans %}
+									Thanks to Futurely I looked at myself in action and recognized various emotions and sensations
+									that I had not previously considered, opening up new paths. I realized that I have passions or
+									interests that I did not think I had, such as curiosity for culture or the desire to face situations that
+									are not ordinary but which stimulate my skills.
+									{% endblocktrans %}
+								</p>
+							</div>
+							<div class="testimonial-main-card-footer">
+							<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="testimonial-main-card mb-4">
+						<div class="testimonial-main-card-header">
+							<img src="{% static 'website/images/Ellipse 109.png' %}">
+							<h3>John<br><span class="designation-span" >{% trans "Principal" %}</span></h3>
+						</div>
+						<div class="testimonial-main-card-body">
+							<p>{% blocktrans %}
+								At this moment I am not saying that I am ready and 100% certain of being able to make my
+								choice (also because perhaps I will never be) but I can say with certainty that if I had to make it
+								now it would be a conscious and thoughtful choice and I think this is the maximum that can be
+								expected from such a path.
+								{% endblocktrans %}
+							</p>
+						</div>
+						<div class="testimonial-main-card-footer">
+						<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+						</div>
+						</div>
+						<div class="testimonial-main-card">
+						<div class="testimonial-main-card-header">
+							<img src="{% static 'website/images/Ellipse 107.png' %}">
+							<h3>Giuseppe<br><span class="designation-span" >{% trans "Teacher" %}</span></h3>
+						</div>
+						<div class="testimonial-main-card-body">
+							<p>{% blocktrans %}
+								Until a few months ago I was not very con dent and perhaps not even aware of what my
+								interests and abilities really were, but now the uncertainties are less and less. I have started to
+								think big and I think this gives me greater security. in what I do, you push me to give my best.
+								{% endblocktrans %}
+							</p>
+						</div>
+						<div class="testimonial-main-card-footer">
+						<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="testimonial-main-card mb-4">
+					<div class="testimonial-main-card-header">
+						<img src="{% static 'website/images/Ellipse 110.png' %}">
+						<h3>Roberto<br><span class="designation-span" >{% trans "Teacher" %}</span></h3>
+					</div>
+					<div class="testimonial-main-card-body">
+						<p>{% blocktrans %}
+							Thanks to Futurely, I feel that I have de ned my personality in a clear and linear way for the first
+							time and that I have fully expressed it. I feel more con dent about my doubts and my safety but I
+							also want to continue to put myself out there in this path.
+							{% endblocktrans %}
+						</p>
+					</div>
+					<div class="testimonial-main-card-footer">
+					<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+					</div>
+					</div>
+					<div class="testimonial-main-card">
+					<div class="testimonial-main-card-header">
+						<img src="{% static 'website/images/Ellipse 111.png' %}">
+						<h3>Rosa<br><span class="designation-span" >{% trans "Principal" %}</span></h3>
+					</div>
+					<div class="testimonial-main-card-body">
+						<p>{% trans "Futurely's path has helped me incredibly, especially in getting to know me. He pushed me to react that alone I would never have done." %}</p>
+					</div>
+					<div class="testimonial-main-card-footer">
+					<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="testimonial-main-card mb-4">
+				<div class="testimonial-main-card-header">
+					<img src="{% static 'website/images/Ellipse 106.png' %}">
+					<h3>Sofia<br><span class="designation-span" >{% trans "Principal" %}</span></h3>
+				</div>
+				<div class="testimonial-main-card-body">
+					<p>{% trans "Futurely helped me to get to know myself better from various points of view: I reasoned about my interests, I understood what my skills and my predispositions towards university are. She then showed me the whole range of existing faculties to choose from." %}</p>
+				</div>
+				<div class="testimonial-main-card-footer">
+				<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+				</div>
+				</div>
+				<div class="testimonial-main-card">
+				<div class="testimonial-main-card-header">
+					<img src="{% static 'website/images/Ellipse 107.png' %}">
+					<h3>Valentina<br><span class="designation-span" >{% trans "Teacher" %}</span></h3>
+				</div>
+				<div class="testimonial-main-card-body">
+					<p>{% trans "Futurely made me think about things that I didn't think were important for my future" %}</p>
+				</div>
+				<div class="testimonial-main-card-footer">
+				<span>12:23 {% trans "pm" %}</span><span>12 {% trans "april" %} 2021</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section> -->
+<section class="contact-section">
+	<div class="container">
+	<div class="contact-us-section" style="background: url({% static '/website/new/images/contact-img.png' %}) no-repeat;">
+		  <div class="row">
+			<div class="col-lg-5  col-md-8   fadeInUp d">
+				<div class="contact-forme" id="lets-talk-f">
+					<div class="showing-message-forme" id="showing-message">
+						<div style="text-align: right; display: none; cursor: pointer;" id="cross-contact"><a  style="color: white;">X</a></div>
+						<img src="{% static '/website/images/send-icon.png' %}"/>
+						<div class="h1">{% trans "Thank’s for your request" %}</div>
+						<p>{% trans "We’ll send you a reply as soon as posible" %}</p>
+						
+					</div>
+				<form id="contct-form">
+				<div class="h2">{% trans "Let’s talk" %}</div>
+				<div class="mb-3">
+					<label class="form-label">{% trans "Your name" %}</label>
+					<input type="text" id="lets-talk-name" class="form-control" >
+					<label id="error-contact-landing-name" class="form-label error-color"></label>
+				</div>
+				<div class="mb-3">
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                    <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<label class="form-label">{% trans "Your email" %}</label>
+					<input type="email" id="lets-talk-email" class="form-control" >
+					<label id="error-contact-landing-email" class="form-label error-color"></label>
+				</div>
+				<div class="mb-3">
+					<label class="form-label">{% trans "Your message" %}</label>
+					<textarea class="form-control" id="lets-talk-message-body" rows="4"></textarea>
+					<input type="hidden" id="lets-talk-subject" value="Query from schools section in landing page" >
+				</div>
+				<div class=" mt-2">
+					<label id="error-contact-landing" class="form-label error-color"></label>
+				</div>
+				<div class="mb-3 contact-btn-pos">
+					<a id="lets-talk-send-btn" class="btn btn-sign-up margin-btn-contact" >
+						<span id="spinner" class="color-white fontclass16" style="display: none;"> {% trans "Please wait" %}..</span>
+						<span id="btn-txt" class="color-white fontclass16"> {% trans "Send message" %}</span>
+					</a>
+				</div>
+				</form>
+			  </div>
+			</div>
+			<div class="col-md-12  fadeInUp d">
+				<div class="row justify-content-center">
+					<div class="col-lg-8">
+						<div class="row">
+							<div class="col-md-12 text-center">
+								<div class="icon-cardd justify-content-center">
+								<div class="icon-contact">
+									<img src="{% static '/website/images/mail.png' %}"/>
+									</div>
+									<div class="icon-contact-content">
+										{% if request.LANGUAGE_CODE == "it" %}	
+										<div class="h2"><a href = "mailto: segreteria@myfuturely.com">segreteria@myfuturely.com</a></div>
+									{% else %}
+										<div class="h2"><a href = "mailto: counselors@myfuturely.com">counselors@myfuturely.com</a></div>
+									{% endif %}
+								</div>
+								</div>
+							</div>
+							<div class="col-md-12 ">
+								<div class="icon-cardd icon-cardd-p">
+									<div class="icon-contact">
+									<img src="{% static '/website/images/map-pin.png' %}"/>
+									</div>
+									<div class="icon-contact-content">
+										{% if request.LANGUAGE_CODE == "it" %}	
+										<div class="h2">Sede</div>
+										<p>Piazzale Maciachini, 11 20159<br>Milano MI, Italy. </p>
+									{% else %}
+										<div class="h2">{% trans "Headquarters" %}</div>
+										<p>405 Howard Street,<br>San Francisco,<br>California, 94105 United States. </p>
+									{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		 </div>
+	</div>
+	</div>
+</section>
+
+</div>
+
+</div>
+
+
+	{% block script %}
+	<script>
+$(document).ready(function() {
+$('.customer-logos-slider').owlCarousel({
+	loop:true,
+  margin:30,
+  autoplay:false,
+  responsive:{
+    0:{
+      items:1
+    },
+    600:{
+      items:3
+    },
+    1000:{
+	    stagePadding: 130,
+      items:5
+    }
+  }
+});
+$('.testimonial-slider').owlCarousel({
+	loop:true,
+	nav: true,
+	dots: false,
+
+  autoplay:false,
+  responsive:{
+    0:{
+	margin:0,
+	items:1,
+      stagePadding: 0,
+    },
+    600:{
+	margin:0,
+	items:2,
+      stagePadding: 0,
+    },
+    1000:{
+	  margin:30,
+	  items:3,
+    stagePadding: 130,
+    }
+  }
+
+});
+});
+
+
+
+$(document).ready(function(){
+									var video1 = document.getElementById("ban_video");
+									video1.currentTime = 0;
+									$(".mute-bt").click(function(){
+										 if($(this).hasClass("stop"))
+										 {
+											 var ban_video = document.getElementById("ban_video");
+											 $("#ban_video").prop('muted', false);
+											 $(this).removeClass("stop");
+										 }
+										 else{
+											 var ban_video = document.getElementById("ban_video");
+											 $("#ban_video").prop('muted', true);
+											 $(this).addClass("stop");
+										 }
+                                     });
+									 
+                                     $(".play-bt").click(function(){
+                                         $(".play-bt").hide();
+										 $(".pause-bt").show();
+                                         var ban_video = document.getElementById("ban_video");
+										 if($(".stop-bt").hasClass("active")){
+											 ban_video.currentTime = 0;
+										 }
+                                         ban_video.play();                                         
+                                     });
+									 $(".pause-bt").click(function(){
+                                         $(".play-bt").show();
+										 $(".pause-bt").hide();
+										 $(".pause-bt").addClass("active");
+										 $(".stop-bt").removeClass("active");
+                                         var ban_video = document.getElementById("ban_video");
+                                         ban_video.pause();                                         
+                                     });
+									 $(".stop-bt").click(function(){
+                                         $(".play-bt").show();
+										 $(".pause-bt").hide();
+										 $(".pause-bt").removeClass("active");
+										 $(".stop-bt").addClass("active");
+                                         var ban_video = document.getElementById("ban_video");
+										 stop
+                                         ban_video.pause();                                         
+                                     });
+								});	 
+
+
+
+$(document).ready(function(){ 
+    $(window).scroll(function(){ 
+        if ($(this).scrollTop() > 100) { 
+            $('#scroll').fadeIn(); 
+        } else { 
+            $('#scroll').fadeOut(); 
+        } 
+    }); 
+    $('#scroll').click(function(){ 
+        $("html, body").animate({ scrollTop: 0 }, 600); 
+        return false; 
+    }); 
+});
+$(document).ready(function() {
+$('.customer-logos-sliderr').owlCarousel({
+	loop:false,
+	nav: true,
+	dots: false,
+  margin:30,
+  autoplay:false,
+  responsive:{
+    0:{
+      items:1
+    },
+    600:{
+      items:3
+    },
+    1000:{
+      items:6
+    }
+  }
+});
+});
+	</script>		
+	{% endblock%}
+{% endblock%}

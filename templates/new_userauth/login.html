@@ -1,0 +1,250 @@
+{% extends 'base_landing_website_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Login</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+	.login-captcha label{
+		display: none;
+	}
+	.wrap-input100.login-captcha ul li {
+		display: none;
+	}
+	#g-recaptcha-response {
+		display: block !important;
+		position: absolute;
+		margin: -78px 0 0 0 !important;
+		width: 302px !important;
+		height: 76px !important;
+		z-index: -999999;
+		opacity: 0;
+	}
+
+	.g-recaptcha-response {
+		visibility: hidden;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="main-content-block">
+	<div class="login-block-main">
+		<div class="container">
+			<div class="d-flex flex-wrap">
+				<div class="col-md-7 d-flex">
+					<div class="login-image">
+						<img src="{% static 'landing_website/images/auth-bg.png' %}">
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="register-form">
+						<h4 class="form-title">Accedi</h4>
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="area-studente-tab" data-bs-toggle="tab"
+									data-bs-target="#studente" type="button" role="tab" aria-controls="studente"
+									aria-selected=" true ">AREA STUDENTE</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="counsellor-dashboard-tab" data-bs-toggle="tab"
+									data-bs-target="#counsellor" type="button" role="tab" aria-controls="counsellor"
+									aria-selected="false">COUNSELOR DASHBOARD</button>
+							</li>
+
+						</ul>
+						<p class="form-discription">Inserisci le credenziali per accedere al tuo account. </p>
+						<div class="tab-content" id="myTabContent">
+						{% comment %} {% if is_counselor != 'Yes' %} active {% endif %} {% endcomment %}
+							<div class="tab-pane fade show active" id="studente" role="tabpanel"
+								aria-labelledby="area-studente-tab">
+								<form method="post" id="stuFormId">
+									{% csrf_token %}
+									<input type="hidden" name="user_type" value="student">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="wrap-input100">
+												<label class="form-label">E-mail</label>
+												<input class="input100 field-input" type="text" name="username"
+													placeholder="E-mail" value='{{username}}' required>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="wrap-input100">
+												<label class="form-label">Password</label>
+												<div class="wrap-input-inner">
+													<input class="input100 field-input" type="password" name="password"
+														placeholder="Password" id="id_password" required>
+													{% comment %} <img class="icon-input" src="{% static 'landing_website/images/visibility_off_icon.png' %}" /> {% endcomment %}
+													<img class="icon-input password-preview" onclick="passview()" src="{% static 'landing_website/images/eye.svg' %}">
+                                            		<img class="icon-input password-unpreview" onclick="passview()" src="{% static 'landing_website/images/eye-slash.svg' %}">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="wrap-input100 login-captcha">
+												{{ captcha }}
+											</div>
+										</div>
+										{% if active_tab == "student" %}
+											{% if captcha.captcha.errors %}
+												<p style="color: red;">Per favore verifica che non sei un robot.</p>
+											{% endif %}
+										{% endif %}
+										<p style="color: red; display: none;" id="captcha_error_id_stu">Per favore verifica che non sei un robot</p>
+
+										<div class="col-md-12">
+											<div class="password-dimenticata">
+												<a href="{% url 'landing_website_reset_password_email' %}">Password dimenticata?</a>
+											</div>
+											<div class="login-form-btn-block"><button type="submit"
+													class="btn-filed login-form-btn">Accedi</button></div>
+										</div>
+										<div class="col-md-12">
+											<div class="login-bottom-link pt-4">
+												{% if message %}
+													<span class="error-message-block">{{ message }}</span>
+												{% endif %}
+												<p class="text-dark mb-0">Non hai un account? <a href="{% url 'register' %}">Registrati</a></p>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="tab-pane fade" id="counsellor" role="tabpanel"
+								aria-labelledby="counsellor-dashboard-tab">
+								<form method="post" id="counsellorFormId">
+									{% csrf_token %}
+									<input type="hidden" name="user_type" value="Counsellor">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="wrap-input100">
+												<label class="form-label">E-mail</label>
+												<input class="input100 field-input" type="email" name="username"
+													placeholder="E-mail" value='{{counsellor_username}}' required>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="wrap-input100">
+												<label class="form-label">Password</label>
+												<div class="wrap-input-inner">
+													<input class="input100 field-input" type="password" name="password"
+														placeholder="Password" id="id_password_counselor" required>
+													{% comment %} <img class="icon-input" onclick="passview()" src="{% static 'landing_website/images/visibility_off_icon.png' %}" /> {% endcomment %}
+													<img class="icon-input password-preview-counselor" onclick="passview_counselor()" src="{% static 'landing_website/images/eye.svg' %}">
+                                            		<img class="icon-input password-unpreview-counselor" onclick="passview_counselor()" src="{% static 'landing_website/images/eye-slash.svg' %}">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<div class="wrap-input100 login-captcha">
+												{{ captcha }}
+											</div>
+										</div>
+										{% if captcha.captcha.errors %}
+											<p style="color: red;">Per favore verifica che non sei un robot.</p>
+										{% endif %}
+										<p style="color: red; display: none;" id="captcha_error_id">Per favore verifica che non sei un robot</p>
+										<div class="col-md-12">
+											<div class="password-dimenticata">
+												<a href="{% url 'landing_website_reset_password_email' %}">Password dimenticata?</a>
+											</div>
+											<div class="login-form-btn-block"><button type="submit"
+													class="btn-filed login-form-btn">Accedi</button></div>
+										</div>
+										<div class="col-md-12">
+											<div class="login-bottom-link pt-4">
+												{% if message %}
+												<span class="error-message-block">{{ message }}</span>
+												{% endif %}
+												{% comment %} <p class="text-dark mb-0">Non hai un account? <a href="{% url 'register' %}">Registrati</a></p> {% endcomment %}
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+
+	{% comment %} function passview(){
+		var x = document.getElementById("id_password");
+		if (x.type === "password") {
+			x.type = "text";
+		}else{
+			x.type = "password";
+		}
+	}; {% endcomment %}
+
+	function passview(){
+		var x = document.getElementById("id_password");
+		if (x.type === "password") {
+			x.type = "text";
+			$(".password-preview").show();
+			$(".password-unpreview").hide();
+		}else{
+			x.type = "password";
+			$(".password-preview").hide();
+			$(".password-unpreview").show();
+		}
+	};
+
+	function passview_counselor(){
+		var x = document.getElementById("id_password_counselor");
+		if (x.type === "password") {
+			x.type = "text";
+			$(".password-preview-counselor").show();
+			$(".password-unpreview-counselor").hide();
+		}else{
+			x.type = "password";
+			$(".password-preview-counselor").hide();
+			$(".password-unpreview-counselor").show();
+		}
+	};
+
+	var usertype = "{{active_tab}}";
+	if (usertype == "Counsellor") {
+		$("#counsellor-dashboard-tab").click();
+	}
+
+	var logout_usertype = "{{is_counselor}}";
+	if (logout_usertype == "Yes") {
+		$("#counsellor-dashboard-tab").click();
+	}
+
+	document.querySelector("#counsellorFormId").addEventListener("submit", function(e) {
+		var recaptchaValue = document.querySelector("#g-recaptcha-response-1").value;
+		
+		if (!recaptchaValue) {
+			e.preventDefault();  // prevent form submission
+			//alert('Please complete the reCAPTCHA.');
+			$('#captcha_error_id').show();
+		}
+	});
+
+    document.querySelector("#stuFormId").addEventListener("submit", function(e) {
+		var recaptchaValue = document.querySelector("#g-recaptcha-response").value;
+		if (!recaptchaValue) {
+			e.preventDefault();
+			$('#captcha_error_id_stu').show();
+		}
+	});
+
+</script>
+{% endblock %}

@@ -1,0 +1,387 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: About us" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+	.main-content-inner {
+    background-position: bottom;
+}
+
+</style>
+<style>
+	.new-form-banner-section {
+    position: relative;
+    padding: 5rem 0;
+    background-size: cover;
+    background-position: center center;
+    display: block;
+    width: 100%;
+	}
+	.new-form-banner-content h1 {
+    font-size: 48px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+	}
+	.new-form-banner-content p {
+    font-weight: 400;
+    font-size: 22px;
+	line-height: 1.5;
+    color: #fff;
+	}
+	.form-company-title {
+    font-size: 38px;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.2;
+	}
+	.form-company-discription {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    text-align: center;
+    color: #ffffff;
+	}
+	.form-company-block {
+    padding: 30px;
+    background: #012150;
+    border-radius: 24px;
+	max-width: 800px;
+    width: 100%;
+    margin: auto;
+	}
+	.form-company-group .form-label {
+    display: block;
+    font-weight: normal;
+    font-size: 16px;
+    color: #FFFFFF;
+	}
+	.form-company-group .after-label-text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    color: #FFFFFF;
+    display: block;
+	}
+	.form-company-group .form-input-text::placeholder {
+    color: #fff;
+	opacity: 0.5;
+	}
+	.form-company-group .form-input-text option {
+		background: #736a7d;
+	}
+	.form-company-group .form-input-text {
+		background-color: rgba(255, 255, 255, 0.3) !important;
+		border-radius: 10px;
+		font-size: 14px;
+		padding: 11px 15px;
+		color: #fff;
+		border: none;
+		width: 100%;
+		display: block;
+		margin-top: 12px;
+		outline: none;
+	}
+	.form-company-group {
+    display: block;
+    margin-bottom: 18px;
+}
+.country {
+    position: relative;
+    width: 90px;
+    margin-top: 12px;
+}
+.country .select img {
+    width: 22px;
+    height: 22px;
+    object-fit: scale-down;
+}
+.country .dropdown li img {
+    width: 22px;
+    height: 22px;
+    object-fit: scale-down;
+	margin-right: 6px;
+}
+.country .select {
+    position: relative;
+    height: 43px;
+    line-height: 43px;
+    background: rgba(255, 255, 255, 0.3) !important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+	padding: 0 15px;
+    border-radius: 10px 0px 0px 10px;
+	color: #fff;
+	    font-size: 13px;
+}
+.country .select::after {
+    content: "";
+    border-right: 1px solid #ffffff6b;
+    width: 1px;
+    height: 18px;
+    position: absolute;
+    right: 12px;
+    top: 10px;
+}
+.country .select img {
+    margin: -3px 4px -2px 0px;
+}
+.country .dropdown {
+    display: none;
+    position: absolute;
+    top: 43px;
+    left: 0;
+    width: 120px;
+    max-height: 120px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: scroll;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.3);
+	border-radius: 10px;
+}
+.form-input-text.form-select {
+    background-image: url({% static 'images/dropdown.svg' %});
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 15px 10px;
+    appearance: none;
+}
+.country .dropdown::-webkit-scrollbar-track
+{
+	border-radius: 10px;
+	background-color:rgba(255, 255, 255, 0.3);
+}
+
+.country .dropdown::-webkit-scrollbar
+{
+	width: 5px;
+	background-color:rgba(255, 255, 255, 0.3);
+}
+
+.country .dropdown::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #f5f5f5;
+}
+
+
+.country .dropdown ul {
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+}
+.country .dropdown li {
+    padding: 0 20px;
+    line-height: 34px;
+    font-size: 13px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+	list-style: none;
+}
+.country .dropdown li:first-child {
+    margin-top: 12px;
+}
+.input-form-block {
+    width: 100%;
+}
+.input-form-block .form-input-text {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    padding: 0 0;
+    outline: none;
+    box-shadow: none;
+    line-height: 43px;
+    height: 43px;
+	border-radius: 0px 10px 10px 0px;
+}
+.form-company-group .btn.form-submit-btn {
+    background: linear-gradient(116.59deg, #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%);
+    box-shadow: 0px 100px 80px rgb(0 0 0 / 2%), 0px 64.8148px 46.8519px rgb(0 0 0 / 2%), 0px 38.5185px 25.4815px rgb(0 0 0 / 1%), 0px 20px 13px rgb(0 0 0 / 1%), 0px 8.14815px 6.51852px rgb(0 0 0 / 1%), 0px 1.85185px 3.14815px rgb(0 0 0 / 0%);
+    border-radius: 10px;
+    border: none;
+    padding: 15px 50px;
+    color: #fff;
+    margin: 15px auto 0;
+    display: table;
+    width: 100%;
+    max-width: 170px;
+    font-weight: 500;
+    font-size: 15px;
+}
+.form-company-section {
+    padding: 0 0 4rem;
+    display: block;
+    width: 100%;
+}
+
+.country-change-text {
+    display: none;
+}
+.ftco-footer ul.navbar-nav {
+    display: none;
+}
+.social-buttons {
+    display: none;
+}
+.navbar-expand-lg .navbar-collapse {
+    display: none !important;
+}
+.navbar-dark .navbar-toggler {
+    display: none;
+}
+.form-showing-message-forme {
+    text-align: center;
+    display: block;
+}
+.form-showing-message-forme .h1 {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 44px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 8px 0;
+}
+.form-showing-message-forme p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #fff;
+}
+.form-company-block.showing-message-append {
+    max-width: 600px;
+    margin: auto;
+}
+@media (min-width:768px) and (max-width:991px) {
+.new-form-banner-content h1 {
+    font-size: 38px;
+}
+.new-form-banner-content p {
+    font-size: 18px;
+}
+}
+@media (max-width:767px) {
+.new-form-banner-content h1 {
+    font-size: 28px;
+}
+.new-form-banner-content p {
+    font-size: 16px;
+}
+.new-form-banner-section {
+    padding: 4rem 0;
+    text-align: center;
+}
+.form-company-title {
+    font-size: 28px;
+}
+.form-company-discription {
+    font-size: 16px;
+}
+.form-company-block {
+    padding: 20px;
+}
+}
+	</style>
+<div class="main-content">
+	<section class="new-form-banner-section">
+        <div class="new-form-banner-item">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-8">
+                <div class="new-form-banner-content">
+                  <h1 class="mb-3"> BENVENUTI IN FUTURELY <br> Il loro futuro, la nostra missione!</h1>
+                  <p> Il percorso di orientamento Futurely accompagna i ragazzi nella scoperta delle proprie  inclinazioni, passioni, competenze, fornendo loro gli strumenti necessari per una scelta consapevole del proprio futuro. </p>
+                  <!--  -->
+                </div>
+              </div>
+			  <div class="col-lg-4">
+			  <img class="img-fluid" src="{% static 'website/images/young-project-team.png' %}" alt="banner" />
+            </div>
+			</div>
+          </div>
+        </div>
+      </section>
+	 
+		<div class="bg-img-sec">
+			<div class="star-field">
+				<div class="layer"></div>
+				<div class="layer"></div>
+				<div class="layer"></div>
+			  </div>
+
+		<section class="form-company-section">
+			<div class="form-company-section-item">
+			  <div class="container">
+				
+				<div class="form-company-block">
+					<div style="display:block;" class="form-showing-message-forme" id="form-showing-message">
+						  <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+						  <path d="M32 5.33331C17.3334 5.33331 5.33337 17.3333 5.33337 32C5.33337 46.6666 17.3334 58.6666 32 58.6666C46.6667 58.6666 58.6667 46.6666 58.6667 32C58.6667 17.3333 46.6667 5.33331 32 5.33331ZM26.6667 45.3333L13.3334 32L17.0934 28.24L26.6667 37.7866L46.9067 17.5466L50.6667 21.3333L26.6667 45.3333Z" fill="#70F099"/>
+						  </svg>
+						  <div class="h1">La tua registrazione è andata a buon fine!</div>
+                          <p>Riceverai a breve <b>un'email di conferma per poter
+                            partecipare al programma:</b> se non la trovi nella
+                            posta in arrivo, ricordati di controllare anche nello spam!</p>
+					</div>
+				</div>
+			  </div>
+			</div>
+		  </section>
+		</div>
+</div>
+
+{% block script %}
+<script>
+	  function countryDropdown(seletor){
+  var Selected = $(seletor);
+  var Drop = $(seletor+'-drop');
+  var DropItem = Drop.find('li');
+
+  Selected.click(function(){
+	  Selected.toggleClass('open');
+	  Drop.toggle();
+  });
+
+  Drop.find('li').click(function(){
+	  Selected.removeClass('open');
+	  Drop.hide();
+	  
+	  var item = $(this);
+	  Selected.html(item.html());
+  });
+
+  DropItem.each(function(){
+	  var code = $(this).attr('data-code');
+
+	  if(code != undefined){
+		  var countryCode = code.toLowerCase();
+		  $(this).find('i').addClass('flagstrap-'+countryCode);
+	  }
+  });
+}
+
+// $("#form-company-submit").click(function(){
+//     $("#form-showing-message").show();
+//     $("#form-company-sec").hide();
+//     $(".form-title-content").hide();
+//     $(".form-company-block").addClass('showing-message-append');    
+// });
+  </script>
+{% endblock%}
+{% endblock%}

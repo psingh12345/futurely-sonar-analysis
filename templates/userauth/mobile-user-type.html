@@ -1,0 +1,163 @@
+{% extends 'base_mobile_inner_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: User type</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<style>
+	.main {
+		padding: 0;
+	}
+	.recaptcha{
+		display: flex;
+    	justify-content: center;
+	}
+
+	
+	.top-register-info-text p a {
+    text-decoration: underline;
+    color: #fff;
+}
+.banner-futurelab .notification-bars.text-center {
+    background: #266AF6;
+    border-radius: 18px;
+    background-image: url({% static '/images/register-icon-bg-new.png' %});
+	background-size: contain;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+}
+.top-register-info-text {
+    margin-top: 8px;
+}
+.top-register-info-text p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    color: #FFFFFF;
+}
+.register-modal-page .modal-body-header-page {
+	background: #266AF6;
+    border-radius: 18px;
+    background-image: url({% static '/images/register-icon-bg-new.png' %});
+	background-size: contain;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+	font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.035em;
+    color: #FFFFFF;
+    justify-content: center;
+    padding: 24px;
+	margin-bottom: 16px;
+}
+.register-modal-page p {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+}
+.register-modal-page .register-modal-form-control {
+    background: #2E2F32;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.025em;
+    color: #9B9FA6;
+    width: 100%;
+    display: block;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+}
+.register-modal-page .register-modal-button-register:hover, .register-modal-page .button-modal-blue:hover {
+    color: #fff;
+}
+.register-modal-page .register-modal-button-register, .register-modal-page .button-modal-blue {
+    background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+    box-shadow: 0px 4px 29px 16px rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    opacity: 0.9;
+    text-align: center;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+.register-modal-page {
+    padding: 0 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+	<div class="col-sm-3">
+	</div>
+	<div class="col-sm-12">
+		<div class="form-intro row">
+			<div class="mobile-login-header">
+				<a href="javascript:void(0)"
+					class="btnBack d-none" id="id_resend_otp">
+					<svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10.2401 0.641831L10.24 0.641876L1.51602 9.1892L1.51599 9.18918L1.51425 9.19097C1.11842 9.59865 0.9 10.1401 0.9 10.7155C0.9 11.2911 1.11884 11.8329 1.53184 12.2571L1.53182 12.2572L1.53352 12.2588L10.2405 20.7886C10.2405 20.7886 10.2405 20.7887 10.2405 20.7887C10.4532 20.9972 10.7265 21.1011 11 21.1011C11.2911 21.1011 11.582 20.983 11.7979 20.7497C12.2156 20.2986 12.1987 19.5863 11.76 19.1564L11.7598 19.1563L4.2647 11.8441L24 11.8441C24.6099 11.8441 25.1 11.3358 25.1 10.7155C25.1 10.0952 24.6099 9.58697 24 9.58697L4.29547 9.58697L11.7595 2.27461C12.1982 1.84477 12.2151 1.13191 11.7974 0.680846C11.3787 0.228727 10.6809 0.210473 10.2401 0.641831Z"
+							fill="white" stroke="white" stroke-width="0.2" />
+					</svg>
+				</a>
+				<h1 class="phone_header">{% trans "Sign Up" %}</h1>
+				<img src="{% static '/website/new/images/icon-mobile-auth.png' %}" />
+
+			</div>
+			<div class="register-modal-page">
+				<div class="modal-body-header-page">
+					{% trans "Welcome to Futurely!" %}
+				</div>
+			    <p>{% trans "If you have a school or business discount code, enter it and click "Register." %}</p>
+				<form class="row form-register-modal">
+            		<div class="col-md-6 ">
+					  <div class="border-grad-inner">
+						<div class="border-grad">
+						<input type="text" name="Coupon code" class="register-modal-form-control" required="" placeholder="{% trans 'Coupon code' %}">
+						</div>
+					  </div>  
+					</div>
+					<div class="col-md-6">
+					  <div class="border-grad-inner">
+					  <div class="border-grad">
+						<a href="{% url 'register' %}{% if request.session.ctype %}{% if request.session.ctype != 'general' and request.session.ctype != '' %}?ctype={{request.session.ctype}}{% endif %}{% endif %}" class="register-modal-button-register">{% trans 'Register' %}</a>
+					  </div>
+					  </div> 
+					</div>
+				  </form>
+				<p>{% trans "If you don't have a code, click below and find out how to get Futurely for free." %}</p>
+				<a href="" class="button-modal-blue">{% trans "Get Futurely for free" %}</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

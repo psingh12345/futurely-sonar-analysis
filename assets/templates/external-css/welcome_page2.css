@@ -1,0 +1,14 @@
+.logout-btnn.ml-auto {
+    position: absolute;
+    right: 20px;
+    top: 45px;
+}
+@media (max-width:767px) {
+  .logout-btnn .btn-login {
+    padding: 10px 16px;
+    font-size: 12px;
+}
+.logout-btnn.ml-auto {
+    top: 38px;
+}
+}

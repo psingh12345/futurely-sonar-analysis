@@ -1,0 +1,94 @@
+.ifoa-custom-banner {
+    background-image: url("../images/ifoa-back.png")
+}
+.ifoa-custom-hero {
+    background-color: transparent;
+}
+.button-custom-hero {
+    background-color: #fff;
+    border: 1px solid transparent;
+    color: #031C4C;
+}
+.button-custom-hero:hover {
+    background: #183366;
+    border-color: #fff !important; 
+}
+.button-next-quiz:hover {
+    background: #183366;
+    border-color: #fff !important;
+}
+.button-next-quiz:focus, .button-next-quiz:active {
+    box-shadow: none;
+    background: #183366;
+    color: #fff;
+    border-color: #fff;
+}
+.selector-item_label {
+    color: #031c4c;
+}
+.button-custom-hero:focus, .button-custom-hero:active {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), #f5f5f5;
+    box-shadow: 0px 0px 0px 4px #ffffffbf;
+}
+.custom-hero-form {
+    background-color: transparent;
+    padding: 0;
+}
+.custom-hero-form-filed, .custom-hero-form-filed::placeholder {
+    color: #041638;;
+}
+.personality-quiz-card {
+    background: transparent;
+}
+.personality-selecotr-item .selector-item_label span {
+    background: #041638;
+}
+.button-next-quiz {
+    color: #041638;
+    background: #ffffff;
+}
+.button-next-quiz {
+    border: 1px solid transparent;
+}
+.selector-item_label:hover {
+    background: #183366;
+}
+.selector-item_radio:checked + .selector-item_label {
+    box-shadow: 0 0 8px #183366;
+    background: #183366;
+    border: 1px solid #fff;
+}
+.error-msg p {
+    border: 1px solid #fff;
+}
+
+.progress-barr {
+    background: #183366;
+}
+.watch-video-card {
+    background: transparent;
+}
+.card-graph-infoo {
+    background: #183366;
+}
+.button-custom-hero:focus, .button-custom-hero:active {
+    
+    box-shadow: 0 0 8px #183366;
+    background: #183366;
+    border: 1px solid #fff;
+    color: #fff;
+}
+.logo-hero-custom {
+    width: 350px;
+}
+.custom-hero-bannner {
+    padding-top: 200px;
+}
+.date_error {
+    text-align: left;
+    margin: -6px 0 10px;
+    display: block;
+}
+.custom-hero-card {
+    background: transparent;
+}

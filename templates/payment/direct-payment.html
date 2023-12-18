@@ -1,0 +1,490 @@
+{% extends 'base_direct_payment.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>{% trans "Futurely: Payment" %}</title>
+{% endblock %}
+{% block style_sheet %}
+<style>
+       .border-grad .select2-container {
+    width: 100% !important;
+}
+.select2-container {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+}
+.border-grad .select2-container .select2-selection--single {
+    height: 45px;
+    border-radius: 10px
+ !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.svg' %}) !important;
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+.border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+    display: none;
+}
+.select2-dropdown {
+    background-color: #333333;
+    padding: 10px;
+    color: #fff !important;
+}
+.select2-results__options {
+	max-height: 200px;
+	overflow-y: auto;
+}
+</style>
+
+{% phrase_javascript %}
+
+
+{% endblock %}
+{% block content %}
+{% if error_msg_direct_payment_page %}
+<script>
+alert("{{error_msg_direct_payment_page}}");
+</script>
+{% endif %}
+<div class="checkout-blocke">
+    <div class="container">
+        <div class="row card-checkout">
+            <div class="col-lg-6 p-0">
+                
+                {% if plan_obj.plan_name == "Elite" %}
+                <div class="product-checkout-image" style="background: url("{% static '/website/images/pricing-3-img.png'%}");">
+                    <div class="product-checkout-contentt">
+                    </div>
+                    <div class="product-checkout-overlay-contentt">
+                        <div class="col-lg-12 text-center logo-checkout">
+                            <img src="https://www.myfuturely.com/static/images/logo_futurely_Tavola_disegno1-032.png">
+
+                        </div>
+                        <div class="price-bloke-main">
+                                <span id="weekly_pay_span" class="price-blocke price-bloke">{% trans "$" %}{{ weekly_total_price }}/settimana </span>
+                            <span class="color-white font25" > </span>
+                            <span id="one_pay_span" class="price-bloke small-text-price">(per {{ plan_obj.weekly_cost_duration}} settimane)</span>
+                        </div>
+                        <h2 class="title-product-checkout">{{plan_obj.title}}</h2>
+                        <p class="description-product-checkout">
+                            Premium + Percorso "Conoscenza del Mondo Universitario e ITS"
+                        </p>
+                        <!--- Video, esercizi interattivi, quiz e testimonianze (10settimane, 1h/settimana) con:-->
+                        <div class="product-checkout-contentt-deatls">
+                            <h3> Video, esercizi interattivi, quiz e testimonianze (20 settimane, 1h/settimana) con:</h3>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">20 settimane (1 step a settimana)</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">20 ore PCTO</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Test sulla personalità e analisi</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Chiamate con mentors della nostra community</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Video tutorials</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Webinar con professionisti o studenti universitari</p>
+                            {% comment %} <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Auto-valutazione delle competenze e analisi gap</p> {% endcomment %}
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Guida alla creazione del CV</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Approfondimento sulle scelte di carriera</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">1:1 con professionisti della nostra rete</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Strumenti di preselezione per le Università/Its</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Sezione: ‘Studiare all’estero’</p>
+
+
+                           
+                        </div>
+                        <p class="description-product-checkout">Contenuti Extra</p>
+                        <p>1 Webinar / mese</p>
+                    </div>
+                </div>
+                {% elif plan_obj.plan_name == "Premium" %}
+                <div class="product-checkout-image" style="background-image:url(/static/website/new/images/pricing-1-img.png)">
+                    <div class="product-checkout-contentt">
+                    </div>
+                    <div class="product-checkout-overlay-contentt">
+                        <div class="col-lg-12 text-center logo-checkout">
+                            <img src="https://www.myfuturely.com/static/images/logo_futurely_Tavola_disegno1-032.png">
+
+                        </div>
+                        <div class="price-bloke-main">
+                                <span id="weekly_pay_span" class="price-blocke price-bloke">{% trans "$" %}{{ weekly_total_price }}/settimana </span>
+                            <span class="color-white font25" > </span>
+                            <span id="one_pay_span" class="price-bloke small-text-price">(per {{ plan_obj.weekly_cost_duration}} settimane)</span>
+                        </div>
+                        <h3 class="title-product-checkout">{{plan_obj.title}}</h3>
+                        <p class="description-product-checkout">
+                            Percorso "Conoscenza di Sé e Nuove Prospettive"
+                        </p>
+                        <!--- Video, esercizi interattivi, quiz e testimonianze (10settimane, 1h/settimana) con:-->
+                        <div class="product-checkout-contentt-deatls">
+                            <h3> Video, esercizi interattivi, quiz e testimonianze (10 settimane, 1h/settimana) con:</h3>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">10 settimane (1 step a settimana)</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">10 ore PCTO</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Test sulla personalità e analisi</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Chiamate con mentors della nostra community</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Video tutorials</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Webinar con professionisti o studenti universitari</p>
+                            {% comment %} <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Auto-valutazione delle competenze e analisi gap</p> {% endcomment %}
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Guida alla creazione del CV</p>
+                            <p><img src="https://www.myfuturely.com/static/website/images/orientamiwhit.png">Approfondimento sulle scelte di carriera</p>
+                        </div>
+                        <p class="description-product-checkout">Contenuti Extra</p>
+                        <p>1 Webinar / mese</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            
+            <div class="col-lg-6 gutter-spaceing">
+                <form id="payment-form" method="POST" action="">
+                    <div class="product-checkout-details">
+                        <h2 class="text-center">{% trans "Payment Details" %}</h2>
+                        <div class="checkout-forms">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <label class="form-label">{% trans "Select Payment Mode" %}</label>
+                                        <div class="col-md-12">
+                                            <div class="border-grad">
+                                                <select class="select-box form-select select2" id="pay_option_select" required>
+                                                    <option value="Weekly">{% trans "$" %}{{ weekly_total_price }}/settimana (per {{ plan_obj.weekly_cost_duration}} settimane)</option>
+                                                    <option value="One Time">{% trans "$" %}{{ onetime_total_price }}-In una volta</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <label class="form-label">{% trans "Email" %}</label>
+                                        <div class="border-grad">
+                                            <label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+                                            <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+                                            <input type="email" class="form-control" id="txt_emailid"
+                                            placeholder="name@example.com" required >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-2">
+                                        <label class="form-label">{% trans "Cardholder Name" %}</label>
+                                        <div class="border-grad">
+                                        <input class="form-control" type="text" id="txt_card_holder_name"  placeholder="{% trans 'Name' %}"
+                                            aria-label="default input example" required >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">{% trans "Credit Card Number" %}</label>
+                                <div class="border-grad">
+                                <div class="cred-card" id="card-number">
+
+                                </div>
+                                </div>
+                            </div>
+                            <div class="mb-2 row align-items-end">
+                                <div class="col-md-6">
+                                    <label class="form-label">{% trans "Expiry Date" %}</label>
+                                    <div class="border-grad">
+                                    <div class="cred-card" id="card-exp">
+
+                                    </div>
+                                   </div>
+                                    
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label">{% trans "CVV" %}</label>
+                                    <div class="border-grad">
+                                    <div class="cred-card" id="card-cvc"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p id="card-error" class="color-red middle-payment-button-lower mt-2 mb-3 payment-error-msg" role="alert"></p>
+                            <button type="submit" class="btn btn-primary purchase-btnn">
+                                <div class="spinner hidden" id="spinner"></div>
+                                <span id="button-text">{% trans "Purchase Now" %}</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+ <!-- Thankyou Modal -->
+ <div class="modal fade " id="thankYouModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content six-p trans-back main-pay-padding">
+          <div class="modal-body six-p-p">
+            <div class="d-flex align-items-center justify-content-center msg-box-div2">
+                <div id="thankyou-div" class="sucess-message-blockes text-center div-pop-back border-radious10">
+                    <img class="image-pop-size" src="{% static 'images/check (1) 1.png'%}">
+                    <h2 id='thankyou-heading'>{% trans "Thank you" %}</h2>
+                    {% if tax_calculated_object.tax_isactive%}
+                    <p id="finalamountid">{% trans "Your payment was successful" %}<br>{% trans "$" %}{{tax_calculated_object.amount_after_tax}}</p>
+                    {% else %}
+                    <p id="finalamountid">{% trans "Your payment was successful" %}<br>{% trans "$" %}{{total_price}}</p>
+                    {% endif %}
+                    
+                    <button type="button" class="six-p-conti mt-2 btn-pop-width pad-btn-pop" id="btn-thankYouModal-continue" data-bs-dismiss="modal" data-dismiss="modal">{% trans "Continua" %}</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+ <!-- Login And Register Modal -->
+ <div class="modal fade " id="redirectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content six-p trans-back main-pay-padding">
+          <div class="modal-body six-p-p">
+            <div class="d-flex align-items-center justify-content-center msg-box-div2">
+                <div id="thankyou-div" class="sucess-message-blockes text-center div-pop-back border-radious10">
+                    <img class="image-pop-size" src="{% static 'images/check (1) 1.png'%}">
+                    <h2 id='thankyou-heading'>{% trans "Thank you" %}</h2>
+                    <p id="alertMessage"></p>
+                    <button type="button" class="six-p-conti mt-2 btn-pop-width pad-btn-pop" id="btn-thankYouModal-continue" data-bs-dismiss="modal" data-dismiss="modal">{% trans "Continua" %}</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    var payment_intent_id = "";
+    var stripe = Stripe("{{publishable_key}}",{ locale: "{{lang_code}}" });
+    document.querySelector("button").disabled = true;
+    var style = {
+        base: {
+            color: "#fff",
+            fontFamily: 'Inter',
+            fontSize: "14px",
+            
+        },
+        invalid: {
+            fontFamily: 'Inter',
+            color: "#ff0000",
+        }
+    };
+
+    var elements = stripe.elements();
+    var cardNumberElement = elements.create('cardNumber',{style:style});
+    cardNumberElement.mount("#card-number");
+    var cardExpiryElement = elements.create('cardExpiry',{style:style});
+    cardExpiryElement.mount("#card-exp");
+    var cardCvcElement = elements.create('cardCvc',{style:style});
+    cardCvcElement.mount("#card-cvc");
+
+    cardNumberElement.on("change", function (event) {
+        if (! event.error && event.complete) {
+            document.querySelector("button").disabled = event.empty;
+        }
+        else{
+            document.querySelector("button").disabled = true;
+        }
+        document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+    });
+
+    var form = document.getElementById("payment-form");
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        
+        var purchase = {
+            "email_id": $('#txt_emailid').val(),
+            "card_holder_name": $('#txt_card_holder_name').val(),
+            "subscription_type" : $('#pay_option_select').val(),
+            "plan_id" : "{{plan_id}}",
+
+        };
+        fetch("{% url 'direct-payment-intent'  %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFTOKEN": "{{ csrf_token }}"
+            },
+            body: JSON.stringify(purchase)
+        })
+        .then(function(result) {
+            return result.json();
+        })
+        .then(function(data) {
+            if ('clientSecret' in data) {
+                $("#finalamountid").html('{% trans "Your payment was successful" %}<br>{% trans "$" %}' + data.total_price)
+                payment_intent_id = data.payment_intent_id;
+                localStorage['is_email_exists'] = data.is_email_exists;
+                payWithCard(stripe, cardNumberElement, cardExpiryElement, cardCvcElement, data.clientSecret);
+            }else if("login" in data){
+                $('#redirectModal').modal('show');
+                $('#alertMessage').text(data.message)
+                document.querySelector(".result-message").classList.remove("hidden");
+                document.querySelector("button").disabled = true;
+
+            }else if("register" in data){
+                $('#redirectModal').modal('show');
+                $('#alertMessage').text(data.message)
+                document.querySelector(".result-message").classList.remove("hidden");
+                document.querySelector("button").disabled = true;
+            }
+            else{
+                showError(data.error);
+                //document.querySelector("#card-error").textContent = data.error
+                //document.querySelector("#card-error").textContent = '{% trans "It seems payment is already processed, or something went wrong. Press the Skip button below to go to your dashboard and if you do not see a payment success message there, then try again" %}'
+                // cardNumberElement.clear();
+                // cardExpiryElement.clear();
+                // cardCvcElement.clear();$('#pay_option_select').val()=="Weekly"
+                // alert(data.error);
+            }
+        });
+    });
+    var payWithCard = function (stripe, cardNumberElement, cardExpiryElement, cardCvcElement, clientSecret) {
+        loading(true);
+        //alert("4");
+        var name =  $('#txt_card_holder_name').val();
+        var email = $('#txt_emailid').val();
+        //var phone = "9915202212";
+
+        stripe
+            .confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardNumberElement, // pass any single cardelement and stripe will get rest of the elements itself
+                    billing_details: {
+                        name: name,
+                        email: email,
+                        //phone: phone, //'+12345679872',
+                    },
+                }
+            })
+            .then(function (result) {
+                if (result.error) {
+                    //alert("error");
+                    // Show error to your customer
+                    showError(result.error.message);
+                } else {
+                    //alert("Success");
+                    // The payment succeeded!
+                    cardNumberElement.clear();
+                    cardExpiryElement.clear();
+                    cardCvcElement.clear()
+                    orderComplete(result.paymentIntent.id);
+                }
+            });
+    };
+
+    /* ------- UI helpers ------- */
+
+    // Shows a success message when the payment is complete
+    var orderComplete = function (paymentIntentId) {
+        loading(false);
+        $('#thankYouModal').modal('show');
+        document.querySelector(".result-message").classList.remove("hidden");
+        document.querySelector("button").disabled = true;
+        
+    };
+
+    // Show the customer the error from Stripe if their card fails to charge
+    var showError = function (errorMsgText) {
+        loading(false);
+        var errorMsg = document.querySelector("#card-error");
+        errorMsg.textContent = errorMsgText;
+        setTimeout(function () {
+            errorMsg.textContent = "";
+        }, 4000);
+    };
+
+    // Show a spinner on payment submission
+    var loading = function (isLoading) {
+        if (isLoading) {
+            // Disable the button and show a spinner
+            document.querySelector("button").disabled = true;
+            document.querySelector("#spinner").classList.remove("hidden");
+            document.querySelector("#button-text").classList.add("hidden");
+        } else {
+            document.querySelector("button").disabled = false;
+            document.querySelector("#spinner").classList.add("hidden");
+            document.querySelector("#button-text").classList.remove("hidden");
+        }
+    };
+
+    $('#btn-go-back').on("click",function(){
+        window.history.back();
+		return false;
+    });
+
+    $("#thankYouModal").on('hide.bs.modal', function(){
+        if(localStorage['is_email_exists'] == "true"){
+            window.location = "{% url 'home' %}";
+        }
+        else if (localStorage['is_email_exists'] == "false"){
+            window.location = "{% url 'register' %}";
+        }
+        else{
+            window.location = "{% url 'home' %}"
+        };
+  });
+
+  $("#redirectModal").on('hide.bs.modal', function(){
+    if(localStorage['is_email_exists'] == "true"){
+        window.location = "{% url 'home' %}";
+    }
+    else if (localStorage['is_email_exists'] == "false"){
+        window.location = "{% url 'register' %}";
+    }
+    else{
+        window.location = "{% url 'home' %}"
+    };
+});
+
+function redirectPage() {
+    // location.reload(true);
+    window.location = "{% url 'home' %}";
+  }
+
+  function delayRedirectPage(mileSeconds) {
+    window.setTimeout(redirectPage, mileSeconds);
+  }
+  $(document).ready(function() {
+    $('#pay_option_select').change(function(){
+        if($('#pay_option_select').val()=="Weekly"){
+            $('#weekly_pay_span').html("{% trans '$' %}"+`{{ weekly_total_price }}`+"/settimana");
+            $('#one_pay_span').html("(per {{ plan_obj.weekly_cost_duration }} settimane)");
+        }
+        if($('#pay_option_select').val()=="One Time"){
+                $('#weekly_pay_span').html("{% trans '$' %}"+`{{ onetime_total_price }}`+ "/In una volta");
+                $('#one_pay_span').html("");
+        };
+    });
+    {% if request.session.selected_payment_type == "Weekly"%}
+    $('#pay_option_select option:eq(0)').attr('selected', 'selected');
+    $('#weekly_pay_span').html("{% trans '$' %}"+`{{ weekly_total_price }}`+"/settimana");
+    $('#one_pay_span').html("(per {{ plan_obj.weekly_cost_duration }} settimane)");
+    {% else %}
+    $('#pay_option_select option:eq(1)').attr('selected', 'selected');
+    $('#weekly_pay_span').html("{% trans '$' %}"+`{{ onetime_total_price }}`+ "/In una volta");
+    $('#one_pay_span').html("");
+    {% endif %}
+
+});
+
+</script>
+{% endblock %}

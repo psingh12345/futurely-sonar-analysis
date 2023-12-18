@@ -1,0 +1,384 @@
+{% extends 'base_sanraffaele.html' %}
+{% load stu_tags %}
+{% load unipegaso_tags %}
+{% load static %}
+{% block title%}
+{% load i18n %}
+{% load phrase_i18n %}
+<title>Sanraffaele</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<style>
+    .user-name-top-right {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 16px;
+    }
+    .canves-graph-textt {
+        margin-top: 37px;
+    }
+    @media only screen and (min-width: 375px) and (max-width: 768px){
+        iframe {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% if request.session.current_user_id %}
+    {% get_student_full_name request.session.current_user_id as current_user_name %}
+    <h3 class="user-name-top-right">{{ current_user_name }}</h3>
+    <div class="container-fluid" id="main_container_id">
+        <div class="row">
+            <div class="col-md-12 d-flex">
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" />
+                <div class="personality-quiz-card">
+                    <div class="personality-quiz-header hide-after-clickk">
+                        <div class="personality-quiz-item">
+                            <h1><strong>Test della personalità</strong></h1>
+                            <p>Fai il test della personalità e scopri di più su te stesso/a!</p>
+                        </div>
+                    </div>
+                    <div class="personality-quiz-footer hide-after-clickk">
+                        <a class="button-custom-hero quiz-button">Inizia</a>
+                    </div>
+                    <div class="personality-quiz-lists">
+                        <div class="progresss">
+                            <div class="progress-barr" role="progressbar" id="progress_bar_id"
+                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                            </div>
+                        </div>
+                        <div class="quiz-slider slick-slider">
+                            {% for question in questions %}
+                            <div class="personality-quiz-item">
+                                <div class="personality-quiz-header">
+                                    <h2><span>{{ forloop.counter }}. </span>
+                                        {{ question.question }}</h2>
+                                </div>
+
+                                <div class="personality-quiz-option">
+                                    <input type="hidden" name="selectedoption{{question.id}}" id="radio_{{question.id}}{{forloop.counter}}">
+                                    {% if questions.count == forloop.counter %}
+                                        {% for option in question.unipegaso_qus_option.all %}
+                                        <div class="personality-selecotr-item">
+                                                <input type="radio" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{forloop.counter}}" hdnname="radio{{question.id}}{{forloop.counter}}" onclick="submit_pt_answer(this, '{{question.pk}}', '{{questions.count}}')">
+                                            <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{ option.option }}</label>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for option in question.unipegaso_qus_option.all %}
+                                            <div class="personality-selecotr-item">
+                                                    <input type="radio" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{forloop.counter}}" hdnname="radio{{question.id}}{{forloop.counter}}" onclick="submit_pt_answer(this, '{{question.pk}}', '{{forloop.counter}}')">
+                                                <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{ option.option }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="error-msg">
+                                    </div>
+                                    {% if questions.count is forloop.counter %}
+                                    <div class="personality-button">
+                                        <a class="button-next-quiz submit_btn_{{question.pk}}"
+                                            onclick="form_submit(this, '{{question.pk}}', '{{forloop.counter}}')">Invia -></a>
+                                        <a class="button-next-quiz start-loading loader_{{question.pk}}" style="display: none">Invia -></a>
+                                    </div>
+                                    {% else %}
+                                    <div class="personality-button">
+                                        <a class="button-next-quiz submit_btn_{{question.pk}}"
+                                            onclick="form_submit(this, '{{question.pk}}', '{{forloop.counter}}')">Prosegui -></a>
+                                        <a class="button-next-quiz start-loading loader_{{question.pk}}" style="display: none">Prosegui -></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-12">
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" />
+                <div class="custom-hero-card">
+                    <h1>Inizia il test di orientamento con Università telematica San Raffaele!</h1>
+                    <a href="{% url 'utsanraffaele_register' %}" class="button-custom-hero">Continua -></a>
+                </div>
+            </div>
+        </div>
+      </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+<script>
+    loaderonclick('.start-loading');
+    var num = 0;
+    var jsonObj = [];
+    function form_submit(current_button, question_id,loopcount) {
+        $(".error-msg").html('');
+        $(".loader_"+question_id).show();
+        $(".submit_btn_"+question_id).hide();
+        if($('input[name="selector'+question_id+'"]:checked').length)
+        {
+            var val = $('input[name="selector'+question_id+'"]:checked').val();
+            if(val == "1"){
+                option_val = "Agree"
+            }else{
+                option_val = "Disagree"
+            }
+            var last_question = parseInt('{{questions.count}}');
+            var loopcount = parseInt(loopcount);
+            if (loopcount == last_question){
+                // $("#QuizFormID").submit();
+                first_test_submit_fun(question_id, option_val, is_last_question="Yes")
+            }else{
+                first_test_submit_fun(question_id, option_val, is_last_question="No")
+            }
+        }else{
+            $(".error-msg").html('<p>Seleziona prima di procedere</p>');
+            $(".loader_"+question_id).hide();
+            $(".submit_btn_"+question_id).show();
+        }
+    }
+
+    function first_test_submit_fun(question_id, option_val, is_last_question){
+        $.ajax({
+            data: {"question": question_id, "answer": option_val, "is_last_question": is_last_question},
+            type: "POST",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            url: "{% url 'pt_test_submit' %}",
+            success: function(response) {
+                if(response["success"] == "Yes"){
+                    $(".slick-next").click();
+                    num = num + 1 
+                    $('input[name="selectedoption'+question_id+'"]').val(option_val);
+                    var bar_count = parseInt(num)*60/parseInt('{{questions.count}}');
+                    //$("#progress_status_id").html(num+"/{{questions.count}}")
+                    $("div.progress-barr").css("width", bar_count+"%");
+                    $(".loader_"+question_id).hide();
+                    $(".submit_btn_"+question_id).show();
+                }
+                else if(response["error_msg"]){
+                    $(".error-msg").html('<p>Seleziona prima di procedere</p>');
+                    $(".loader_"+question_id).hide();
+                    $(".submit_btn_"+question_id).show();
+                }
+                else{
+                    $('#main_container_id').html(response);
+                };
+            },
+            error: function(error){
+                $(".error-msg").html('<p>Qualcosa non ha funzionato!!</p>');
+                $(".loader_"+question_id).hide();
+                $(".submit_btn_"+question_id).show();
+            },
+        });
+    };
+
+    $("form#QuizFormID").on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            url: "{% url 'pt_test_submit' %}",
+            success: function(response) {
+                $('#main_container_id').html(response);
+            }
+        });
+    });
+
+    function loaderonclick(currenttab){
+        $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+        $(currenttab).css("cursor", "default");
+        return true;
+    };
+
+    // $(document).on("click", ".start-loading", function() {
+    //     $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+    //     $(currenttab).css("cursor", "default");
+    //     $(currenttab).removeAttr('onclick');
+    //     $(currenttab).prop('disabled', true);
+    // });
+
+    $(document).on('submit','form#id_result_btn_form',function(event){
+        event.preventDefault();
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            url: "{% url 'pt_test_submit' %}",
+            success: function(response) {
+                $('#main_container_id').html(response);
+            },
+            error: function(error){
+                $(".error-msg").html("<p>Qualcosa non ha funzionato!!</p>");
+            },
+            error: function(err){
+                $(".error-msg").html("<p>Qualcosa non ha funzionato!!</p>");
+            }
+        });
+    });
+
+    $(document).on('submit', 'form#id_next_question_slide', function(){
+        event.preventDefault();
+        $(this).find(':submit').first().hide();
+        $(this).find(':submit').last().show()
+        $.ajax({
+            data: $(this).serialize(),
+            type: "POST",
+            url: "{% url 'pt_test_submit' %}",
+            success: function(response) {
+                $('#main_container_id').html(response);
+            },
+            error: function(err){
+                $(".error-msg").html("<p>Qualcosa non ha funzionato!!</p>");
+                $(this).find(':submit').first().show();
+                $(this).find(':submit').last().hide()
+            }
+        });
+    });
+
+    $(document).on('click', '#id_continue', function() {
+        $("#id_next_btn").addClass("d-none");
+        $("#id_vedio_link").removeClass("d-none");
+    })
+    $(document).on('click', '#id_mcq_continue', function() {
+        $("#id_mcq_next_btn").addClass("d-none");
+        $("#id_mcq_link").removeClass("d-none");
+    })
+
+    $(document).on('submit', 'form#next_question_form_id', function(event) {
+        event.preventDefault();
+        $(".error-msg").html('');
+        var question_id = $('#id_hidden_qus').val();
+        $(".loader_"+question_id).show();
+        $(".submit_btn_"+question_id).hide();
+        if($('input[name="selector'+question_id+'"]:checked').length)
+        {
+            var val = $('input[name="selector'+question_id+'"]:checked').val();
+            //$('input[name="selectedoption'+question_id+'"]').val(option_val);
+            $.ajax({
+                data: $(this).serialize(),
+                type: "POST",
+                url: "{% url 'pt_test_submit' %}",
+                success: function(response) {
+                    $(".loader_"+question_id).hide();
+                    $(".submit_btn_"+question_id).show();
+                    $('#main_container_id').html(response);
+                },
+                error: function(errr){
+                    $(".error-msg").html("<p>Qualcosa non ha funzionato!!</p>");
+                    $(".loader_"+question_id).hide();
+                    $(".submit_btn_"+question_id).show(); 
+                    return false;
+                }
+            });
+        }else{
+            $(".error-msg").html('<p>Seleziona prima di procedere</p>');
+            $(".loader_"+question_id).hide();
+            $(".submit_btn_"+question_id).show();
+            return false;
+        }
+    });
+    {% comment %} function next_question_form_submit(current_button, question_id,loopcount){
+        $("form").submit(function(event) {
+            event.preventDefault();
+            $(".error-msg").html('');
+            if($('input[name="selector'+question_id+'"]:checked').length)
+            {
+                var val = $('input[name="selector'+question_id+'"]:checked').val();
+                $('input[name="selectedoption'+question_id+'"]').val(option_val);
+                $.ajax({
+                    data: $(this).serialize(),
+                    type: "POST",
+                    url: "{% url 'pt_test_submit' %}",
+                    success: function(response) {
+                        $('#main_container_id').html(response);
+                    }
+                });
+            }else{
+                $(".error-msg").html('<p>Seleziona prima di procedere</p>');
+            }
+        });
+    }; {% endcomment %}
+
+
+
+    function submit_pt_answer(current_button, question_id,loopcount){
+        // $("form#QuizFormID").submit(function() {
+            $(".error-msg").html('');
+            //var taskArray = {};
+            if($('input[name="selector'+question_id+'"]:checked').length)
+            {
+                //var val = $('input[name="selector'+question_id+'"]:checked').val();
+                //taskArray[question_id] = val;
+                //$('input[name="selectedoption'+question_id+'"]').val(option_val);
+                //jsonObj.push(taskArray);
+                return false
+            }else{
+                $(".error-msg").html('<p>Seleziona prima di procedere</p>');
+                return false;
+            }
+    };
+    $(document).ready(function () {
+        $('.quiz-slider').slick({
+            infinite:false,
+            draggable: false,
+            slidesToShow: 1,
+            swipe:false,
+            swipeToSlide:false,
+            touchMove:false,
+            slidesToScroll: 1,
+        });
+
+        $(".quiz-button").click(function () {
+            $(".personality-quiz-lists").addClass("show");
+            $(".hide-after-clickk").hide();
+            $(".hide-after-clickk").hide();
+            var str = $("#flag_val").val();
+            $('.quiz-slider').slick('slickGoTo', str);
+
+        });
+        $(".submit-quizz").click(function () {
+            $(".sucsess-blocker").show();
+            $(".submit-quizz").addClass('hidden');
+            $(".rediectMeToHome").removeClass('hidden');
+        });
+    });
+    function check_multi_select_option(currenttab, question_id, question_sno){
+        $(".error-msg").html('');
+        var qus_sno = parseInt(question_sno);
+        var session_qus_sno = 9;
+        if(qus_sno === session_qus_sno){
+            var op_val = $('input[name="selector'+question_id+'"]:checked').val();
+            // debugger
+            // var newArr = jsonObj.filter(e => e !== op_val);
+            // jsonObj = newArr;
+            if($('input[name="selector'+question_id+'"]:checked').length<=3){
+                jsonObj.push(op_val);
+            }else{
+                $(currenttab).prop('checked', false);
+                //$(".error-msg").html('<p>Accetta prima di procedere</p>');
+            }
+
+            // if(jsonObj.length === 3){
+            //     $(currenttab).prop('checked', false);
+            //     $(".error-msg").html('<p>Accetta prima di procedere</p>');
+            // }else if(jsonObj.length <= 3)
+            //     jsonObj.push(op_val);
+            // else{
+            //     $(currenttab).prop('checked', false);
+            //     $(".error-msg").html('<p>Accetta prima di procedere</p>');
+            // }
+        }
+    };
+</script>
+{% endblock %}

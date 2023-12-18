@@ -1,0 +1,869 @@
+<!doctype html>
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    {% phrase_javascript %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- font CSS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,800;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'landing_website/css/bootstrap-grid.css' %}" rel="stylesheet">
+    <link href="{% static 'landing_website/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'landing_website/css/auth.css' %}" rel="stylesheet">
+	<style>
+        .header-area .main-header .menu-wrapper .header-info-left .main-menu ul li a:hover {
+            text-decoration: underline !important;
+        }
+        .hovereffect:hover{
+            text-decoration: underline !important;
+        }
+    </style>
+    {% block style_sheet %}
+    {% endblock %}
+	<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    {% comment %} <script src=“https://www.google.com/recaptcha/api.js”></script> {% endcomment %}
+    {% comment %} <script src=“https://www.google.com/recaptcha/api.js” async defer></script> {% endcomment %}
+    {% comment %} <script src=“https://www.google.com/recaptcha/api.js?render=6Lf2M88nAAAAACJLIII9zW1RsIQeyVJiHGed7Vzp”></script> {% endcomment %}
+	{% block title %}
+    {% endblock %}
+	
+  <style>
+  /* .cookie-bar {
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    z-index: 999997;
+	box-shadow: 0 0 2px #F9FAFB;
+    background: #F9FAFB;
+    padding: 12px 0;
+	}
+	.cookie-bar h4 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 150%;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+	color: #1F2A37;
+	}
+	.cookie-bar p {
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    line-height: 150%;
+    color: #6B7280;
+    margin: 0;
+	}
+	.cookie-bar .content-wrap {
+		display: flex;
+		gap: 20px;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	.cookie-bar .btn-outline {
+    border: 1px solid #E5E7EB;
+    color: #1F2A37;
+	}
+	.cookie-bar .btn-outline, .cookie-bar .btn-filed {
+    padding: 10px 12px !important;
+    line-height: normal;
+	}
+	.cookie-bar .btn-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+	}
+	.close-cookies-poup {
+		color: #6B7280;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-size: 22px;
+		margin-left: 10px;
+		cursor: pointer;
+	} */
+	.cookie-disclaimer .outline-button-link, .cookie-disclaimer .btn-filed {
+            font-size: 12px !important;
+            font-family: Inter;
+            font-weight: 600 !important;
+            cursor: pointer;
+        }
+        .cookie-disclaimer .outline-button-link.cookie-button {
+            color: #000000;
+            background-color: #fff;
+        }
+        .cookie-disclaimer .outline-button-link.cookie-button:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        @media (min-width: 768px) {
+            .cookie-discription span {
+            display: none;
+            }
+        }
+        .cookie-discription.show span {
+            display: none;
+        }
+
+        .cookie-discription.show p {
+            white-space: normal;
+        }
+        .cookie-discription h4 {
+            color: #111928;
+            font-family: Inter;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 150%;
+        }
+        .cookie-discription p {
+        color: #000;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%;
+        margin: 0;
+    }
+
+        .cookie-discription span {
+            font-style: normal;
+            font-weight: 700;
+            font-size: 12px;
+            text-decoration-line: underline;
+            color: #FFFFFF;
+            white-space: nowrap;
+            padding: 0 15px;
+        }
+        .cookie-disclaimer {
+        background: #fff;
+        color: #111928;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        z-index: 2147483647;
+        position: sticky;
+        display: flex;
+        padding: 12px 20px;
+        align-items: center;
+        gap: 20px;
+        align-self: stretch;
+        border-radius: 8px;
+        background: #FFF;
+        box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.25);
+        /* display: none; */
+        /* max-width: 992px; */
+        /* margin: auto; */
+    }
+          
+          .cookie-disclaimer .cookie-close{
+            float: right;
+            padding: 10px;
+            cursor: pointer;
+          }
+          .cookie-disclaimer .button-group {
+            gap: 10px;
+        }
+        .footer-widget p {
+            color: #FFF;
+            font-family: Roboto;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: 1.416px;
+            margin: 0;
+        }
+        .footer-widget p a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        input.switch {
+            position: relative;
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            width: 64px !important;
+            height: 32px;
+            border-radius: 30px;
+            cursor: pointer;
+            background: #000;
+            transition: box-shadow 0.3s ease-in-out, padding 0.25s ease-in-out;
+            transition-delay: 0.1s, 0s;
+        }
+        input.switch:focus {
+            border: 0;
+            outline: 0;
+        }
+        input.switch:checked {
+            background: #a87ee917;
+        }
+        input.switch:checked {
+            transition-delay: 0s, 0s;
+            box-shadow: inset 0 0 0 2.62857em #a87ee9 !important;
+            padding-left: 30px;
+        }
+        .cookie-modal .modal-footer {
+            padding: 24px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+        .border-bottom.checkbox-radio-list {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 24px;
+        }
+        input.switch:before {
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+        margin: 4px;
+        background-color: #fff;
+        border-radius: 2.1em;
+        transition: all 0.1s ease 0.1s;
+        background: url("https://myfuturelybucket.s3.eu-south-1.amazonaws.com/media/email_template/close-icon-svg.svg");
+    }
+    input.switch:checked:before {
+        background: url("https://myfuturelybucket.s3.eu-south-1.amazonaws.com/media/email_template/check-icon-svg.svg");  
+    }
+        input.switch:before, input.switch:after {
+            content: "";
+            display: block;
+        }
+        input.switch:active::before {
+            transition: all 0.1s ease 0.05s;
+        }
+        .fade:not(.show) {
+            opacity: 0;
+        }
+        .cookie-modal.show {
+            background: #00000082;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            outline: 0;
+        }
+        .fade {
+            transition: opacity .15s linear;
+        }
+        .modal.fade .modal-dialog {
+            transition: transform .3s ease-out;
+        }
+        .cookie-modal .outline-button-link {
+            font-size: 14px;
+        }
+        .cookie-modal .modal-dialog {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            border-radius: 4px;
+            background: #FFF;
+            box-shadow: 0px 1px 11px 0px rgba(0, 0, 0, 0.08);
+        }
+        .checkbox-radio-list {
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            padding-top: 20px;
+            width: 100%;
+            gap: 20px;
+        }
+        .cookie-modal-header {
+            width: 100%;
+            display: block;
+            padding: 24px;
+            border-bottom: 1px solid #ccc;
+        }
+        .cookie-modal .modal-body {
+            width: 100%;
+            display: block;
+            padding: 24px;
+        }
+        .cookie-modal .modal-body p {
+            color: #000;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+        .cookie-modal .modal-body .h5 {
+            color: #000;
+            font-family: Roboto;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+        .cookie-modal .modal-footer .outline-button-link {
+            color: #000;
+        }
+        @media (max-width:767px) {
+            .cookie-modal .modal-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .cookie-modal .outline-button-link {
+                font-size: 12px;
+                text-align: center;
+            }
+            .cookie-modal-header img {
+                width: 150px;
+            }
+            .cookie-modal .modal-footer button {
+                width: 100%;
+            }
+            .mobile-reverse-direction {
+                flex-direction: column-reverse;
+                gap: 12px;
+            }
+            .cookie-disclaimer .button-group {
+                gap: 0;
+            }
+            .mobile-w-100 {
+                width: 100%;
+            }
+            .cookie-disclaimer .button-group .outline-button-link.cookie-button {
+                width: calc(65% + -15px);
+                text-align: center;
+            }
+            .cookie-disclaimer .button-group .btn-filed.cookies-setting {
+                width: 35%;
+                text-align: center;
+                margin-left: 15px;
+            }
+            .cookie-disclaimer .outline-button-link, .cookie-disclaimer .btn-filed {
+                padding: 8px 12px !important;
+            }
+            .innder-content-safe .acc__card p {
+            font-size: 15px;
+            }
+            
+        .footer-widget p {
+        font-size: 10px;
+        margin-top: 16px;
+        }
+        .footer-section .copyright-block p {
+            font-size: 12px !important;
+            line-height: normal;
+        }
+        .footer-section p a {
+            font-size: 12px;
+            padding: 0;
+            position: relative;
+        }
+        .footer-section p a:after {
+            content: "";
+            border-left: 1px solid #fff;
+            height: 10px;
+            display: inline-block;
+            margin-left: 5px;
+            position: relative;
+            top: 1px;
+        }
+        .footer-section p a:last-child:after {
+            display: none;
+        }
+        .footer-section {
+         padding-bottom: 16px;
+        }
+        .mobile-tablate-border-top {
+        padding-top: 12px;
+        }
+        }
+        @media (max-width:992px) {
+        .cookie-disclaimer>* {
+                position: relative;
+            }
+            .cookie-disclaimer .cookie-close {
+                position: absolute;
+                top: -10px;
+                right: 0;
+            }
+        }
+	
+    .newsletter-form .form-check .form-check-label {
+        color: #fff;
+    }
+    .newsletter-form .form-check {
+        margin-top: 11px;
+        margin-left: -9px;
+        display: flex;
+        align-items: center;
+    }
+    .newsletter-form .form-check .form-check-input {
+        background-color: #fff;
+        border-color: #ccc;
+        width: 24px;
+        height: 24px;
+    }
+    .newsletter-form .form-check .form-check-input.error {
+        border: 2px solid red;
+    }
+    .newsletter-form .form-check .form-check-input:checked[type=checkbox] {
+        background-color: #23232a;
+    }
+    @media (min-width:768px) and (max-width:1023px) {
+    .hubspot-img.hide-dasktop {
+			display: none;
+		}
+        .newsletter-content .h3 br {
+            display: none;
+        }
+        .newsletter-form {
+        margin-top: 15px;
+        position: relative;
+    }
+        #newletterForm form {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .newsletter-form .newsletter-input-filed {
+    max-width: 100%;
+    }
+    
+    }
+    #hubspot-messages-iframe-container {
+    z-index: 2147483646 !important;
+    }
+  </style>
+	<script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+	<!-- End Google Tag Manager -->
+
+
+    <!-- Google tag new -------------------(gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7Z1J7GDWTR"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7Z1J7GDWTR');
+    </script>
+
+    <!-- Google Tag Manager new --------------->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WCFP7FRJ');</script>
+        <!-- End Google Tag Manager -->
+
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+    <!-- Google Tag Manager (noscript) new------------------- -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCFP7FRJ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) --------------------------->
+
+	<!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+	<script>(function (v, i, s, a, t) { v[t] = v[t] || function () { (v[t].v = v[t].v || []).push(arguments) }; if (!v._visaSettings) { v._visaSettings = {} } v._visaSettings[a] = { v: '1.0', s: a, a: '1', t: t }; var b = i.getElementsByTagName('body')[0]; var p = i.createElement('script'); p.defer = 1; p.async = 1; p.src = s + '?s=' + a; b.appendChild(p) })(window, document, '//app-worker.visitor-analytics.io/main.js', '7388998c-4d85-11ec-b589-901b0edac50a', 'va')</script>
+	<!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+	<!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+	<!-- End of HubSpot Embed Code -->
+    {% include "base_landing_website_nav_bar.html" %}
+    {% block content %}
+    {% endblock%}
+	<!-- Start Cookies popup-->
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app %}
+    {% else %}
+	{% if request.session.to_display_first_time_cookie_banner == "True" %}
+	<div class="cookie-disclaimer">
+		<div class="container-fluid">
+			{% if request.LANGUAGE_CODE == "it" %}
+			<div class="row align-items-center justify-content-between">
+                <div class="col-md-12">
+                    <div class="top-cookie-header mb-3 d-flex align-items-center justify-content-between">
+                        <img src="{% static 'landing_website/images/cookies-logo.svg' %}" alt="logo">
+                        {% comment %} <span class="cookie-close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.43442 3.43442C3.58445 3.28444 3.78789 3.20019 4.00002 3.20019C4.21216 3.20019 4.4156 3.28444 4.56562 3.43442L8.00002 6.86882L11.4344 3.43442C11.5082 3.35801 11.5965 3.29706 11.6941 3.25514C11.7917 3.21321 11.8967 3.19114 12.0029 3.19022C12.1091 3.18929 12.2145 3.20953 12.3128 3.24976C12.4111 3.28998 12.5004 3.34939 12.5755 3.4245C12.6507 3.49961 12.7101 3.58894 12.7503 3.68725C12.7905 3.78557 12.8107 3.89091 12.8098 3.99714C12.8089 4.10336 12.7868 4.20834 12.7449 4.30594C12.703 4.40354 12.642 4.49182 12.5656 4.56562L9.13122 8.00002L12.5656 11.4344C12.7114 11.5853 12.792 11.7874 12.7902 11.9971C12.7883 12.2069 12.7042 12.4075 12.5559 12.5559C12.4076 12.7042 12.2069 12.7883 11.9971 12.7902C11.7874 12.792 11.5853 12.7113 11.4344 12.5656L8.00002 9.13122L4.56562 12.5656C4.41474 12.7113 4.21266 12.792 4.0029 12.7902C3.79315 12.7883 3.5925 12.7042 3.44417 12.5559C3.29584 12.4075 3.21171 12.2069 3.20989 11.9971C3.20806 11.7874 3.2887 11.5853 3.43442 11.4344L6.86883 8.00002L3.43442 4.56562C3.28445 4.41559 3.2002 4.21215 3.2002 4.00002C3.2002 3.78788 3.28445 3.58444 3.43442 3.43442Z" fill="#6B7280"/></svg></span> {% endcomment %}
+                    </div>
+                    <div class="cookie-discription">
+                        <h4>Informativa</h4>
+                        <p class="mb-0">Noi e terze parti selezionate utilizziamo cookie o tecnologie simili per finalità tecniche e, con il tuo consenso, anche per le finalità di esperienza e come specificato nella <a href="{% url 'cookies_policy' %}"><b>cookie policy</b></a>. Il rifiuto del consenso può rendere non disponibili le relative funzioni.</p>
+                        <p class="mb-0">Puoi liberamente prestare, rifiutare o revocare il tuo consenso, in qualsiasi momento.</p>
+                        <p class="mb-4">Usa il pulsante “Accetta” per acconsentire. Usa il pulsante “Rifiuta” o chiudi questa informativa per continuare senza accettare.</p>
+                    </div>
+                </div>
+                </div>
+                <div class="row mobile-reverse-direction align-items-center justify-content-between">
+                <div class="col-md-7">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#cookieModal" class="mobile-w-100 outline-button-link cookie-button">Scopri di più e personalizza</button>    
+                </div>
+				<div class="col-md-5">
+                    <div class="button-group d-flex flex-wrap justify-content-md-end">
+					<a class="outline-button-link  cookie-button accept-cookie" type="button" onclick="accept_cookies_fun('Necessari')">Accetta solo i necessari</a>
+					<a type="button" class="btn-filed cookies-setting accept-cookie" onclick="accept_cookies_fun('All')">Accetta</a>
+				    </div>
+                </div>
+			</div>
+			{% else %}
+			<div class="row align-items-center justify-content-between">
+				<div class="col-md-7">
+                    <div class="cookie-discription">
+					<p>By clicking “Accept All Cookies”, you agree to the storing of cookies on your device to enhance website performance, improve your experience, and analyze site usage.</p>
+                    <span>See more</span>
+                    </div>
+                </div>
+				<div class="col-md-5">
+                    <div class="button-group d-flex flex-wrap justify-content-md-end">
+					<a class="outline-button-link cookie-button accept-cookie" type="button">Accept all cookies</a>
+					<a type="button" class="btn-filed cookies-setting accept-cookie">Customize cookies</a>
+                    {% comment %} <span class="cookie-close"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.43442 3.43442C3.58445 3.28444 3.78789 3.20019 4.00002 3.20019C4.21216 3.20019 4.4156 3.28444 4.56562 3.43442L8.00002 6.86882L11.4344 3.43442C11.5082 3.35801 11.5965 3.29706 11.6941 3.25514C11.7917 3.21321 11.8967 3.19114 12.0029 3.19022C12.1091 3.18929 12.2145 3.20953 12.3128 3.24976C12.4111 3.28998 12.5004 3.34939 12.5755 3.4245C12.6507 3.49961 12.7101 3.58894 12.7503 3.68725C12.7905 3.78557 12.8107 3.89091 12.8098 3.99714C12.8089 4.10336 12.7868 4.20834 12.7449 4.30594C12.703 4.40354 12.642 4.49182 12.5656 4.56562L9.13122 8.00002L12.5656 11.4344C12.7114 11.5853 12.792 11.7874 12.7902 11.9971C12.7883 12.2069 12.7042 12.4075 12.5559 12.5559C12.4076 12.7042 12.2069 12.7883 11.9971 12.7902C11.7874 12.792 11.5853 12.7113 11.4344 12.5656L8.00002 9.13122L4.56562 12.5656C4.41474 12.7113 4.21266 12.792 4.0029 12.7902C3.79315 12.7883 3.5925 12.7042 3.44417 12.5559C3.29584 12.4075 3.21171 12.2069 3.20989 11.9971C3.20806 11.7874 3.2887 11.5853 3.43442 11.4344L6.86883 8.00002L3.43442 4.56562C3.28445 4.41559 3.2002 4.21215 3.2002 4.00002C3.2002 3.78788 3.28445 3.58444 3.43442 3.43442Z" fill="#6B7280"/></svg></span> {% endcomment %}
+                    </div>
+                </div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+    
+    <!-- Modal -->
+    <div class="modal fade cookie-modal" id="cookieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="cookie-modal-header d-flex align-items-center justify-content-between">
+            <img src="{% static 'landing_website/images/cookies-logo.svg' %}" alt="logo">
+            <a href="{% url 'cookies_policy' %}" class="outline-button-link">Visualizza Cookie Policy completa</a>
+            </div>
+            <div class="modal-body">
+            <div class="h5">Le tue preferenze relative alla privacy</div>
+            <p class="mb-0">Questo pannello ti permette di esprimere alcune preferenze relative al trattamento delle tue informazioni personali.</p>
+            <p class="mb-0">Puoi rivedere e modificare le tue scelte in qualsiasi momento accedendo al presente pannello tramite l’apposito link.</p>
+            <p class="mb-3">Per rifiutare il tuo consenso alle attività di trattamento descritte di seguito, disattiva i singoli comandi o utilizza il pulsante “Rifiuta tutto” e conferma di voler salvare le scelte effettuate.</p>
+            <div class="h5">Le tue preferenze relative al consenso per le tecnologie di tracciamento</div>
+            <p class="mb-0">Le opzioni disponibili in questa sezione ti permettono di personalizzare le preferenze relative al consenso per qualsiasi tecnologia di tracciamento utilizzata per le finalità descritte di seguito. Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla <a href="{% url 'cookies_policy' %}"><b><u>cookie policy</u></b></a></p>
+            <p class="mb-0">Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.</p>
+            
+            <div class="checkbox-radio-list d-flex align-items-center justify-content-between">
+            <div class="checkbox-switch-content">
+            <div class="h5">Necessari</div>
+            <p class="mb-0">Questi strumenti di tracciamento sono strettamente necessari per garantire il funzionamento e la fornitura del servizio che ci hai richiesto e, pertanto, non richiedono il tuo consenso.</p>
+            </div>
+            <div class="switch-button-checkbox">
+                <input type="checkbox" class="switch" checked disabled name="cookies_necessari" id="id_cookies_necessari">
+            </div>    
+            </div>
+            
+            <div class="checkbox-radio-list d-flex align-items-center justify-content-between">
+                <div class="checkbox-switch-content">
+                <div class="h5">Esperienza</div>
+                <p class="mb-0">Questi strumenti di tracciamento ci permettono di migliorare la qualità della tua esperienza utente e consentono le interazioni con piattaforme, reti e contenuti esterni.</p>
+                </div>
+                <div class="switch-button-checkbox">
+                    <input type="checkbox" class="switch" name="cookies_esperienza" id="id_cookies_esperienza">
+                </div>    
+            </div>
+            
+            <div class="border-bottom checkbox-radio-list d-flex align-items-center justify-content-between">
+                <div class="checkbox-switch-content">
+                <div class="h5">Misurazione</div>
+                <p class="mb-0">Questi strumenti di tracciamento ci permettono di misurare il traffico e analizzare il tuo comportamento per migliorare il nostro servizio.</p>
+                </div>
+                <div class="switch-button-checkbox">
+                    <input type="checkbox" class="switch" name="cookies_misurazione" id="id_cookies_misurazione">
+                </div>    
+            </div>
+        </div>
+            <div class="modal-footer">
+            <button type="button" class="outline-button-link" data-bs-dismiss="modal">Indietro</button>
+            <button type="button" class="btn-filed cookie-button accept-cookie-with-checkbox">Salva e continua</button>
+            </div>
+        </div>
+        </div>
+    </div>
+	{% endif %}
+    {% endif %}
+	<!--End Cookies popup-->
+	<!-- jquery js -->
+    <script src="{% static 'landing_website/js/jquery.min.js' %}"></script>
+    <!-- bootstrap js -->
+    <script src="{% static 'landing_website/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'landing_website/js/slick.min.js' %}"></script>
+	<script>
+	$('.cookie-close').on('click', function() {
+		$('.cookie-disclaimer').hide();
+		$("#hubspot-messages-iframe-container").css("margin-bottom", "0px");
+	});
+
+	function accept_cookies_fun(cookies_type){
+		$.ajax({
+			url: "{% url 'cookie_accept' %}",
+			type: "POST",
+			headers: {"X-CSRFToken": "{{ csrf_token }}"},
+			data: {'cookies_type': cookies_type},
+			success: function(response){
+				if(response.cookies_accepted == true){
+					$(".cookie-disclaimer").hide();
+					if ($("#cookieModal").hasClass("show")) {
+						$('#cookieModal').modal('hide');
+					}
+				}else{
+					$(".cookie-disclaimer").show();
+				}
+			},
+			error: function(error){
+				alert("Something went wrong!!")
+			},
+		});
+	};
+
+	$(".accept-cookie-with-checkbox").click(function(){
+		var cookies_necessari = $('#id_cookies_necessari').is(':checked');
+		var cookies_esperienza = $('#id_cookies_esperienza').is(':checked');
+		var cookies_misurazione = $('#id_cookies_misurazione').is(':checked');
+		var cookies_selected_section = "Popup";
+		$.ajax({
+			url: "{% url 'cookie_data_save' %}",
+			type: "POST",
+			headers: {"X-CSRFToken": "{{ csrf_token }}"},
+			data: {'cookies_necessari': cookies_necessari, 
+					'cookies_esperienza': cookies_esperienza, 
+					'cookies_misurazione': cookies_misurazione,
+					'cookies_selected_section': cookies_selected_section,
+				},
+			success: function(response){
+				if(response.cookies_accepted == true){
+					$(".cookie-disclaimer").hide();
+					$("#hubspot-messages-iframe-container").css("margin-bottom", "0px");
+					if ($("#cookieModal").hasClass("show")) {
+						$('#cookieModal').modal('hide');
+					}
+				}else{
+					$(".cookie-disclaimer").show();
+				}
+			},
+			error: function(error){
+				alert("Something went wrong!!")
+			},
+		});
+	});
+
+	$('.cookie-discription span').click(function() {
+        $('.cookie-discription').toggleClass('show');
+    });
+	
+	$(document).ready(function(){
+	$(window).scroll(function () {
+					if ($(this).scrollTop() > 200) {
+						$('#scroll').fadeIn();
+					} else {
+						$('#scroll').fadeOut();
+					}
+				});
+				$('#scroll').click(function () {
+					$("html, body").animate({
+						scrollTop: 0
+					}, 600);
+					return false;
+				});
+	  $(".slicknav_btn").click(function(){
+		$(this).toggleClass("open");
+		$(".slicknav_nav").toggleClass("open");
+	  });
+	});
+	$(window).scroll(function() {
+	  var sticky = $('.header-sticky'),
+		scroll = $(window).scrollTop();
+	   
+	  if (scroll >= 40) { 
+		sticky.addClass('sticky-bar'); }
+	  else { 
+	   sticky.removeClass('sticky-bar');
+
+	}
+	});
+	
+		$('.testimonial-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '200px',
+		  rows: 2,
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+				rows: 1,
+			  }
+			}
+		  ]
+		});
+		
+		$('.article-slider').slick({
+		  slidesToShow: 2,
+		  slidesToScroll: 1,
+		   infinite: true,
+		  centerMode: true,
+		  dots: false,
+		  arrows: false,
+		  centerPadding: '260px',
+		  focusOnSelect: true,
+		  responsive: [
+			{
+			  breakpoint: 992,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 768,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			},
+			{
+			  breakpoint: 480,
+			  settings: {
+				arrows: false,
+				centerPadding: '0px',
+				centerMode: true,
+				slidesToShow: 1,
+			  }
+			}
+		  ]
+		});
+		$(".prev-btn").click(function () {
+		$(".testimonial-slider").slick("slickPrev");
+	});
+
+	$(".next-btn").click(function () {
+		$(".testimonial-slider").slick("slickNext");
+	});
+	$(".prev-btn").addClass("slick-disabled");
+	$(".testimonial-slider").on("afterChange", function () {
+		if ($(".slick-prev").hasClass("slick-disabled")) {
+			$(".prev-btn").addClass("slick-disabled");
+		} else {
+			$(".prev-btn").removeClass("slick-disabled");
+		}
+		if ($(".slick-next").hasClass("slick-disabled")) {
+			$(".next-btn").addClass("slick-disabled");
+		} else {
+			$(".next-btn").removeClass("slick-disabled");
+		}
+	});
+	$(".article-prev-btn").click(function () {
+		$(".article-slider").slick("slickPrev");
+	});
+
+	$(".article-next-btn").click(function () {
+		$(".article-slider").slick("slickNext");
+	});
+	$(".prev-btn").addClass("slick-disabled");
+	$(".article-slider").on("afterChange", function () {
+		if ($(".slick-prev").hasClass("slick-disabled")) {
+			$(".article-prev-btn").addClass("slick-disabled");
+		} else {
+			$(".article-prev-btn").removeClass("slick-disabled");
+		}
+		if ($(".slick-next").hasClass("slick-disabled")) {
+			$(".article-next-btn").addClass("slick-disabled");
+		} else {
+			$(".article-next-btn").removeClass("slick-disabled");
+		}
+	});
+	$(document).ready(function(){
+	  $(".close-cookies-poup").click(function(){
+		$(".cookie-bar").hide();
+	  });
+	});
+	
+	function back_btn(){
+		window.history.back();
+	};
+
+	window.addEventListener('load', () => {
+		const $recaptcha1 = document.querySelector('#g-recaptcha-response');
+		const $recaptcha2 = document.querySelector('#g-recaptcha-response-1');
+
+		//if ($recaptcha1) {
+		//	$recaptcha1.setAttribute('required', 'required');
+		//}
+		//if ($recaptcha2) {
+		//	$recaptcha2.setAttribute('required', 'required');
+		//}
+	});
+
+	</script>
+    {% block script %}
+    {% endblock %}
+  </body>
+</html>

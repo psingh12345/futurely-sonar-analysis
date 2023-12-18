@@ -1,0 +1,40 @@
+# byte-compiled / optimized / DLL files
+*/__pycache__/
+*.py[cod]
+
+userauth/userauthtestcase/__pycache__
+
+# tests and coverage
+*.pytest_cache
+.coverage
+
+# database & logs
+*.db
+*.sqlite3
+*.log
+
+# venv
+env
+venv
+.venv
+.env
+
+# other
+.DS_Store
+
+# javascript
+package-lock.json
+
+staticfiles/*
+!staticfiles/.gitkeep
+.vscode/symbols.json
+.idea
+.vscode
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+/thefuturely/.env
+/thefuturely/settings.py
+

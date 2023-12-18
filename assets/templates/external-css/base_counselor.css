@@ -1,0 +1,50 @@
+.noti_update {
+    background: transparent !important;
+}
+
+.modal-video img {
+    width: 100%;
+    border-radius: 12px;
+    height: 200px;
+    object-fit: cover;
+}
+
+div.learn-popup .modal-content {
+    background: #343437;
+    border-radius: 12px;
+}
+
+.modal-video {
+    position: relative;
+}
+
+.modal-video {
+    position: relative;
+    margin: 0 0 18px;
+}
+
+div.learn-popup .modal-body p {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 200;
+}
+
+div.learn-popup .modal-body h3 {
+    color: #fff;
+    font-size: 15px;
+}
+
+div.learn-popup .modal-header {
+    border: none;
+    padding-bottom: 0;
+}
+.courses-availble .courses-box.right:after {
+    background: linear-gradient(
+150.09deg
+, rgba(65, 82, 106, 0.6) 8.3%, rgba(51, 22, 83, 0.6) 81.74%), linear-gradient(
+96.52deg
+, #A36B00 7.68%, #A23A02 38.83%, #A2016E 101.43%) !important;
+}
+.current-plan-bg{
+    background: #6c2db1 !important;
+}

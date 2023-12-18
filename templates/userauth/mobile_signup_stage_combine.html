@@ -1,0 +1,1198 @@
+{% extends 'base_mobile_inner_auth.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title%}
+<title>The Futurely: Signup</title>
+{% endblock %}
+{% block style_sheet %}
+{% phrase_javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<style>
+	.main {
+		padding: 0;
+	}
+	.recaptcha{
+		display: flex;
+    	justify-content: center;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+	<div class="col-sm-3">
+	</div>
+	<div class="col-sm-12">
+		<div class="form-intro row">
+			<div class="mobile-login-header">
+				<a href="{% url 'register' %}{% if request.session.ctype != 'general' %}?ctype={{request.session.ctype}} {% endif %}"
+					class="btnBack">
+					<svg width="26" height="22" viewBox="0 0 26 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M10.2401 0.641831L10.24 0.641876L1.51602 9.1892L1.51599 9.18918L1.51425 9.19097C1.11842 9.59865 0.9 10.1401 0.9 10.7155C0.9 11.2911 1.11884 11.8329 1.53184 12.2571L1.53182 12.2572L1.53352 12.2588L10.2405 20.7886C10.2405 20.7886 10.2405 20.7887 10.2405 20.7887C10.4532 20.9972 10.7265 21.1011 11 21.1011C11.2911 21.1011 11.582 20.983 11.7979 20.7497C12.2156 20.2986 12.1987 19.5863 11.76 19.1564L11.7598 19.1563L4.2647 11.8441L24 11.8441C24.6099 11.8441 25.1 11.3358 25.1 10.7155C25.1 10.0952 24.6099 9.58697 24 9.58697L4.29547 9.58697L11.7595 2.27461C12.1982 1.84477 12.2151 1.13191 11.7974 0.680846C11.3787 0.228727 10.6809 0.210473 10.2401 0.641831Z"
+							fill="white" stroke="white" stroke-width="0.2" />
+					</svg>
+				</a>
+				<h1>{% trans "Sign Up" %}</h1>
+				<img src="{% static '/website/new/images/icon-mobile-auth.png' %}" />
+
+			</div>
+
+
+			<form class="row form-setup" enctype="multipart/form-data" method="post" id="idForm">
+			<div id="signup-first-step" class="mobile-form-login-up row">
+				<svg class="mb-2" width="311" height="71" viewBox="0 0 311 71" fill="none"
+					xmlns="http://www.w3.org/2000/svg">
+					<g clip-path="url(#clip0_41_1551)">
+						<rect width="311" height="71" rx="18" fill="#266AF6" />
+						<circle cx="19.587" cy="38.4385" r="9.19635" fill="#67E3F6" />
+						<circle cx="55.1183" cy="68.9581" r="9.61437" fill="#67E3F6" />
+						<circle cx="42.324" cy="20.2107" r="3.5076" fill="#67E3F6" />
+						<circle cx="23.3241" cy="6.7538" r="1.7538" fill="#67E3F6" />
+						<circle cx="30.8926" cy="124.153" r="63.6599" transform="rotate(-48.1512 30.8926 124.153)"
+							fill="#67E3F6" />
+					</g>
+					<path
+						d="M69.0014 41L65.3707 27.9091H67.4482L69.9986 38.0469H70.12L72.7727 27.9091H74.831L77.4837 38.0533H77.6051L80.1491 27.9091H82.233L78.5959 41H76.608L73.853 31.1946H73.7507L70.9957 41H69.0014ZM86.5152 41.1982C85.5479 41.1982 84.7148 40.9915 84.016 40.5781C83.3213 40.1605 82.7844 39.5746 82.4052 38.8203C82.0302 38.0618 81.8427 37.1733 81.8427 36.1548C81.8427 35.1491 82.0302 34.2628 82.4052 33.4957C82.7844 32.7287 83.3128 32.13 83.9904 31.6996C84.6722 31.2692 85.4691 31.054 86.381 31.054C86.935 31.054 87.4719 31.1456 87.9918 31.3288C88.5117 31.5121 88.9783 31.7997 89.3917 32.1918C89.805 32.5838 90.131 33.093 90.3696 33.7195C90.6083 34.3416 90.7276 35.098 90.7276 35.9886V36.6662H82.9229V35.2344H88.8547C88.8547 34.7315 88.7525 34.2862 88.5479 33.8984C88.3434 33.5064 88.0557 33.1974 87.685 32.9716C87.3185 32.7457 86.8881 32.6328 86.3938 32.6328C85.8569 32.6328 85.3881 32.7649 84.9875 33.0291C84.5912 33.2891 84.2844 33.63 84.0671 34.0518C83.854 34.4695 83.7475 34.9233 83.7475 35.4134V36.532C83.7475 37.1882 83.8625 37.7464 84.0927 38.2067C84.327 38.6669 84.653 39.0185 85.0706 39.2614C85.4883 39.5 85.9762 39.6193 86.5344 39.6193C86.8966 39.6193 87.2269 39.5682 87.5252 39.4659C87.8235 39.3594 88.0813 39.2017 88.2986 38.9929C88.516 38.7841 88.6821 38.5263 88.7972 38.2195L90.6062 38.5455C90.4613 39.0781 90.2013 39.5447 89.8263 39.9453C89.4556 40.3416 88.989 40.6506 88.4265 40.8722C87.8682 41.0895 87.2312 41.1982 86.5152 41.1982ZM94.1294 27.9091V41H92.2182V27.9091H94.1294ZM100.206 41.1982C99.256 41.1982 98.4378 40.983 97.7517 40.5526C97.0699 40.1179 96.5457 39.5192 96.1792 38.7564C95.8128 37.9936 95.6295 37.12 95.6295 36.1357C95.6295 35.1385 95.817 34.2585 96.192 33.4957C96.567 32.7287 97.0954 32.13 97.7773 31.6996C98.4591 31.2692 99.2623 31.054 100.187 31.054C100.933 31.054 101.598 31.1925 102.181 31.4695C102.765 31.7422 103.236 32.1257 103.594 32.62C103.956 33.1143 104.171 33.6918 104.24 34.3523H102.38C102.277 33.892 102.043 33.4957 101.676 33.1634C101.314 32.831 100.828 32.6648 100.219 32.6648C99.6864 32.6648 99.2197 32.8054 98.8192 33.0866C98.4229 33.3636 98.1139 33.7599 97.8923 34.2756C97.6707 34.7869 97.5599 35.392 97.5599 36.0909C97.5599 36.8068 97.6686 37.4247 97.8859 37.9446C98.1033 38.4645 98.4101 38.8672 98.8064 39.1527C99.2069 39.4382 99.6778 39.581 100.219 39.581C100.581 39.581 100.909 39.5149 101.203 39.3828C101.502 39.2464 101.751 39.0526 101.951 38.8011C102.156 38.5497 102.299 38.2472 102.38 37.8935H104.24C104.171 38.5284 103.965 39.0952 103.62 39.5938C103.274 40.0923 102.812 40.4844 102.233 40.7699C101.657 41.0554 100.982 41.1982 100.206 41.1982ZM109.789 41.1982C108.869 41.1982 108.065 40.9872 107.379 40.5653C106.693 40.1435 106.161 39.5533 105.781 38.7947C105.402 38.0362 105.212 37.1499 105.212 36.1357C105.212 35.1172 105.402 34.2266 105.781 33.4638C106.161 32.701 106.693 32.1087 107.379 31.6868C108.065 31.2649 108.869 31.054 109.789 31.054C110.71 31.054 111.513 31.2649 112.199 31.6868C112.885 32.1087 113.418 32.701 113.797 33.4638C114.176 34.2266 114.366 35.1172 114.366 36.1357C114.366 37.1499 114.176 38.0362 113.797 38.7947C113.418 39.5533 112.885 40.1435 112.199 40.5653C111.513 40.9872 110.71 41.1982 109.789 41.1982ZM109.796 39.5938C110.392 39.5938 110.886 39.4361 111.278 39.1207C111.671 38.8054 111.96 38.3857 112.148 37.8615C112.34 37.3374 112.435 36.7599 112.435 36.1293C112.435 35.5028 112.34 34.9276 112.148 34.4034C111.96 33.875 111.671 33.451 111.278 33.1314C110.886 32.8118 110.392 32.652 109.796 32.652C109.195 32.652 108.696 32.8118 108.3 33.1314C107.908 33.451 107.616 33.875 107.424 34.4034C107.237 34.9276 107.143 35.5028 107.143 36.1293C107.143 36.7599 107.237 37.3374 107.424 37.8615C107.616 38.3857 107.908 38.8054 108.3 39.1207C108.696 39.4361 109.195 39.5938 109.796 39.5938ZM115.869 41V31.1818H117.704V32.7798H117.825C118.03 32.2386 118.364 31.8168 118.829 31.5142C119.293 31.2074 119.849 31.054 120.497 31.054C121.153 31.054 121.703 31.2074 122.146 31.5142C122.594 31.821 122.924 32.2429 123.137 32.7798H123.239C123.474 32.2557 123.846 31.8381 124.358 31.527C124.869 31.2116 125.479 31.054 126.186 31.054C127.077 31.054 127.803 31.3331 128.366 31.8913C128.932 32.4496 129.216 33.2912 129.216 34.4162V41H127.305V34.5952C127.305 33.9304 127.123 33.4489 126.761 33.1506C126.399 32.8523 125.966 32.7031 125.464 32.7031C124.841 32.7031 124.358 32.8949 124.013 33.2784C123.667 33.6577 123.495 34.1456 123.495 34.7422V41H121.59V34.4737C121.59 33.9411 121.424 33.5128 121.091 33.1889C120.759 32.8651 120.327 32.7031 119.794 32.7031C119.432 32.7031 119.097 32.799 118.79 32.9908C118.488 33.1783 118.243 33.4403 118.055 33.777C117.872 34.1136 117.78 34.5036 117.78 34.9467V41H115.869ZM135.379 41.1982C134.412 41.1982 133.578 40.9915 132.88 40.5781C132.185 40.1605 131.648 39.5746 131.269 38.8203C130.894 38.0618 130.706 37.1733 130.706 36.1548C130.706 35.1491 130.894 34.2628 131.269 33.4957C131.648 32.7287 132.176 32.13 132.854 31.6996C133.536 31.2692 134.333 31.054 135.245 31.054C135.799 31.054 136.336 31.1456 136.855 31.3288C137.375 31.5121 137.842 31.7997 138.255 32.1918C138.669 32.5838 138.995 33.093 139.233 33.7195C139.472 34.3416 139.591 35.098 139.591 35.9886V36.6662H131.787V35.2344H137.718C137.718 34.7315 137.616 34.2862 137.412 33.8984C137.207 33.5064 136.919 33.1974 136.549 32.9716C136.182 32.7457 135.752 32.6328 135.257 32.6328C134.721 32.6328 134.252 32.7649 133.851 33.0291C133.455 33.2891 133.148 33.63 132.931 34.0518C132.718 34.4695 132.611 34.9233 132.611 35.4134V36.532C132.611 37.1882 132.726 37.7464 132.956 38.2067C133.191 38.6669 133.517 39.0185 133.934 39.2614C134.352 39.5 134.84 39.6193 135.398 39.6193C135.76 39.6193 136.091 39.5682 136.389 39.4659C136.687 39.3594 136.945 39.2017 137.162 38.9929C137.38 38.7841 137.546 38.5263 137.661 38.2195L139.47 38.5455C139.325 39.0781 139.065 39.5447 138.69 39.9453C138.319 40.3416 137.853 40.6506 137.29 40.8722C136.732 41.0895 136.095 41.1982 135.379 41.1982ZM149.799 31.1818V32.7159H144.436V31.1818H149.799ZM145.874 28.8295H147.785V38.1172C147.785 38.4879 147.841 38.767 147.951 38.9545C148.062 39.1378 148.205 39.2635 148.38 39.3317C148.559 39.3956 148.752 39.4276 148.961 39.4276C149.115 39.4276 149.249 39.4169 149.364 39.3956C149.479 39.3743 149.568 39.3572 149.632 39.3445L149.978 40.9233C149.867 40.9659 149.709 41.0085 149.505 41.0511C149.3 41.098 149.044 41.1236 148.738 41.1278C148.235 41.1364 147.766 41.0469 147.331 40.8594C146.897 40.6719 146.545 40.3821 146.277 39.9901C146.008 39.598 145.874 39.1058 145.874 38.5135V28.8295ZM155.313 41.1982C154.393 41.1982 153.589 40.9872 152.903 40.5653C152.217 40.1435 151.684 39.5533 151.305 38.7947C150.926 38.0362 150.736 37.1499 150.736 36.1357C150.736 35.1172 150.926 34.2266 151.305 33.4638C151.684 32.701 152.217 32.1087 152.903 31.6868C153.589 31.2649 154.393 31.054 155.313 31.054C156.233 31.054 157.037 31.2649 157.723 31.6868C158.409 32.1087 158.942 32.701 159.321 33.4638C159.7 34.2266 159.89 35.1172 159.89 36.1357C159.89 37.1499 159.7 38.0362 159.321 38.7947C158.942 39.5533 158.409 40.1435 157.723 40.5653C157.037 40.9872 156.233 41.1982 155.313 41.1982ZM155.319 39.5938C155.916 39.5938 156.41 39.4361 156.802 39.1207C157.194 38.8054 157.484 38.3857 157.672 37.8615C157.863 37.3374 157.959 36.7599 157.959 36.1293C157.959 35.5028 157.863 34.9276 157.672 34.4034C157.484 33.875 157.194 33.451 156.802 33.1314C156.41 32.8118 155.916 32.652 155.319 32.652C154.718 32.652 154.22 32.8118 153.824 33.1314C153.432 33.451 153.14 33.875 152.948 34.4034C152.76 34.9276 152.667 35.5028 152.667 36.1293C152.667 36.7599 152.76 37.3374 152.948 37.8615C153.14 38.3857 153.432 38.8054 153.824 39.1207C154.22 39.4361 154.718 39.5938 155.319 39.5938ZM165.68 41V27.9091H173.798V29.6094H167.655V33.598H173.216V35.2919H167.655V41H165.68ZM181.048 36.9283V31.1818H182.965V41H181.086V39.2997H180.984C180.758 39.8239 180.396 40.2607 179.897 40.6101C179.403 40.9553 178.787 41.1278 178.05 41.1278C177.419 41.1278 176.861 40.9893 176.375 40.7124C175.894 40.4311 175.514 40.0156 175.237 39.4659C174.965 38.9162 174.828 38.2365 174.828 37.4268V31.1818H176.74V37.1967C176.74 37.8658 176.925 38.3984 177.296 38.7947C177.666 39.1911 178.148 39.3892 178.74 39.3892C179.098 39.3892 179.454 39.2997 179.808 39.1207C180.166 38.9418 180.462 38.6712 180.696 38.3089C180.935 37.9467 181.052 37.4865 181.048 36.9283ZM189.486 31.1818V32.7159H184.124V31.1818H189.486ZM185.562 28.8295H187.473V38.1172C187.473 38.4879 187.528 38.767 187.639 38.9545C187.75 39.1378 187.893 39.2635 188.067 39.3317C188.246 39.3956 188.44 39.4276 188.649 39.4276C188.803 39.4276 188.937 39.4169 189.052 39.3956C189.167 39.3743 189.256 39.3572 189.32 39.3445L189.665 40.9233C189.555 40.9659 189.397 41.0085 189.192 41.0511C188.988 41.098 188.732 41.1236 188.425 41.1278C187.923 41.1364 187.454 41.0469 187.019 40.8594C186.585 40.6719 186.233 40.3821 185.964 39.9901C185.696 39.598 185.562 39.1058 185.562 38.5135V28.8295ZM197.19 36.9283V31.1818H199.108V41H197.228V39.2997H197.126C196.9 39.8239 196.538 40.2607 196.04 40.6101C195.545 40.9553 194.929 41.1278 194.192 41.1278C193.562 41.1278 193.003 40.9893 192.518 40.7124C192.036 40.4311 191.657 40.0156 191.38 39.4659C191.107 38.9162 190.971 38.2365 190.971 37.4268V31.1818H192.882V37.1967C192.882 37.8658 193.067 38.3984 193.438 38.7947C193.809 39.1911 194.29 39.3892 194.883 39.3892C195.241 39.3892 195.596 39.2997 195.95 39.1207C196.308 38.9418 196.604 38.6712 196.839 38.3089C197.077 37.9467 197.194 37.4865 197.19 36.9283ZM201.046 41V31.1818H202.893V32.7415H202.995C203.174 32.2131 203.49 31.7976 203.941 31.495C204.397 31.1882 204.913 31.0348 205.488 31.0348C205.608 31.0348 205.748 31.0391 205.91 31.0476C206.076 31.0561 206.206 31.0668 206.3 31.0795V32.9077C206.223 32.8864 206.087 32.8629 205.891 32.8374C205.695 32.8075 205.499 32.7926 205.303 32.7926C204.851 32.7926 204.448 32.8885 204.095 33.0803C203.745 33.2678 203.468 33.5298 203.264 33.8665C203.059 34.1989 202.957 34.5781 202.957 35.0043V41H201.046ZM211.204 41.1982C210.237 41.1982 209.403 40.9915 208.705 40.5781C208.01 40.1605 207.473 39.5746 207.094 38.8203C206.719 38.0618 206.531 37.1733 206.531 36.1548C206.531 35.1491 206.719 34.2628 207.094 33.4957C207.473 32.7287 208.001 32.13 208.679 31.6996C209.361 31.2692 210.158 31.054 211.07 31.054C211.624 31.054 212.161 31.1456 212.68 31.3288C213.2 31.5121 213.667 31.7997 214.08 32.1918C214.494 32.5838 214.82 33.093 215.058 33.7195C215.297 34.3416 215.416 35.098 215.416 35.9886V36.6662H207.612V35.2344H213.543C213.543 34.7315 213.441 34.2862 213.237 33.8984C213.032 33.5064 212.744 33.1974 212.374 32.9716C212.007 32.7457 211.577 32.6328 211.082 32.6328C210.546 32.6328 210.077 32.7649 209.676 33.0291C209.28 33.2891 208.973 33.63 208.756 34.0518C208.543 34.4695 208.436 34.9233 208.436 35.4134V36.532C208.436 37.1882 208.551 37.7464 208.781 38.2067C209.016 38.6669 209.342 39.0185 209.759 39.2614C210.177 39.5 210.665 39.6193 211.223 39.6193C211.585 39.6193 211.916 39.5682 212.214 39.4659C212.512 39.3594 212.77 39.2017 212.987 38.9929C213.205 38.7841 213.371 38.5263 213.486 38.2195L215.295 38.5455C215.15 39.0781 214.89 39.5447 214.515 39.9453C214.144 40.3416 213.678 40.6506 213.115 40.8722C212.557 41.0895 211.92 41.1982 211.204 41.1982ZM217.06 41V27.9091H219.035V39.2997H224.967V41H217.06ZM229.294 41.2173C228.672 41.2173 228.11 41.1023 227.607 40.8722C227.104 40.6378 226.705 40.299 226.411 39.8558C226.122 39.4126 225.977 38.8693 225.977 38.2259C225.977 37.6719 226.083 37.2159 226.296 36.858C226.509 36.5 226.797 36.2166 227.159 36.0078C227.522 35.799 227.926 35.6413 228.374 35.5348C228.821 35.4283 229.277 35.3473 229.742 35.2919C230.33 35.2237 230.807 35.1683 231.173 35.1257C231.54 35.0788 231.806 35.0043 231.973 34.902C232.139 34.7997 232.222 34.6335 232.222 34.4034V34.3587C232.222 33.8004 232.064 33.3679 231.749 33.0611C231.438 32.7543 230.973 32.6009 230.355 32.6009C229.712 32.6009 229.205 32.7436 228.834 33.0291C228.468 33.3104 228.214 33.6236 228.073 33.9688L226.277 33.5597C226.49 32.9631 226.801 32.4815 227.21 32.1151C227.624 31.7443 228.099 31.4759 228.636 31.3097C229.173 31.1392 229.737 31.054 230.33 31.054C230.722 31.054 231.137 31.1009 231.576 31.1946C232.019 31.2841 232.433 31.4503 232.816 31.6932C233.204 31.9361 233.522 32.2834 233.769 32.7351C234.016 33.1825 234.139 33.7642 234.139 34.4801V41H232.273V39.6577H232.196C232.073 39.9048 231.887 40.1477 231.64 40.3864C231.393 40.625 231.075 40.8232 230.688 40.9808C230.3 41.1385 229.835 41.2173 229.294 41.2173ZM229.71 39.6832C230.238 39.6832 230.69 39.5788 231.065 39.37C231.444 39.1612 231.732 38.8885 231.928 38.5518C232.128 38.2109 232.228 37.8466 232.228 37.4588V36.1932C232.16 36.2614 232.028 36.3253 231.832 36.3849C231.64 36.4403 231.421 36.4893 231.173 36.532C230.926 36.5703 230.686 36.6065 230.451 36.6406C230.217 36.6705 230.021 36.696 229.863 36.7173C229.492 36.7642 229.154 36.843 228.847 36.9538C228.544 37.0646 228.301 37.2244 228.118 37.4332C227.939 37.6378 227.85 37.9105 227.85 38.2514C227.85 38.7244 228.024 39.0824 228.374 39.3253C228.723 39.5639 229.169 39.6832 229.71 39.6832ZM236.208 41V27.9091H238.12V32.7734H238.235C238.346 32.5689 238.505 32.3324 238.714 32.0639C238.923 31.7955 239.213 31.5611 239.583 31.3608C239.954 31.1562 240.444 31.054 241.054 31.054C241.846 31.054 242.554 31.2543 243.176 31.6548C243.798 32.0554 244.286 32.6328 244.64 33.3871C244.998 34.1413 245.176 35.049 245.176 36.1101C245.176 37.1712 245 38.081 244.646 38.8395C244.292 39.5937 243.806 40.1754 243.189 40.5845C242.571 40.9893 241.865 41.1918 241.073 41.1918C240.476 41.1918 239.988 41.0916 239.609 40.8913C239.234 40.6911 238.94 40.4567 238.727 40.1882C238.514 39.9197 238.35 39.6811 238.235 39.4723H238.075V41H236.208ZM238.081 36.0909C238.081 36.7812 238.181 37.3864 238.382 37.9062C238.582 38.4261 238.872 38.8331 239.251 39.1271C239.63 39.4169 240.095 39.5618 240.645 39.5618C241.216 39.5618 241.693 39.4105 242.076 39.108C242.46 38.8011 242.75 38.3857 242.946 37.8615C243.146 37.3374 243.246 36.7472 243.246 36.0909C243.246 35.4432 243.148 34.8615 242.952 34.3459C242.76 33.8303 242.471 33.4233 242.083 33.125C241.699 32.8267 241.22 32.6776 240.645 32.6776C240.091 32.6776 239.622 32.8203 239.238 33.1058C238.859 33.3913 238.571 33.7898 238.375 34.3011C238.179 34.8125 238.081 35.4091 238.081 36.0909Z"
+						fill="white" />
+					<defs>
+						<clipPath id="clip0_41_1551">
+							<rect width="311" height="71" rx="18" fill="white" />
+						</clipPath>
+					</defs>
+				</svg>
+
+				{% if p_number_error_msg %}
+				<div class="incorect">
+					<p style="color: red;"> {{ p_number_error_msg }} </p>
+				</div>
+				{% endif %}
+
+				{% if p_email_error_msg %}
+				<div class="incorect">
+					<p style="color: red;"> {{ p_email_error_msg }} </p>
+				</div>
+				{% endif %}
+
+				{% if otp_error_msg %}
+				<div class="incorect">
+					<p style="color: red;"> {{ otp_error_msg }} </p>
+				</div>
+				{% endif %}
+
+				<div class="col-md-12">
+					{% csrf_token %}
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "First Name" %}</label>
+							<div class="border-grad">
+									{% render_field person_register_form.first_name class="mobile-text-input text-box form-control" placeholder=placeholder_of_first_name %}
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "invaild" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+						{% if first_name_error_msg %}
+						<div class="error-msg">
+							<p>{{ first_name_error_msg }}</p>
+						</div>
+						{% endif %}
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Last Name" %}</label>
+							<div class="border-grad">
+									{% render_field person_register_form.last_name class="mobile-text-input text-box form-control" placeholder=placeholder_of_last_name %}
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "invaild" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+						{% if last_name_error_msg %}
+						<div class="error-msg">
+							<p>{{ last_name_error_msg }}</p>
+						</div>
+						{% endif %}
+					</div>
+					{% comment %} <div class="input-phone"></div> {% endcomment %}
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Mobile Number" %}</label>
+							<div class="border-grad">
+								<div class="contry-code-input">
+									<div class="contry-code-lists">
+										
+									<select class="select-box form-select select2" name="countryCode" id="id_country_code">
+										{% comment %} <option value="" disabled selected>{% trans "Select" %}</option> {% endcomment %}
+										{% if request.LANGUAGE_CODE == "it" %}
+										<option data-countryCode="IT" value="+39" selected>+39</option>
+										<option data-countryCode="IN" value="+91">+91</option>
+										{% else %}
+										<option data-countryCode="GB" value="+44">+44</option>
+										<option data-countryCode="US" value="+1" selected>+1</option>
+										<option data-countryCode="IN" value="+91">+91</option>
+										{% endif %}
+									</select>
+									</div>
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter your mobile number"> {% endcomment %}
+								{% render_field person_register_form.contact_number placeholder=placeholder_of_phone_number class="mobile-text-input text-box form-control" %}
+								<span class="d-none error-message invaild" id="id_number_invalid">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "invaild number" %}
+								</span>
+								<span class="d-none error-message success" id="id_number_valid">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+								</div>
+							</div>
+						</div>
+						{% if number_error_msg %}
+							<div class="error-msg">
+								<p style="color: red;">{{ number_error_msg }}</p>
+							</div>
+						{% endif %}
+					</div>
+					
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your E-mail ID" %}</label>
+							<div class="border-grad">
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter your e-mail id"> {% endcomment %}
+									{% render_field person_register_form.email class="mobile-text-input text-box form-control" type="email" placeholder=placeholder_of_email value="" %}
+								<span class="d-none error-message invaild" id="id_email_exist">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Email already exists" %}
+								</span>
+
+								<span class="d-none error-message invaild" id="id_invlid_email">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Invalid email" %}
+								</span>
+								
+								<span class="d-none error-message success" id="id_email_valid">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Valid email" %}
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Set your password" %}</label>
+							<div class="border-grad">
+								{% comment %} <input type="text" class="mobile-text-input text-box form-control"
+									placeholder="Enter new password"> {% endcomment %}
+								{% render_field person_register_form.password class="mobile-text-input text-box form-control" type="password" placeholder=placeholder_of_password value="" %}
+								
+							</div>
+							<div class="error-msg" id="id_password_error">
+								<p></p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 mb-4">
+						<label class="mobile-label-text">{% trans "Gender" %}</label>
+						<div class="row sign-up-row">
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test1" name="gender" value="Female">
+									<label for="test1">{% trans "Female" %}</label>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test2" name="gender" value="Male">
+									<label for="test2">{% trans "Male" %}</label>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<div class="custom-radio-sign-up">
+									<input type="radio" id="test3" name="gender" value="other">
+									<label for="test3">{% trans "Other" %}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="recaptcha-container" class="recaptcha"></div>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad mt-3 ">
+								<button id="signup-first-btn"
+									class="mobile-sign-button form-control sign-btn sign-btn-next" type="button">
+									{% trans "Send OTP to mobile!" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad none-bg-mb">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong>{% trans "Privacy Policy" %}</strong></span>
+							<span class="mt-2 mobile-btn-agree already-login-bt">{% trans "Already have an account" %}? <a
+									href="{% url 'login' %}">{% trans "Login" %}</a></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="signup-second-step" class="mobile-form-login-up row" style="display:none;">
+				<div class="col-md-12">
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Name" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control" placeholder="" id="id_username" value="">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Mobile Number" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control" placeholder="" id="id_edit_phone" value="">
+								<span class="edit-mobile-nm">{% trans "Edit" %}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "One Time Password" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control"
+									placeholder="{% trans "Please Enter the OTP Recieved" %}" id="otp_verification" 
+									name="otp_verification" onkeyup="otp_verify(this.value);">
+								<span class="d-none error-message invaild" id="id_otp_invalid">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Wrong OTP" %}
+								</span>
+								<span class="d-none error-message success" id="id_otp_verified">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+							<div class="bottom-mobile-sub-text">
+								<span>{% trans "Didn’t recieved the code yet" %}?</span>
+								<span class="resent-otp-nm d-none" id="id_resend_otp" style="cursor: pointer;">{% trans "Go back for Resend OTP" %}</span>
+								<span class="" id="id_otp_valid_time"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad" id="id_div_btn_next">
+								<button id="signup-second-btn"
+									class="mobile-sign-button form-control sign-btn sign-btn-next">
+									{% trans "Confirm OTP" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong>{% trans "Privacy Policy" %}</strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="signup-third-step" class="mobile-form-login-up row" style="display:none;">
+				<div class="col-md-12">
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround
+						https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>
+					<input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "FutureLab Code" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control"
+									placeholder="{% trans "Enter the Discount Code" %}" name="future_lab_code" id="future_lab_code" required>
+								<span class="d-none error-message invaild" id="id_invalid_code">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Not registered" %}
+								</span>
+								<span class="d-none error-message success" id="id_applied_code">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Code applied" %}
+								</span>
+							</div>
+						</div>
+					</div>
+
+					{% if request.LANGUAGE_CODE == "it" %}
+					<div class="col-md-12 d-flex justify-content-between">
+						<div class="half-flex">
+							<div class="border-grad-inner">
+								<label class="mobile-label-text">{% trans "Your Grade" %}</label>
+								<div class="border-grad mobile-grad-border">
+									<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-year" name="class-year" required="">
+										<option value="" selected="">{% trans "Select" %}</option>
+										{% for class_year in class_years %}
+										<option value="{{class_year.pk}}">{{class_year.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="half-flex">
+							<div class="border-grad-inner">
+								<label class="mobile-label-text">{% trans "Your Section" %}</label>
+								<div class="border-grad mobile-grad-border">
+									<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-name" name="class-name" required="">
+										<option value="" selected="">{% trans "Select" %}</option>
+										{% for class_name in class_names %}
+										<option value="{{class_name.pk}}">{{class_name.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Stream" %}</label>
+							<div class="border-grad mobile-grad-border">
+								<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-specialization"
+								name="class-specialization" required="">
+									<option value="" selected="">{% trans "Select your Stream" %}</option>
+									{% for specialization in specilizations %}
+									<option value="{{specialization.pk}}">{{specialization.name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+					{% else %}
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Grade" %}</label>
+							<div class="border-grad mobile-grad-border">
+								<select class="select-box form-select select2 mobile-text-input select-box form-select" id="id-class-year" name="class-year" required="">
+									<option value="" selected="">{% trans "Select" %}</option>
+									{% for class_year in class_years %}
+									<option value="{{class_year.pk}}">{{class_year.name}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Parent’s Mobile Number" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control"
+									placeholder="{% trans "Enter your Parent’s Number" %}" name="p_contact_number" required>
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Already exist" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "Your Parent’s E-mail ID" %}</label>
+							<div class="border-grad">
+								<input type="text" class="mobile-text-input text-box form-control"
+									placeholder="{% trans 'Your Parent’s E-mail ID' %}" name="p_email" required>
+								<span class="d-none error-message invaild">
+									<svg width="16" height="15" viewBox="0 0 16 15" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M8.6637 0.899125C8.4042 0.408625 7.5972 0.408625 7.3377 0.899125L0.587701 13.6491C0.526939 13.7634 0.496816 13.8915 0.500266 14.0209C0.503717 14.1502 0.540624 14.2765 0.607391 14.3874C0.674159 14.4983 0.768509 14.59 0.881249 14.6535C0.99399 14.7171 1.12127 14.7504 1.2507 14.7501H14.7507C14.88 14.7504 15.0072 14.7171 15.1199 14.6536C15.2326 14.5901 15.3268 14.4984 15.3935 14.3876C15.4602 14.2768 15.4971 14.1506 15.5005 14.0213C15.5039 13.892 15.4737 13.764 15.413 13.6499L8.6637 0.899125ZM8.7507 12.5001H7.2507V11.0001H8.7507V12.5001ZM7.2507 9.50012V5.75012H8.7507L8.75145 9.50012H7.2507Z"
+											fill="#EA454B"></path>
+									</svg> {% trans "Already exist" %}
+								</span>
+								<span class="d-none error-message success">
+									<svg width="18" height="16" viewBox="0 0 18 16" fill="none"
+										xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M6.45 15.875L5.025 13.475L2.325 12.875L2.5875 10.1L0.75 8L2.5875 5.9L2.325 3.125L5.025 2.525L6.45 0.125L9 1.2125L11.55 0.125L12.975 2.525L15.675 3.125L15.4125 5.9L17.25 8L15.4125 10.1L15.675 12.875L12.975 13.475L11.55 15.875L9 14.7875L6.45 15.875ZM8.2125 10.6625L12.45 6.425L11.4 5.3375L8.2125 8.525L6.6 6.95L5.55 8L8.2125 10.6625Z"
+											fill="#70F099" />
+									</svg> {% trans "Verified" %}
+								</span>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="School">
+					<!-- <div class="col-md-12" id="id_div_how_know_us">
+						<div class="border-grad-inner">
+							<label class="mobile-label-text">{% trans "How did you get to know us?"%}</label>
+							{% if how_know_us_other_error %}
+							<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="Other">
+							<select id="id_how_know_us"  class="select-box form-select" required>
+								{% for x, y in person_register_form.fields.how_know_us.choices %}
+								{% if forloop.counter == 1 %}
+									<option value="Other" selected >{% trans "Select"%} - {% trans 'Other' %}</option>
+								{% else %}
+									<option value="{{ x }}">{{ y }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+							{% else %}
+							<input type="hidden" id="hdn_how_know_us" name="how_know_us" value="">
+							<select id="id_how_know_us"  class="select-box form-select" required>
+								{% for x, y in person_register_form.fields.how_know_us.choices %}
+								{% if forloop.counter == 1 %}
+									<option value="" selected >{% trans "How did you get to know us?"%}</option>
+								{% else %}
+									<option value="{{ x }}">{{ y }}</option>
+								{% endif %}
+								{% endfor %}
+							</select>
+							{% endif %}
+						</div>
+					</div> -->
+				</div>
+				<div class="col-md-12" style="margin-top: 25px;">
+					<div class="col-md-12">
+						<div class="border-grad-inner">
+							<div class="border-grad" id="id_div_btn_next">
+								<button class="mobile-sign-button form-control sign-btn sign-btn-next" id='btn_next'
+									type="submit">{% trans "Finish!" %}</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="border-grad">
+							<span class="mobile-btn-agree">{% trans "By signing up you agree to our" %} <strong>{% trans "Privacy Policy" %}</strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Fourteen Plus Modal -->
+<div class="modal fade" id="fourteenPlusModal" tabindex="-1" role="dialog" aria-labelledby="fourteenPlusModal"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content six-p">
+			<div class="modal-header">
+				<h5 class="modal-title">{% trans 'Are you 14+? - No' %}</h5>
+				<!-- <button type="button" class="cross-m" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                  <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                  </svg>
+              </button> -->
+			</div>
+			<div class="modal-body six-p-p">
+				<p style="color: red;">{% trans 'Our program is intended only for high school students who are 14 and
+					above. Soon, we will add our experience for everyone. Please check back in some time.' %}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="six-p-conti" data-bs-dismiss="modal" data-dismiss="modal">{% trans 'I
+					understand' %}</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+// $(document).ready(function () {
+    var coupon_code = $('#id_discount_coupon_code').val();
+    var first_request = "{{first_request}}"
+
+    $('#id_country_code').select2();
+    $('#id-class-name').select2();
+    $('#id-class-specialization').select2();
+	$('#id-class-year').select2();
+    
+	window.onload = function () {
+		render();
+	};
+	function render() {
+		// var appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+		window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+		recaptchaVerifier.render();
+	}
+	var form_validated = false;
+	var is_first_name = false;
+	var is_last_name = false;
+	var form_status = false;
+	var is_gender = false;
+	var is_contact_number = false;
+	var is_email = false;
+	var is_otp_verification = false;
+	var is_otp_verified = false;
+	var first_name = $("#id_first_name").val();
+	var last_name = $("#id_last_name").val();
+	var gender = $('input[name="gender"]:checked');
+	var contact_number = $("#id_contact_number").val();
+	var otp_verification = $("#otp_verification").val();
+	var future_lab_code = $("#future_lab_code").val();
+	var id_class_year = $("#id-class-year").val();
+	var is_password = false;
+	var email = document.getElementById("id_email").value;
+	var password = document.getElementById("id_password").value;
+
+
+	$("#idForm").submit(function() {
+		if (is_applied_discount_code === true){
+			$("#idForm").submit()
+			return true;
+		}else{
+			return false
+		}
+	});
+
+	// check the All Field are required
+	$("#id_first_name").blur(function () {
+		first_name = $("#id_first_name").val();
+		if (first_name.length != 0) {
+			$("#id_first_name").attr("style", "border:#2E2F32!important");
+			is_first_name = true;
+		} else {
+			$("#id_first_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_first_name = false;
+		}
+	});
+
+	$("#id_last_name").blur(function () {
+		first_name = $("#id_last_name").val();
+		if (first_name.length != 0) {
+			$("#id_last_name").attr("style", "border:#2E2F32!important");
+			is_last_name = true;
+		} else {
+			$("#id_last_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_last_name = false;
+		};
+	});
+
+	$("#id_gender").click(function () {
+		gender = $('#id_gender').find(":selected").val();
+		if (gender.length != 0) {
+			$("#id_gender").attr("style", "border:#2E2F32!important");
+			is_gender = true;
+		} else {
+			$("#id_gender").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_gender = false;
+		}
+	});
+
+	$("#id_contact_number").blur(function () {
+		var country_code = $("#id_country_code").find(":selected").val();
+		contact_number = $('#id_contact_number').val();
+		if (country_code.length != 0){
+			if (contact_number.length != 0) {
+				$("#id_contact_number").attr("style", "border:#2E2F32!important");
+				is_contact_number = true;
+			} else {
+				$("#id_contact_number").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+				is_contact_number = false;
+			};
+		}else{
+			// alert("Please select the Country Code.") 
+			$("#id_contact_number").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_contact_number = false;
+		};
+		
+	});
+
+	$("#future_lab_code").blur(function () {
+		future_lab_code = $("#future_lab_code").val();
+		if (future_lab_code.length != 0) {
+			$("#id_future_lab_code").attr("style", "border:#2E2F32!important");
+			is_future_lab_code = true;
+		} else {
+			$("#id_future_lab_code").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_future_lab_code = false;
+		}
+	});
+
+	$("#id_password").blur(function(){
+		$("#id_password_error p").text(checkStrength($('#id_password').val()));
+	});
+
+	function checkStrength(password) {  
+        var strength = 0
+        if (password.length < 6) {  
+            $('#id_password_error').removeClass();
+            $('#id_password_error').addClass('error-msg');
+			$("#id_password").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			$("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+            return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"
+        }  
+        if (password.length > 7) strength += 1  
+        // If password contains both lower and uppercase characters, increase strength value.  
+        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1  
+        // If it has numbers and characters, increase strength value.  
+        if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1  
+        // If it has one special character, increase strength value.  
+        if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1  
+        // If it has two special characters, increase strength value.  
+        if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1  
+        // Calculated strength value, we can return messages  
+        // If value is less than 2  
+        if (strength < 2) {  
+            $('#id_password_error').removeClass();
+            $('#id_password_error').addClass('error-msg');
+			$("#id_password").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			$("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");
+            return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}"  
+        } else if (strength == 2) {  
+            $('#id_password_error').removeClass();  
+            $('#id_password_error').addClass('error-msg');
+			$("#id_password").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			$("#id_password_error p").text("{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}");  
+            return "{% trans 'Your password must contain 1 uppercase, 1 lowercase, 1 numeric, and has at least 6 characters.' %}" 
+        } else {  
+            $('#id_password_error').removeClass();  
+            $('#id_password_error').addClass('strong-msg');
+			$("#id_password_error p").text("");
+			is_password = true;  
+            return ''  
+        }  
+    }
+
+	$("#id_email").blur(function () {
+		var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		var email_id = $("#id_email").val();
+		if (email_id.length > 0) {
+			if (!regex.test(email_id)) {
+				$("#id_invlid_email").removeClass('d-none');
+				$("#id_email_exist").addClass('d-none');
+				$("#id_email").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else {
+				$.ajax({
+					type: 'POST',
+					url: "{% url 'check_email' %}",
+					headers: {
+						'X-CSRFToken': '{{ csrf_token }}'
+					},
+					dataType: 'json',
+					data: {
+						'email': email_id,
+					},
+					success: function (response) {
+						if (response['message'] == "success" && response['is_exists'] == true) {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_exist").removeClass('d-none');
+							$("#id_email").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+							is_email = false;
+						}
+						else if (response['message'] == "success" && response['is_exists'] == false) {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_exist").addClass('d-none');
+							$("#id_email").attr("style", "border:#2E2F32!important");
+							$("#id_email_valid").removeClass("d-none");
+							is_email = true;
+						}
+						else {
+							$("#id_invlid_email").addClass('d-none');
+							$("#id_email_exist").removeClass('d-none');
+							$("#id_email").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+							is_email = false;
+						}
+					},
+					error: function (response) {
+						$("#id_invlid_email").addClass('d-none');
+						$("#id_email_exist").removeClass('d-none');
+						$("#id_email").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+						is_email = false;
+					}
+				});
+			}
+		} else {
+			$("#id_invlid_email").addClass('d-none');
+			$("#id_email_exist").addClass('d-none');
+		}
+	});
+	
+	// $(document).ready(function () {
+		$("#signup-first-btn").click(function () {
+
+			first_name = $("#id_first_name").val();
+			if (first_name === "") {
+				$("#id_first_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else { is_first_name = true; }
+
+			last_name = $("#id_last_name").val();
+			if (last_name === "") {
+				$("#id_last_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else { is_last_name = true; }
+
+			gender = $('input[name="gender"]:checked');
+			if (gender === "") {
+				$("#id_gender").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else { is_gender = true; }
+
+			contact_number = $('#id_contact_number').val();
+			var country_code = $("#id_country_code").find(":selected").val();
+			if (contact_number === "") {
+				$("#id_contact_number").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else { is_contact_number = true; }
+
+			email = document.getElementById("id_email").value;
+			if(email === "") {
+				$("#id_email").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			}else{is_email=true;}
+
+			password = document.getElementById("id_password").value;
+			if (password === "") {
+				$("#id_password").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			} else {
+				$("#id_password_error p").text(checkStrength($('#id_password').val()));
+				if(is_password){
+					$("#id_password").attr("style", "border:#2E2F32!important");
+				}else{
+					$("#id_password").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+				}
+			}
+
+			if (is_first_name === true && is_last_name === true && is_gender === true && is_contact_number === true && is_email === true && is_password === true){
+				// here is call the function for send OTP==>
+				phoneAuth();
+			}
+		});
+
+	function otp_verify(otp_num){
+		if (otp_num.length === 6) {
+			check_otp(otp_num)
+		}
+	}
+
+	$("#signup-second-btn").click(function () {
+		if (is_otp_verified == true){
+			$('#signup-second-step').hide();
+			$("#signup-first-step").hide();
+			$("#signup-third-step").show();
+		}
+	});
+
+	function check_otp(code){
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'check_master_code' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			dataType: 'json',
+			data: {
+				"otp": code,
+			},
+			success: function (response){
+				if(response['msg'] == "success" && response["is_exists"] == "Yes" ){
+					// alert("Successfully registered with master OTP!!");
+					$("#id_otp_invalid").addClass('d-none');
+					$("#id_otp_verified").removeClass('d-none');
+					$("#otp_verification").attr("style", "border:#2E2F32!important");
+					// $("#recaptcha-container").attr("style", "display:none");
+					is_otp_verified = true;
+					//$("#recaptcha-container").addClass("d-none");
+				}else if(response['msg'] == "success" && response["is_exists"] == "No" ){
+					verification_with_otp(code);
+				}else{
+					verification_with_otp(code);
+				}
+			}
+		});
+	}
+
+	function verification_with_otp(code){
+		coderesult.confirm(code).then(function (result) {
+			// alert("Successfully registered");
+			var user=result.user;
+			$("#id_otp_invalid").addClass('d-none');
+			$("#id_otp_verified").removeClass('d-none');
+			$("#otp_verification").attr("style", "border:#2E2F32!important");
+			// $("#recaptcha-container").attr("style", "display:none");
+			is_otp_verified = true;
+			//$("#recaptcha-container").addClass("d-none");
+			otp_verification_with_backend("Yes")
+		}).catch(function (error) {
+			$("#otp_verification").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_otp_verified = false;
+			$("#id_otp_invalid").removeClass("d-none");
+			$("#id_otp_verified").addClass('d-none');
+			var resend_btn = document.getElementById("send_otp_button");
+			resend_btn.innerHTML = "Resend";
+			//$("#recaptcha-container").removeClass("d-none");
+			$("#send_otp_button").removeClass("d-none");
+			// alert(error.message);
+		});
+	};
+
+	function otp_verification_with_backend(otp_status){
+		var email = document.getElementById("id_email").value;
+		$.ajax({
+			type: 'POST',
+			url: "{% url 'otp_verification' %}",
+			headers: {
+				'X-CSRFToken': '{{ csrf_token }}'
+			},
+			dataType: 'json',
+			data: {
+				'stu_email': email,
+				'otp_status': otp_status,
+			},
+			success: function (response) {
+				console.log(response);	
+			},
+			error: function(err){
+				console.log(err);
+			}
+		})
+	};
+
+	$("#id_resend_otp").click(function (){
+		// alert("clicked on the back button.")
+		$("#signup-first-step").show();
+		$('#signup-second-step').hide();
+		$("#signup-third-step").hide();
+	});
+
+	function phoneAuth(){
+		var country_code = $("#id_country_code").find(":selected").val();
+		var number = document.getElementById('id_contact_number').value;
+		var first_name = document.getElementById('id_first_name').value;
+		var last_name = document.getElementById('id_last_name').value;
+		var phone_number = country_code+number
+		if (!phone_number.length == 0 && !first_name.length == 0) {
+			firebase.auth().signInWithPhoneNumber(phone_number, window.recaptchaVerifier).then(function (confirmationResult) {
+				window.confirmationResult = confirmationResult;
+				coderesult = confirmationResult;
+				// alert("OTP sent on your phone.");
+				$('#signup-first-step').hide();
+				//$("#signup-second-step").show();
+				$("#signup-second-step").css('display','flex');
+				//$("#recaptcha-container").addClass("d-none");
+				$("#id_username").val(first_name + " " + last_name);
+				$("#id_edit_phone").val(phone_number);
+				$("#id_username").prop('disabled', true);
+				$("#id_edit_phone").prop('disabled', true);
+				var timeLeft = 60;
+				var elem = document.getElementById('id_otp_valid_time');
+				var timerId = setInterval(countdown, 1000);
+				function countdown() {
+					if (timeLeft == -1) {
+						clearTimeout(timerId);
+						$("#id_otp_valid_time").addClass("d-none");
+						$("#id_resend_otp").removeClass("d-none");
+					} else {
+						elem.innerHTML = timeLeft + ' sec';
+						timeLeft--;
+					}
+				}
+			}).catch(function (error) {
+				// alert(error.message);
+				//$("#recaptcha-container").removeClass("d-none");
+				$("#id_input_otp").addClass("d-none");
+				var elem = document.getElementById('send_otp_button')
+				elem.innerHTML = "Resend";
+			});
+		}
+		else {
+			$("#id_first_name").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_first_name = false;
+			$("#id_contact_number").attr("style", "border-bottom-color: red!important;border-left-color: red!important;border-right-color: red!important;");
+			is_contact_number = false;
+		};
+	};
+
+	function apply_discount_code(is_from_onblur) {
+		var coupon_code = $('#future_lab_code').val();
+		if (coupon_code) {
+			$.ajax({
+				type: 'POST',
+				url: "{% url 'coupon-code-exists' %}",
+				headers: {
+					'X-CSRFToken': '{{ csrf_token }}'
+				},
+				dataType: 'json',
+				data: {
+					'coupon_code': coupon_code,
+				},
+				success: function (response) {
+					var data = JSON.parse(JSON.stringify(response));
+					if (data['message'] == 'success') {
+						//$('#btn-apply-code').hide();
+						//$('#btn-remove-code').show();
+						$('#id_future_lab_code').val(coupon_code);
+						$("#id_applied_code").removeClass("d-none");
+						$("#id_invalid_code").addClass("d-none");
+						//$("#id_discount_coupon_code").attr('readonly','readonly');
+						$("#idForm").append(`
+					<input type="hidden" id="id-school-region" name="school-region" value="${data["data"]["state"]}">
+					<input type="hidden" id="id-school-city" name="school-city" value="${data["data"]["city"]}">
+					<input type="hidden" id="id-school-name" name="school-name" value="${data["data"]["name"]}">
+					`);
+
+					} else {
+						//$('#btn-apply-code').show();
+						//$('#btn-remove-code').hide();
+						//$('#id_discount_coupon_code').val('');
+						$('#id_future_lab_code').val('');
+						$("#id_invalid_code").removeClass("d-none");
+						$("#id_applied_code").addClass("d-none");
+						//$("#id_discount_coupon_code").removeAttr('readonly');
+					}
+				},
+				error: function (response) {
+					//$('#btn-apply-code').show();
+					//$('#btn-remove-code').hide();
+					//$('#id_discount_coupon_code').val('');
+					$('#id_future_lab_code').val('');
+					$("#id_invalid_code").removeClass("d-none");
+					$("#id_applied_code").addClass("d-none");
+					//$("#id_discount_coupon_code").removeAttr('readonly');
+				},
+				async: is_from_onblur
+			});
+		};
+	};
+	$('#future_lab_code').on('blur', function (e) {
+		// alert("Out Blur");
+		apply_discount_code(true);
+	});
+
+</script>
+<script>
+	$(document).ready(function () {
+
+		$("#id_are_you_fourteen_plus").change();
+		"{% if gender_other_error %}"
+		$("#id_div_other_gender").show();
+		$('#id_div_gender').removeClass('col-md-12');
+		$('#id_div_gender').addClass('col-md-6');
+		$('#id_gender_other').attr('required', 'true');
+		"{% else %}"
+		$("#id_div_other_gender").hide();
+		"{% endif %}"
+
+		$.validator.addMethod("valueEquals", function (value, element, arg) {
+			return value == 'Yes';
+		}, "Our program is intended only for high school students who are 14 and above.");
+
+		$("form").validate({
+			rules: {
+				are_you_fourteen_plus: { valueEquals: "Yes" }
+			},
+			// messages: {
+			//   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+			// }  
+		});
+
+	});
+
+	$("#id_gender").change(function () {
+		var selected_text = $(this).find("option:selected").text();
+		var selected_val = $(this).find("option:selected").val()
+		$("#hdn_gender").val(selected_val);
+
+		$("#id_gender option:first").text("{% trans 'Gender'%} - " + selected_text);
+		$("#id_gender option:first").val(selected_val);
+		$("#id_gender")[0].selectedIndex = 0;
+		if (selected_val == "Other") {
+			$("#id_div_other_gender").show();
+			$('#id_div_gender').removeClass('col-md-12');
+			$('#id_div_gender').addClass('col-md-6');
+			$('#id_gender_other').attr('required', 'true');
+		}
+		else {
+			$("#id_gender_other").val('');
+			$("#id_div_other_gender").hide();
+			$('#id_div_gender').removeClass('col-md-6');
+			$('#id_div_gender').addClass('col-md-12');
+			$('#id_gender_other').removeAttr('required');
+
+		}
+
+	});
+	$(document).ready(function () {
+
+		$("#id_are_you_fourteen_plus").change();
+		// "{% if how_know_us_other_error %}"
+		// $("#id_div_other").show();
+		// $('#id_div_how_know_us').removeClass('col-md-12');
+		// $('#id_div_how_know_us').addClass('col-md-6');
+		// $('#id_how_know_us_other').attr('required', 'true');
+		// "{% else %}"
+		// $("#id_div_other").hide();
+		// "{% endif %}"
+
+		$.validator.addMethod("valueEquals", function (value, element, arg) {
+			return value == 'Yes';
+		}, "Our program is intended only for high school students who are 14 and above.");
+
+		$("form").validate({
+			rules: {
+				are_you_fourteen_plus: { valueEquals: "Yes" }
+			},
+			// messages: {
+			//   are_you_fourteen_plus: { valueNotEquals: "Please select an item!" }
+			// }  
+		});
+
+	});
+
+	// $("#id_how_know_us").change(function () {
+	// 	var selected_text = $(this).find("option:selected").text();
+	// 	var selected_val = $(this).find("option:selected").val()
+	// 	$("#hdn_how_know_us").val(selected_val);
+
+	// 	$("#id_how_know_us option:first").text("{% trans 'How did you get to know us?'%} - " + selected_text);
+	// 	$("#id_how_know_us option:first").val(selected_text);
+	// 	$("#id_how_know_us")[0].selectedIndex = 0;
+	// 	if (selected_val == "Other") {
+	// 		$("#id_div_other").show();
+	// 		$('#id_div_how_know_us').removeClass('col-md-12');
+	// 		$('#id_div_how_know_us').addClass('col-md-6');
+	// 		$('#id_how_know_us_other').attr('required', 'true');
+	// 	}
+	// 	else {
+	// 		$("#id_how_know_us_other").val('');
+	// 		$("#id_div_other").hide();
+	// 		$('#id_div_how_know_us').removeClass('col-md-6');
+	// 		$('#id_div_how_know_us').addClass('col-md-12');
+	// 		$('#id_how_know_us_other').removeAttr('required');
+
+	// 	}
+
+	// });
+
+	$("#id_are_you_fourteen_plus").change(function () {
+		if ($(this).val() == 'No') {
+			$('#fourteenPlusModal').modal('show');
+			$('#btn_next').attr('disabled', true);
+			$('#id_div_btn_next').attr('style', 'background: none !important');
+			$('#btn_next').attr('style', 'border: none !important');
+			$('#btn_next').attr('title', `{% trans "Select correct option for 'Are you 14+?'" %}`);
+		}
+
+		else if ($(this).val() == 'Yes') {
+			$('#btn_next').removeAttr('disabled');
+			$('#id_div_btn_next').removeAttr('style');
+			$('#btn_next').removeAttr('style');
+		}
+
+		if ($(this).val() == 'Yes' || $(this).val() == 'No') {
+			var selected_text = $(this).find("option:selected").text();
+			var selected_value = $(this).find("option:selected").val();
+			$(this).empty();
+			$(this).append(`<option value="${selected_value}" selected>{% trans 'Are you 14+?' %} - ${selected_text}</option>`);
+			$(this).append(`<option value="Yes">{% trans 'Yes' %}</option>`);
+			$(this).append(`<option value="No">{% trans 'No' %}</option>`);
+		}
+	});
+
+
+
+	function passview() {
+		var x = document.getElementById("id_password");
+		if (x.type === "password") {
+			x.type = "text";
+			$("#pass_show_id").html('<i class="bi bi-eye" aria-hidden="true"></i>');
+		}
+		else {
+			x.type = "password";
+			$("#pass_show_id").html('<i class="bi bi-eye-slash"></i>');
+		}
+	}
+	// $(document).ready(function () {
+	// 	$(".send.otp-phone").click(function () {
+	// 		$(this).hide();
+	// 		$(".hide-otp-before").removeClass("hide-otp-before");
+	// 		$(".tooltip-pop").hide();
+	// 		$(".send-otp-phone").removeClass("col-md-12");
+	// 		$(".send-otp-phone").addClass("col-md-6");
+
+
+	// 	});
+	// });
+</script>
+{% endblock %}

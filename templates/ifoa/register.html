@@ -1,0 +1,568 @@
+{% extends 'base_ifoa.html' %}
+{% load static %}
+{% block title%}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+<title>IFOA-Register</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<style>
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #9B9FA6 !important;
+    font-size: 15px;
+}
+
+.select2-container--default .select2-selection--single span {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fff;
+  }
+ .select2-container--default {
+    width: 100% !important;
+  }
+ .select2-container--default .select2-selection--single {
+    height: 45px;
+    border-radius: 10px !important;
+    padding: 10px;
+    border: 1px solid #2E2F32!important;
+    color: #fff !important;
+    background-color: #333333 !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    width: 100%;
+    background-image: url({% static 'images/dropdown.png' %}) !important;
+      background-repeat: no-repeat;
+      background-position: right .75rem center;
+      background-size: 16px 12px;
+  }
+ .select2-container--default .select2-selection--single span.select2-selection__arrow {
+    display: none;
+  }
+  .select2-dropdown {
+    padding: 10px;
+    color: #fff !important;
+    background-color: var(--light-blue);
+    border: 1px solid var(--light-blue);
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #aaa;
+    background: var(--blue);
+    outline: none;
+    color: #9B9FA6;
+}
+.select2-container--default .select2-results__option--selected {
+    background-color: #6c7276;
+    color: #c7c7c7 !important;
+}
+
+.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  background-color: #545454;
+}
+.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar {
+  width: 8px;
+  background-color: #363739;
+}
+.select2-container--default .select2-results>.select2-results__options:-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 10px;
+  background-color: #363739;
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+  border-radius: 10px;
+  background-color: #26272b;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+  background-color: #1f3040 !important;
+  color: rgb(255, 255, 255) !important;
+  font-size: 1rem !important;
+}
+.select2-results__option--selectable {
+  cursor: pointer;
+  font-size: 15px !important;
+  color: #9B9FA6 !important;
+}
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable{
+  font-size: 15px !important;
+  color: #9B9FA6 !important;
+}
+.select2-container--default .select2-selection--single {
+  background-color: #2E2F32 !important;
+  background-position: right 0.3rem center;
+  background-size: 10px 7px;
+  height: auto;
+  padding: 7px;
+}
+.select2-container--default .select2-selection--single {
+    background-color: var(--light-blue) !important;
+    border: 1px solid var(--light-blue) !important;
+    font-size: 15px !important;
+    text-align: left !important;
+    color: #9B9FA6 !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.errorlist{
+    color: red;
+}
+.errorlist li {
+    text-align: left;
+}
+body {
+    overflow-x: hidden;
+}
+
+.date_error { 
+    color: red;
+    text-align: center;
+}
+
+.otp-modal .modal-content {
+    background-color: #020c25;
+    border: 3px  solid #fff;
+    border-radius: 20px;
+    padding: 40px;
+}
+.otp-modal .modal-content h2 {
+    font-size: 26px;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 12px;
+}
+.otp-modal .modal-content p {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 18px;
+}
+.otp-input-field {
+    border-radius: 10px;
+    padding: 10px 15px;
+    background-color: #ffff;
+    border: 1px solid #ffff;
+    color: #031C4C;
+    font-size: 16px;
+    width: 100%;
+    outline: none;
+    max-width: 300px;
+    text-align: center;
+}
+.otp-button-submit {
+    position: relative;
+    padding: 12px 40px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    font-weight: 600;
+    color: #031C4C;
+    display: inline-block;
+    margin: 18px auto  10px;
+    cursor: pointer;
+    text-decoration: none;
+    background: #fff;
+    border-radius: 8px;
+    display: table;
+}
+.label-field {
+    display: block;
+    margin: 0 auto 8px;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 400;
+    text-align: center;
+    max-width: 300px;
+}
+.label-field.left {
+    text-align: left;
+}
+.otp-modal.show {
+    display: flex !important;
+    align-items: center;
+}
+.otp-modal .modal-dialog {
+    max-width: 720px;
+}
+.text-align-left{
+    text-align: left;
+}
+@media (max-width: 767.98px) {
+        #id_date_of_birth{
+            min-width: 95%;
+            height: 46px;
+        }
+    }
+    input[type=date]:required:invalid::-webkit-datetime-edit {
+    color: transparent;
+    }
+    input[type=date]:focus::-webkit-datetime-edit {
+        color: black !important;
+    }
+    #id_date_of_birth::before{
+        display: inline;
+        content: attr(placeholder);
+        color: black;
+        
+    }
+    .id_date_of_birth_before::before{
+        width: 100%;
+    }
+    .id_date_of_birth_after::before{
+        width: 0px !important;
+    }
+    #id_date_of_birth:focus::before,
+    #id_date_of_birth:valid::before {
+        content: "" !important;
+    }
+    .date-picker-custom {
+    position: relative;
+    }
+    .date-picker-icon {
+        position: absolute;
+        right: 5px;
+        padding: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-7">
+            <img class="logo-hero-custom" style="top: 15px;" src="{% static 'unipegaso/images/logoIFOA.png' %}" />
+            <div class="custom-hero-form">
+                <div class="custom-hero-form-inner">
+                    <form id="submit_form_id" method="post">
+                        {% csrf_token %}
+                        <div class="row align-items-center justify-content-center">
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                        {% render_field student_registration_form.first_name class="custom-hero-form-filed" placeholder="Nome*" autocomplete="off" %}
+                                </div>
+                                {% if student_registration_form.first_name.errors %}
+                                    {{ student_registration_form.first_name.errors }}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.last_name class="custom-hero-form-filed" placeholder="Cognome*" autocomplete="off" %}
+                                </div>
+
+                                {% if student_registration_form.last_name.errors %}
+                                    {{ student_registration_form.last_name.errors }}
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    <select id="id_gender" class="custom-hero-form-filed select select2" name="gender">
+                                        <option class="disable-select-option" value="" disabled  selected="">Sesso</option>
+                                        {% for x, y in student_registration_form.fields.gender.choices %}
+                                            {% if forloop.counter == 1 %}
+                                            {% else %}
+                                                <option class="disable-select-option" value="{{ x }}">{{ y }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                    {% if student_registration_form.gender.errors %}
+                                        {{ student_registration_form.gender.errors }}
+                                    {% endif %}
+
+                                </div> 
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.date_of_birth class="custom-hero-form-filed id_date_of_birth_before" placeholder="Data di nascita*" autocomplete="off" %}
+                                </div> 
+
+                                {% if student_registration_form.date_of_birth.errors %}
+                                    {{ student_registration_form.date_of_birth.errors }}
+                                {% endif %}
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.birth_place class="custom-hero-form-filed" placeholder="Luogo di nascita*" autocomplete="off" %}
+                                </div> 
+                                {% if student_registration_form.birth_place.errors %}
+                                    {{ student_registration_form.birth_place.errors }}
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.tax_id_code class="custom-hero-form-filed" placeholder="Codice fiscale*" autocomplete="off" %}
+                                </div> 
+                                {% if student_registration_form.tax_id_code.errors %}
+                                    {{ student_registration_form.tax_id_code.errors }}
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.phone_number class="custom-hero-form-filed" placeholder="Numero di telefono*" autocomplete="off" %}
+                                </div>
+                                {% if student_registration_form.phone_number.errors %}
+                                    {{ student_registration_form.phone_number.errors }}
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="custom-hero-form-item">
+                                    <select class="custom-hero-form-filed select select2" id="id_how_did_you_know_us" name="how_did_you_know_us">
+                                        <option value="" disabled selected="">Come ci hai conosciuto</option>
+                                        {% for x, y in student_registration_form.fields.how_did_you_know_us.choices %}
+                                            {% if forloop.counter == 1 or forloop.counter == 2 %}
+                                            {% else %}
+                                                <option value="{{ x }}">{{ y }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    {% if student_registration_form.how_did_you_know_us.errors %}
+                                        {{ student_registration_form.how_did_you_know_us.errors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="custom-hero-form-item">
+                                    {% render_field student_registration_form.email class="custom-hero-form-filed" placeholder="Email*" autocomplete="off" %}
+                                </div>
+
+                                {% if student_registration_form.email.errors %}
+                                    {{ student_registration_form.email.errors }}
+                                {% endif %}
+                            </div>
+                            
+                            {% if messages %}
+                            <div class="error-msg">
+                                {% for messeage in messages %}
+                                    <p>{{ messeage }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <div class="col-md-12">
+                                <span class="date_error d-none" id="dob_id">
+                                    
+                                <span>
+                            </div>
+
+                            <div class="col-md-12 text-align-left">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="informativa_sulla_privacy"  id="informativa_sulla_privacy" required>
+                                    <span class="custom-control-label">
+                                        Confermo di aver preso visione dell <a href="https://www.privacylab.it/informativa.php?09395466694" target="_blank" rel="noopener noreferrer">'informativa sulla privacy</a>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-12 text-align-left">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" name="finalità_di_marketing" id="finalità_di_marketing"> 
+                                    <span class="custom-control-label">
+                                        Consento al trattamento dei dati personali per <a href="https://www.privacylab.it/informativa.php?09395343333" target="_blank" rel="noopener noreferrer">finalità di marketing</a>
+                                    </span>
+                                </label>
+                            </div>
+                            <input type="hidden" name="is_otp_verified" id="is_otp_verified" value="No">
+                            <div class="col-md-12">
+                                <div class="custom-hero-form-item">
+                                    <button type="submit" class="button-custom-hero" id="register_btn_id">Continua -></button>
+                                    <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#OTP-Modal" class="button-custom-hero" >Continua -></button> -->
+                                    <!-- <button type="button" class="button-custom-hero" id="send-otp-id">Continua -></button> -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- OTP Modal -->
+ 
+ <div class="modal fade otp-modal" id="OTP-Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="d-flex align-items-center justify-content-center msg-box-div2">
+                <div class="otp-modal-body-content">
+                    <h2>Verifica la tua identità</h2>
+                    <p>Abbiamo inviato un codice al tuo indirizzo email per verificare la tua identità. Inserisci il codice per procedere.</p>
+                    <!-- <label class="label-field">OTP</label> -->
+                    <input type="number" class="otp-input-field" name="user_otp" placeholder="OTP" aria-label="otp" aria-describedby="basic-addon1" id="id_user_otp">
+                    <button type="button" class="otp-button-submit" id="check_otp_id">Continua -></button>
+                    <a href="javascript:void(0)" onclick="close_otp_modal()">Modifica l’email</a>
+                    <div class="col-md-12 mt-4">
+                        <span class="date_error d-none" id="otp_error_message_id">
+                            Il codice inserito non è corretto. Riprova inserendo il codice che ti abbiamo inviato via mail.
+                        <span>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    
+    $(document).ready(function () {
+    $('#year_of_enrollment').select2();
+    $('#college-select').select2();
+    $('#select_contracted_center').select2();
+    $('#select_contracted_center_other').select2();
+    });
+
+    $("#id_user_otp").keyup(function() {
+        $('#otp_error_message_id').addClass('d-none');
+        $("span .date_error").text('');
+    });
+    var otp_resposne = false;
+    $("#check_otp_id").on('click', function() {
+        $("span .date_error").text('');
+        var user_email = $("#id_email").val();
+        var user_otp = $("#id_user_otp").val();
+        if (user_email.lenth == 0 && user_otp.length == 0){
+            $("span .date_error").text('Il codice inserito non è corretto. Riprova inserendo il codice che ti abbiamo inviato via mail.');
+            $('#otp_error_message_id').removeClass('d-none');
+        }else{
+            $.ajax({
+            type: "POST",
+            url: "{% url 'send_otp_and_verify' %}",
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            data: {"email": user_email, "otp": user_otp, 'send_otp': "false"},
+            success: function(response){
+                $("#is_otp_verified").val('Yes');
+                $("form#submit_form_id").submit();
+            },
+            error: function(errr){
+                $("span .date_error").text('Il codice inserito non è corretto. Riprova inserendo il codice che ti abbiamo inviato via mail.');
+                $('#otp_error_message_id').removeClass('d-none');
+            }
+        });
+        }
+    });
+
+    $("#year_of_enrollment").on('change', function() {
+        $('#select2-year_of_enrollment-container').attr('style', 'color: var(--burgundy) !important;');
+    });
+
+    $("#college-select").on('change', function() {
+        $('#select2-college-select-container').attr('style', 'color: var(--burgundy) !important;');
+    });
+
+    $("#select_contracted_center").on('change', function() {
+        $('#select2-select_contracted_center-container').attr('style', 'color: var(--burgundy) !important;');
+    });
+
+    $("#select_contracted_center_other").on('change', function() {
+        $('#select2-select_contracted_center_other-container').attr('style', 'color: var(--burgundy) !important;');
+    });
+    
+
+
+    $("#submit_form_id").on('submit', function() {
+        var dob = $('#id_date_of_birth').val();
+        var email = $('#id_email').val();
+        var is_otp_verified = $("#is_otp_verified").val();
+        if (dob.length == 0){
+            $("span#dob_id").text("Please enter your DOB!");
+            $('span #bod_id').removeClass('d-none');
+            $('#id_date_of_birth').css('border', '#d51717');
+            return false;
+        }else{
+            dob = new Date(dob);
+            var today = new Date();
+            var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+            if (age >= 16){
+                $("#register_btn_id").html('<i class="fa fa-spinner fa-spin"></i>');
+                $("#register_btn_id").css("cursor", "default");
+                $("#register_btn_id").removeAttr('onclick');
+                $("#register_btn_id").prop('disabled', true);
+                if (is_otp_verified == "Yes"){
+                    return true;
+                }else{
+                    send_otp_fun(email)
+                    return false;
+                }
+            }else{
+                $("#dob_id").text("Per procedere con il test devi avere più di sedici anni.");
+                $('#dob_id').removeClass('d-none');
+                $('#id_date_of_birth').css('border-color', '#d51717');
+                return false;
+            }
+        };
+    });
+
+    function send_otp_fun(student_email){
+        $("#dob_id").text("");
+        $("#dob_id").addClass("d-none");
+        $.ajax({
+            type: "POST",
+            url: "{% url 'send_otp_and_verify' %}",
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            data: {"email": student_email, "send_otp": 'true'},
+            success: function(response) {
+                $('#OTP-Modal').modal('show');
+            },
+            error: function(errr){
+                $("#dob_id").text("Si è verificato un errore. Riprova, per favore.");
+                $('#dob_id').removeClass('d-none');
+                $('#OTP-Modal').modal('hide');
+            }
+        });
+    };
+
+    function close_otp_modal(){
+        $("#register_btn_id").html('Continua ->');
+        $("#register_btn_id").css("cursor", "pointer");
+        $("#register_btn_id").removeAttr('onclick');
+        $("#register_btn_id").prop('disabled', false);
+        $('#OTP-Modal').modal('hide');
+    };
+
+    $("#select_contracted_center").on('change', function() {
+        var selected_option = $('select[name=are_you_taking_this_test_at_a_contracted_center] option').filter(':selected').val();
+        if (selected_option === "Yes"){
+            $("#contracted_center_other").removeClass("d-none");
+            $("select#select_contracted_center_other").attr("required", "true");
+        }else{
+            $("#contracted_center_other").addClass("d-none");
+            $("select#select_contracted_center_other").removeAttr("required");
+        }
+    });
+    $("#id_date_of_birth").focus(function(){
+        $("#id_date_of_birth").removeClass('id_date_of_birth_before');
+        $("#id_date_of_birth").addClass('id_date_of_birth_after');
+    });
+
+</script>
+{% endblock %}

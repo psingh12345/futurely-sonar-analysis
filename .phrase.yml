@@ -1,0 +1,16 @@
+phrase:
+  # access_token: be94f2a6b6326f27fba883299ecefa5311a21c5e7bfaf9393574b281597f51c5
+  project_id: c19e3b26403ea3108ad103bf578007a5
+  push:
+    sources:
+    - file: ./locale/it/LC_MESSAGES/django.po
+      params:
+        file_format: gettext
+        locale_id: 707025d7665230cf25e2e877cee881cf
+        update_translations: true
+  pull:
+    targets:
+    - file: ./locale/it/LC_MESSAGES/django.po
+      params:
+        file_format: gettext
+        locale_id: 707025d7665230cf25e2e877cee881cf

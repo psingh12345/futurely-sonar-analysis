@@ -1,0 +1,52 @@
+{% extends 'base_ifoa.html' %}
+{% load static %}
+{% block title%}
+{% load unipegaso_tags %}
+{% load i18n %}
+{% load phrase_i18n %}
+<title>Scopri i risultati del percorso di orientamento!</title>
+{% endblock %}
+
+{% block style_sheet %}
+<style>
+ .logo-hero-custom {
+    position: relative;
+}
+.title-top-hero-new {
+    margin-top: 0 !important;
+    padding-top: 48px !important;
+}
+.new-personality-design-main-bg {
+    border-radius: 20px;
+    margin-bottom: 60px !important;
+}
+</style>
+{% phrase_javascript %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="{% static 'unipegaso/css/certificate.css' %}" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-12">
+        <img class="logo-hero-custom" src="{% static 'unipegaso/images/logoIFOA.png' %}"/>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="new-personality-design-main-bg" style="background-image: url({% static 'unipegaso/images/IFOA-certificate-back.png' %})">
+            <div class="new-personality-design-main-bg-inner">
+             {% include 'ifoa/certificate_content.html' %}
+        </div>  
+        </div>  
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

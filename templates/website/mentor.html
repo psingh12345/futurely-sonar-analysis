@@ -1,0 +1,159 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "The Futurely: Mentor" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <section class="inner-banner-section" style="background-image:url({% static '/website/images/about-banner.png' %})">
+   <div class="banner-item">
+     <div class="container">
+       <div class="row banner-text align-items-center" data-scrollax-parent="true">
+         <div class="col-lg-12 ">
+         <div class="banner-content text-center">
+           <h1 class="mb-3">{% trans "Become a mentor" %}</h1>
+           <p>{% blocktrans %} Make an impact and grow your skills: join us now! {% endblocktrans %}</p>
+           {% if request.LANGUAGE_CODE == "it" %}
+           <a href="https://docs.google.com/forms/d/e/1FAIpQLSczU0oyp1EznrmFTZy74AP4Wc72WgfTjRInY9tdtna4ErNHDA/viewform?usp=sf_link" target="_blank" class="btn btn-learning">{% trans "Send your application" %}</a>
+           {% else %}
+           <a href="https://cutt.ly/0QlBenl" target="_blank" class="btn btn-learning">{% trans "Send your application" %}</a>
+           {% endif %}
+         </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <div class="bg-img-sec">
+  <div class="star-field">
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+  </div>
+     <section class="our-vission">
+     <div class="container">
+       <div class="row">
+         <div class="col-lg-8 ">
+             <div class="mission-image">
+               <img src="{% static '/website/images/young-project-team.png' %}"/>
+             </div>
+         </div>
+         <div class="col-lg-4 ">
+             <div class="vission-card-main">
+                 <div class="vission-card">
+                 <div class="h2"><img src="{% static '/website/images/orientamiwhit.png' %}"/>{% trans "Give back" %}</div>
+                 <p class="small">{% trans "We support students in their college choice by broadening their perspectives and world views" %}</p>
+                 </div>
+                 <div class="vission-card">
+                 <div class="h2"><img src="{% static '/website/images/orientamiwhit.png' %}"/>{% trans "Excellence" %}</div>
+                 <p>{% trans "A network of amazing young people with valuable work experience who can communicate the challenges of today's world" %}</p>
+                 </div>
+             </div>
+         </div>
+
+       </div>
+     </div>
+ </section>
+ <!-- <section class="our-mission" style="background-image:url({% static '/website/images/vission-img.png' %})">
+   <div class="mission-banner-item">
+     <div class="container">
+       <div class="row banner-text align-items-center" data-scrollax-parent="true">
+         <div class="col-lg-12  px-1 fadeInUp d">
+         <div class="mission-banner-content text-center ">
+           <h1 class="mb-3">{% trans "Become a mentor" %}</h1>
+           
+           <a href="https://cutt.ly/0QlBenl" target="_blank" class="btn btn-learning">{% trans "Send your application" %}</a>
+         </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section> -->
+ <section class="mentors-section" style="background-image:url({% static '/website/images/bg-mentor.png' %})">
+   <div class="mentors-item">
+     <div class="container">
+         <div class="row">
+             <div class="col-lg-12 ">
+                 <div class="mentors-content d-flex justify-content-between align-items-end">
+                   <div>
+                    <div class="h2">{% trans "What does it mean to be a mentor?" %}</div>
+                 <p>{% trans "As a mentor, you will convey your own learning, work and life experience to the students. "%}</p>
+                </div>
+                <div class="mentor-right-contentt"> 
+                 <p>200+ {% trans "Mentors" %}</p>
+                </div>
+                 </div>
+             </div>
+                     <div class="col-lg-4 d-flex">
+                         <div class="mentors-card">
+                             <div class="mentors-icon">
+                                 <img class="mentors-icon-img" src="{% static '/website/images/hiring-icon.png' %}"/>
+                             </div>
+                             <div class="mentors-content-box mentor-card-min-height">
+                                 <div class="h2">{% trans "HOW MUCH TIME SHOULD I DEVOTE TO FUTURELY?" %}</div>
+                                 <span>{% trans "As a mentor, we ask for 30 minutes per month or more, depending on your availability. The commitment to FUTURELY is flexible and you can adjust your availability over time." %}
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-lg-4 d-flex">
+                         <div class="mentors-card">
+                             <div class="mentors-icon">
+                                 <img class="mentors-icon-img" src="{% static '/website/images/hiring-icon.png' %}"/>
+                             </div>
+                             <div class="mentors-content-box mentor-card-min-height">
+                                 <div class="h2">{% trans "HOW CAN I SUPPORT FUTURELY?" %}</div>
+                                 <span>{% trans "There are several ways to help." %}</span><br>
+                                 <span class="mt-1">{% trans "You can contribute through one-on-one chats with our students or taking part in the social initiatives we will start soon." %}
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="col-lg-4 d-flex">
+                         <div class="mentors-card">
+                             <div class="mentors-icon">
+                                 <img class="mentors-icon-img" src="{% static '/website/images/hiring-icon.png' %}"/>
+                             </div>
+                             <div class="mentors-content-box mentor-card-min-height">
+                                 <div class="h2">{% trans "WHO CAN BE A MENTOR" %}</div>
+                                 <span>{% trans "Anyone can apply, including college students and professionals.<br> FUTURELY selects its mentors based on criteria that reward excellence and the desire to give back. In addition, FUTURELY provides tools, classes, and workshops to provide quality mentoring to the students." %}
+                                 </span>
+                             </div>
+                         </div>
+                     </div>
+         </div>
+     </div>
+   </div>
+   <div class="contact-btn-pos padding-bottom-mentor ">
+    {% if request.LANGUAGE_CODE == "it" %}
+           <a href="https://docs.google.com/forms/d/e/1FAIpQLSczU0oyp1EznrmFTZy74AP4Wc72WgfTjRInY9tdtna4ErNHDA/viewform?usp=sf_link" target="_blank" class="btn btn-learning">{% trans "Send your application" %}</a>
+           {% else %}
+           <a href="https://cutt.ly/0QlBenl" target="_blank" class="btn btn-learning">{% trans "Send your application" %}</a>
+           {% endif %}
+   </div>
+</section>
+
+</div>
+</div>
+{% block script %}
+<script>
+$('.mentors-slider').owlCarousel({
+	loop:false,
+	nav: true,
+	dots: true,
+	 items:1,
+  autoplay:false,
+  navText: ['<img class="slider-arrow prev" src="{% static '/website/images/arrow-sliderr.png' %}"/>','<img class="slider-arrow next" src="{% static '/website/images/arrow-sliderr.png' %}"/>'],  
+
+});
+</script>	
+{% endblock%}
+{% endblock%}

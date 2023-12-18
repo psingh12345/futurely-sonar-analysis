@@ -1,0 +1,586 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Student" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <section class="banner-student" style="background-image:url({% static '/website/images/new-images/student-banner.png' %})">
+      <div class="student-banner-item">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-11">      
+			  <div class="row">
+				  <div class="col-md-12 text-center ">
+					  <div class="banner-student-content">
+					   <h2 class="mb-3">{% blocktrans %} It’s normal to have a <br> lot of questions {% endblocktrans %}</h2>
+					  </div>
+				  </div>
+				  <div class="col-md-6 col-sm-6  mt-top-banner">
+					  <div class="banner-student-content">
+						  <ul class="ul-student-title-prop">
+							  <li>{% trans "How do I achieve a stable life?" %}</li>
+							  <li>{% trans "Will I have the support I need?" %}</li>
+							  <li>{% trans "How do I set goals for myself?" %}</li>
+						  </ul>
+					  </div>
+				  </div>
+			    <div class="col-md-6 col-sm-6  mt-top-banner">
+					 <div class="banner-student-content">
+						  <ul>
+							  <li>{% trans "How can I reduce stress?" %}</li>
+							  <li>{% trans "How will I pay for school?" %}</li>
+							  <li>{% trans "Which career is right for me?" %}</li>
+						  </ul>
+					</div>
+				</div>
+				</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+	<div class="bg-img-sec">
+		<div class="star-field">
+			<div class="layer"></div>
+			<div class="layer"></div>
+			<div class="layer"></div>
+		</div>
+	 <section class="our-identify">
+      <div class="identify-item">
+        <div class="container">
+          <div class="row">
+			<div class="finding-title font40 head-mb h2">{% trans "The future is unknown. But you have a plan" %}</div>
+				<div class="col-lg-8 ">
+					 <div class="row">
+						 <div class="col-md-4 py-2">
+							 <div class="identify-gallery-imgs">
+							 <img class="large-img" src="{% static '/website/images/new-images/gallery-1.png' %}"/>
+							 </div>
+						 </div>
+						 <div class="col-md-8 px-2 hidden-mobile">
+							 <div class="row">
+								 <div class="col-md-4 col-sm-6 py-2">
+									 <div class="identify-gallery-imgs">
+									 <img class="small-img" src="{% static '/website/images/new-images/gallery-2.png' %}"/>
+									 </div>
+								 </div>
+								 <div class="col-md-4 col-sm-6 py-2">
+									 <div class="identify-gallery-imgs">
+									 <img class="small-img" src="{% static '/website/images/new-images/gallery-4.png' %}"/>
+									 </div>
+								 </div>
+								 <div class="col-md-4 col-sm-6 py-2">
+									 <div class="identify-gallery-imgs">
+									 <img class="small-img" src="{% static '/website/images/new-images/gallery-6.png' %}"/>
+									 </div>
+								 </div>
+								 <div class="col-md-4 col-sm-6 py-2">
+									 <div class="identify-gallery-imgs">
+									 <img class="small-img" src="{% static '/website/images/new-images/gallery-3.png' %}"/>
+									 </div>
+								 </div>
+								 <div class="col-md-8 py-2e">
+									 <div class="identify-gallery-imgs">
+									 <img class="small-img" src="{% static '/website/images/new-images/gallery-5.png' %}"/>
+									 </div>
+								 </div>
+							 </div>
+						 </div>
+					 </div>
+				</div>
+				<div class="col-lg-4 ">
+					<div class="identify-content pl-lg-3 pt-lg-2 our-identifylist">
+						<ul>
+							<li class="font16 li-prop">{% trans "BUILD confidence knowing that your priorities, skills, and passions drive your plan, not an algorithm." %}</li>
+							<li class="font16 li-prop">{% trans "RELAX knowing that this journey is guided by young professionals & mentors." %}</li>
+					</ul>	
+				</div>	
+				</div>
+          </div>
+        </div>
+      </div>
+    </section>
+	<!-- <section class="our-discover">
+      <div class="discover-item">
+        <div class="container">
+          <div class="row">
+			   <div class="col-lg-4">
+				<div class="identify-content pt-lg-2">
+					<h3>{% blocktrans %} Futurely has empowered our students to choose their career path. Our students were very excited to have taken the futurely program. Thank you Team Futurely!{% endblocktrans %}</h3>
+					
+				</div>
+			   </div>
+			   <div class="col-lg-8">
+				   <div class="discover-img">
+					<img class="small-img" src="{% static '/website/images/discover-img.png' %}"/>
+				   </div>
+			   </div>
+			   
+		   </div>
+		</div>
+      </div>
+    </section> -->
+	<section class="connect-seetion ">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 ">
+					<div class="connect-title">
+					<div class="h2">{% trans "Get in touch with our mentors" %}</div>
+					<h3 class="finding-title mb-5 color-white">{% trans "200+ young excellent professionals" %}</h3>
+					</div>
+				</div>
+				{% for mentor_data in mentors_info %}
+				{% if forloop.counter|divisibleby:2  %}
+				{% else %}
+					<div class="col-lg-6 ">
+				{% endif %}
+						<div class="card-connect">
+							<div class="card-connect-header">
+								<div class="row">
+									<div class="col-md-5">
+										<div class="card-connect-img">
+											<img src="{{mentor_data.icon.url}}"/>
+										</div>
+									</div>
+									<div class="col-md-7">
+										<div class="card-connect-content">
+											<div class="h2">{{mentor_data.title | safe }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-connect-body">
+								<div class="h2">{{mentor_data.m_name}}</div>
+								<p>{{mentor_data.description}}
+								</p>
+							</div>
+						</div>
+				{% if forloop.counter|divisibleby:2  %}
+					</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	<section class="finding-seetion">
+		<div class="container">
+				<div class="col-lg-12 p-0 text-center  margin-btm">
+					<div class="finding-title h2">{% trans "A personal plan to move you forward" %}</div>
+				</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="finding-steps  accordion">
+						<div class="find-card" >
+							<div class="find-steps-count"><p>01</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% trans "Your personality" %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d1" onclick="toggleStuDiv('d1','dp1')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp1">
+									<ul class="dashed">
+										<li>
+											{% trans "Personality quiz" %}
+										</li>
+										<li>
+											{% trans "List of majors and colleges that fit your personality" %}
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+						</div>
+						<div class="find-card">
+							<div class="find-steps-count"><p>02</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% blocktrans %} Your skills {% endblocktrans %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d2" onclick="toggleStuDiv('d2','dp2')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp2">
+								<ul class="dashed">
+									<li>
+									{% trans "Career skills development & advice" %}
+									</li>
+									<li>
+									{% trans "Assessment of your gifts & areas for growth" %}
+									</li>
+									<li>
+										{% trans "Resume and essay builder" %}
+									</li>
+								</ul>
+								</div>
+								
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+							</div>
+						</div>
+						<div class="find-card">
+							<div class="find-steps-count"><p>03</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% blocktrans %} Methods & tools for choosing the best path for you {% endblocktrans %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d3" onclick="toggleStuDiv('d3','dp3')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp3">
+									<ul class="dashed">
+										<li>
+										{% trans "Choose a college based on your criteria" %}
+										</li>
+										<li>
+										{% trans "Action plan to match you with the right school" %}
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+						</div>
+						<div class="find-card">
+							<div class="find-steps-count"><p>04</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% trans "After high school options" %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d4" onclick="toggleStuDiv('d4','dp4')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp4">
+									<ul class="dashed">
+										<li>
+										{% trans "Facts and insights about different majors and colleges" %}
+										</li>
+											
+											<li>
+												{% trans "Discover success in community college or a gap year" %}
+											</li>
+										
+										<li>
+											{% trans "Prioritize your options to find the best choice for you" %}
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+						</div>
+						<div class="find-card">
+							<div class="find-steps-count"><p>05</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% trans "Get guidance from young professionals" %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d5" onclick="toggleStuDiv('d5','dp5')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp5">
+									<ul class="dashed">
+										<li>
+										{% trans "Career experiences shared by young professionals" %}
+										</li>
+										<li>
+										{% trans "Possibility to contact young professionals and explore after high school options" %}
+										</li>
+									</ul>
+								</div>
+							</div>	
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+						</div>
+						<div class="find-card">
+							<div class="find-steps-count"><p>06</p></div>
+							<div class="find-steps-title">
+								<div class="h2">{% trans "Final presentation" %}</div>
+								<div class="accordion-button dropdown-icon-student-need" id="d6" onclick="toggleStuDiv('d6','dp6')"><i class="fas fa-angle-down"></i></div>
+								<div class="accordion-collapse drop-down-hide drop-down-student-com" id="dp6">
+									<ul class="dashed">
+									<li>
+										{% trans "Create a customized plan & roadmap with all your hard work in one place" %}
+									</li>
+								</ul>
+							</div>
+							</div>
+							<!-- <div class="find-steps-icon ml-auto"><img src="{% static '/website/images/arrow-find.png' %}"/></div> -->
+					</div>
+					</div>
+				</div>
+				<div class="col-lg-6 ">
+					<div class="finding-steps-img">
+					<img src="{% static '/website/images/new-images/find-img.png' %}"/>
+					</div>
+				</div>
+			</div>
+		 
+		</div>
+	 </section>
+	 <section class="advange-seetion">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 ">
+					<div class="row justify-content-end">
+						<div class="col-md-7">
+							<div class="advange-gallery-imgs first-img hidden-mobile">
+							<img src="{% static '/website/images/new-images/adventure-gallery-1.png' %}"/>
+							</div>
+						</div>
+					</div>
+					<div class="advange-title">
+					<div class="h2">{% blocktrans %}Do you need a guide to help you discover your skills and passions and turn them into a stable, successful future?{% endblocktrans %}</div>
+					</div>
+				</div>
+				<div class="col-lg-7 ">
+					<div class="row">
+						<div class="col-md-5">
+							<div class="row justify-content-end">
+								<div class="col-lg-10">
+									<div class="advange-gallery-imgs second-img hidden-mobile">
+									<img src="{% static '/website/images/new-images/adventure-gallery-2.png' %}"/>
+									</div>
+								</div>
+							</div>
+							<div class="advange-gallery-imgs third-img">
+									<img src="{% static '/website/images/new-images/adventure-gallery-3.png' %}"/>
+							</div>
+							<div class="row justify-content-end hidden-mobile">
+								<div class="col-lg-10">
+									<div class="advange-gallery-imgs fourth-img">
+									<img src="{% static '/website/images/new-images/adventure-gallery-6.png' %}"/>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+						<div class="col-md-7 hidden-mobile">
+							<div class="advange-gallery-imgs five-img">
+								<img src="{% static '/website/images/new-images/adventure-gallery-4.png' %}"/>
+							</div>
+							<div class="row">
+								<div class="col-lg-9">
+									<div class="advange-gallery-imgs six-img">
+									<img src="{% static '/website/images/new-images/adventure-gallery-5.png' %}"/>
+									</div>
+								</div>
+							</div>
+							<div class="hidden-dasktop advange-gallery-imgs first-img">
+							<img src="{% static '/website/images/new-images/adventure-gallery-1.png' %}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="discover-bottom">
+		<div class="row align-items-center">
+{% comment %} 			
+			<div class="col-lg-12  text-center">
+				<div class="discover-btn">
+				<a class="btn" href="{% url 'plans' %}">{% trans "Discover our plans" %}</a>
+				</div>
+			</div> {% endcomment %}
+		</div>
+	</div>
+	<section class="participate-seetion">
+		<div class="container">
+			<div class="row align-items-center">
+			 <div class="col-lg-12 p-0 ">
+				 <div class="finding-title mb-5 h2">{% blocktrans %}Join our free webinars {% endblocktrans %}</div>
+			 </div>
+				 <div class="col-lg-12">
+					 <div class="webinars-slider owl-carousel">
+						 {% for webinars_data in webinars %}
+							 <div class="item">
+								 <div class="card-box ">
+									 <div class="card-box-img">
+									 <img src="{{webinars_data.icon.url}}"/>
+									 </div>
+									 <div class="card-box-content">
+									 <div class="h2">{{webinars_data.title}}</div>
+									 <p>{{webinars_data.description}}</p>
+									 <!-- {% if request.LANGUAGE_CODE == "it" %}
+									 <span>{{webinars_data.publish_date}}</span>
+									 {% endif %} -->
+									 </div>
+								 </div>
+							 </div>
+						 {% endfor %}
+					 </div>
+				 </div>
+			</div>
+		</div>
+	 </section>
+	<section class="contact-section">
+		<div class="container">
+		<div class="contact-us-section" style="background: url({% static '/website/new/images/contact-img.png' %}) no-repeat;">
+			  <div class="row">
+				<div class="col-lg-5  col-md-8   fadeInUp d">
+					<div class="contact-forme" id="lets-talk-f">
+						<div class="showing-message-forme" id="showing-message">
+							<div style="text-align: right; display: none; cursor: pointer;" id="cross-contact"><a  style="color: white;">X</a></div>
+							<img src="{% static '/website/images/send-icon.png' %}"/>
+							<h1>{% trans "Thank’s for your request" %}</h1>
+							<p>{% trans "We’ll send you a reply as soon as posible" %}</p>
+							
+						</div>
+					<form id="contct-form">
+					<div class="h2">{% trans "Let’s talk" %}</div>
+					<label for="cc-num" class="hidden">credit card HubspotCollectedFormsWorkaround https://community.hubspot.com/t5/APIs-Integrations/How-to-stop-collected-forms-from-collecting-a-form/m-p/299172#M28102</label>                       <input name="cc-num" class="hidden" required="" value="HubspotCollectedFormsWorkaround" id="cc-num">
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your name" %}</label>
+						<input type="text" id="lets-talk-name" class="form-control" >
+						<label id="error-contact-landing-name" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your email" %}</label>
+						<input type="email" id="lets-talk-email" class="form-control" >
+						<label id="error-contact-landing-email" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">{% trans "Your message" %}</label>
+						<textarea class="form-control" id="lets-talk-message-body" rows="4"></textarea>
+						<input type="hidden" id="lets-talk-subject" value="Query from student section in landing page" >
+					</div>
+					<div class=" mt-2">
+						<label id="error-contact-landing" class="form-label error-color"></label>
+					</div>
+					<div class="mb-3 contact-btn-pos">
+						<a id="lets-talk-send-btn" class="btn btn-sign-up margin-btn-contact" >
+							<span id="spinner" class="color-white fontclass16" style="display: none;"> {% trans "Please wait" %}..</span>
+							<span id="btn-txt" class="color-white fontclass16"> {% trans "Send message" %}</span>
+						</a>
+					</div>
+					</form>
+				  </div>
+				</div>
+				<div class="col-md-12  fadeInUp d">
+					<div class="row justify-content-center">
+						<div class="col-lg-8">
+							<div class="row">
+								<div class="col-md-12 text-center">
+									<div class="icon-cardd justify-content-center">
+									<div class="icon-contact">
+										<img src="{% static '/website/images/mail.png' %}"/>
+										</div>
+										<div class="icon-contact-content">
+											{% if request.LANGUAGE_CODE == "it" %}	
+											<div class="h2"><a href = "mailto: segreteria@myfuturely.com">segreteria@myfuturely.com</a></div>
+										{% else %}
+											<div class="h2"><a href = "mailto: counselors@myfuturely.com">counselors@myfuturely.com</a></div>
+										{% endif %}
+									</div>
+									</div>
+								</div>
+								<div class="col-md-12 ">
+									<div class="icon-cardd icon-cardd-p">
+										<div class="icon-contact">
+										<img src="{% static '/website/images/map-pin.png' %}"/>
+										</div>
+										<div class="icon-contact-content">
+											{% if request.LANGUAGE_CODE == "it" %}	
+											<div class="h2">Sede</div>
+											<p>Piazzale Maciachini, 11 20159<br>Milano MI, Italy. </p>
+										{% else %}
+											<div class="h2">{% trans "Headquarters" %}</div>
+											<p>405 Howard Street,<br>San Francisco,<br>California, 94105 United States. </p>
+										{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		     </div>
+		</div>
+		</div>
+	</section>
+</div>
+</div>
+
+<style>
+@media (min-width:992px) {
+.advange-gallery-imgs.second-img {
+    margin: -140px 0 0;
+}
+section.advange-seetion {
+    padding-top: 170px;
+}
+}
+.drop-down-hide {
+  display: none;
+}
+</style>
+{% block script %}
+<script>
+  function toggleStuDiv(mydiv,child){
+		if($("#"+mydiv).hasClass("icon-rotate180")==true){
+			$("#"+mydiv).removeClass("icon-rotate180");
+			jQuery("#"+child).addClass("drop-down-hide");
+		}else{
+			jQuery(".dropdown-icon-student-need").removeClass("icon-rotate180");
+			jQuery(".drop-down-student-com").addClass("drop-down-hide");
+			$("#"+mydiv).addClass("icon-rotate180");
+			$("#"+child).removeClass("drop-down-hide");
+		}
+	}
+$('.customer-logos-slider').owlCarousel({
+	loop:true,
+  margin:30,
+  autoplay:false,
+  responsive:{
+    0:{
+      items:1
+    },
+    600:{
+      items:3
+    },
+    1000:{
+	    stagePadding: 130,
+      items:5
+    }
+  }
+});
+
+$('.webinars-slider').owlCarousel({
+	loop:false,
+	nav: true,
+	dots: false,
+  autoplay:false,
+  responsive:{
+    0:{
+	margin:0,
+	items:1,
+      stagePadding: 0,
+    },
+    600:{
+	margin:15,
+	items:2,
+      stagePadding: 0,
+    },
+    1000:{
+	  margin:15,
+	  items:4,
+    
+    }
+  }
+
+});
+$('.testimonial-slider').owlCarousel({
+	loop:true,
+	 
+  autoplay:false,
+  responsive:{
+    0:{
+	margin:0,
+	items:1,
+      stagePadding: 0,
+    },
+    600:{
+	margin:0,
+	items:2,
+      stagePadding: 0,
+    },
+    1000:{
+	  margin:30,
+	  items:3,
+    stagePadding: 130,
+    }
+  }
+
+});
+
+	</script>	
+{% endblock%}
+{% endblock%}l̥

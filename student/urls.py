@@ -1,0 +1,85 @@
+from os import name
+from django.contrib import admin
+from django.urls import path
+from . import views, views_students
+
+
+# app_name = 'student'
+
+urlpatterns = [
+    path('dashboard/', views_students.index_view, name="home"),
+    path('student-dashboard/', views.index_view, name="home1"),
+    path('trail-plan/<plan_type>/', views.activate_trial_view,
+         name="trail-plan-activate"),
+    path('account-settings/', views.account_settings_view, name="account-settings"),
+    path('account-settings/notifications/',
+         views.account_notification_settings_view, name="account-notification"),
+    path('account-settings/change_password/',
+         views.account_settings_changePass_view, name="account-change-password"),
+    path('account-settings/change_password-counselor/',
+         views.account_settings_changePass_view_counselor, name="account-change-password-counselor"),
+    path('futurely-plans/', views.welcome_recommendations_view,
+         name="futurely-plans"),
+    path('courses-available/', views.course_available, name='courses-available'),
+    # path('courses-overview/<module>/', views.course_overview, name='courses-overview'),
+    # path('courses-multiple/', views.buy_multiple_modules, name='courses-multiple'),
+    path('module-steps/<cohort_id>/',
+         views.exercise_page_view, name='module-steps'),
+    path('action-items/<step_track_id>/<sno>/',
+         views.action_item_view, name='action-items'),
+    path('submit_answer/', views.submit_answer_view, name="submit_answer"),
+    path('<int:year>/<int:month>/<int:day>/<slug:post>/',
+         views.post_detail, name='post_detail'),
+    path('buy-course/<cohort_id>/', views.buy_course, name='buy-course'),
+    path('buy-plan/<plan_id>/', views.buy_plan, name='buy-plan'),
+    path('upgrade-plan/<plan_id>/', views.upgrade_plan, name='upgrade-plan'),
+    path('notification-read/', views.notification_update,
+         name='notification-read'),
+    path('add_todo/', views.add_todo_view, name="add_todo"),
+    path('get_todo/', views.get_todo_view, name="get_todo"),
+    path('update_todo/', views.update_todo_view, name="update_todo"),
+    path('delete_todo/', views.delete_todo_view, name="delete_todo"),
+    path('my-diary/', views.my_diary_view, name="my-diary"),
+    path('contact_tutor/', views.contact_tutor_view, name="contact_tutor"),
+    path('update_futurelab_form_status/', views.update_futurelab_form_status,
+         name="update_futurelab_form_status"),
+    path('my_personality_test/', views.my_personality_test_view,
+         name="my_personality_test"),
+    path('open_riasec_test/', views.my_personality_test_view_without_login,
+         name="open_riasec_test"),
+    path('personality_test_ajax_call/', views.personality_test_ajax_call,
+         name="personality_test_ajax_call"),
+    path('personality_test_result/', views.personality_test_result_view,
+         name="personality_test_result"),
+    path('remove_test_users/<email>/',
+         views.remove_test_users, name="remove_test_users"),
+    path('apply-for-scholarship/', views.student_scholarship_view,
+         name="apply_for_scholarship"),
+    path('scholarship-submit-answer', views.scholarship_submit_ans_view,
+         name="scholarship_submit_answer"),
+    path('reserve-my-webinar-seat/', views.reserve_my_webinar_seat,
+         name="reserve_my_webinar_seat"),
+    path('mark-attendance-for-webinar/', views.mark_attendance_for_webinar,
+         name="mark_attendance_for_webinar"),
+    path("send-email/", views.send_email_view, name="send_email"),
+    path("get-comments/", views.get_comments_view, name="get_comments"),
+    path("pre-webinar/<int:webinar_id>/",
+         views.pre_webinar_view, name="pre_webinar_test"),
+    path("post-webinar/<int:webinar_id>/",
+         views.post_webinar_view, name="post_webinar_test"),
+    path("play-welcome-video/", views.play_welcome_video,
+         name="play_welcome_video"),
+    path("step1-pdf/", views.step1_pdf_downloaded, name="step1_pdf"),
+    path("student-faq/", views.student_faq_view, name="student_faq"),
+    # path('generate-notification-bar', views.generate_noti_bar_view, name="generate-notification-bar"),
+    path('certificate/', views.generate_certificate,
+         name='generate_certificate'),
+    path('jobs/', views.job_posting, name="job_posting"),
+    path('read-diary-comments/', views.is_student_read_diary_comments, name="read_diary_comments"),
+    path('download-my-diary-content/', views.download_diario_conent, name="download_pdf_file")
+
+
+
+
+
+]

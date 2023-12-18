@@ -1,0 +1,501 @@
+{% extends 'dashboard.html' %}
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Personality Test" %}</title>
+{% endblock %}
+{% block style%}
+{% phrase_javascript %}
+{% css_version as css_version %}
+<!-- <link rel="stylesheet" href="{% static 'css/template-css/student-css/my-dairy.css' %}?v={{css_version}}"> -->
+<link rel="stylesheet" href="{% static 'css/template-css/student-css/my-quiz.css' %}">
+<link rel="stylesheet" href="{% static 'css/new_css/slick.css' %}">
+<link rel="stylesheet" href="{% static 'css/new_css/jquerysctipttop.css' %}">
+
+<style>
+    .personality-quiz-header h2 i {
+        font-size: 15px;
+        margin: 0 6px;
+    }
+    .error-msg p {
+        margin: 17px 0 0;
+        border: 1px solid #d44f4f;
+        color: #d44f4f !important;
+        padding: 6px;
+        background: #ff00000d;
+    }
+
+.personality-quiz-card {
+    background: #26272b9c;
+    border-radius: 20px;
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 22px 15px;
+    position: relative;
+}
+.personality-quiz-header {
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+}
+.personality-quiz-item h1 {
+    font-size: 24px;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 18px;
+}
+.personality-quiz-item p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    /* text-transform: capitalize; */
+}
+.personality-quiz-footer {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;    
+    margin: 18px 0 0;
+
+}
+.quiz-button:hover {
+    color: #fff;
+    background: #0068FF;
+}
+
+.quiz-button {
+    padding: 10px 30px;
+    font-size: 15px;
+    text-transform: capitalize;
+    color: #fff;
+    font-weight: 700;
+    background: linear-gradient( 116.59deg , #0068FF 10.15%, #B179F0 56.38%, #B893BA 77.61%, #CE8991 100.73%), rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    transition: all .5s;
+    cursor: pointer;
+    position: relative;
+    z-index: 999;
+}
+.personality-quiz-lists {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 22px 15px;
+    background: #26272b9c;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: all .7s;
+    flex-wrap: wrap;
+    
+}
+.quiz-slider.slick-slider {
+    width: 100%;
+}
+.quiz-slider .slick-arrow {
+    display: none !important;
+}
+.personality-quiz-lists.show {
+    opacity: 1;
+    transform: translateY(0%);
+
+}
+.selector-item_label:hover {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+}
+.personality-quiz-header h2 {
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    {% comment %} text-transform: capitalize; {% endcomment %}
+}
+.personality-selecotr-item .selector-item_label span {
+    background: #33333352;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 13px;
+    margin-right: 10px;
+}
+.selector-item_radio:checked + .selector-item_label {
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    box-shadow: 0 0 8px #0068ffe0;
+}
+.personality-quiz-option {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    margin: 0px auto;
+}
+.selector-item_label {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #333;
+    color: rgb(255 255 255);
+    max-width: 100%;
+    outline: 0px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition-duration: 0.1s;
+    transition-property: background-color, color, border-color, opacity, box-shadow;
+    transition-timing-function: ease-out;
+    width: 100%;
+    animation: 0.25s ease 0s 2 normal none running jBPXGM;
+}
+.personality-selecotr-item .selector-item_radio {
+    appearance: none;
+    display: none;
+}
+.button-next-quiz {
+    position: relative;
+    padding: 12px 40px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 12px;
+    color: #fff;
+    display: inline-block;
+    margin: 28px 0 0;
+    cursor: pointer;
+}
+.personality-selecotr-item + .personality-selecotr-item {
+    margin-top: 12px;
+}
+
+.quiz-slider .slick-arrow.slick-prev {
+    right: 100px;
+    border-radius: 6px 0px 0px 6px;
+}
+
+.quiz-slider .slick-arrow:after {
+    content: "\f282";
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
+}
+.quiz-slider .slick-arrow.slick-disabled:after {
+    opacity: 0.5;
+}
+.quiz-slider .slick-arrow.slick-disabled {
+    pointer-events: none;
+}
+.quiz-slider .slick-arrow {
+    padding: 8px 15px;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    transition: 0.5s;
+    background: linear-gradient(124.34deg, #0068FF -12.73%, #B179F0 44.93%, #B893BA 81.71%, #CE8991 121.29%);
+    font-weight: 600;
+    border-radius: 0 6px 6px 0px;
+    color: #fff;
+    display: inline-block;
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+    border: none;
+    z-index: 11;
+    font-size: 0;
+}
+.quiz-slider .slick-arrow.slick-prev:after {
+    content: "\f286";
+}
+.progresss {
+    overflow: visible;
+    margin-bottom: 26px;
+    height: 7px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 10%);
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 98%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.progress-barr {
+    background-color: #6c2db1;
+    position: relative;
+    border-radius: 4px;
+    height: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    -webkit-box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 15%);
+    -webkit-transition: width .6s ease;
+    -o-transition: width .6s ease;
+    transition: width .6s ease;
+}
+.progress-barr span {
+    background-color: #5c4084;
+    position: absolute;
+    bottom: -38px;
+    font-size: 15px;
+    line-height: 10px;
+    padding: 10px 12px 10px 12px;
+    right: -1.4em;
+    border-radius: 2px;
+}
+    .progress-barr span:after {
+      bottom: 100%;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(255, 255, 255, 0);
+      border-bottom-color: #5c4084;
+      border-width: 5px;
+      margin-left: -5px;
+    }
+    .progress-barr span.flag-icon-progress:after {
+    display: none;
+}
+.progress-barr span.flag-icon-progress {
+    bottom: auto;
+    top: -30px;
+    background: transparent;
+    font-size: 20px;
+}
+.hidden{
+    display: none !important;
+}
+
+
+</style>
+{% endblock%}
+{% block content %}
+<div class="main-content py-4 px-md-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 d-flex">
+                <div class="personality-quiz-card">
+                    <div class="personality-quiz-header hide-after-clickk">
+                        <div class="personality-quiz-item">
+                            <h1><strong>{% trans "Personality Quiz"%}</strong></h1>
+                            <p>{% trans "Take the personality quiz and identify more about yourself"%}!</p>
+                            <!-- <p>Test your form quickly with the Preview on the right-hand side.</p>
+                            <p>Want to make a good first impression? Add an image, GIF, or video to this Welcome Screen.</p> -->
+                        </div>
+                    </div>
+                    <div class="personality-quiz-footer hide-after-clickk">
+                        {% if tot_answered is 0  %}
+                        <a class="quiz-button">{% trans "Start"%}</a>
+                        {% else %}
+                        <a class="quiz-button">{% trans "Continue"%}</a>
+                        {% endif %}
+                        <input type="hidden" name="" value="{{last_answered}}" id="flag_val">
+                    </div>
+                    <div class="personality-quiz-lists">
+                        <div class="progresss">
+                            <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: {{completed_per}}%;">
+                              <span id ="progress_status_id">{{tot_answered}}/{{tot_question}}</span>
+                              <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                            </div>
+                          </div>
+                        <div class="quiz-slider slick-slider">
+                            {% for question in stu_personality_test.stu_ptest.all %}
+                            <div class="personality-quiz-item">
+                                <div class="personality-quiz-header">
+                                <h2><span>{{forloop.counter}}<i class="fa fa-arrow-right"></i></span>{{question.pt_question.question}}</h2>
+                                </div>
+                                
+                                <div class="personality-quiz-option">
+                                    {% for op in question.pt_question.ptquestionoptions.all %}
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio{{op.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{op.option}}">
+                                        <label for="radio{{op.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{op.get_option_display}} </label>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="error-msg">
+                                    </div>
+                                    {% if forloop.counter is tot_question%}
+                                    <div class="personality-button">
+                                        <a class="button-next-quiz start-loading" onclick="submit_pt_answer(this,'{{question.id}}','{{forloop.counter}}','{{question.pt_question.sno}}')">{% trans "Submit" %}</a>
+                                    </div>
+                                    {% else %}
+                                    <div class="personality-button">
+                                        <a class="button-next-quiz start-loading" onclick="submit_pt_answer(this,'{{question.id}}','{{forloop.counter}}','{{question.pt_question.sno}}')">{% trans "Next" %} -></a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <!-- <div class="personality-quiz-item">
+                                <div class="personality-quiz-header">
+                                <h2><span>08<i class="fa fa-arrow-right"></i></span>. I like to have clear instructions to follow</h2>
+                                </div>
+                                <div class="personality-quiz-option">
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio36" name="selector" class="selector-item_radio" checked="">
+                                        <label for="radio36" class="selector-item_label"><span>A</span>Dislike </label>
+                                    </div>
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio37" name="selector" class="selector-item_radio" checked="">
+                                        <label for="radio37" class="selector-item_label"><span>B</span>Slightly dislike </label>
+                                    </div>
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio38" name="selector" class="selector-item_radio" checked="">
+                                        <label for="radio38" class="selector-item_label"><span>C</span>Neutral </label>
+                                    </div>
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio39" name="selector" class="selector-item_radio" checked="">
+                                        <label for="radio39" class="selector-item_label"><span>D</span>Slightly enjoy  </label>
+                                    </div>
+                                    <div class="personality-selecotr-item">
+                                        <input type="radio" id="radio40" name="selector" class="selector-item_radio" checked="">
+                                        <label for="radio40" class="selector-item_label"><span>E</span>Enjoy </label>
+                                    </div>
+                                    
+                                     
+                                    <div class="personality-button">
+                                        <a class="button-next-quiz submit-quizz">Submit</a>
+                                        <a class="button-next-quiz rediectMeToHome hidden" href="{% url 'index' %}">Home</a>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                
+                </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'css/new_css/slick.min.js' %}"></script>
+<script>
+function submit_pt_answer(current_button,question_id,last_answered, question_sno)
+{
+    $(".error-msg").html('');
+    current_button_html=$(current_button).html();
+    if($('input[name="selector'+question_id+'"]:checked').length)
+    {
+        $(current_button).html('<i class="fa fa-spinner fa-spin"></i>');
+        $(current_button).css("cursor", "default");
+        $(current_button).off('click');
+        var val = $('input[name="selector'+question_id+'"]:checked').val();
+        $.ajax({
+            type: "POST",
+            headers: {"X-CSRFToken": "{{ csrf_token }}"},
+            url: "{% url 'personality_test_ajax_call' %}",
+            data: {"selected_option": val, "question_id": question_id, "last_answered":last_answered, "question_sno": question_sno},
+            success: function(res){
+                //$(".slick-next").click();
+                document.getElementById("progress_bar_id").style.width= res['completed_per']+'%';
+                $('#progress_status_id').html(res['tot_ques_completed']+"/"+res['tot_question']);
+                if(res['is_this_last']=="True"){
+                    setTimeout(function() {
+                        window.location = "{% url 'personality_test_result' %}" ;
+                    }, 1000);
+                }
+                $('.quiz-slider').slick('slickGoTo', res['sno']);
+                $(current_button).html(current_button_html);
+                $(current_button).css("cursor", "pointer");
+                $(current_button).on('click');
+            },
+            error: function(error){
+                $(current_button).html(current_button_html);
+                $(current_button).css("cursor", "pointer");
+                $(current_button).on('click');
+                $(".error-msg").html('<p>{% trans "Something went wrong"%}!!</p>');
+                
+            }
+        });
+        
+    }else{
+        $(".error-msg").html('<p>{% trans "You must select an option before proceed"%}</p>');
+        
+    }
+}
+
+$(document).ready(function() {
+    $('.quiz-slider').slick({
+    infinite:false,
+    draggable: false,
+    slidesToShow: 1,
+    swipe:false,
+    swipeToSlide:false,
+    touchMove:false,
+    mouseDrag: false,
+    touchDrag: false,
+    slidesToScroll: 1,
+    accessibility: false,
+
+});
+
+
+$(".quiz-button").click(function(){
+    $(".personality-quiz-lists").addClass("show");
+    $(".hide-after-clickk").hide();
+    $(".hide-after-clickk").hide();
+    var str = $("#flag_val").val();
+    $('.quiz-slider').slick('slickGoTo', str);
+
+  });
+  $(".submit-quizz").click(function(){
+    $(".sucsess-blocker").show();
+    $(".submit-quizz").addClass('hidden');
+    $(".rediectMeToHome").removeClass('hidden');
+    
+  });
+  
+//   $(".button-next-quiz").click(function(){
+//     $(".slick-next").click();
+//   });
+});
+
+  
+    </script>
+{% endblock %}

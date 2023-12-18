@@ -1,0 +1,369 @@
+{% extends 'base_website1.html' %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>{% trans "Futurely: Terms of use" %}</title>
+{% endblock %}
+
+{% block style_sheet %}
+{% phrase_javascript %}
+{% endblock %}
+
+{% block content %}
+<style>
+    .main-content-inner {
+        background-position: bottom;
+    }
+    .white_color {
+        color: white;
+    }
+    .title-block p {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 25px;
+        color: #FFFFFF;
+        text-align: justify;
+    }
+
+    .terms {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+<div class="main-content">
+    <div class="bg-img-sec">
+        <div class="star-field">
+            <div class="layer"></div>
+            <div class="layer"></div>
+            <div class="layer"></div>
+        </div>
+        {% if request.LANGUAGE_CODE == "it" %}
+        <section class="terms">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="title-block text-center">
+                            <h1>{% trans 'TERMS OF USE' %}</h1>
+                        </div>
+                        <div class="title-block text-center">
+                            <p style="text-align:center;"><b>INFORMATIVA SUL TRATTAMENTO DEI DATI PERSONALI</b></p>
+                            <p style="text-align: center;">Ai sensi dell’art. 13 del Regolamento UE 2016/679 del 27/04/2016</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p>Egr. Sig./Gent.ma Sig.ra</p>
+                        </div>
+                        <div class="title-block">
+                            <p>
+                                Ai sensi dell’articolo 13 del Regolamento UE 2016/679 del 27/04/2016, di seguito denominato come <b>RGPD</b> (Regolamento Generale per la Protezione dei Dati Personali), <b>FUTURELY SRL SB, con sede legale in Piazzale Maciachini, n. 11, (20159) Milano,</b> in qualità di titolare del trattamento dei dati personali, La informa in merito a quanto segue:
+                            </p>
+                            <p>
+                                <b>Titolare e Responsabile del trattamento </b>
+                            </p>
+                            <p>
+                                Il titolare del trattamento è <b>FUTURELY SRL SB, con sede legale in Piazzale Maciachini, n. 11, (20159) Milano.</b>
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>Finalità del trattamento</b></p>
+                            <p>I dati personali da Lei forniti verranno trattati esclusivamente per le seguenti finalità:</p>
+                            <ul>
+                                <p>a) accesso alla piattaforma e utilizzo dei contenuti pubblicati sulla stessa</p>
+                                <p>b) tipulazione ed esecuzione del contratto e di tutte le attività ad esso connesse, quali, a titolo esemplificativo, fornitura dei servizi offerti e richiesti, fatturazione, tutela del credito, servizi amministrativi, gestionali, organizzativi e funzionali all’esecuzione del contratto;</p>
+                                <p>c) adempimento degli obblighi previsti dalla legge, regolamenti, normativa applicabile e altre disposizioni impartite da autorità investite dalla legge e da organi di vigilanza e controllo.</p>
+                            </ul>
+                            <p>
+                                Il trattamento dei dati personali per le finalità di cui sopra non richiede il Suo consenso espresso (art. 6 lett. b) e e) del RGDP).
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>Natura obbligatoria o facoltativa del conferimento dei dati e conseguenze di un eventuale rifiuto di fornire i dati personali </b></p>
+                            <p>I dati personali raccolti e trattati dal Titolare del trattamento sono:</p>
+                            <ul style="color: white">
+                                <li>dati di contatto (es. dati identificativi, età, e-mail);</li>
+                                <li>dati di pagamento (es. dati per la fatturazione).</li>
+                            </ul>
+                            <p>
+                                I dati richiesti per le finalità di cui alle precedenti lettere a), b) e c) devono essere obbligatoriamente forniti per l’adempimento degli obblighi di legge e/o per la conclusione ed esecuzione del rapporto contrattuale e la fornitura dei servizi richiesti. Pertanto, il Suo eventuale rifiuto, anche parziale, di fornire tali dati comporterebbe l’impossibilità per il Titolare di instaurare e gestire il rapporto stesso e di fornire il servizio richiesto.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Modalità di trattamento dei dati </b></p>
+                            <p>Il trattamento dei dati personali è realizzato per mezzo delle operazioni indicate all’art. 4 n. 2) RGPD, per le finalità di cui sopra, sia su supporto cartaceo che informatico, per mezzo di strumenti elettronici o comunque automatizzati, nel rispetto della normativa vigente in particolare in materia di riservatezza e sicurezza e in conformità ai principi di correttezza, liceità e trasparenza e tutela dei diritti del Cliente.</p>
+                                
+                            <p>
+                                Il trattamento è svolto direttamente dall’organizzazione del titolare, dai suoi responsabili e/o incaricati.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Comunicazione e Diffusione</b></p>
+                            <p>I Suoi dati personali potranno essere comunicati, nei limiti strettamente pertinenti agli obblighi, ai compiti ed alle finalità di cui sopra e nel rispetto della normativa vigente in materia, alle seguenti categorie di soggetti:</p>
+                            <ul>
+                                <p>1) soggetti a cui tale comunicazione deve essere effettuata al fine di adempiere o per esigere l’adempimento di specifici obblighi previsti da leggi, da regolamenti e/o dalla normativa comunitaria;</p>
+                                <p>2) società appartenenti al Gruppo del Titolare ovvero controllanti, controllate o collegate ai sensi dell’art. 2359 c.c., che agiscono in qualità di responsabili del trattamento o per finalità amministrativo contabili (finalità connesse allo svolgimento di attività di natura organizzativa interna, amministrativa, finanziaria e contabile, in particolare, funzionali all’adempimento di obblighi contrattuali e precontrattuali);</p>
+                                <p>3) persone fisiche e/o giuridiche esterne che forniscono servizi strumentali alle attività del Titolare per le finalità di cui al precedente punto 1 (es. call center, fornitori, consulenti, società, enti, studi professionali). Tali soggetti opereranno in qualità di responsabili del trattamento.</p>
+                            </ul>
+                            <p>I dati personali non saranno in alcun modo oggetto di diffusione.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Periodo di conservazione dei dati personali</b></p>
+                            <p>I dati personali saranno conservati per l’intera durata espressa dal contratto stipulato con il Titolare concluso il quale i dati saranno conservati per l’espletazione dei termini previsti per legge per la conservazione dei documenti amministrativi dopodiché saranno eliminati.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Trasferimento dei dati</b></p>
+                            <p>I dati personali sono conservati su server ubicati all’interno dell’Unione Europea. Resta in ogni caso inteso che il Titolare, ove si rendesse necessario, avrà facoltà di spostare i server anche extra-UE. In tal caso, il Titolare assicura sin d’ora che il trasferimento dei dati extra-UE avverrà in conformità alle disposizioni di legge applicabili, previa stipula delle clausole contrattuali standard previste dalla Commissione Europea.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Diritti dell’interessato </b></p>
+                            <p>Nella Sua qualità di interessato, ai sensi dell’art. 15 RGPD Le compete il diritto di: </p>
+                            <ul>
+                                <p>1) ottenere dal titolare del trattamento la conferma che sia o meno in corso un trattamento di dati personali che La riguardano e in tal caso, di ottenere l'accesso ai dati personali e alle seguenti informazioni:
+                                    <ul>
+                                        <p>a) le finalità del trattamento;</p>
+                                        <p>b) le categorie di dati personali in questione;</p>
+                                        <p>c) i destinatari o le categorie di destinatari a cui i dati personali sono stati o saranno comunicati, in particolare se destinatari di paesi terzi o organizzazioni internazionali;</p>
+                                        <p>d) quando possibile, il periodo di conservazione dei dati personali previsto oppure, se non è possibile, i criteri utilizzati per determinare tale periodo;</p>
+                                        <p>e) l'esistenza del diritto dell'interessato di chiedere al titolare del trattamento la rettifica o la cancellazione dei dati personali o la limitazione del trattamento dei dati personali che lo riguardano o di opporsi al loro trattamento;</p>
+                                        <p>f) il diritto di proporre reclamo a un'autorità di controllo;</p>
+                                        <p>g) qualora i dati non siano raccolti presso l'interessato, tutte le informazioni disponibili sulla loro origine;</p>
+                                        <p>h) l'esistenza di un processo decisionale automatizzato, compresa la profilazione di cui all'articolo 22, paragrafi 1 e 4, e, almeno in tali casi, informazioni significative sulla logica utilizzata, nonché l'importanza e le conseguenze previste di tale trattamento per l'interessato.</p>
+                                    </ul>
+                                </p>
+                                <p>2) Qualora i dati personali siano trasferiti a un paese terzo o a un'organizzazione internazionale, l'interessato ha il diritto di essere informato dell'esistenza di garanzie adeguate ai sensi dell'articolo 46 relative al trasferimento.</p>
+                                <p>3) Il titolare del trattamento fornisce una copia dei dati personali oggetto di trattamento. In caso di ulteriori copie richieste dall'interessato, il titolare del trattamento può addebitare un contributo spese ragionevole basato sui costi amministrativi. Se l'interessato presenta la richiesta mediante mezzi elettronici, e salvo indicazione diversa dell'interessato, le informazioni sono fornite in un formato elettronico di uso comune.</p>
+                                <p>4) Il diritto di ottenere una copia di cui al paragrafo 3 non deve ledere i diritti e le libertà altrui.</p>
+                                <p>5) Ove applicabili, ha altresì i diritti di cui agli artt. 16-21 RGPD (Diritto di rettifica, diritto all’oblio, diritto di limitazione di trattamento, diritto alla portabilità dei dati, diritto di opposizione), nonché il diritto di reclamo all’Autorità Garante</p>
+                            </ul>
+                        </div>
+                        <div class="title-block">
+                            <p>Per l’esercizio dei diritti di cui all’art. 15 del RGPD o per domande o informazioni in ordine al trattamento dei Suoi dati ed alle misure di sicurezza adottate potrà in ogni caso mettersi in contatto con: </p>
+                            <p><b>FUTURELY SRL SB, </b><br>
+                            <b>Piazzale Maciachini, 11 20159</b><br>
+                            <b>Milan MI, Italy.</b><br>
+                            <b>E-mail: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></b>
+                        </p>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="terms">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="title-block text-center">
+                            <h1>{% trans 'TERMS OF USE' %}</h1>
+                        </div>
+                        <div class="title-block text-center">
+                            <p style="text-align:center;"><b>INFORMATION ON THE PROCESSING OF PERSONAL
+                                DATA</b></p>
+                            <p style="text-align: center;">Ai sensi dell’art. 13 del Regolamento UE 2016/679 del 27/04/2016</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="terms">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="title-block">
+                            <p>Egr. Mr / Dear Ms</p>
+                        </div>
+                        <div class="title-block">
+                            <p>
+                                Pursuant to Article 13 of EU Regulation 2016/679 of 27/04/2016, hereinafter referred to as the GDPR (General Regulation for the Protection of Personal Data), FUTURELY INC, with registered office in 405 Howard Street, San Francisco, California, 94105 United States, as owner of the processing of personal data, informs you of the following:
+                            </p>
+                            <p>
+                                <b>Owner and manager of the treatment </b>
+                            </p>
+                            <p>
+                                The data controller is FUTURELY INC, with registered office in 405 Howard Street, San Francisco, California, 94105 United States.</b>
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>Purpose of the treatment</b></p>
+                            <p>The personal data you provide will be processed exclusively for the following
+                                purposes:</p>
+                            <ul>
+                                <p>1. access to the platform and use of the contents published on it</p>
+                                <p>2. stipulation and execution of the contract and all related activities, such
+                                    as, by way of example, provision of the services offered and
+                                    requested, billing, credit protection, administrative, management,
+                                    organizational and functional services for the execution of the
+                                    contract;</p>
+                                <p>3. fulfillment of the obligations established by law, regulations, applicable
+                                    legislation and other provisions issued by authorities invested by law
+                                    and by supervisory and control bodies.</p>
+                            </ul>
+                            <p>
+                                The processing of personal data for the aforementioned purposes does not
+                                require your express consent (Article 6 letter b) and e) of the GDPR).
+                            </p>
+                        </div>
+                        <div class="title-block">
+                            <p><b>Mandatory or optional nature of providing data and consequences of a
+                                refusal to provide personal data</b></p>
+                            <p>The personal data collected and processed by the Data Controller are:</p>
+                            <ul style="color: white;">
+                                <li>contact data (e.g. identification data, age, e-mail);</li>
+                                <li>payment data (e.g. billing data).</li>
+                            </ul>
+                            <p>
+                                The data required for the purposes referred to in letters a), b) and c) above
+                                must be provided for the fulfillment of legal obligations and / or for the
+                                conclusion and execution of the contractual relationship and the provision of
+                                the requested services. Therefore, your refusal, even partial, to provide such
+                                data would make it impossible for the Owner to establish and manage the
+                                relationship itself and to provide the requested service.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Methods of data processing </b></p>
+                            <p>The processing of personal data is carried out by means of the operations
+                                indicated in art. 4 n. 2) RGPD, for the aforementioned purposes, both on paper
+                                and computer, by means of electronic or automated tools, in compliance with
+                                current legislation in particular regarding confidentiality and security and in
+                                compliance with the principles of correctness, lawfulness and transparency and
+                                protection of the Customer's rights.</p>
+                                
+                            <p>
+                                The processing is carried out directly by the owner's organization, by its
+                                managers and / or agents.
+                            </p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Communication and Dissemination</b></p>
+                            <p>Your personal data may be communicated, within the limits strictly relevant to
+                                the obligations, tasks and purposes referred to above and in compliance with
+                                current legislation on the subject, to the following categories of subjects:</p>
+                            <ul>
+                                <p>1. subjects to whom such communication must be made in order to fulfill
+                                    or to require the fulfillment of specific obligations under laws,
+                                    regulations and / or community legislation;</p>
+                                <p>2. companies belonging to the owner's group or parent companies,
+                                    subsidiaries or associates pursuant to art. 2359 of the Italian Civil
+                                    Code, who act as data processors or for administrative and accounting
+                                    purposes (purposes related to the performance of internal
+                                    organizational, administrative, financial and accounting activities, in
+                                    particular, functional to the fulfillment of contractual and precontractual obligations);</p>
+                                <p>3. external natural and / or legal persons who provide services that are
+                                    instrumental to the activities of the Data Controller for the purposes
+                                    referred to in point 1 above (eg call centers, suppliers, consultants,
+                                    companies, organizations, professional firms). These subjects will
+                                    operate as data processors.</p>
+                            </ul>
+                            <p>Personal data will not be disseminated in any way.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Retention period of personal data</b></p>
+                            <p>Personal data will be kept for the entire duration expressed by the contract
+                                stipulated with the Data Controller, which concluded that the data will be kept
+                                for the fulfillment of the terms established by law for the conservation of
+                                administrative documents, after which they will be deleted.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Data transfer</b></p>
+                            <p>Personal data is stored on servers located within the European Union. In any
+                                case, it is understood that the Data Controller, if necessary, will have the right
+                                to move the servers even outside the EU. In this case, the Data Controller
+                                ensures from now on that the transfer of data outside the EU will take place in
+                                accordance with the applicable legal provisions, subject to the stipulation of
+                                the standard contractual clauses provided for by the European Commission.</p>
+                        </div>
+
+                        <div class="title-block">
+                            <p><b>Rights of the interested party </b></p>
+                            <p>In your capacity as an interested party, pursuant to art. 15 GDPR You have the
+                                right to: </p>
+                            <ul>
+                                <p>1. obtain from the data controller confirmation as to whether or not
+                                    personal data concerning you are being processed and, in this case, to
+                                    obtain access to personal data and the following information:
+                                    <ul>
+                                        <p>1. the purposes of the processing;</p>
+                                        <p>2. the categories of personal data in question;</p>
+                                        <p>3. the recipients or categories of recipients to whom the personal
+                                            data have been or will be disclosed, in particular if they are
+                                            recipients of third countries or international organizations;</p>
+                                        <p>4. when possible, the retention period of the personal data provided
+                                            or, if not possible, the criteria used to determine this period;</p>
+                                        <p>5. the existence of the right of the interested party to ask the data
+                                            controller to correct or delete personal data or limit the processing
+                                            of personal data concerning him or to oppose their treatment;</p>
+                                        <p>6. the right to lodge a complaint with a supervisory authority;</p>
+                                        <p>7. if the data are not collected from the interested party, all available
+                                            information on their origin;</p>
+                                        <p>8. the existence of an automated decision-making process, including
+                                            the profiling referred to in Article 22, paragraphs 1 and 4, and, at
+                                            least in such cases, significant information on the logic used, as
+                                            well as the importance and expected consequences of such
+                                            processing for the 'interested.</p>
+                                    </ul>
+                                </p>
+                                <p>2. If personal data are transferred to a third country or to an international
+                                    organization, the interested party has the right to be informed of the
+                                    existence of adequate guarantees pursuant to Article 46 relating to
+                                    the transfer.</p>
+                                <p>3. The data controller provides a copy of the personal data being
+                                    processed. In case of further copies requested by the interested party,
+                                    the data controller may charge a reasonable fee based on
+                                    administrative costs. If the interested party submits the request by
+                                    electronic means, and unless otherwise indicated by the interested
+                                    party, the information is provided in a commonly used electronic
+                                    format.</p>
+                                <p>4. The right to obtain a copy referred to in paragraph 3 must not affect
+                                    the rights and freedoms of others.</p>
+                                <p>5. Where applicable, it also has the rights referred to in Articles. 16-21
+                                    RGPD (Right of rectification, right to be forgotten, right to limitation of
+                                    processing, right to data portability, right of opposition), as well as the
+                                    right of complaint to the Guarantor Authority.</p>
+                            </ul>
+                        </div>
+                        <div class="title-block">
+                            <p>For the exercise of the rights referred to in art. 15 of the RGPD or for questions
+                                or information regarding the processing of your data and the security measures
+                                adopted, you can in any case contact:</p>
+                            <p><b>FUTURELY INC, </b></p>
+                            <p><b>405 Howard Street,</b></p>
+                            <p><b>San Francisco,</b></p>
+                            <p><b>California, 94105 United States.</b></p>
+                            <p><b>E-mail: <a href="mailto:pramod@myfuturely.com">pramod@myfuturely.com</a></p>
+                        </p>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </div>
+</div>
+</div>
+</div>
+
+
+
+{% block script %}
+{% endblock%}
+{% endblock%}

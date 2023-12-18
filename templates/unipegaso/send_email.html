@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment</title>
+  </head>
+<body>
+<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422bodyTable" style="background:#ffffff none no-repeat center/cover;border-collapse:collapse;height:100%;margin:0;padding:0;width:100%;background-color:#ffffff;background-image:none;background-repeat:no-repeat;background-position:center;background-size:cover">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422bodyCell" style="height:100%;margin:0;padding:10px;width:100%;border-top:0">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;border:0;max-width:650px!important">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateHeader" style="border-top:0;border-bottom:0">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding:9px">
+                                                        <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" style="min-width:100%;border-collapse:collapse">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0">
+                                                                        <img align="center" alt="" src="{{logo_url}}" width="180" style="max-width:1280px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;height:auto;outline:none;text-decoration:none" class="CToWUd" data-bit="iit" jslog="138226; u014N:xr6bB; 53:W2ZhbHNlLDJd">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateBody" style="border-top:0;border-bottom:0">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding-top:9px">
+                                                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <div style="text-align:left">
+                                                                            <span style="font-size:16px">Ciao {{user}}</span>
+                                                                        </div>
+                                                                        <div style="text-align:left">
+                                                                            <p style="margin:6px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+																				Grazie per aver completato con successo l’assessment!
+
+                                                                                </span>
+                                                                                </p><div dir="ltr" style="opacity:0.01">
+                                                                                    <div id="m_6885153722321876664m_8471385712077653221:qh" role="button" aria-label="Download attachment ">
+                                                                                        <div><div></div></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <p></p>
+
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">In base alle risposte che hai dato, queste sono le universita’ in cui potresti dare il meglio di te:</span>
+                                                                            </p>
+                                                                            {% for key, val in ans_dict.items %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - {{key}} ({{val}})
+                                                                                </span>
+                                                                            </p>
+                                                                            {% endfor %}
+                                                                            {% if is_certificate_result == "Realistic" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - Ingegneria delle infrastrutture e della mobilità sostenibile (https://www.unimercatorum.it/corsi-di-laurea/ingegneria-delle-infrastrutture-per-una-mobilita-sostenibile)
+                                                                                </span>
+                                                                            </p>
+
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - Informatica per le aziende digitali (https://www.unipegaso.it/lauree-triennali/informatica-per-le-aziende-digitali)
+                                                                                </span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - Ingegneria gestionale (https://www.unimercatorum.it/corsi-di-laurea/ingegneria-gestionale)
+                                                                                </span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - Ingegneria informatica (https://www.unimercatorum.it/corsi-di-laurea/ingegneria-informatica)
+                                                                                </span>
+                                                                            </p>
+
+                                                                            {% elif is_certificate_result == "Investigative" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Statistica e big data (https://www.unimercatorum.it/corsi-di-laurea/statistica-e-big-data)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Scienze giuridiche (https://www.unimercatorum.it/corsi-di-laurea/scienze-giuridiche)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Scienze e tecniche psicologiche (https://www.unimercatorum.it/corsi-di-laurea/scienze-e-tecniche-psicologiche)</span>
+                                                                            </p>
+
+
+                                                                            {% elif is_certificate_result == "Artistic" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Lettere, sapere umanistico e formazione (https://www.unipegaso.it/lauree-triennali/lettere-sapere-umanistico-e-formazione)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Comunicazione e multimedialità (https://www.unimercatorum.it/corsi-di-laurea/comunicazione-e-multimedialita)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Moda e design industriale (https://www.uniroma5.it/triennale/triennale-indirizzo-design.html)</span>
+                                                                            </p>
+                                                                            
+                                                                            {% elif is_certificate_result == "Social" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Scienze politiche e relazioni internazionali (https://www.unimercatorum.it/corsi-di-laurea/scienze-politiche-e-relazioni-internazionali)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Lettere, sapere umanistico e formazione (https://www.unipegaso.it/lauree-triennali/lettere-sapere-umanistico-e-formazione)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Sociologia e innovazione (https://www.unimercatorum.it/corsi-di-laurea/sociologia-e-innovazione)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Scienze dell’educazione (https://www.unipegaso.it/lauree-triennali/scienze-educazione-e-formazione)</span>
+                                                                            </p>
+
+                                                                            {% elif is_certificate_result == "Enterprising" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Economia aziendale (https://www.unipegaso.it/lauree-triennali/economia-aziendale)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Gestione di impresa (https://www.unimercatorum.it/corsi-di-laurea/gestione-di-impresa)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Ingegneria gestionale (https://www.unimercatorum.it/corsi-di-laurea/ingegneria-gestionale)</span>
+                                                                            </p>
+                                                                            
+                                                                            {% elif is_certificate_result == "Conventional" %}
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Economia aziendale (https://www.unipegaso.it/lauree-triennali/economia-aziendale)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">- Scienze giuridich (https://www.unimercatorum.it/corsi-di-laurea/scienze-giuridiche)</span>
+                                                                            </p>
+                                                                            <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                                <span style="font-size:16px">
+                                                                                   - Ingegneria informatica (https://www.unimercatorum.it/corsi-di-laurea/ingegneria-informatica)
+                                                                                </span>
+                                                                            </p>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:left">
+                                                                        <p style="color: black;font-size: 13px;margin-top: 14px;">Questi consigli sono preziosi e ti aiutano ad approfondire le tue potenzialità. Cliccando su ciascuna area di specializzazione puoi approfondire i diversi piani e materie di studio più in linea con la tua personalità. Se invece vuoi confrontarti con un esperto per approfondire i corsi proposti, chiama il numero 800-185-095.</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" style="padding:9px">
+                                                        <table align="left" width="100%" border="0" cellpadding="0" cellspacing="0" style="min-width:100%;border-collapse:collapse">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-right:9px;padding-left:9px;padding-top:0;padding-bottom:0;text-align:center">
+																	<p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:16px;line-height:150%;text-align:center">
+                                                                                <a style="font-family: Helvetica;font-size: 16px;background-color: #000;display: inline-block;color: #fff;text-align: center;padding: 12px 20px;" href="{{button_url}}" target="_blank">Scarica il <br>certificato UniPegaso!</a>
+                                                                     </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="m_6885153722321876664m_8471385712077653221m_8261564911003518567m_6084677437922888689m_5631301411132061345m_-3296063500725703422templateFooter" style="border-top:0;border-bottom:0">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;border-collapse:collapse">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" valign="top" style="padding-top:9px">
+                                                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="max-width:100%;min-width:100%;border-collapse:collapse" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center" valign="top" style="padding-top:0;padding-right:18px;padding-bottom:9px;padding-left:18px;word-break:break-word;color:#202020;font-family:Helvetica;font-size:12px;line-height:150%;text-align:left">
+                                                                        <p style="margin:10px 0;padding:0;color:#202020;font-family:Helvetica;font-size:12px;line-height:150%;text-align:center">
+                                                                            <span style="font-size:16px">Non perdere questa incredibile occasione per scoprire di più chi sei e il mondo che ti circonda.</span>
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+	</body>
+
+</html>

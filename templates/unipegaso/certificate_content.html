@@ -1,0 +1,21 @@
+{% load unipegaso_tags %}
+<div class="title-top-hero-new">
+    <h3>Certifica che</h3>
+    <h2>{{ student_name }}</h2>
+    <p class="fontsize14" style="text-align: left;">Ciao,</p>
+    <p class="fontsize14" style="text-align: left;">grazie per aver completato la prima parte del  percorso di orientamento!</p>
+    <p class="fontsize14" style="text-align: left;">Hai approfondito le tue inclinazioni e le competenze richieste nel mondo del lavoro.</p>
+    <p class="fontsize14">Di seguito trovi alcuni consigli utili di aree professionali che potrebbero fare al caso tuo sulla base di ciò che è emerso dal tuo percorso:</p>
+</div>
+
+<div class="personality-quiz-text fontsize14" style="color: black;">
+    <ul>
+    {% for ans, link in answers_list.items %}
+        {% comment %} <li><a target="_blank" href="{{link}}"><p>{{ans}}</p></a></li> {% endcomment %}
+        <li>{{ans}}</li>
+    {% endfor %}
+    </ul>
+</div>
+<div class="text-center">
+    <p style="color: black;font-size: 13px;margin-top: 14px;">Questi consigli sono preziosi e ti aiutano ad approfondire le tue potenzialità. Cliccando su ciascuna area di specializzazione puoi approfondire i diversi piani e materie di studio più in linea con la tua personalità. Se invece vuoi confrontarti con un esperto per approfondire i corsi proposti, chiama il numero 800-185-095.</p> 
+</div> 

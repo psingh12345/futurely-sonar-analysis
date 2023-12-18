@@ -1,0 +1,30 @@
+{% load stu_tags %}
+{% load static %}
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-12">
+            {% if request.session.uni_type_bit == 1 %}
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+            {% elif request.session.uni_type_bit == 2 %}
+                <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+            {% else %}
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+            {% endif %}
+            <div class="custom-hero-card">
+                <div class="congratulazion-finish">
+                    <img id="star" src="{% static 'unipegaso/images/star.png' %}" alt="">
+                    <h3 class="mt-4" align="center">Congratulazioni, hai completato il test di orientamento!</h3>
+                    <p class="text-justify-now text-center">A breve riceverai una mail con una selezione di aree universitarie <br>che potrebbero fare al caso tuo. Intanto, clicca sul <br>bottone qui sotto per scaricare il certificato.</p>
+                    {% comment %} <p class="text-justify-now text-center">Questi sono i risultati dati dalle tue risposte al test RIASEC. <br>I tuoi punteggi per ciascuno dei 6 tratti sono qui sotto</p> {% endcomment %}
+                    {% if request.session.uni_type_bit == 1 %}
+                        <a href="{% url 'certificate' %}" class="button-custom-hero">Scarica l’attestato -></a>
+                    {% elif request.session.uni_type_bit == 2 %}
+                        <a href="{% url 'unimercatorum_certificate' %}" class="button-custom-hero">Scarica l’attestato -></a>
+                    {% elif request.session.uni_type_bit == 3 %}
+                        <a href="{% url 'utsanraffaele_certificate' %}" class="button-custom-hero">Scarica l’attestato -></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+/* @font-face{ */
+    .title-top-hero-new {
+        margin-top: 60px;
+        padding-top: 138px;
+    }
+    .bottom-right-sign-block {
+        text-align: right;
+        margin: 6px 0 0;
+        padding: 0 20px;
+    }
+    .title-top-hero-new h3 {
+        font-size: 21px;
+        margin-bottom: 13px;
+        color: #333;
+        margin-top: 9px;
+    }
+    .title-top-hero-new h2 {
+        font-size: 35px;
+        margin-bottom: 15px;
+        color:#333;
+    }
+    .title-top-hero-new p {
+        color: #333;
+    }
+    .new-personality-design-main-bg {
+        background-size: cover;
+        background-position: top;
+        padding: 20px;
+        margin: 15px 0;
+        /* height: calc(100vh - 30px); */
+
+
+    }
+    .custom-hero-bannner {
+        padding-top: 0px;
+    }
+    .personality-quiz-text {
+        padding: 0 30px;
+    }
+    .personality-quiz-text p {
+        color: #333;
+        text-align: center;
+        margin-bottom: 0;
+        font-size: 16px;
+    }
+    .bottom-right-sign-block p {
+        color: #333;
+    }
+    .new-personality-design-main-bg-inner {
+    max-width: 90%;
+    margin: auto;
+    width: 100%;
+    display: table;
+    }
+    .fontsize14 a{
+        color: black;
+    }
+.logo-resize{
+    top: 56px !important;
+}
+    @media only screen and (max-width: 768px) {
+        .new-personality-design-main-bg {
+          
+            height: auto;
+    
+    
+        }
+
+        .title-top-hero-new {
+            margin-top: 6px;
+        
+        }
+      }
+/* } */

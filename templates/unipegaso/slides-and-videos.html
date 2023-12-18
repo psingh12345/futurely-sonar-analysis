@@ -1,0 +1,272 @@
+{% load stu_tags %}
+{% load static %}
+
+    {% if filter_video_link %}
+    <div class="row align-items-center justify-content-center d-none" id="id_vedio_link">
+        <div class="col-md-12">
+            {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/> {% endcomment %}
+            {% if request.session.uni_type_bit == 1 %}
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+            {% elif request.session.uni_type_bit == 2 %}
+                <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+            {% else %}
+                <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+            {% endif %}
+            <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                    {% comment %} <span id="progress_status_id">0/42</span> {% endcomment %}
+                    <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                </div>
+            </div>
+            <div class="custom-hero-card">
+                <iframe width="70%" height="450" src="{{video_link}}" title="Dummy Video For YouTube API Test" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                {% comment %} <a href="#" class="button-custom-hero next-video-step-btn">Next</a> {% endcomment %}
+                <form method="post" id="id_next_question_slide">
+                    {% csrf_token %}
+                    <input type="hidden" name="next_count" id="next_count" value="3">
+                    <button type="submit" class="button-custom-hero next-video-step-btn" style="border: none;">Prosegui</button>
+                    <button class="button-custom-hero next-video-step-btn start-loading loader_{{question.pk}}" style="border: none; display: none;">Prosegui</button> 
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="id_next_btn">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-12">
+                {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" /> {% endcomment %}
+                {% if request.session.uni_type_bit == 1 %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+                {% elif request.session.uni_type_bit == 2 %}
+                    <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+                {% else %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+                {% endif %}
+                <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                    <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                        <!-- <span id="progress_status_id">0/42</span> -->
+                        <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                    </div>
+                </div>
+                <div class="custom-hero-card">
+                    {% if question.sno == 1 %}
+                        <h1> Guarda il video di spiegazione dei tratti</h1>
+                    {% elif question.sno == 2 %}
+                        <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                    {% elif question.sno == 3 %}
+                        <h1>Adesso scopri la differenza tra soft e hard skills.</h1>
+                    {% elif question.sno == 6 %}
+                        <h1>Guarda adesso testimonianze di ragazzi in diverse aree per scoprire competenze richieste e sviluppate.</h1>
+                    {% else %}
+                        <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                    {% endif %}
+                    <a class="button-custom-hero" id="id_continue">Continua -></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% elif question.question_type == "MCQ" %}
+        <div class="row" id = "id_mcq_link">
+            <div class="col-md-12 d-flex">
+                {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/> {% endcomment %}
+                {% if request.session.uni_type_bit == 1 %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+                {% elif request.session.uni_type_bit == 2 %}
+                    <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+                {% else %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+                {% endif %}
+                <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                    <div class="progress-barr" role="progressbar" id="progress_bar_id"
+                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                        <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                    </div>
+                </div>
+                <div class="personality-quiz-card">
+                    <form class="personality-quiz-item" method="post" id="next_question_form_id" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="question_id" id="id_hidden_qus" value="{{question.id}}">
+                        <div class="personality-quiz-header">
+                            <h2><span><i class="fa fa-arrow-right"></i></span>{{question.question}}</h2>
+                        </div>
+                        {% if question.sno == 2 or question.sno == 6 %}
+                        <input type="hidden" name="is_video_filter" value="True">
+                        {% endif %}
+
+                        {% if question.sno == 4 or question.sno == 5 or question.sno == 7 or question.sno == 8 or question.sno == 9 %}
+                            <div class="personality-quiz-option">
+                                {% for option in question.unipegaso_next_option.all %}
+                                    <div class="personality-selecotr-item">
+                                        <input type="checkbox" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{option.option}}" hdnname="radio{{question.id}}{{forloop.counter}}" onclick="check_multi_select_option(this, '{{question.pk}}', '{{question.sno}}')">
+                                        {% comment %} onclick="next_question_form_submit(this, '{{question.pk}}', '1')" {% endcomment %}
+                                        <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{option.option}} </label>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="error-msg">
+                                </div>
+
+                                <div class="personality-button">
+                                    <button class="button-next-quiz submit_btn_{{question.pk}}"
+                                        type="submit" style="border: none;" id="submit_btn_id" >Prosegui -></a>
+                                        <button class="button-custom-hero next-video-step-btn start-loading loader_{{question.pk}}" style="border: none; display: none;">Prosegui</button> 
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="personality-quiz-option">
+                                <input type="hidden" name="selectedoption{{question.id}}" id="radio_{{question.id}}1">
+                                {% for option in question.unipegaso_next_option.all %}
+                                <div class="personality-selecotr-item">
+                                    <input type="radio" id="radio{{forloop.counter}}{{question.id}}" name="selector{{question.id}}" class="selector-item_radio" value="{{option.option}}" hdnname="radio{{question.id}}{{forloop.counter}}">
+                                    <label for="radio{{forloop.counter}}{{question.id}}" class="selector-item_label"><span>{{forloop.counter|to_char}}</span>{{ option.option }}</label>
+                                </div>
+                                {% endfor %}
+                                
+                                <div class="error-msg">
+                                </div>
+            
+                                <div class="personality-button">
+                                    <button class="button-next-quiz submit_btn_{{question.pk}}"
+                                        type="submit" style="border: none;" id="submit_btn_id" >Prosegui -></a>
+                                        <button class="button-custom-hero next-video-step-btn start-loading loader_{{question.pk}}" style="border: none; display: none;">Prosegui</button> 
+                                </div>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid  d-none" id="id_mcq_next_btn">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-12">
+                    {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" /> {% endcomment %}
+                    {% if request.session.uni_type_bit == 1 %}
+                        <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+                    {% elif request.session.uni_type_bit == 2 %}
+                        <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+                    {% else %}
+                        <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+                    {% endif %}
+                    <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                        <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <!-- <span id="progress_status_id">0/42</span> -->
+                            <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                        </div>
+                    </div>
+                    <div class="custom-hero-card">
+                        {% if question.sno == 1 %}
+                            <h1>Guarda il video di spiegazione dei tratti</h1>
+                        {% elif question.sno == 2 %}
+                            <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                        {% elif question.sno == 3 %}
+                            <h1>Adesso scopri la differenza tra soft e hard skills.</h1>
+                        {% elif question.sno == 6 %}
+                            <h1>Guarda adesso testimonianze di ragazzi in diverse aree per scoprire competenze richieste e sviluppate.</h1>
+                        {% else %}
+                            <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                        {% endif %}
+                        <a class="button-custom-hero" id="id_mcq_continue">Continua -></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% elif question.question_type == "Link" %}
+        <div class="row align-items-center justify-content-center d-none" id="id_vedio_link">
+            <div class="col-md-12">
+                {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/> {% endcomment %}
+                {% if request.session.uni_type_bit == 1 %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+                {% elif request.session.uni_type_bit == 2 %}
+                <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+                {% else %}
+                    <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+                {% endif %}
+                <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                    <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                        <!-- <span id="progress_status_id">0/42</span> -->
+                        <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                    </div>
+                </div>
+                <div class="custom-hero-card">
+                    <iframe width="70%" height="450" src="{{video_link}}" title="RIASEC Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    {% comment %} <a href="#" class="button-custom-hero next-video-step-btn">Next</a> {% endcomment %}
+                    <form method="post" id="id_next_question_slide">
+                        {% csrf_token %}
+                        <input type="hidden" name="next_count" id="next_count" value="3">
+                        <button type="submit" class="button-custom-hero next-video-step-btn" style="border: none;">Prosegui</button> 
+                        <button class="button-custom-hero next-video-step-btn start-loading loader_{{question.pk}}" style="border: none; display: none;">Prosegui</button> 
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="id_next_btn">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-12">
+                    {% comment %} <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}" /> {% endcomment %}
+                    {% if request.session.uni_type_bit == 1 %}
+                        <img class="logo-hero-custom" src="{% static 'unipegaso/images/pegaso_Logo.png' %}"/>
+                    {% elif request.session.uni_type_bit == 2 %}
+                        <img class="logo-hero-custom" style="top: 0px;" src="{% static 'unipegaso/images/merca_LOGO.png' %}"/>
+                    {% else %}
+                        <img class="logo-hero-custom" src="{% static 'unipegaso/images/UT-San-Raffaele-Logo.png' %}"/>
+                    {% endif %}
+                    <div class="progresss" style="margin: 130px 25px;width: 97%;">
+                        <div class="progress-barr" role="progressbar" id="progress_bar_id" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <!-- <span id="progress_status_id">0/42</span> -->
+                            <span class="flag-icon-progress"><i class="fa fa-flag"></i></span>
+                        </div>
+                    </div>
+                    <div class="custom-hero-card">
+                        {% if question.sno == 1 %}
+                            <h1>Guarda il video di spiegazione dei tratti</h1>
+                        {% elif question.sno == 2 %}
+                            <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                        {% elif question.sno == 3 %}
+                            <h1>Adesso scopri la differenza tra soft e hard skills.</h1>
+                        {% elif question.sno == 6 %}
+                            <h1>Guarda adesso testimonianze di ragazzi in diverse aree per scoprire competenze richieste e sviluppate.</h1>
+                        {% else %}
+                            <h1>Guarda adesso testimonianze di ragazzi con il tuo tratto.</h1>
+                        {% endif %}
+                        <a class="button-custom-hero" id="id_continue">Continua -></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% block script %}
+<script>
+    loaderonclick('.start-loading');
+
+    function loaderonclick(currenttab){
+        $(currenttab).html('<i class="fa fa-spinner fa-spin"></i>');
+        $(currenttab).css("cursor", "default");
+        return true;
+    };
+
+    var button_is_active = "{{ button_is_active }}";
+    if(button_is_active == "True"){
+        $("#id_next_btn").removeClass("d-none");
+        $("#id_vedio_link").addClass("d-none");
+    };
+    {% if question.sno == 6 %}
+        $("#id_mcq_next_btn").removeClass("d-none");
+        $("#id_mcq_link").addClass("d-none");
+        {% if filter_video_link %}
+            $("#id_next_btn").addClass("d-none");
+            $("#id_vedio_link").removeClass("d-none");
+        {% endif %}
+    {% endif %}
+    
+    var question_no = parseInt('{{question.sno}}');
+    var total_completed = 60;
+    var bar_count = question_no*40/9;
+    var final_per_bar = total_completed + bar_count;
+    $("div.progress-barr").css("width", final_per_bar+"%");
+
+</script>
+{% endblock %}

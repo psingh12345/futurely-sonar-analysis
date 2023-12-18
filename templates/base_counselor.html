@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+{% load stu_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+<html lang="{% if request.LANGUAGE_CODE == 'it' %}it{% else %}en{% endif %}">
+
+<head>
+    {% phrase_javascript %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% if request.session.is_from_ios_app or request.session.is_from_mobile_app%}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    {% else %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endif %}
+    <!-- favicon-->
+    <link rel="icon" href="{% static 'website/images/favicon.png'%}">
+    {% include 'components/seo.html' %}
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <script src="{% static 'js/jquery-3.6.0.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'css/template-css/base-counselor.css' %}">
+    {% block title %}
+    {% endblock %}
+    {% block style%}
+    {% endblock%}
+    <style>
+        .hidden {
+            display: none !important;
+        }
+
+        .change-country-popup .modal-content {
+            background: transparent;
+            border: none;
+            box-shadow: none !important;
+        }
+
+        .modal.fade.show.change-country-popup {
+            display: flex !important;
+        }
+
+        .modal.change-country-popup {
+            z-index: 9999999999;
+            align-items: center;
+            justify-content: center;
+            background: #000000b8;
+        }
+
+        .change-country-popup .modal-body img+img {
+            margin-top: 18px;
+        }
+
+        .change-country-popup .modal-body img:hover {
+            transform: scale(1.1);
+        }
+
+        .change-country-popup .modal-body img {
+            max-width: 100%;
+            width: 150px;
+            display: table;
+            margin: 0 auto;
+            transition: all .5s;
+        }
+
+        .change-country-popup .modal-title {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700 !important;
+            text-transform: uppercase;
+        }
+
+        .change-country-popup .modal-header .btn-close {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .change-country-popup .modal-header {
+            justify-content: center;
+            border-color: #333333;
+            border-bottom: 1px solid !important;
+        }
+
+            {
+            % comment %
+        }
+
+        .change-country-popup .modal-body {
+            margin: 28px 0 0;
+            display: flex;
+            justify-content: center;
+        }
+
+            {
+            % endcomment %
+        }
+
+        .change-country-popup .modal-body {
+            margin: 38px 0 14px;
+        }
+
+        .change-country-popup .modal-dialog {
+            padding: 30px;
+            background-color: #1A1A1A;
+            border-radius: 10px;
+        }
+
+        .change-country-popup .flag-country-block {
+            /* border: 1px solid #333; */
+            /* display: flex; */
+            /* justify-content: center; */
+            cursor: pointer;
+            /* flex-direction: column; */
+        }
+
+        .change-country-popup .flag-country-block h4 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 12px 0 0;
+            text-align: center;
+        }
+
+        .modal-open {
+            overflow: hidden !important;
+        }
+
+        .country-change-text p a {
+            cursor: pointer;
+        }
+
+            {
+            % comment %
+        }
+
+        .flag-country-block p {
+            margin: 0;
+            color: #fff;
+            font-weight: 500;
+            width: 150px;
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            line-height: 3;
+        }
+
+            {
+            % endcomment %
+        }
+
+        .flag-country-block p:hover {
+            transform: scale(1.1);
+
+        }
+
+        .flag-country-block p {
+            margin: 0;
+            color: #000;
+            font-weight: 400;
+            width: 185px;
+            text-align: center;
+            padding: 10px;
+            background: #fff;
+            line-height: 3;
+            transition: all .5s;
+            font-size: 20px;
+        }
+
+        .change-country-popup .modal-footer p {
+            margin: 0;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .change-country-popup .modal-footer {
+            border-color: #333333 !important;
+            padding: 30px 0 0;
+            justify-content: left;
+            border-top: 1px solid !important;
+        }
+
+        @media (max-width: 767px) {
+            .flag-country-block+.flag-country-block {
+                margin-top: 15px;
+            }
+
+            .change-country-popup .modal-body img {
+                width: 250px;
+                height: 100px;
+            }
+
+            .flag-country-block p {
+                width: 250px;
+                line-height: 4;
+                height: 100px;
+            }
+
+            .change-country-popup .modal-title {
+                font-size: 17px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .change-country-popup .modal-body {
+                margin: 38px 0 14px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .flag-country-block+.flag-country-block {
+                margin-left: 15px;
+            }
+        }
+
+        @media (min-width: 576px) {
+                {
+                % comment %
+            }
+
+            .change-country-popup .modal-dialog {
+                max-width: 500px;
+                width: 100%;
+            }
+
+                {
+                % endcomment %
+            }
+
+            .change-country-popup .modal-dialog {
+                max-width: 650px;
+                width: 100%;
+            }
+        }
+        .change-pro-button {
+        box-shadow: 0px 4px 29px 16px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+        padding: 2px;
+        display: inline-block;
+        text-align: center;
+        transition: all .5s;
+        }
+        .change-pro-button:hover span {
+            background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+        }
+        .change-pro-button:hover {
+            color: #fff;
+        }
+        .change-pro-button span {
+            background-color: #26272b;
+            padding: 7px 15px;
+            display: inline-block;
+            border-radius: 8px;
+            transition: all .5s;
+        }
+        .cohort-title {
+            font-weight: 700;
+            font-size: 20px;
+            color: #FFFFFF;
+            display: block;
+            margin-bottom: 18px;
+        }
+        .cohort-search-btn:hover {
+            background: linear-gradient(4deg, #0068FF 7.68%, #FE45C2 112.25%);
+            color: #fff;
+        }
+        .cohort-search-btn {
+            background: linear-gradient(96.52deg, #0068FF 7.68%, #FE45C2 112.25%);
+            border-radius: 10px;
+            display: block;
+            width: 100%;
+            font-weight: 600;
+            font-size: 16px;
+            color: #FFFFFF;
+            padding: 10px;
+            transition: all .5s;
+            border: none;
+           
+        }
+        .cohort-popup.open {
+            max-width: 600px;
+        }
+        .cohort-popup .cohort-modal-dialog {
+            background: rgba(38, 39, 43, 0.8);
+            border-radius: 16px;
+            width: 100%;
+            padding: 25px;
+            pointer-events: auto;
+        }
+        .cohort-popup .cohort-form-select {
+            background-color: #3f3f3f;
+            border-radius: 10px;
+            display: block;
+            padding: 18px 16px;
+            width: 100%;
+            border: none;
+            margin-bottom: 12px;
+            font-weight: 400;
+            font-size: 16px;
+            letter-spacing: -0.03em;
+            color: #FFFFFF;
+            background-image: url("/static/images/select-arrow-svg.svg");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 15px 10px;
+            appearance: none;
+            outline: none;
+        }
+        .cohort-popup {
+            padding: 20px;
+            margin-top: 60px;
+            display:none;
+            transition: all .5s;
+            width: 100%;
+            margin-bottom: -80px;
+        }
+        .cohort-popup.showing {
+            max-width: 100%
+        }
+        .cohort-popup.showing .cohort-modal-dialog .cohort-content {
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+    <script>
+		var currentUserId = "{{request.session.clarity_token}}";
+		(function(c,l,a,r,i,t,y){
+			c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+			t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+			y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			clarity("set", "userId", currentUserId.toString());
+		})(window, document, "clarity", "script", "encgjjcg70");	
+	</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KW23H71RW3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KW23H71RW3');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PRT4KXW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+
+<body id="page-top">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRT4KXW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    {% if request.session.display_lang_popup == "True" %}
+	<script>
+		window.location.href = "{% url 'select_lang'%}";
+	</script>
+	{% endif %} 
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <script>(function (v, i, s, a, t) { v[t] = v[t] || function () { (v[t].v = v[t].v || []).push(arguments) }; if (!v._visaSettings) { v._visaSettings = {} } v._visaSettings[a] = { v: '1.0', s: a, a: '1', t: t }; var b = i.getElementsByTagName('body')[0]; var p = i.createElement('script'); p.defer = 1; p.async = 1; p.src = s + '?s=' + a; b.appendChild(p) })(window, document, '//app-worker.visitor-analytics.io/main.js', '7388998c-4d85-11ec-b589-901b0edac50a', 'va')</script>
+    <!-- VISA Tracking Code for https://www.myfuturely.com/ -->
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/20116637.js"></script>
+    <!-- End of HubSpot Embed Code -->
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion mobile-hide" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <button id="sidebarToggleTop" class="btn btn-link rounded-circle pop-msg-none">
+
+            </button>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                {% comment %} <a class="nav-link" href="{% url 'counselor_program' %}" data-hover="{% trans 'Home' %}" data-toggle="tooltip" data-placement="right" title="Search Page">
+                    <i
+                        class="fas fa-search {% if request.resolver_match.url_name == 'counselor_program' %} nav-link1-back {% endif %}"></i>
+                </a> {% endcomment %}
+                {% if request.user.counselor.is_verified_by_futurely == True %}
+                {% if request.session.is_company or request.user.counselor.company %}
+                <a class="nav-link" href="{% url 'counselor-dashboard' %}" data-hover="{% trans 'Home' %}" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <i
+                    class="fas fa-home {% if request.resolver_match.url_name == 'counselor-dashboard' or request.resolver_match.url_name == "students_kpis" or request.resolver_match.url_name == "student-performance" or request.resolver_match.url_name == "student_course_report" %} nav-link1-back {% endif %}"></i>
+                </a>
+                {% else %}
+                <a class="nav-link" href="{% url 'class_section_students' %}" data-hover="{% trans 'Home' %}" data-toggle="tooltip" data-placement="right" title="Dashboard">
+                    <i
+                    class="fas fa-home {% if request.resolver_match.url_name == 'counselor-dashboard' or request.resolver_match.url_name == "students_kpis" or request.resolver_match.url_name == "student-performance" or request.resolver_match.url_name == "student_course_report" %} nav-link1-back {% endif %}"></i>
+                </a>
+                {% endif %}
+                {% endif %}
+            </li>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-gradient-primary  topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <!-- Topbar Search -->
+                    <div class="logo me-auto">
+                        {% if request.session.is_company or request.user.counselor.company %}
+                        <a class="logo-block" href=" {% url 'counselor-dashboard' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                        </a>
+                        {% elif request.user.person_role == "Futurely_admin" %}
+                        <a class="logo-block" href="{% url 'admin_dashboard' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                        </a>
+                        {% else %}
+                        <a class="logo-block" href="{% url 'class_section_students' %}">
+                            <img src="{% static 'images/Logo-futurely.svg'%}">
+                        </a>
+                        {% endif %}
+                        {% comment %} onClick="document.getElementById('cohort-popup').style.display='block'" {% endcomment %}
+                        {% if request.user.counselor.is_verified_by_futurely == True %}
+                            {% if request.session.is_company %}
+                            {% if request.session.is_cta_btn %}
+                            <a href="{% url 'counselor_program' %}" class="change-pro-button"><span>{% trans "Change program type and cohort" %}</span></a>
+                            {% endif %}
+                            {% endif %}
+                            {% if request.user.counselor.company != None %}
+                            {% else %}
+                            <a href="{% url 'class_section_students' %}" class="change-pro-button"><span>Cambia classe</span></a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {% comment %} <div class="border-grad-inner">
+                        <div class="border-grad" style="margin-bottom: 0px">
+                            <select class="select-box form-select select2" id="id_program" name="program_type" required="" style="padding: 10px 30px;">
+                                {% if request.session.is_from_high_school %}
+                                    <option value="high_school" name="program" selected="">High School</option>
+                                    <option value="fast_track" name="program">Fast Track</option>
+                                    <option value="middle_school" name="program">Middle School</option>
+                                {% elif request.session.is_from_fast_track %}
+                                    <option value="high_school" name="program">High School</option>
+                                    <option value="fast_track" name="program" selected="">Fast Track</option>
+                                    <option value="middle_school" name="program">Middle School</option>
+                                {% elif request.session.is_from_middle_school %}
+                                    <option value="high_school" name="program">High School</option>
+                                    <option value="fast_track" name="program">Fast Track</option>
+                                    <option value="middle_school" name="program" selected="">Middle School</option>
+                                {% else %}
+                                    <option value="high_school" name="program" selected>High School</option>
+                                    <option value="fast_track" name="program">Fast Track</option>
+                                    <option value="middle_school" name="program">Middle School</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div> {% endcomment %}
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow search-bar">
+                            <!-- <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{% static 'images/Magnifier.png'%}" class="fav-search">
+                            </a> -->
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button">
+                                                <img src="{% static 'images/Magnifier.png'%}" class="fav-search">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <!-- Nav Item - Alerts -->
+
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow user-det">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle me-3"
+                                    src="{% static 'images/undraw_profile.png' %}">
+                                {% if user == "" %}
+                                <span class="me-2 d-none d-lg-inline small text-white">{{user.username}}</span>
+                                {% else %}
+                                <span class="me-2 d-none d-lg-inline small text-white">{{user}}</span>
+                                {% endif %}
+                                <i class="fas fa-chevron-down text-white mobile-hide"></i>
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in profile"
+                                aria-labelledby="userDropdown">
+                                <!-- <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Profile" %}
+                                </a> -->
+                                <a class="dropdown-item" href="{% url 'account-settings-counselor' %}">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Settings" %}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    {% trans "Logout" %}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="menu-custom-bar navbar-toggler d-md-none d-block" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse hidden-dasktop" id="navbarSupportedContent">
+                    <!-- Sidebar -->
+                    <ul class="navbar-nav bg-gradient-primary sidebar-mobile-nav ml-auto">
+            
+                        <!-- Sidebar - Brand -->
+                        
+            
+                        <!-- Divider -->
+                        <hr class="sidebar-divider my-0">
+                        
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home'%}">
+                                <i class="fas fa-home"></i>{% trans "Home" %} 
+                            </a>
+            
+                            
+                          </li>
+                        
+                        
+                        <!-- Divider -->
+                    </ul>
+                    <!-- End of Sidebar -->
+                    </div>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                {% comment %} <div class="cohort-popup open" id="cohort-popup">
+                    <div class="cohort-modal-dialog">
+                        <div class="cohort-content">
+                            <form id="cohort_form_id" action="{% url 'counselor_search' %}">
+                                <h5 class="cohort-title">Choose Cohort</h5>
+                                <div class="cohort-inner-block">
+                                    <select name="school" class="cohort-form-select" id="id_program" name="program_type">
+                                        {% if request.session.is_from_high_school %}
+                                            <option value="high_school" name="program" selected="">High School</option>
+                                            <option value="fast_track" name="program">Fast Track</option>
+                                            <option value="middle_school" name="program">Middle School</option>
+                                        {% elif request.session.is_from_fast_track %}
+                                            <option value="high_school" name="program">High School</option>
+                                            <option value="fast_track" name="program" selected="">Fast Track</option>
+                                            <option value="middle_school" name="program">Middle School</option>
+                                        {% elif request.session.is_from_middle_school %}
+                                            <option value="high_school" name="program">High School</option>
+                                            <option value="fast_track" name="program">Fast Track</option>
+                                            <option value="middle_school" name="program" selected="">Middle School</option>
+                                        {% else %}
+                                            <option value="" selected="">Choose program type</option>
+                                            <option value="high_school" name="program">High School</option>
+                                            <option value="fast_track" name="program">Fast Track</option>
+                                            <option value="middle_school" name="program">Middle School</option>
+                                        {% endif %} 
+                                    </select>
+                                    <select name="school" class="cohort-form-select" id="id_cohort" name="cohort_start_date"> {% endcomment %}
+
+
+                                        {% comment %} {% for coupon_details in cohort_startdates %}
+                                            <option value="{{forloop.counter}}" name="cohortidselect">{{coupon_details| date:'d-M-Y'}}</option>
+                                        {% endfor %}
+                                        {% if cohort_startdates %}
+                                            <option value="All" name="cohortidselect">All</option>
+                                        {% endif %} {% endcomment %}
+
+                                        
+                                        {% comment %} <option value="" selected="">Choose cohort</option>
+                                        <option value="" selected="">04-June-2022</option>
+                                    </select>
+                                    <button class="cohort-search-btn" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div> {% endcomment %}
+                {% block content %}
+                {% endblock %}
+
+            </div>
+            <!-- End of Main Content -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- change country popup -->
+    <div class="modal fade change-country-popup"  tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true" id="changecountryModal" >
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+                <button type="button" id="hidecountrypopup" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+			  <h5 class="modal-title">{% trans 'Select Your Country' %}</h5>
+			</div>
+			<div class="modal-body">
+				<div class="flag-country-block">
+                <a href="{% url 'set_lang' %}?lang=it&u={{request.build_absolute_uri}}">
+				<img src="{% static '/website/new/images/italy-flag-icon.png' %}" />
+				<h4>ITALY</h4>
+                </a>
+				</div>
+				<div class="flag-country-block">
+                <a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+				<img src="{% static '/website/new/images/usa-flag-icon.png' %}" />
+				<h4>USA</h4>
+                </a>
+			    </div>
+				<div class="flag-country-block">
+                <a href="{% url 'set_lang' %}?lang=en&u={{request.build_absolute_uri}}">
+				<p>{% trans 'Other' %}</p>
+                </a>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<p>*{% trans 'You can switch the country any time from the bottom of the page' %}*</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+    <!-- change country popup -->
+
+    <div class="modal fade learn-popup" id="PCTO" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close cross-btn-cls" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body pctodiv">
+                    <p>Se sei interessato a vedere riconosciute le tue ore PCTO ma la tua scuola non conosce Futurely,
+                        saremo felici di aiutarti. Scrivici una mail con i contatti della tua scuola a
+                        <u>segreteria@myfuturely.com</u>
+                    </p>
+                    <p>Informa il tuo referente PCTO, lo contatteremo a tuo nome per poter avere un colloquio e
+                        presentarci.</p>
+                    <p>Ancora nessuna scuola ha rifiutato a nessun ragazzo il riconoscimento di queste ore!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Ready to Leave?" %}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% trans "Select 'Logout' below if you are ready to end your current session." %}</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block to_do_popup%}
+    {% endblock %}
+    {% block learn_more %}
+    {% endblock %}
+    {% block contact_tutor %}
+    {% endblock %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'js/custom.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+
+
+
+    {% block script %}
+
+    {% endblock %}
+    <script>
+        $(document).ready(function () {
+            $(".change-country-popup .modal-header .btn-close").click(function () {
+                $("#changecountryModal").removeClass("show");
+            });
+
+        });
+        window.addEventListener('mouseup',function(event){
+        var pol = document.getElementById('cohort-popup');
+        if(event.target != pol && event.target.parentNode != pol){
+            pol.style.display = 'none';
+        }
+  });  
+    </script>
+</body>
+
+</html>

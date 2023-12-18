@@ -1,0 +1,285 @@
+{% extends 'base_counselor.html' %}
+{% load stu_tags %}
+{% load admin_tags %}
+{% load static %}
+{% load i18n %}
+{% load phrase_i18n %}
+{% load widget_tweaks %}
+{% block title %}
+<title>Futurely: Dashboard</title>
+{% endblock %}
+{% block style %}
+{% phrase_javascript %}
+
+<link href="{% static 'css/new_css/theme_style.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
+<link href="{% static 'css/new_css/style.css'%}" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/style_auth.css'%}">
+<link href="{% static 'css/export/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/export/buttons.dataTables.min.css'%}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+
+{% block content %}
+<style>
+    .card-box {
+        background-color: #26272ba6 !important;
+    }
+
+    .searchbox-table {
+        width: 181px !important;
+    }
+
+    table.dataTable td.sorting_1,
+    table.dataTable td.sorting_2,
+    table.dataTable td.sorting_3,
+    table.dataTable th.sorting_1,
+    table.dataTable th.sorting_2,
+    table.dataTable th.sorting_3 {
+        background: none !important;
+    }
+
+    .border-grad .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container {
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .border-grad .select2-container .select2-selection--single {
+        height: 45px;
+        border-radius: 10px !important;
+        padding: 10px;
+        border: 1px solid #2E2F32 !important;
+        color: #fff !important;
+        background-color: #333333 !important;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        width: 100%;
+        background-image: url({% static 'images/dropdown.svg' %}) !important;
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    .border-grad .select2-container .select2-selection--single span.select2-selection__arrow {
+        display: none;
+    }
+
+    .select2-dropdown {
+        background-color: #333333;
+        padding: 10px;
+        color: #fff !important;
+    }
+
+    .select2-results__options {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    {% comment %} .dataTables_filter {
+        display: none;
+    } {% endcomment %}
+    {% comment %} .dataTables_length {
+        display: none;
+    }
+    .dt-buttons {
+        display: none;
+    }
+    .dataTables_info{
+        display: none;
+    }
+    div.dataTables_wrapper div.dataTables_paginate {
+        display: none;
+    } {% endcomment %}
+    .pagination {
+        margin: 2px 0;
+        white-space: nowrap;
+        justify-content: flex-end;
+    }
+    .pagination span:first-child {
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+    }
+    .pagination span {
+        color: #fff;
+        background-color: #303030;
+        border-color: #303030;
+        border: 1px solid #303030;
+       
+        position: relative;
+    }
+    .pagination a {
+        padding: 0.375rem 0.75rem;
+        display: inline-block;
+    }
+    .pagination span:last-child {
+        border-top-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.25rem;
+    }
+    .pagination span.current {
+        color: #fff;
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        padding: 0.375rem 0.75rem;
+    }
+    .nav-custom-pills li:hover a {
+        color: #fff;
+    }
+    li.course-pill.active,  .nav-custom-pills li:hover {
+        background: #272036 !important;
+        border-radius: 10px;
+        text-align: center;
+        border: 1px solid #ffffff63;
+        border-bottom: none;
+    }
+    .nav-custom-pills li:hover {
+        background: #666 !important;
+        border-color: #666 !important;
+    } 
+    .nav-custom-pills {
+    width: 100%;
+    border-bottom: 1px solid #ffffff36;
+}
+.nav-custom-pills li {
+    border-radius: 10px 10px 0px 0px !important;
+}
+.card-cus-table-boxx .table-scrollable {
+    border: none;
+}
+.nav-custom-pills li a {
+    padding: 12px 15px;
+    line-height: 1.6;
+}
+
+.student-profile-img {
+    width: 100px;
+    height: 100px;
+    margin-top: 30px;
+    margin-left: 20px;
+    border-radius: 10px;
+}
+
+.student-card-detail {
+    color: white;
+    min-height: 250px;
+}
+</style>
+<div class="main-content py-4">
+    <div class="container-fluid">
+        {% if request.user.counselor.is_verified_by_futurely == False %}
+            <div class="notification-bars text-center">
+                <span class="notify_text">{% trans "Welcome"%} {{request.user.first_name}}! {% trans "Your account is under verification by our admin team. Contact Pramod@myfuturely.com for assistance."%}</span>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tabbable-line">
+                        <ul class="nav customtab nav-tabs" role="tablist">
+                            <li class="nav-item"><a href="{% url 'students_kpis' %}" class="nav-link" id="studentreport"><b>
+                                {% trans "Student Progress Report" %}</b></a></li>
+                            <li class="nav-item"><a href="{% url 'student_details' %}?student_id={{ student_obj.id }}" class="nav-link active" id="studentreport"><b>
+                                Informazioni dello studente</b></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active fontawesome-demo" id="tab1">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card card-box">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    {% comment %} <div class="col-md-12">
+                                                        <span class="" style="color: white;">
+                                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                                            Torna alla tabella
+                                                        <span>
+                                                    </div> {% endcomment %}
+
+                                                    <div class="col-md-2">
+                                                        <img  src="{% static 'images/undraw_profile.png' %}" class="student-profile-img"/>
+                                                    </div>
+
+                                                    <div class="col-md-10" style="color: white;">
+                                                        <h3>Informazioni studente</h3>
+                                                        {% if request.user.counselor.is_trial_account %}
+                                                            <p>{% trans "First Name" %}: ---</p>
+                                                            <p>{% trans "Last Name" %}: ---</p>
+                                                        {% else %}
+                                                            <p>{% trans "First Name" %}: {{ student_obj.first_name }}</p>
+                                                            <p>{% trans "Last Name" %}: {{ student_obj.last_name }}</p>
+                                                        {% endif %}
+                                                        <p>{% trans "Class" %}: {{ student_obj.student.student_school_detail.class_year }} - {{ student_obj.student.student_school_detail.class_name }}</p>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4" >
+                                                        <div class="card card-box student-card-detail" >
+                                                            <div class="card-body">
+                                                                <h4>INCLINAZIONI</h4>
+                                                                <!-- <p>{{ my_score }}</p> -->
+                                                                {% for i in sorted_my_score %}
+                                                                    <p>{{ i.0.1 }}</p>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="card card-box student-card-detail">
+                                                            <div class="card-body">
+                                                                <h4>PASSIONI</h4>
+                                                                <p>{{ stu_step2_action_item_diary_q2 }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4"></div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="card card-box student-card-detail">
+                                                            <div class="card-body">
+                                                                <h4>COMPETENZE</h4>
+                                                                {% for answer in stu_step3_ai3_table_answer%}
+                                                                <p>{{ answer }}</p>
+                                                                {% empty %}
+                                                                <p></p>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="card card-box student-card-detail">
+                                                            <div class="card-body">
+                                                                <h4>AREE DI INTERESSE</h4>
+                                                                {% for answer in stu_step7_action_ai3_framework_answer%}
+                                                                <p>{{ answer }}</p>
+                                                                {% empty %}
+                                                                <p></p>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
