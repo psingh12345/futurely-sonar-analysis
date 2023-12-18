@@ -19,8 +19,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=prabh
-            -Dsonar.projectKey=prabh
+            -Dsonar.organization=futurely-sonar-analysis
+            -Dsonar.projectKey=psingh12345
             -Dsonar.python.coverage.reportPaths=coverage.xml4
             -Dsonar.exclusions=**/templates/**,**/static/**,**/media/**,**/assets/**
 
