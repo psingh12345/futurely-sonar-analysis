@@ -146,7 +146,7 @@ class LandingPageIOSView(TemplateView):
         context = {}
         stu_testimonials = Testimonials.published.lang_code(
             request.LANGUAGE_CODE).filter(category="Student")
-        # context['genrate_noti_bar'] = genarate_notification_bar(request)
+        # context['genrate_noti_bar'] = genarate_notification_bar(request)  
         context['stu_testimonials'] = stu_testimonials
         context['year'] = date_now.year
         context['current_page'] = 'index'
