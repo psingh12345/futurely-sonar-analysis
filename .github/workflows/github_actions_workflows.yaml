@@ -22,4 +22,5 @@ jobs:
             -Dsonar.organization=test-sonar-futurely
             -Dsonar.projectKey=test-sonar-futurely
             -Dsonar.python.coverage.reportPaths=coverage.xml4
-            -Dsonar.exclusions=**/templates/**, **/static/**, **/media/**, **/assets/**
+            -Dsonar.exclusions=**/templates/**,**/static/**,**/media/**,**/assets/**
+
