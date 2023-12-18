@@ -1,26 +1,27 @@
-name: "sonar_cloud_scan_github_actions"
+name: sonar_cloud_scan_github_actions
 on:
   push:
     branches:
       - main
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
-  DemoSonarCloudSCan:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
         with:
           args: >
             -Dsonar.organization=futurely-sonar-analysis
             -Dsonar.projectKey=psingh12345
             -Dsonar.python.coverage.reportPaths=coverage.xml4
             -Dsonar.exclusions=**/templates/**,**/static/**,**/media/**,**/assets/**
-
